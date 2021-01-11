@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 
 part 'app_controller.g.dart';
 
@@ -7,11 +8,13 @@ part 'app_controller.g.dart';
 class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
-  @observable
-  int value = 0;
+  final ILogin iLogin;
+
+  _AppControllerBase(this.iLogin);
 
   @action
-  void increment() {
-    value++;
+  getUser() async {
+    var currentUser = await iLogin.getCurrentCliente();
+    return currentUser;
   }
 }

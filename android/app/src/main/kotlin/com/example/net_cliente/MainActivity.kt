@@ -1,4 +1,4 @@
-package com.example.net_cliente
+package com.noeusebiotem.br
 
 import io.flutter.embedding.android.FlutterActivity
 

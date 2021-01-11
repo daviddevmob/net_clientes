@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742825703016",
+    "project_id": "no-eusebio-tem",
+    "storage_bucket": "no-eusebio-tem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742825703016:android:7acb7d459227c25dc86ddd",
+        "android_client_info": {
+          "package_name": "com.noeusebiotem.br"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742825703016-94g5et4nfdrhu391nv3t2vtafaput8ar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASO4NdBU2vfVQA4fn34vJIVYUSCi7rXWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742825703016-94g5et4nfdrhu391nv3t2vtafaput8ar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,9 @@
+import 'package:hasura_connect/hasura_connect.dart';
+import 'package:net_cliente/app/modules/login/login_module.dart';
+import 'package:net_cliente/app/shared/repositories/login_repository/login_repository.dart';
+import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
+import 'package:net_cliente/app/splash_screen.dart';
+
 import 'app_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +13,20 @@ import 'package:net_cliente/app/modules/home/home_module.dart';
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
-        $AppController,
+      Bind((i) => HasuraConnect(
+        'https://metacalorica.com.br/v1/graphql', 
+        headers: {'x-hasura-admin-secret':'Mars20121a!'},
+            ),
+          ),
+      Bind<ILogin>((i) => LoginRepository(i.get())),
+      Bind((i) =>AppController(i.get())),
       ];
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(Modular.initialRoute, module: HomeModule()),
+    ModularRouter(Modular.initialRoute, child: (_,args) => SplashPage()),
+    ModularRouter('/login', module: LoginModule()),
+    ModularRouter('/home', module: HomeModule()),
       ];
 
   @override
