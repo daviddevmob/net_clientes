@@ -34,7 +34,9 @@ class OpcoesHomeWidget extends StatelessWidget {
               child: Container(
                 height: size.height * 0.15,
                 width: size.width * 0.25,
-                child: Image.asset(imagePath),
+                child: Image.asset(
+                  imagePath,
+                  ),
               ),
             ),
             SizedBox(

@@ -25,6 +25,9 @@ abstract class _LoginControllerBase with Store {
   @observable
   bool viewPassWord = true;
 
+  @observable
+  bool loading = false;
+
   // ignore: missing_return
   String validatorPassword(password) {
     if (passwordController.text == null || passwordController.text == '') {
@@ -38,8 +41,10 @@ abstract class _LoginControllerBase with Store {
   @action
   login() async {
     if (formLoginKey.currentState.validate()) {
+      loading = true;
       var login = await iLogin.loginCliente(
           emailController.text, passwordController.text);
+      loading = false;
       return login;
     } else {
       return 'Preencha corretamente os campos.';

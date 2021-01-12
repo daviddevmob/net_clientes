@@ -1,6 +1,3 @@
-import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository.dart';
-import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
-
 import 'restaurantes_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

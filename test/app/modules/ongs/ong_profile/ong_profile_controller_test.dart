@@ -1,7 +1,5 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:net_cliente/app/modules/ongs/ong_profile/ong_profile_controller.dart';
 import 'package:net_cliente/app/modules/ongs/ong_profile/ong_profile_module.dart';
 
 void main() {

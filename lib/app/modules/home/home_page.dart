@@ -1,15 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,14 +42,14 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           viewLeading: false,
           actions: [
             IconButton(
-              icon: Icon(CupertinoIcons.gear_solid), 
-              onPressed: (){
+              icon: Icon(CupertinoIcons.gear_solid),
+              onPressed: () {
                 Modular.to.pushNamed(
-                '/home/configuracoes',
-                 arguments: controller.cliente.value,
+                  '/home/configuracoes',
+                  arguments: controller.cliente.value,
                 );
               },
-              )
+            )
           ],
         ),
       ),
@@ -93,57 +91,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             margin: EdgeInsets.only(top: 20),
             child: Column(
               children: [
-                /* CardProfileWidget(
-                  cliente: cliente,
-                ), */
-                Container(
-                  width: size.width * 0.8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextWidget(
-                        text: 'Oi, $nome!',
-                        fontSize: 18,
-                        textColor: Cores.azul,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.025,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/restaurantes.png',
-                      title: 'Restaurantes',
-                      descricao:
-                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.',
-                      function: () {
-                        Modular.to.pushNamed('/restaurantes');
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/lojas.png',
-                      title: 'Lojas',
-                      descricao:
-                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.',
-                      function: () {
-                        Modular.to.pushNamed('/lojas');
-                      },
-                    ),
-                  ],
-                ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),
@@ -178,11 +125,48 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/restaurantes-cinza.png',
+                      title: 'Restaurantes',
+                      descricao:
+                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.',
+                      function: () {
+                        /* Modular.to.pushNamed('/restaurantes'); */
+                        print('aviso restaurante');
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/lojas-cinza.png',
+                      title: 'Lojas',
+                      descricao:
+                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.',
+                      function: () {
+                        /*  Modular.to.pushNamed('/lojas'); */
+                        print('aviso loja');
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         );
       }),
+      bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

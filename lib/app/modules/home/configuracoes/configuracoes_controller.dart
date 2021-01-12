@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 
 part 'configuracoes_controller.g.dart';
@@ -17,9 +18,10 @@ class ConfiguracoesController = _ConfiguracoesControllerBase
 
 abstract class _ConfiguracoesControllerBase with Store {
   final IHome iHome;
+  final ILogin iLogin;
   final picker = ImagePicker();
 
-  _ConfiguracoesControllerBase(this.iHome);
+  _ConfiguracoesControllerBase(this.iHome, this.iLogin);
 
   @observable
   File imageProfile;
@@ -29,21 +31,6 @@ abstract class _ConfiguracoesControllerBase with Store {
 
   @observable
   bool testeImagem = false;
-
-  @observable
-  GlobalKey<FormState> formConfiguracoesKey = GlobalKey<FormState>();
-
-  @observable
-  TextEditingController nomeController = TextEditingController();
-
-  @observable
-  TextEditingController cpfController = TextEditingController();
-
-  @observable
-  TextEditingController whatsappController = TextEditingController();
-
-  @observable
-  int bairro;
 
   @observable
   int clienteId;
@@ -99,25 +86,17 @@ abstract class _ConfiguracoesControllerBase with Store {
   }
 
   @action
-  saveDados() async {
-    if (formConfiguracoesKey.currentState.validate()) {
-      var save = await iHome.updateCliente(
-        ClienteModel(
-          nome: nomeController.text,
-          whatsapp: whatsappController.text,
-          bairro: bairro,
-        ),
-      );
-
-      return save;
-    } else {
-      return 'Formulário não pode ficar em branco.';
-    }
-  }
-
-  @action
   saveImageProfile(File imageProfile, int clienteId) async {
     var saveImage = await iHome.updateFotoPerfil(imageProfile, clienteId);
     return saveImage;
+  }
+
+  @action
+  sairConta() async {
+    var sair = await iLogin.logOut();
+    if (sair == 'sair') {
+      Modular.to.pop();
+      Modular.to.pushReplacementNamed('/login');
+    }
   }
 }

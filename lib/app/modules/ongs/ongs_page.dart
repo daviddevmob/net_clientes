@@ -8,6 +8,7 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'ongs_controller.dart';
 
 class OngsPage extends StatefulWidget {
@@ -95,7 +96,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                             color: Colors.white,
                           ),
                           borderRadius: BorderRadius.circular(8),
-                          color: Cores.verdeClaro,
+                          color: Cores.verde,
                         ),
                         child: DropdownButton<int>(
                           value: controller.bairro,
@@ -104,7 +105,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                             CupertinoIcons.list_bullet,
                             color: Colors.white,
                           ),
-                          dropdownColor: Cores.verdeClaro,
+                          dropdownColor: Cores.verde,
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -168,7 +169,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                               color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(8),
-                            color: Cores.verdeClaro,
+                            color: Cores.verde,
                           ),
                           child: DropdownButton<int>(
                             value: controller.bairro,
@@ -177,7 +178,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                               CupertinoIcons.list_bullet,
                               color: Colors.white,
                             ),
-                            dropdownColor: Cores.verdeClaro,
+                            dropdownColor: Cores.verde,
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -209,50 +210,145 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                           },
                           itemBuilder: (context, index) {
                             var user = ong.usuario[index];
-
-                            return ListTile(
-                              leading: CircleAvatar(
-                                radius: 30,
-                                backgroundImage:
-                                    user.ongGeral.ongImagemPerfil == null ||
-                                            user.ongGeral.ongImagemPerfil == ''
-                                        ? AssetImage(
-                                            'assets/images/imagens-perfil/profile.png',
-                                          )
-                                        : CachedNetworkImageProvider(
-                                            user.ongGeral.ongImagemPerfil,
+                            var bairro; 
+                              switch (user.localizacao.bairro) {
+                                case 1:
+                                  bairro = 'Amador';
+                                  break;
+                                case 2:
+                                  bairro = 'Autódromo';
+                                  break;
+                                case 3:
+                                  bairro = 'Cararu';
+                                  break;
+                                case 4:
+                                  bairro = 'Centro';
+                                  break;
+                                case 5:
+                                  bairro = 'Cidade Nova';
+                                  break;
+                                case 6:
+                                  bairro = 'Coaçu';
+                                  break;
+                                case 7:
+                                  bairro = 'Coité';
+                                  break;
+                                case 8:
+                                  bairro = 'Encantada';
+                                  break;
+                                case 9:
+                                  bairro = 'Guaribas';
+                                  break;
+                                case 10:
+                                  bairro = 'Jabuti';
+                                  break;
+                                case 11:
+                                  bairro = 'Lagoinha';
+                                  break;
+                                case 12:
+                                  bairro = 'Mangabeira';
+                                  break;
+                                case 13:
+                                  bairro = 'Novo Portugal';
+                                  break;
+                                case 14:
+                                  bairro = 'Olho D’água';
+                                  break;
+                                case 15:
+                                  bairro = 'Parque Havaí';
+                                  break;
+                                case 16:
+                                  bairro = 'Pires Façanha';
+                                  break;
+                                case 17:
+                                  bairro = 'Precabura';
+                                  break;
+                                case 18:
+                                  bairro = 'Santa Clara';
+                                  break;
+                                case 19:
+                                  bairro = 'Santo Antônio';
+                                  break;
+                                case 20:
+                                  bairro = 'Tamatanduba';
+                                  break;
+                                case 21:
+                                  bairro = 'Timbú';
+                                  break;
+                                case 22:
+                                  bairro = 'Urucunema';
+                                  break;
+                                case 23:
+                                  bairro = 'Vereda Tropical';
+                                  break;
+                              }
+                            return Container(
+                              height: size.height * 0.11,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Cores.verdeClaro,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              child: ListTile(
+                                tileColor: Cores.verdeClaro,
+                                    leading: Container(
+                                      height: 200,
+                                      width: 70,
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey[200],
                                           ),
-                              ),
-                              title: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextWidget(
-                                          text: user.ongGeral.ongNome,
-                                          fontWeight: FontWeight.w400,
+                                          borderRadius: BorderRadius.circular(2),
+                                          image: DecorationImage(
+                                            image: 
+                                            user.ongGeral.ongImagemPerfil == null ||
+                                              user.ongGeral.ongImagemPerfil == ''
+                                          ? AssetImage(
+                                              'assets/images/imagens-perfil/profile.png',
+                                            )
+                                          : CachedNetworkImageProvider(
+                                              user.ongGeral.ongImagemPerfil,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          )
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextWidget(
-                                          text: user.ongGeral.ongDescricao,
-                                          fontSize: 18,
+                                title: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextWidget(
+                                            text: user.ongGeral.ongNome,
+                                            fontWeight: FontWeight.w400,
+                                            textColor: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextWidget(
+                                            text: bairro == null ? 'teste' : bairro,
+                                            fontSize: 18,
+                                            textColor: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Modular.to.pushNamed(
+                                    '/ongs/ong_profile',
+                                    arguments: ong.usuario[index]
+                                    );
+                                },
                               ),
-                              onTap: () {
-                                Modular.to.pushNamed(
-                                  '/ongs/ong_profile',
-                                  arguments: ong.usuario[index]
-                                  );
-                              },
                             );
                           },
                         ),
@@ -265,6 +361,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
           ),
         );
       }),
+      bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

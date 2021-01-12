@@ -56,86 +56,6 @@ mixin _$ConfiguracoesController on _ConfiguracoesControllerBase, Store {
     });
   }
 
-  final _$formConfiguracoesKeyAtom =
-      Atom(name: '_ConfiguracoesControllerBase.formConfiguracoesKey');
-
-  @override
-  GlobalKey<FormState> get formConfiguracoesKey {
-    _$formConfiguracoesKeyAtom.reportRead();
-    return super.formConfiguracoesKey;
-  }
-
-  @override
-  set formConfiguracoesKey(GlobalKey<FormState> value) {
-    _$formConfiguracoesKeyAtom.reportWrite(value, super.formConfiguracoesKey,
-        () {
-      super.formConfiguracoesKey = value;
-    });
-  }
-
-  final _$nomeControllerAtom =
-      Atom(name: '_ConfiguracoesControllerBase.nomeController');
-
-  @override
-  TextEditingController get nomeController {
-    _$nomeControllerAtom.reportRead();
-    return super.nomeController;
-  }
-
-  @override
-  set nomeController(TextEditingController value) {
-    _$nomeControllerAtom.reportWrite(value, super.nomeController, () {
-      super.nomeController = value;
-    });
-  }
-
-  final _$cpfControllerAtom =
-      Atom(name: '_ConfiguracoesControllerBase.cpfController');
-
-  @override
-  TextEditingController get cpfController {
-    _$cpfControllerAtom.reportRead();
-    return super.cpfController;
-  }
-
-  @override
-  set cpfController(TextEditingController value) {
-    _$cpfControllerAtom.reportWrite(value, super.cpfController, () {
-      super.cpfController = value;
-    });
-  }
-
-  final _$whatsappControllerAtom =
-      Atom(name: '_ConfiguracoesControllerBase.whatsappController');
-
-  @override
-  TextEditingController get whatsappController {
-    _$whatsappControllerAtom.reportRead();
-    return super.whatsappController;
-  }
-
-  @override
-  set whatsappController(TextEditingController value) {
-    _$whatsappControllerAtom.reportWrite(value, super.whatsappController, () {
-      super.whatsappController = value;
-    });
-  }
-
-  final _$bairroAtom = Atom(name: '_ConfiguracoesControllerBase.bairro');
-
-  @override
-  int get bairro {
-    _$bairroAtom.reportRead();
-    return super.bairro;
-  }
-
-  @override
-  set bairro(int value) {
-    _$bairroAtom.reportWrite(value, super.bairro, () {
-      super.bairro = value;
-    });
-  }
-
   final _$clienteIdAtom = Atom(name: '_ConfiguracoesControllerBase.clienteId');
 
   @override
@@ -168,14 +88,6 @@ mixin _$ConfiguracoesController on _ConfiguracoesControllerBase, Store {
         .run(() => super.updateImageProfile());
   }
 
-  final _$saveDadosAsyncAction =
-      AsyncAction('_ConfiguracoesControllerBase.saveDados');
-
-  @override
-  Future saveDados() {
-    return _$saveDadosAsyncAction.run(() => super.saveDados());
-  }
-
   final _$saveImageProfileAsyncAction =
       AsyncAction('_ConfiguracoesControllerBase.saveImageProfile');
 
@@ -185,17 +97,20 @@ mixin _$ConfiguracoesController on _ConfiguracoesControllerBase, Store {
         .run(() => super.saveImageProfile(imageProfile, clienteId));
   }
 
+  final _$sairContaAsyncAction =
+      AsyncAction('_ConfiguracoesControllerBase.sairConta');
+
+  @override
+  Future sairConta() {
+    return _$sairContaAsyncAction.run(() => super.sairConta());
+  }
+
   @override
   String toString() {
     return '''
 imageProfile: ${imageProfile},
 cliente: ${cliente},
 testeImagem: ${testeImagem},
-formConfiguracoesKey: ${formConfiguracoesKey},
-nomeController: ${nomeController},
-cpfController: ${cpfController},
-whatsappController: ${whatsappController},
-bairro: ${bairro},
 clienteId: ${clienteId}
     ''';
   }

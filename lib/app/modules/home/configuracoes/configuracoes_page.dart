@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/configuracoes/widgets/button_configs.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'configuracoes_controller.dart';
 
@@ -28,11 +28,6 @@ class _ConfiguracoesPageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getCliente(widget.clienteModel.email);
-      controller.bairro = widget.clienteModel.bairro;
-      controller.clienteId = widget.clienteModel.clienteId;
-      controller.whatsappController.text = widget.clienteModel.whatsapp;
-      controller.cpfController.text = widget.clienteModel.cpf;
-      controller.nomeController.text = widget.clienteModel.nome;
     });
     super.initState();
   }
@@ -40,7 +35,6 @@ class _ConfiguracoesPageState
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var cliente = widget.clienteModel;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
@@ -102,23 +96,36 @@ class _ConfiguracoesPageState
                                         );
                                       }
                                     },
-                                    child: CircleAvatar(
-                                      radius: 60,
-                                      backgroundImage: cliente.fotoPerfil ==
-                                                  null ||
-                                              cliente.fotoPerfil == ''
-                                          ? AssetImage(
-                                              'assets/images/imagens-perfil/profile.png')
-                                          : CachedNetworkImageProvider(
-                                              cliente.fotoPerfil),
-                                      /*  */
+                                    child: Card(
+                                        elevation: 5,
+                                        child: Container(
+                                        height: size.height * 0.2,
+                                        width: size.width * 0.4,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey[200],
+                                          ),
+                                          borderRadius: BorderRadius.circular(4),
+                                          image: DecorationImage(
+                                            image: cliente.fotoPerfil ==
+                                                    null ||
+                                                cliente.fotoPerfil == ''
+                                            ? AssetImage(
+                                                'assets/images/imagens-perfil/profile.png')
+                                            : CachedNetworkImageProvider(
+                                                cliente.fotoPerfil,
+                                                ),
+                                            fit: BoxFit.cover
+                                          )
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                         ),
                       ),
                       Positioned(
-                        top: 135,
+                        top: 170,
                         child: CircleAvatar(
                           backgroundColor: Colors.grey[200],
                           child: IconButton(
@@ -130,6 +137,48 @@ class _ConfiguracoesPageState
                               controller.updateImageProfile();
                             },
                           ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 220,
+                        child: Column(
+                          children: [
+                            TextWidget(
+                              text: cliente.nome,
+                            ),
+                            SizedBox(
+                              height: size.height * 0.05,
+                            ),
+                            ButtonConfigsWidget(
+                              function: () {
+                                Modular.to.pushNamed(
+                                  '/home/configuracoes/edit_cadastro',
+                                  arguments: cliente,
+                                );
+                              },
+                              text: 'Editar Cadastro',
+                              icon: CupertinoIcons.person,
+                            ),
+                            SizedBox(
+                              height: size.height * 0.025,
+                            ),
+                            ButtonConfigsWidget(
+                              function: () {},
+                              text: 'Falar com Suporte',
+                              icon: CupertinoIcons.hand_raised,
+                            ),
+                            SizedBox(
+                              height: size.height * 0.15,
+                            ),
+                            ButtonConfigsWidget(
+                              function: () {
+                                controller.sairConta();
+                              },
+                              text: 'Sair da Conta',
+                              icon: Icons.exit_to_app,
+                              colorTile: Colors.red,
+                            ),
+                          ],
                         ),
                       ),
                     ],

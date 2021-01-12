@@ -113,22 +113,26 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                         height: size.height * 0.03,
                       ),
                       Observer(
-                        builder: (_) => ButtonWidget(
-                          function: () async {
-                            if (await ConnectionVerify.connectionStatus()) {
-                              var login = await controller.login();
-                              if (login != controller.emailController.text) {
-                                return AvisoFlushBar().showFlushBarAviso(
-                                    context, 'Erro ao Entrar', login);
+                        builder: (_) => Container(
+                          child:  controller.loading == true
+                          ? CupertinoActivityIndicator()
+                          : ButtonWidget(
+                            function: () async {
+                              if (await ConnectionVerify.connectionStatus()) {
+                                var login = await controller.login();
+                                if (login != controller.emailController.text) {
+                                  return AvisoFlushBar().showFlushBarAviso(
+                                      context, 'Erro ao Entrar', login);
+                                } else {
+                                  Modular.to.pushReplacementNamed('/home',
+                                      arguments: login);
+                                }
                               } else {
-                                Modular.to.pushReplacementNamed('/home',
-                                    arguments: login);
+                                InternetFlushBar().showFlushBarInternet(context);
                               }
-                            } else {
-                              InternetFlushBar().showFlushBarInternet(context);
-                            }
-                          },
-                          text: 'Entrar',
+                            },
+                            text: 'Entrar',
+                          ),
                         ),
                       ),
                       SizedBox(

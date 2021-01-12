@@ -87,6 +87,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo-totem.png
+    - assets/images/logo-totem-cinza.png
     - assets/images/splash-image.jpg
     - assets/images/icons-social/zap.svg
     - assets/images/icons-social/instagram.svg
@@ -118,6 +119,8 @@ flutter:
     - assets/images/home/restaurantes.png
     - assets/images/home/servicos.png
     - assets/images/home/ongs.png
+    - assets/images/home/lojas-cinza.png
+    - assets/images/home/restaurantes-cinza.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

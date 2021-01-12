@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
-import 'package:net_cliente/app/shared/utils/text.dart';
 import 'restaurantes_controller.dart';
 
 class RestaurantesPage extends StatefulWidget {

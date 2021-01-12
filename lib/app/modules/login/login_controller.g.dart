@@ -71,6 +71,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_LoginControllerBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginControllerBase.login');
 
   @override
@@ -84,7 +99,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
 formLoginKey: ${formLoginKey},
 emailController: ${emailController},
 passwordController: ${passwordController},
-viewPassWord: ${viewPassWord}
+viewPassWord: ${viewPassWord},
+loading: ${loading}
     ''';
   }
 }

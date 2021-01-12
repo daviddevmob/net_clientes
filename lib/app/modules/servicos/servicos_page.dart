@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -9,9 +8,8 @@ import 'package:net_cliente/app/shared/utils/lists/list_servicos.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
-import 'package:net_cliente/app/shared/utils/flatbutton.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'servicos_controller.dart';
 
 class ServicosPage extends StatefulWidget {
@@ -100,7 +98,7 @@ class _ServicosPageState
                               color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(8),
-                            color: Cores.verdeClaro,
+                            color: Cores.verde,
                           ),
                           child: DropdownButton<int>(
                             value: controller.categoria,
@@ -109,7 +107,7 @@ class _ServicosPageState
                               CupertinoIcons.list_bullet,
                               color: Colors.white,
                             ),
-                            dropdownColor: Cores.verdeClaro,
+                            dropdownColor: Cores.verde,
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -146,7 +144,7 @@ class _ServicosPageState
                                 color: Colors.white,
                               ),
                               borderRadius: BorderRadius.circular(8),
-                              color: Cores.verdeClaro,
+                              color: Cores.verde,
                             ),
                             child: DropdownButton<int>(
                               value: controller.bairro,
@@ -155,7 +153,7 @@ class _ServicosPageState
                                 CupertinoIcons.list_bullet,
                                 color: Colors.white,
                               ),
-                              dropdownColor: Cores.verdeClaro,
+                              dropdownColor: Cores.verde,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -216,7 +214,7 @@ class _ServicosPageState
                                 color: Colors.white,
                               ),
                               borderRadius: BorderRadius.circular(8),
-                              color: Cores.verdeClaro,
+                              color: Cores.verde,
                             ),
                             child: DropdownButton<int>(
                               value: controller.categoria,
@@ -225,7 +223,7 @@ class _ServicosPageState
                                 CupertinoIcons.list_bullet,
                                 color: Colors.white,
                               ),
-                              dropdownColor: Cores.verdeClaro,
+                              dropdownColor: Cores.verde,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -272,7 +270,7 @@ class _ServicosPageState
                                 color: Colors.white,
                               ),
                               borderRadius: BorderRadius.circular(8),
-                              color: Cores.verdeClaro,
+                              color: Cores.verde,
                             ),
                             child: DropdownButton<int>(
                               value: controller.bairro,
@@ -281,7 +279,7 @@ class _ServicosPageState
                                 CupertinoIcons.list_bullet,
                                 color: Colors.white,
                               ),
-                              dropdownColor: Cores.verdeClaro,
+                              dropdownColor: Cores.verde,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -302,8 +300,8 @@ class _ServicosPageState
                       children: [
                         SizedBox(
                           width: size.width * 0.9,
-                          height: size.height * 0.9,
                           child: ListView.separated(
+                            physics: ScrollPhysics(),
                             itemCount: servicos.usuario.length,
                             shrinkWrap: true,
                             separatorBuilder: (context, index) {
@@ -347,50 +345,77 @@ class _ServicosPageState
                                   categoria = 'Outros';
                                   break;
                               }
-                              return ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage:
-                                      servico.servicoGeral.servicoFotoPerfil ==
-                                                  null ||
-                                              servico.servicoGeral
-                                                      .servicoFotoPerfil ==
-                                                  ''
-                                          ? AssetImage(
-                                              'assets/images/imagens-perfil/profile.png',
-                                            )
-                                          : CachedNetworkImageProvider(
-                                              servico.servicoGeral
-                                                  .servicoFotoPerfil,
-                                            ),
+                              return Container(
+                                height: size.height * 0.11,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Cores.verdeClaro,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
-                                title: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        TextWidget(
-                                          text:
-                                              servico.servicoGeral.servicoNome,
-                                          fontWeight: FontWeight.w400,
+                                child: ListTile(
+                                  tileColor: Cores.verdeClaro,
+                                  leading: Container(
+                                    height: 200,
+                                    width: 70,
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey[200],
                                         ),
-                                      ],
+                                        borderRadius: BorderRadius.circular(6),
+                                        image: DecorationImage(
+                                          image: 
+                                          servico.servicoGeral.servicoFotoPerfil ==
+                                            null ||
+                                          servico.servicoGeral
+                                            .servicoFotoPerfil == ''
+                                            ? AssetImage(
+                                                'assets/images/imagens-perfil/profile.png',
+                                              )
+                                            : CachedNetworkImageProvider(
+                                                servico.servicoGeral
+                                                    .servicoFotoPerfil,
+                                              ),
+                                          fit: BoxFit.cover,
+                                        )
+                                      ),
                                     ),
-                                    Row(
+                                  title: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
                                       children: [
-                                        TextWidget(
-                                          text: categoria,
-                                          fontSize: 18,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      TextWidget(
+                                        text:servico.servicoGeral.servicoNome,
+                                        fontWeight: FontWeight.w400,
+                                        textColor: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: categoria,
+                                            fontSize: 18,
+                                            textColor: Colors.white,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+
+                                  },
                                 ),
-                                onTap: () {},
                               );
                             },
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.05,
                     ),
                   ],
                 ),
@@ -399,6 +424,7 @@ class _ServicosPageState
           );
         },
       ),
+      bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

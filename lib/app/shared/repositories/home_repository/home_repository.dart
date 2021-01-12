@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository_interface.dart';
+import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
 class HomeRepository implements IHome {
   final HasuraConnect api;
@@ -54,6 +55,8 @@ class HomeRepository implements IHome {
       await api.mutation(query);
 
       return clienteModel.clienteId.toString();
+    } on HasuraError catch (e) {
+      return getErrorHasuraString(e.message);
     } catch (e) {
       return 'erro';
     }
