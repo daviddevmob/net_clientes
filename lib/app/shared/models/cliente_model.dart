@@ -14,19 +14,21 @@ class ClienteModel {
         this.clienteId,
         this.cpf,
         this.email,
-        this.nome,
-        this.firebaseId,
         this.status,
+        this.nome,
+        this.fotoPerfil,
+        this.firebaseId,
         this.whatsapp,
     });
 
-    String bairro;
+    int bairro;
     int clienteId;
     String cpf;
     String email;
-    String nome;
-    String firebaseId;
     bool status;
+    String nome;
+    String fotoPerfil;
+    String firebaseId;
     String whatsapp;
 
     factory ClienteModel.fromJson(Map<String, dynamic> json) => ClienteModel(
@@ -34,9 +36,10 @@ class ClienteModel {
         clienteId: json["cliente_id"] == null ? null : json["cliente_id"],
         cpf: json["cpf"] == null ? null : json["cpf"],
         email: json["email"] == null ? null : json["email"],
-        nome: json["nome"] == null ? null : json["nome"],
-        firebaseId: json["firebase_id"] == null ? null : json["firebase_id"],
         status: json["status"] == null ? null : json["status"],
+        nome: json["nome"] == null ? null : json["nome"],
+        fotoPerfil: json["foto_perfil"] == null ? null : json["foto_perfil"],
+        firebaseId: json["firebase_id"] == null ? null : json["firebase_id"],
         whatsapp: json["whatsapp"] == null ? null : json["whatsapp"],
     );
 
@@ -45,9 +48,10 @@ class ClienteModel {
         "cliente_id": clienteId == null ? null : clienteId,
         "cpf": cpf == null ? null : cpf,
         "email": email == null ? null : email,
-        "nome": nome == null ? null : nome,
-        "firebase_id": firebaseId == null ? null : firebaseId,
         "status": status == null ? null : status,
+        "nome": nome == null ? null : nome,
+        "foto_perfil": fotoPerfil == null ? null : fotoPerfil,
+        "firebase_id": firebaseId == null ? null : firebaseId,
         "whatsapp": whatsapp == null ? null : whatsapp,
     };
 }

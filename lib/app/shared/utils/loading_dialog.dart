@@ -6,8 +6,14 @@ import 'package:net_cliente/app/shared/utils/text.dart';
 class LoaderWidget extends StatelessWidget {
   final String mensagem;
   final int segundos;
+  final Function function;
 
-  const LoaderWidget({Key key, this.mensagem, this.segundos}) : super(key: key);
+  const LoaderWidget({
+    Key key,
+    this.mensagem,
+    this.segundos,
+    this.function,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

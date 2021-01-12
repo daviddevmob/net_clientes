@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: ^0.18.4+1
   firebase_dynamic_links: ^0.6.3
   cupertino_icons: ^1.0.0
+  flutter_native_image: ^0.0.5+3
   firebase_core: ^0.5.3
   firebase_storage: ^5.2.0
   image_picker: ^0.6.7+17
@@ -113,6 +114,10 @@ flutter:
     - assets/images/imagens-perfil/perfil.png
     - assets/images/imagens-perfil/perfil-negocios.png
     - assets/images/imagens-perfil/profile.png
+    - assets/images/home/lojas.png
+    - assets/images/home/restaurantes.png
+    - assets/images/home/servicos.png
+    - assets/images/home/ongs.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

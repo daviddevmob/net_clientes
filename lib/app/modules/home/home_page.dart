@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
+import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
+import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'home_controller.dart';
 
@@ -29,9 +34,26 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
+      appBar: PreferredSize(
+        preferredSize: Size(size.width, 50),
+        child: AppBarWidget(
+          title: 'No Eusébio Tem!',
+          viewLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(CupertinoIcons.gear_solid), 
+              onPressed: (){
+                Modular.to.pushNamed(
+                '/home/configuracoes',
+                 arguments: controller.cliente.value,
+                );
+              },
+              )
+          ],
+        ),
       ),
       body: Observer(builder: (_) {
         if (controller.cliente.hasError == true) {
@@ -64,13 +86,101 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         }
 
         ClienteModel cliente = controller.cliente.value;
+        var nome = cliente.nome.split(' ').first;
 
-        return Column(
-          children: [
-            TextWidget(
-              text: cliente.nome,
-            )
-          ],
+        return SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                /* CardProfileWidget(
+                  cliente: cliente,
+                ), */
+                Container(
+                  width: size.width * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        text: 'Oi, $nome!',
+                        fontSize: 18,
+                        textColor: Cores.azul,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.025,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/restaurantes.png',
+                      title: 'Restaurantes',
+                      descricao:
+                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.',
+                      function: () {
+                        Modular.to.pushNamed('/restaurantes');
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/lojas.png',
+                      title: 'Lojas',
+                      descricao:
+                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.',
+                      function: () {
+                        Modular.to.pushNamed('/lojas');
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/servicos.png',
+                      title: 'Prestadores de Serviços',
+                      descricao:
+                          'Encontre pessoas e empresas eusebienses que prestam serviço em reforma, transporte, saúde, beleza, informática, turismo, eventos, festas, comidas por encomenda e etc.',
+                      function: () {
+                        Modular.to.pushNamed('/servicos');
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OpcoesHomeWidget(
+                      imagePath: 'assets/images/home/ongs.png',
+                      title: 'Ongs e Projetos Sociais',
+                      descricao:
+                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.',
+                      function: () {
+                        Modular.to.pushNamed('/ongs');
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         );
       }),
     );

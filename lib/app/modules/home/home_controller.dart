@@ -21,6 +21,6 @@ abstract class _HomeControllerBase with Store {
   @action
   getCliente(String email) async {
     // ignore: await_only_futures
-    cliente = await iHome.getCliente(email);
+    cliente = await iHome.getCliente(email).asObservable();
   }
 }

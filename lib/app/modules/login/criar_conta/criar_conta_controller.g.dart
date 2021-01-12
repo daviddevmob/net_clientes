@@ -41,19 +41,20 @@ mixin _$CriarContaController on _CriarContaControllerBase, Store {
     });
   }
 
-  final _$bairroControllerAtom =
-      Atom(name: '_CriarContaControllerBase.bairroController');
+  final _$confirmPasswordControllerAtom =
+      Atom(name: '_CriarContaControllerBase.confirmPasswordController');
 
   @override
-  TextEditingController get bairroController {
-    _$bairroControllerAtom.reportRead();
-    return super.bairroController;
+  TextEditingController get confirmPasswordController {
+    _$confirmPasswordControllerAtom.reportRead();
+    return super.confirmPasswordController;
   }
 
   @override
-  set bairroController(TextEditingController value) {
-    _$bairroControllerAtom.reportWrite(value, super.bairroController, () {
-      super.bairroController = value;
+  set confirmPasswordController(TextEditingController value) {
+    _$confirmPasswordControllerAtom
+        .reportWrite(value, super.confirmPasswordController, () {
+      super.confirmPasswordController = value;
     });
   }
 
@@ -105,6 +106,23 @@ mixin _$CriarContaController on _CriarContaControllerBase, Store {
     });
   }
 
+  final _$confirmEmailControllerAtom =
+      Atom(name: '_CriarContaControllerBase.confirmEmailController');
+
+  @override
+  TextEditingController get confirmEmailController {
+    _$confirmEmailControllerAtom.reportRead();
+    return super.confirmEmailController;
+  }
+
+  @override
+  set confirmEmailController(TextEditingController value) {
+    _$confirmEmailControllerAtom
+        .reportWrite(value, super.confirmEmailController, () {
+      super.confirmEmailController = value;
+    });
+  }
+
   final _$whatsappControllerAtom =
       Atom(name: '_CriarContaControllerBase.whatsappController');
 
@@ -121,6 +139,52 @@ mixin _$CriarContaController on _CriarContaControllerBase, Store {
     });
   }
 
+  final _$districtAtom = Atom(name: '_CriarContaControllerBase.district');
+
+  @override
+  int get district {
+    _$districtAtom.reportRead();
+    return super.district;
+  }
+
+  @override
+  set district(int value) {
+    _$districtAtom.reportWrite(value, super.district, () {
+      super.district = value;
+    });
+  }
+
+  final _$obscurePasswordAtom =
+      Atom(name: '_CriarContaControllerBase.obscurePassword');
+
+  @override
+  bool get obscurePassword {
+    _$obscurePasswordAtom.reportRead();
+    return super.obscurePassword;
+  }
+
+  @override
+  set obscurePassword(bool value) {
+    _$obscurePasswordAtom.reportWrite(value, super.obscurePassword, () {
+      super.obscurePassword = value;
+    });
+  }
+
+  final _$savingAtom = Atom(name: '_CriarContaControllerBase.saving');
+
+  @override
+  bool get saving {
+    _$savingAtom.reportRead();
+    return super.saving;
+  }
+
+  @override
+  set saving(bool value) {
+    _$savingAtom.reportWrite(value, super.saving, () {
+      super.saving = value;
+    });
+  }
+
   final _$saveUserAsyncAction =
       AsyncAction('_CriarContaControllerBase.saveUser');
 
@@ -129,16 +193,34 @@ mixin _$CriarContaController on _CriarContaControllerBase, Store {
     return _$saveUserAsyncAction.run(() => super.saveUser());
   }
 
+  final _$_CriarContaControllerBaseActionController =
+      ActionController(name: '_CriarContaControllerBase');
+
+  @override
+  dynamic changeDistrict(int newValue) {
+    final _$actionInfo = _$_CriarContaControllerBaseActionController
+        .startAction(name: '_CriarContaControllerBase.changeDistrict');
+    try {
+      return super.changeDistrict(newValue);
+    } finally {
+      _$_CriarContaControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 formCreateUserKey: ${formCreateUserKey},
 passwordController: ${passwordController},
-bairroController: ${bairroController},
+confirmPasswordController: ${confirmPasswordController},
 cpfController: ${cpfController},
 nomeController: ${nomeController},
 emailController: ${emailController},
-whatsappController: ${whatsappController}
+confirmEmailController: ${confirmEmailController},
+whatsappController: ${whatsappController},
+district: ${district},
+obscurePassword: ${obscurePassword},
+saving: ${saving}
     ''';
   }
 }

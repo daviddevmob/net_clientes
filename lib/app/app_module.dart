@@ -1,5 +1,8 @@
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/modules/login/login_module.dart';
+import 'package:net_cliente/app/modules/ongs/ongs_module.dart';
+import 'package:net_cliente/app/modules/restaurantes/restaurantes_module.dart';
+import 'package:net_cliente/app/modules/servicos/servicos_module.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 import 'package:net_cliente/app/splash_screen.dart';
@@ -27,6 +30,9 @@ class AppModule extends MainModule {
     ModularRouter(Modular.initialRoute, child: (_,args) => SplashPage()),
     ModularRouter('/login', module: LoginModule()),
     ModularRouter('/home', module: HomeModule()),
+    ModularRouter('/servicos', module: ServicosModule()),
+    ModularRouter('/restaurantes', module: RestaurantesModule()),
+    ModularRouter('/ongs', module: OngsModule())
       ];
 
   @override

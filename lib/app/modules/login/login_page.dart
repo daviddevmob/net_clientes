@@ -1,3 +1,4 @@
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,6 +7,7 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flatbutton.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'package:net_cliente/app/shared/utils/validators/validator_email.dart';
@@ -32,8 +34,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         child: AppBarWidget(
           title: 'Login',
           viewLeading: false,
-          ),
         ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           child: Stack(
@@ -113,12 +115,17 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                       Observer(
                         builder: (_) => ButtonWidget(
                           function: () async {
-                            var login = await controller.login();
-                            if (login != controller.emailController.text) {
-                              return AvisoFlushBar().showFlushBarAviso(
-                                  context, 'Erro ao Entrar', login);
+                            if (await ConnectionVerify.connectionStatus()) {
+                              var login = await controller.login();
+                              if (login != controller.emailController.text) {
+                                return AvisoFlushBar().showFlushBarAviso(
+                                    context, 'Erro ao Entrar', login);
+                              } else {
+                                Modular.to.pushReplacementNamed('/home',
+                                    arguments: login);
+                              }
                             } else {
-                              Modular.to.pushNamed('/home', arguments: login);
+                              InternetFlushBar().showFlushBarInternet(context);
                             }
                           },
                           text: 'Entrar',

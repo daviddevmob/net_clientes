@@ -22,7 +22,7 @@ abstract class _CriarContaControllerBase with Store {
   TextEditingController passwordController = TextEditingController();
 
   @observable
-  TextEditingController bairroController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @observable
   TextEditingController cpfController = TextEditingController();
@@ -34,23 +34,47 @@ abstract class _CriarContaControllerBase with Store {
   TextEditingController emailController = TextEditingController();
 
   @observable
+  TextEditingController confirmEmailController = TextEditingController();
+
+  @observable
   TextEditingController whatsappController = TextEditingController();
+
+  @observable
+  int district;
+
+  @observable
+  bool obscurePassword = true;
+
+  @observable
+  bool saving = false;
+
+  @action
+  changeDistrict(int newValue) => district = newValue;
 
   @action
   saveUser() async {
     if (formCreateUserKey.currentState.validate()) {
-      var saveUser = await iLogin.createCliente(
-        ClienteModel(
-          bairro: bairroController.text,
-          cpf: cpfController.text,
-          nome: nomeController.text,
-          email: emailController.text,
-          whatsapp: whatsappController.text,
-        ),
-        passwordController.text,
-      );
+      if (district != null) {
+        saving = true;
+        var saveUser = await iLogin.createCliente(
+          ClienteModel(
+            bairro: district,
+            cpf: cpfController.text,
+            nome: nomeController.text,
+            email: emailController.text,
+            whatsapp: whatsappController.text,
+          ),
+          passwordController.text,
+        );
 
-      return saveUser;
+        saving = false;
+        return saveUser;
+      }
+
+      return 'Selecione o bairro onde mora.';
+    } else {
+      print(district);
+      return 'Preencha corretamente os campos.';
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/firebase_erros.dart';
+import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
 class LoginRepository implements ILogin {
   final HasuraConnect api;
@@ -24,13 +25,13 @@ class LoginRepository implements ILogin {
       mutation MyMutation {
         insert_cliente(
           objects: {
-            bairro: "", 
-            cpf: "", 
-            email: "", 
-            firebase_id: "", 
-            nome: "", 
+            bairro: ${userModel.bairro}, 
+            cpf: "${userModel.cpf}", 
+            email: "${userModel.email}", 
+            firebase_id: "${userCredential.user.uid}", 
+            nome: "${userModel.nome}", 
             status: true, 
-            whatsapp: ""
+            whatsapp: "${userModel.whatsapp}"
             }) {
           returning {
             cliente_id
@@ -39,20 +40,20 @@ class LoginRepository implements ILogin {
       }
       ''';
 
-
       var data = await api.mutation(criarCliente);
 
       // ignore: unused_local_variable
-      int clienteId = await data['data']['insert_cliente']['returning'][0]['cliente_id'];
+      int clienteId =
+          await data['data']['insert_cliente']['returning'][0]['cliente_id'];
 
       return userCredential.user.email;
     } on FirebaseAuthException catch (e) {
       return getErrorFirebaseString(e.code);
     } on HasuraError catch (e) {
       await FirebaseAuth.instance.currentUser.delete();
-      return e.message;
+      return getErrorHasuraString(e.message);
     } catch (e) {
-      return e;
+      return e.toString();
     }
   }
 
