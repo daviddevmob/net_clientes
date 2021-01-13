@@ -37,10 +37,10 @@ class ButtonConfigsWidget extends StatelessWidget {
                 icon,
                 color: Colors.white,
               ),
-              SizedBox(width: size.width * 0.05),
+              SizedBox(width: size.width * 0.055),
               TextWidget(
                 text: text,
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.w400,
                 textColor: Colors.white,
               ),

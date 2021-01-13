@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,7 +13,6 @@ import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/dias_semana.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/social_button.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
@@ -72,9 +70,9 @@ class _ServicoProfilePageState
           }
 
           ServicoModel user = controller.servicoUser;
-          var infosGerais = user.usuario[0].servicoGeral;
-          var list = user.usuario[0].servicoGeral.servicoLists;
-          var imagens = user.usuario[0].servicoGeral.servicoFotos;
+          ServicoGeral infosGerais = user.usuario[0].servicoGeral;
+          List<ServicoList> list = user.usuario[0].servicoGeral.servicoLists;
+          List<ServicoFoto> imagens = user.usuario[0].servicoGeral.servicoFotos;
           bool domicilio = user.usuario[0].servicoGeral.servicoDomicilio;
           bool local = user.usuario[0].servicoGeral.servicoLocal;
           DiasSemana dias = user.usuario[0].diasSemana;
@@ -166,19 +164,16 @@ class _ServicoProfilePageState
                     )
                   ],
                 ),
-                Divider(
-                  color: Colors.transparent,
-                ),
+                Column(
+                  children: [
                 Container(
                   width: size.width * 0.8,
                   child: Align(
-                    child: Expanded(
-                      child: TextWidget(
+                    child: TextWidget(
                         text: infosGerais.servicoNome,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
                       ),
-                    ),
                   ),
                 ),
                 Divider(color: Colors.transparent),
@@ -190,8 +185,9 @@ class _ServicoProfilePageState
                       Expanded(
                         child: TextWidget(
                           text: infosGerais.servicoDescricao,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          textColor: Colors.grey,
                         ),
                       ),
                     ],
@@ -200,15 +196,15 @@ class _ServicoProfilePageState
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-                Container(
-                  height: size.height * 0.0025,
-                  margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                  width: size.width * 0.9,
-                  color: Colors.grey[300],
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Meus Serviços:',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -232,12 +228,15 @@ class _ServicoProfilePageState
                           },
                         ),
                       ),
-                SizedBox(
-                  height: size.height * 0.05,
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Galeria de Fotos:',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 imagens.isEmpty
                     ? SizedBox(
@@ -294,7 +293,7 @@ class _ServicoProfilePageState
                                     text: imagens[index].descricao,
                                     fontSize: 16,
                                     textColor: Colors.grey,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
@@ -305,12 +304,15 @@ class _ServicoProfilePageState
                     );
                   }
                 }),
-                SizedBox(
-                  height: size.height * 0.07,
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Como Atendemos:',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   height: size.height * 0.05,
@@ -409,12 +411,15 @@ class _ServicoProfilePageState
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.07,
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Dias de Atendimento:',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   height: size.height * 0.05,
@@ -550,12 +555,15 @@ class _ServicoProfilePageState
                             atividade: dias.domingo,
                           ),
                         )),
-                SizedBox(
-                  height: size.height * 0.07,
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Localização:',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   height: size.height * 0.05,
@@ -597,6 +605,7 @@ class _ServicoProfilePageState
                       ),
                 Divider(
                   color: Colors.transparent,
+                  height: 35,
                 ),
                 localizacao.mapaLink == null || localizacao.mapaLink == ''
                     ? SizedBox()
@@ -619,9 +628,12 @@ class _ServicoProfilePageState
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                SizedBox(
-                  height: size.height * 0.07,
-                ),
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
+              ),
                 TextWidget(
                   text: 'Contatos:',
                   fontWeight: FontWeight.w500,
@@ -706,8 +718,7 @@ class _ServicoProfilePageState
                     : SizedBox(
                         height: size.height * 0.05,
                       ),
-                SizedBox(
-                  height: size.height * 0.1,
+                  ],
                 )
               ],
             ),

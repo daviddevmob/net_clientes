@@ -347,7 +347,156 @@ class _ServicosPageState
                                   categoria = 'Outros';
                                   break;
                               }
-                              return Container(
+                              return  GestureDetector(
+                              onTap: () {
+                                    BaseServiceProfile base
+                                     = new BaseServiceProfile(
+                                       servico.servicoGeral.usuarioId, 
+                                       servico.servicoGeral.servicoNome,
+                                       );
+                                    Modular.to.pushNamed(
+                                      '/servicos/servico_profile',
+                                      arguments: base,
+                                    );
+                                  },
+                              child: Card(
+                                elevation: 3,
+                                  child: Container(
+                                  height: size.height * 0.11,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Cores.verdeClaro,
+                                        width: 0.5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                       child: SizedBox(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.transparent,
+                                                  width: 0,
+                                                ),
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(4),
+                                                    bottomLeft: Radius.circular(4),
+                                                  ),
+                                                image: DecorationImage(
+                                                  image: 
+                                                 servico.servicoGeral.servicoFotoPerfil == null ||
+                                                    servico.servicoGeral.servicoFotoPerfil == ''
+                                                ? AssetImage(
+                                                    'assets/images/imagens-perfil/profile.png',
+                                                  )
+                                                : CachedNetworkImageProvider(
+                                                    servico.servicoGeral.servicoFotoPerfil,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                )
+                                              ),
+                                            ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.03,
+                                      ),
+                                      Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextWidget(
+                                                  text: servico.servicoGeral.servicoNome,
+                                                  fontWeight: FontWeight.w400,
+                                                  textColor: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextWidget(
+                                                  text: categoria == null ? '' : categoria,
+                                                  fontSize: 18,
+                                                  textColor: Colors.grey,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                    ),
+                                      )
+                                    ],
+                                  ),/* ListTile(
+                                    tileColor: Cores.verdeClaro,
+                                        leading: Container(
+                                          height: 200,
+                                          width: 70,
+                                            padding: EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey[200],
+                                              ),
+                                              borderRadius: BorderRadius.circular(2),
+                                              image: DecorationImage(
+                                                image: 
+                                                user.ongGeral.ongImagemPerfil == null ||
+                                                  user.ongGeral.ongImagemPerfil == ''
+                                              ? AssetImage(
+                                                  'assets/images/imagens-perfil/profile.png',
+                                                )
+                                              : CachedNetworkImageProvider(
+                                                  user.ongGeral.ongImagemPerfil,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              )
+                                            ),
+                                          ),
+                                    title: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextWidget(
+                                                text: user.ongGeral.ongNome,
+                                                fontWeight: FontWeight.w400,
+                                                textColor: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextWidget(
+                                                text: bairro == null ? 'teste' : bairro,
+                                                fontSize: 18,
+                                                textColor: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Modular.to.pushNamed(
+                                        '/ongs/ong_profile',
+                                        arguments: ong.usuario[index]
+                                        );
+                                    },
+                                  ) */
+                                ),
+                              ),
+                            );/* Container(
                                 height: size.height * 0.11,
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -419,7 +568,7 @@ class _ServicosPageState
                                     );
                                   },
                                 ),
-                              );
+                              ); */
                             },
                           ),
                         ),

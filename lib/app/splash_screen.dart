@@ -15,12 +15,14 @@ class _SplashPageState extends ModularState<SplashPage, AppController> {
 
   void initState() {
     disposer = autorun((_) async {
-      var currentUser = await controller.getUser();
+      Future.delayed(Duration(seconds: 2)).then((value) async {
+        var currentUser = await controller.getUser();
       if (currentUser == 'login') {
         Modular.to.pushReplacementNamed('/login');
       } else {
         Modular.to.pushReplacementNamed('/home', arguments: currentUser);
       }
+      });
     });
     super.initState();
   }

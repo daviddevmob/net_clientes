@@ -2,6 +2,7 @@ import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
+import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
 class ServicosRepository implements IServico {
   final HasuraConnect api;
@@ -191,7 +192,10 @@ class ServicosRepository implements IServico {
       var data = await api.query(query);
       var result = await data['data'];
       return ServicoModel.fromJson(result);
+    } on HasuraError catch (e) {
+      print('HASURA ERRO: ' + getErrorHasuraString(e.message));
     } catch (e) {
+      print('CATCH ERRO: ' + e);
       return e;
     }
   }

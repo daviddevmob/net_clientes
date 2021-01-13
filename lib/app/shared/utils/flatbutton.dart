@@ -14,9 +14,9 @@ class ButtonWidget extends StatelessWidget {
       {Key key,
       this.function,
       this.text = 'Texto',
-      this.fontWeight = FontWeight.bold,
+      this.fontWeight = FontWeight.w500,
       this.textColor = Colors.white,
-      this.buttonColor = Cores.azul,
+      this.buttonColor = Colors.blue,
       this.radiusButton = 8.0,
       })
       : super(key: key);

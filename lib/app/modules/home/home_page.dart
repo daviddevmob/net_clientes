@@ -5,7 +5,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
-import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
@@ -84,8 +83,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           );
         }
 
-        ClienteModel cliente = controller.cliente.value;
-        var nome = cliente.nome.split(' ').first;
 
         return SingleChildScrollView(
           child: Container(

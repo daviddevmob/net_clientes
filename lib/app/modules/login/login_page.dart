@@ -10,6 +10,7 @@ import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/text_field.dart';
+import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'package:net_cliente/app/shared/utils/validators/validator_email.dart';
 import 'login_controller.dart';
 
@@ -36,133 +37,274 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
           viewLeading: false,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
           child: Stack(
             children: <Widget>[
-              Container(
-                height: size.height * 0.35,
-                width: size.width,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/imagens-perfil/perfil.png'))),
+            Container(
+              margin: EdgeInsets.only(
+                top: 10,
               ),
-              Observer(
-                builder: (_) => Form(
-                  key: controller.formLoginKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.3,
-                      ),
-                      Align(
-                        child: Container(
-                          width: size.width * 0.8,
-                          child: Observer(
-                            builder: (_) => TextFieldWidget(
-                              textEditingController: controller.emailController,
-                              hintText: 'E-mail',
-                              labelText: 'E-mail',
-                              textInputType: TextInputType.emailAddress,
-                              validator: (email) {
-                                if (!emailValidator(email)) {
-                                  return 'E-mail inválido';
-                                }
-
-                                return null;
-                              },
-                            ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                  width: size.width * 0.5,
+                  child: Image.asset(
+                        'assets/images/imagens-perfil/perfil.png',
+                        fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.025,
-                      ),
-                      Align(
-                        child: Container(
-                          width: size.width * 0.8,
-                          child: Observer(
-                            builder: (_) => TextFieldWidget(
-                              textEditingController:
-                                  controller.passwordController,
-                              hintText: 'Senha',
-                              labelText: 'Senha',
-                              obscureText: controller.viewPassWord,
-                              validator: (password) {
-                                String erroPassword =
-                                    controller.validatorPassword(password);
-                                return erroPassword;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Observer(
-                        builder: (_) => IconButton(
-                          icon: controller.viewPassWord == false
-                              ? Icon(CupertinoIcons.eye)
-                              : Icon(CupertinoIcons.eye_slash),
-                          onPressed: () {
-                            controller.viewPassWord = !controller.viewPassWord;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      Observer(
-                        builder: (_) => Container(
-                          child:  controller.loading == true
-                          ? CupertinoActivityIndicator()
-                          : ButtonWidget(
-                            function: () async {
-                              if (await ConnectionVerify.connectionStatus()) {
-                                var login = await controller.login();
-                                if (login != controller.emailController.text) {
-                                  return AvisoFlushBar().showFlushBarAviso(
-                                      context, 'Erro ao Entrar', login);
-                                } else {
-                                  Modular.to.pushReplacementNamed('/home',
-                                      arguments: login);
-                                }
-                              } else {
-                                InternetFlushBar().showFlushBarInternet(context);
-                              }
-                            },
-                            text: 'Entrar',
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      Align(
-                        child: GestureDetector(
-                          onTap: () {
-                            Modular.to.pushNamed('/login/criar_conta');
-                          },
-                          child: Container(
-                            width: size.width * 0.8,
-                            child: TextWidget(
-                              text: 'Ainda não tem uma conta? Crie agora!',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              textColor: Cores.verde,
-                              textDecoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
                       ),
                     ],
                   ),
+            ),
+            Center(
+              child: Card(
+                elevation: 4,
+                margin: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 30,
                 ),
-              )
+                child: Form(
+                  key: controller.formLoginKey,
+                  child: ListView(
+                    padding: const EdgeInsets.all(16),
+                    shrinkWrap: true,
+                    children: [
+                      Observer(
+                        builder: (_) => TextFieldWidget(
+                          enableField: !controller.loading,
+                          textEditingController: controller.emailController,
+                          hintText: 'Email',
+                          validator: (email) {
+                            if (!emailValidator(email)) {
+                              return 'E-mail inválido';
+                            }
+
+                            return null;
+                          },
+                          textInputType: TextInputType.emailAddress,
+                          obscureText: false,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Observer(
+                        builder: (_) => TextFieldWidget(
+                          enableField: !controller.loading,
+                          textEditingController: controller.passwordController,
+                          hintText: 'Senha',
+                          validator: (senha) {
+                            if (senha.isEmpty || senha.length < 6) {
+                              return 'Senha inválida';
+                            }
+
+                            return null;
+                          },
+                          obscureText: controller.viewPassWord,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: FlatButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          child: const TextWidget(
+                            text: 'Esqueci minha senha',
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      SizedBox(
+                        height: 44,
+                        child: Observer(
+                          builder: (_) => RaisedButton(
+                            onPressed: controller.loading == true
+                                ? null
+                                : () async {
+                                  if (await ConnectionVerify.connectionStatus()) {
+                                    var login = await controller.login();
+                                    if (login != controller.emailController.text) {
+                                      return AvisoFlushBar().showFlushBarAviso(
+                                          context, 'Erro ao Entrar', login);
+                                    } else {
+                                      Modular.to.pushReplacementNamed('/home',
+                                          arguments: login);
+                                    }
+                                  } else {
+                                    InternetFlushBar().showFlushBarInternet(context);
+                                  }
+                                },
+                            color: Colors.blue,
+                            disabledColor: Colors.white,
+                            child: controller.loading == true
+                                ? CupertinoActivityIndicator()
+                                : TextWidget(
+                                    text: 'Entrar',
+                                    textColor: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                            child: GestureDetector(
+                              onTap: () {
+                                Modular.to.pushNamed('/login/criar_conta');
+                              },
+                              child: Container(
+                                width: size.width * 0.8,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      text: 'Crie sua conta agora!',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      textColor: Cores.verde,
+                                      textDecoration: TextDecoration.underline,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+              /* Center(
+                  child: Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Form(
+                      key: controller.formLoginKey,
+                      child: ListView(
+                        padding: const EdgeInsets.all(16),
+                        shrinkWrap: true,
+                        children: [
+                          Align(
+                            child: Container(
+                              width: size.width * 0.8,
+                              child: Observer(
+                                builder: (_) => TextFieldWidget(
+                                  textEditingController: controller.emailController,
+                                  hintText: 'E-mail',
+                                  labelText: 'E-mail',
+                                  textInputType: TextInputType.emailAddress,
+                                  validator: (email) {
+                                    if (!emailValidator(email)) {
+                                      return 'E-mail inválido';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.025,
+                          ),
+                          Align(
+                            child: Container(
+                              width: size.width * 0.8,
+                              child: Observer(
+                                builder: (_) => TextFieldWidget(
+                                  textEditingController:
+                                      controller.passwordController,
+                                  hintText: 'Senha',
+                                  labelText: 'Senha',
+                                  obscureText: controller.viewPassWord,
+                                  validator: (password) {
+                                    String erroPassword =
+                                        controller.validatorPassword(password);
+                                    return erroPassword;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          Observer(
+                            builder: (_) => IconButton(
+                              icon: controller.viewPassWord == false
+                                  ? Icon(CupertinoIcons.eye)
+                                  : Icon(CupertinoIcons.eye_slash),
+                              onPressed: () {
+                                controller.viewPassWord = !controller.viewPassWord;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          Observer(
+                            builder: (_) => Container(
+                              child:  controller.loading == true
+                              ? CupertinoActivityIndicator()
+                              : ButtonWidget(
+                                function: () async {
+                                  if (await ConnectionVerify.connectionStatus()) {
+                                    var login = await controller.login();
+                                    if (login != controller.emailController.text) {
+                                      return AvisoFlushBar().showFlushBarAviso(
+                                          context, 'Erro ao Entrar', login);
+                                    } else {
+                                      Modular.to.pushReplacementNamed('/home',
+                                          arguments: login);
+                                    }
+                                  } else {
+                                    InternetFlushBar().showFlushBarInternet(context);
+                                  }
+                                },
+                                text: 'Entrar',
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          Align(
+                            child: GestureDetector(
+                              onTap: () {
+                                Modular.to.pushNamed('/login/criar_conta');
+                              },
+                              child: Container(
+                                width: size.width * 0.8,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      text: 'Crie sua conta agora!',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      textColor: Cores.verde,
+                                      textDecoration: TextDecoration.underline,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ), */
             ],
           ),
         ),
-      ),
+        bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

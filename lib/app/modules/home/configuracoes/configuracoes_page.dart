@@ -83,7 +83,7 @@ class _ConfiguracoesPageState
                           child: controller.testeImagem == true
                               ? CupertinoActivityIndicator()
                               : Positioned(
-                                  top: 40,
+                                  top: size.height * 0.0552,
                                   child: GestureDetector(
                                     onTap: () {
                                       if (cliente.fotoPerfil == null ||
@@ -125,7 +125,7 @@ class _ConfiguracoesPageState
                         ),
                       ),
                       Positioned(
-                        top: 170,
+                        top: size.height * 0.2301,
                         child: CircleAvatar(
                           backgroundColor: Colors.grey[200],
                           child: IconButton(
@@ -164,7 +164,15 @@ class _ConfiguracoesPageState
                             ),
                             ButtonConfigsWidget(
                               function: () {},
-                              text: 'Falar com Suporte',
+                              text: 'Suporte',
+                              icon: CupertinoIcons.hand_raised,
+                            ),
+                            SizedBox(
+                              height: size.height * 0.025,
+                            ),
+                            ButtonConfigsWidget(
+                              function: () {},
+                              text: 'Termos de Uso',
                               icon: CupertinoIcons.hand_raised,
                             ),
                             SizedBox(

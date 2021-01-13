@@ -70,7 +70,8 @@ class _OngProfilePageState
         var ong = controller.ong.usuario[0];
 
         return SingleChildScrollView(
-            child: Column(children: [
+            child: Column(
+              children: [
           Stack(
             children: [
               Container(
@@ -159,7 +160,7 @@ class _OngProfilePageState
                     TextWidget(
                       text: ong.ongGeral.ongNome,
                       fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w800,
                     ),
                   ],
                 ),
@@ -176,18 +177,22 @@ class _OngProfilePageState
                       child: TextWidget(
                         text: ong.ongGeral.ongDescricao,
                         fontSize: 18,
-                        fontWeight: FontWeight.w300,
+                        textColor: Colors.grey,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.05,
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
               ),
               TextWidget(
                 text: 'Galeria de Fotos',
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
               ),
               ong.ongGeral.ongFotos.isEmpty
                   ? SizedBox(
@@ -243,7 +248,7 @@ class _OngProfilePageState
                                       .ongFotoDescricao,
                                   fontSize: 16,
                                   textColor: Colors.grey,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -254,8 +259,11 @@ class _OngProfilePageState
                   );
                 }
               }),
-              SizedBox(
-                height: size.height * 0.05,
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
               ),
               Container(
                 width: size.width * 0.9,
@@ -264,8 +272,7 @@ class _OngProfilePageState
                   children: [
                     TextWidget(
                       text: 'Como você pode ajudar',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ],
                 ),
@@ -290,9 +297,11 @@ class _OngProfilePageState
                         },
                       ),
                     ),
-              Divider(
-                color: Colors.transparent,
-                height: size.height * 0.05,
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
               ),
               Container(
                 width: size.width * 0.9,
@@ -301,8 +310,7 @@ class _OngProfilePageState
                   children: [
                     TextWidget(
                       text: 'Localização',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ],
                 ),
@@ -329,9 +337,10 @@ class _OngProfilePageState
                         ],
                       ),
                     ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
+                Divider(
+                  color: Colors.transparent,
+                  height: 35,
+                ),
               ong.localizacao.mapaLink == null || ong.localizacao.mapaLink == ''
                   ? SizedBox()
                   : FlatButton(
@@ -352,12 +361,15 @@ class _OngProfilePageState
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-              SizedBox(
-                height: size.height * 0.05,
+              Container(
+                height: size.height * 0.0015,
+                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
+                width: size.width * 0.9,
+                color: Cores.verdeClaro,
               ),
               TextWidget(
                 text: 'Contatos',
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
               ),
               SizedBox(
                 height: size.height * 0.03,

@@ -47,10 +47,12 @@ class OpcoesHomeWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      TextWidget(
-                        text: title,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                      Expanded(
+                        child: TextWidget(
+                          text: title,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),

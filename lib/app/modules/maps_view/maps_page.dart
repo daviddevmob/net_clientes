@@ -35,7 +35,7 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
 
         
 
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 3), () {
           controller.setMapPosition(
             widget.localizacao.endereco,
             'Localização Atual do Negócio',
