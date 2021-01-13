@@ -4,6 +4,8 @@ import 'package:net_cliente/app/shared/repositories/home_repository/home_reposit
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 
 import 'home_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -13,11 +15,13 @@ import 'home_page.dart';
 class HomeModule extends ChildModule {
   @override
   List<Bind> get binds => [
+      Bind<ISend>((i) => SendRepository(i.get())),
       Bind<IHome>((i) => HomeRepository(i.get())),
       Bind<ILogin>((i) => LoginRepository(i.get())),
       Bind((i) =>HomeController(
         i.get<IHome>(),
-        i.get<ILogin>()
+        i.get<ILogin>(),
+        i.get<ISend>(),
       )),
       ];
 

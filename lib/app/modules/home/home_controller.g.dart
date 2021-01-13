@@ -24,6 +24,14 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$sendInstagramAsyncAction =
+      AsyncAction('_HomeControllerBase.sendInstagram');
+
+  @override
+  Future sendInstagram() {
+    return _$sendInstagramAsyncAction.run(() => super.sendInstagram());
+  }
+
   final _$getClienteAsyncAction = AsyncAction('_HomeControllerBase.getCliente');
 
   @override

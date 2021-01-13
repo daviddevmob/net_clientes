@@ -1,7 +1,5 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:net_cliente/app/modules/home/configuracoes/edit_cadastro/edit_cadastro_controller.dart';
 import 'package:net_cliente/app/modules/home/configuracoes/edit_cadastro/edit_cadastro_module.dart';
 
 void main() {

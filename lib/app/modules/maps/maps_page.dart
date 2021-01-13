@@ -1,13 +1,13 @@
-import 'package:eusebio_project/app/modules/maps/widgets/app_bar_search.dart';
-import 'package:eusebio_project/app/shared/models/localizacao_model.dart';
-import 'package:eusebio_project/app/shared/utils/loading_dialog.dart';
-import 'package:eusebio_project/app/shared/utils/text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/shared/models/localizacao_model.dart';
+import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/loading_dialog.dart';
+import 'package:net_cliente/app/shared/utils/text.dart';
 import 'maps_controller.dart';
 
 class MapsPage extends StatefulWidget {
@@ -51,8 +51,8 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: (Size(size.width, 50)),
-          child: SearchAppBar(
-            controller: controller,
+          child: AppBarWidget(
+            title: 'Localização',
           ),
         ),
         body: Stack(
@@ -67,6 +67,7 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
                 markers: controller.markers,
                 myLocationEnabled: true,
                 mapType: controller.mapType,
+                zoomControlsEnabled: false,
               ),
             ),
             Positioned(

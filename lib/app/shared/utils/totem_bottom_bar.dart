@@ -19,7 +19,7 @@ class TotemCeWidget extends StatelessWidget {
             text: '@totem.ce',
             fontSize: 18,
             fontWeight: FontWeight.w500,
-            textColor: Colors.grey,
+            textColor: Colors.grey[500],
           ),
         ),
       ],

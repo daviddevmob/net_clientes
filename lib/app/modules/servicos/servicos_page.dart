@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/models/servicos/base_service_profile.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_servicos.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
@@ -69,7 +70,8 @@ class _ServicosPageState
                       right: 20,
                     ),
                     child: TextWidget(
-                      text: 'Ops! Nenhum prestador de serviço encontrado neste filtro.',
+                      text:
+                          'Ops! Nenhum prestador de serviço encontrado neste filtro.',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       textColor: Colors.grey,
@@ -116,57 +118,57 @@ class _ServicosPageState
                             ),
                             items: listServicos,
                             onChanged: controller.selectCategoria,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    Container(
-                      width: size.width * 0.8,
-                      margin: EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: Observer(
-                        builder: (_) => DropdownButtonHideUnderline(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              top: 2,
-                              bottom: 2,
-                              left: 10,
-                              right: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Cores.verde,
-                            ),
-                            child: DropdownButton<int>(
-                              value: controller.bairro,
-                              isExpanded: true,
-                              icon: Icon(
-                                CupertinoIcons.list_bullet,
-                                color: Colors.white,
-                              ),
-                              dropdownColor: Cores.verde,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                              hint: TextWidget(
-                                text: 'Pesquise por bairro',
-                              ),
-                              items: listBairros,
-                              onChanged: controller.selectBairro,
-                            ),
                           ),
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Container(
+                    width: size.width * 0.8,
+                    margin: EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: Observer(
+                      builder: (_) => DropdownButtonHideUnderline(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            top: 2,
+                            bottom: 2,
+                            left: 10,
+                            right: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Cores.verde,
+                          ),
+                          child: DropdownButton<int>(
+                            value: controller.bairro,
+                            isExpanded: true,
+                            icon: Icon(
+                              CupertinoIcons.list_bullet,
+                              color: Colors.white,
+                            ),
+                            dropdownColor: Cores.verde,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            hint: TextWidget(
+                              text: 'Pesquise por bairro',
+                            ),
+                            items: listBairros,
+                            onChanged: controller.selectBairro,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -312,7 +314,7 @@ class _ServicosPageState
                             itemBuilder: (context, index) {
                               var servico = servicos.usuario[index];
                               var categoria;
-                              var bairro; 
+                              var bairro;
                               switch (servico.servicoGeral.categoria) {
                                 case 1:
                                   categoria = 'Babá';
@@ -358,38 +360,39 @@ class _ServicosPageState
                                   leading: Container(
                                     height: 200,
                                     width: 70,
-                                      padding: EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         ),
                                         borderRadius: BorderRadius.circular(6),
                                         image: DecorationImage(
-                                          image: 
-                                          servico.servicoGeral.servicoFotoPerfil ==
-                                            null ||
-                                          servico.servicoGeral
-                                            .servicoFotoPerfil == ''
-                                            ? AssetImage(
-                                                'assets/images/imagens-perfil/profile.png',
-                                              )
-                                            : CachedNetworkImageProvider(
-                                                servico.servicoGeral
-                                                    .servicoFotoPerfil,
-                                              ),
+                                          image: servico.servicoGeral
+                                                          .servicoFotoPerfil ==
+                                                      null ||
+                                                  servico.servicoGeral
+                                                          .servicoFotoPerfil ==
+                                                      ''
+                                              ? AssetImage(
+                                                  'assets/images/imagens-perfil/profile.png',
+                                                )
+                                              : CachedNetworkImageProvider(
+                                                  servico.servicoGeral
+                                                      .servicoFotoPerfil,
+                                                ),
                                           fit: BoxFit.cover,
-                                        )
-                                      ),
-                                    ),
+                                        )),
+                                  ),
                                   title: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
-                                      children: [
-                                      TextWidget(
-                                        text:servico.servicoGeral.servicoNome,
-                                        fontWeight: FontWeight.w400,
-                                        textColor: Colors.white,
+                                        children: [
+                                          TextWidget(
+                                            text: servico
+                                                .servicoGeral.servicoNome,
+                                            fontWeight: FontWeight.w400,
+                                            textColor: Colors.white,
                                           ),
                                         ],
                                       ),
@@ -405,7 +408,15 @@ class _ServicosPageState
                                     ],
                                   ),
                                   onTap: () {
-
+                                    BaseServiceProfile base
+                                     = new BaseServiceProfile(
+                                       servico.servicoGeral.usuarioId, 
+                                       servico.servicoGeral.servicoNome,
+                                       );
+                                    Modular.to.pushNamed(
+                                      '/servicos/servico_profile',
+                                      arguments: base,
+                                    );
                                   },
                                 ),
                               );

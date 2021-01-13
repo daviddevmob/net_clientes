@@ -31,6 +31,38 @@ mixin _$OngProfileController on _OngProfileControllerBase, Store {
     return _$getOngAsyncAction.run(() => super.getOng(userId));
   }
 
+  final _$sendWhatsAppAsyncAction =
+      AsyncAction('_OngProfileControllerBase.sendWhatsApp');
+
+  @override
+  Future sendWhatsApp(String numero) {
+    return _$sendWhatsAppAsyncAction.run(() => super.sendWhatsApp(numero));
+  }
+
+  final _$sendInstagramAsyncAction =
+      AsyncAction('_OngProfileControllerBase.sendInstagram');
+
+  @override
+  Future sendInstagram(String user) {
+    return _$sendInstagramAsyncAction.run(() => super.sendInstagram(user));
+  }
+
+  final _$sendLigacaoAsyncAction =
+      AsyncAction('_OngProfileControllerBase.sendLigacao');
+
+  @override
+  Future sendLigacao(String numero) {
+    return _$sendLigacaoAsyncAction.run(() => super.sendLigacao(numero));
+  }
+
+  final _$sendEmailAsyncAction =
+      AsyncAction('_OngProfileControllerBase.sendEmail');
+
+  @override
+  Future sendEmail(String email) {
+    return _$sendEmailAsyncAction.run(() => super.sendEmail(email));
+  }
+
   @override
   String toString() {
     return '''

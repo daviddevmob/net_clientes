@@ -1,7 +1,7 @@
-import 'package:eusebio_project/app/modules/maps/maps_controller.dart';
-import 'package:eusebio_project/app/shared/utils/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:net_cliente/app/modules/maps/maps_controller.dart';
+import 'package:net_cliente/app/shared/utils/text_field.dart';
 
 class SearchAppBar extends StatelessWidget {
   final MapsController controller;

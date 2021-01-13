@@ -1,5 +1,6 @@
-import 'package:eusebio_project/app/shared/repositories/geolocaliacao/geo_repository.dart';
-import 'package:eusebio_project/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
+
+import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository.dart';
+import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 
 import 'maps_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';

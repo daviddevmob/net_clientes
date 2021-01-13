@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class MeusServicosWidget extends StatelessWidget {
@@ -18,16 +19,15 @@ class MeusServicosWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              CupertinoIcons.checkmark_square_fill,
-              color: Colors.blue,
+              CupertinoIcons.circle_fill,
+              color: Cores.azul,
               ),
             SizedBox(width: size.width * 0.02,),
             Expanded(
                 child: TextWidget(
                 text: servicoList.servicoNome,
                 fontSize: 17,
-                fontWeight: FontWeight.w500,
-                textColor: Colors.blue,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

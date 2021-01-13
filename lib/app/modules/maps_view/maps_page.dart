@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/loading_dialog.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'maps_controller.dart';
 
@@ -33,6 +33,8 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
         controller.center =
             LatLng(double.parse(values[0]), double.parse(values[1]));
 
+        
+
         Future.delayed(Duration(seconds: 1), () {
           controller.setMapPosition(
             widget.localizacao.endereco,
@@ -43,6 +45,7 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
     });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +64,45 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
               builder: (_) => GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: controller.center,
-                  zoom: 18,
+                  zoom: 15,
                 ),
                 onMapCreated: controller.criarMapa,
                 markers: controller.markers,
-                myLocationEnabled: true,
                 mapType: controller.mapType,
+                zoomControlsEnabled: false,
               ),
             ),
             Positioned(
-              top: 450,
-              left: 20,
+              top: 445,
+              left: 5,
+              child: Container(
+                height: 130,
+                width: 300,
+                child: Card(
+                  color: Cores.verdeClaro,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                          text: widget.localizacao.endereco,
+                          textColor: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 520,
+              left: 330,
               child: Observer(
                 builder: (_) => Container(
                   decoration: BoxDecoration(

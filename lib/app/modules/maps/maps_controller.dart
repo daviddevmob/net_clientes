@@ -1,11 +1,11 @@
-import 'package:eusebio_project/app/shared/models/geo_google_maps_model.dart';
-import 'package:eusebio_project/app/shared/models/servico_models/servico_user_model.dart';
-import 'package:eusebio_project/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart';
+import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
+import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:uuid/uuid.dart';
 
 part 'maps_controller.g.dart';

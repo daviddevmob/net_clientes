@@ -133,6 +133,38 @@ mixin _$MapsController on _MapsControllerBase, Store {
     });
   }
 
+  final _$bairroAtom = Atom(name: '_MapsControllerBase.bairro');
+
+  @override
+  int get bairro {
+    _$bairroAtom.reportRead();
+    return super.bairro;
+  }
+
+  @override
+  set bairro(int value) {
+    _$bairroAtom.reportWrite(value, super.bairro, () {
+      super.bairro = value;
+    });
+  }
+
+  final _$complementoControllerAtom =
+      Atom(name: '_MapsControllerBase.complementoController');
+
+  @override
+  TextEditingController get complementoController {
+    _$complementoControllerAtom.reportRead();
+    return super.complementoController;
+  }
+
+  @override
+  set complementoController(TextEditingController value) {
+    _$complementoControllerAtom.reportWrite(value, super.complementoController,
+        () {
+      super.complementoController = value;
+    });
+  }
+
   final _$pesquisarLocalizacaoAsyncAction =
       AsyncAction('_MapsControllerBase.pesquisarLocalizacao');
 
@@ -221,7 +253,9 @@ localizacao: ${localizacao},
 mapType: ${mapType},
 googleMapsController: ${googleMapsController},
 center: ${center},
-markers: ${markers}
+markers: ${markers},
+bairro: ${bairro},
+complementoController: ${complementoController}
     ''';
   }
 }

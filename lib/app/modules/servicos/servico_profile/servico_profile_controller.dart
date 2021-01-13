@@ -18,6 +18,26 @@ abstract class _ServicoProfileControllerBase with Store {
   ServicoModel servicoUser;
 
   @action
+  sendWhatsApp(String numero) {
+
+  }
+
+  @action
+  sendInstagram(String user) {
+
+  }
+
+  @action
+  sendCall(String numero) {
+
+  }
+
+  @action
+  sendEmail(String email) {
+
+  }
+
+  @action
   getServicoUser(int userId) async {
     servicoUser = await iServico.getServico(userId);
   }

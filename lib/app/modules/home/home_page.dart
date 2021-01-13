@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
@@ -138,7 +139,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.',
                       function: () {
                         /* Modular.to.pushNamed('/restaurantes'); */
-                        print('aviso restaurante');
+                        return avisoConstrucaoDialog(
+                          context, 
+                          'Restaurantes', 
+                          controller,
+                          );
                       },
                     ),
                   ],
@@ -156,7 +161,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.',
                       function: () {
                         /*  Modular.to.pushNamed('/lojas'); */
-                        print('aviso loja');
+                        avisoConstrucaoDialog(
+                          context,
+                          'Lojas',
+                          controller,
+                        );
                       },
                     ),
                   ],
