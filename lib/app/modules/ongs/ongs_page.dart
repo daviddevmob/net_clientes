@@ -203,6 +203,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                         child: ListView.separated(
                           itemCount: ong.usuario.length,
                           shrinkWrap: true,
+                          physics: ScrollPhysics(),
                           separatorBuilder: (context, index) {
                             return SizedBox(
                               height: size.height * 0.04,
