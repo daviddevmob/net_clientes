@@ -321,6 +321,13 @@ class _ServicoProfilePageState
                   width: size.width * 0.8,
                   child: Column(
                     children: [
+                      local == false && domicilio == false 
+                      ? TextWidget(
+                        text: 'Não estamos atendendo no momento',
+                        fontWeight: FontWeight.w500,
+                        textColor: Colors.grey,
+                      )
+                      : SizedBox(),
                       local == true
                           ? GestureDetector(
                               onTap: () {},
@@ -343,31 +350,7 @@ class _ServicoProfilePageState
                                 ],
                               ),
                             )
-                          : GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                margin:
-                                    EdgeInsets.only(bottom: size.height * 0.00),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.map,
-                                      color: Colors.red,
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.05,
-                                    ),
-                                    TextWidget(
-                                      text: 'Atendimento Local',
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w400,
-                                      textColor: Colors.red,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                          : SizedBox(),
                       SizedBox(
                         height: size.height * 0.02,
                       ),
@@ -390,24 +373,7 @@ class _ServicoProfilePageState
                                 )
                               ],
                             )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  CupertinoIcons.home,
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  width: size.width * 0.05,
-                                ),
-                                TextWidget(
-                                  text: 'Em Domicílio',
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  textColor: Colors.red,
-                                )
-                              ],
-                            ),
+                          : SizedBox(),
                     ],
                   ),
                 ),

@@ -35,7 +35,7 @@ environment:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/icon/icon.jpg"
 
 dependencies:
   dio: ^3.0.10
@@ -127,7 +127,7 @@ flutter:
     - assets/images/home/ongs.png
     - assets/images/home/lojas-cinza.png
     - assets/images/home/restaurantes-cinza.png
-    - assets/icon/icon.png
+    - assets/icon/icon.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

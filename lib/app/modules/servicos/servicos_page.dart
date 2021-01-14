@@ -182,6 +182,8 @@ class _ServicosPageState
                 margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                 height: size.height,
                 child: ListView(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
                   children: [
                     SizedBox(
                       height: size.height * 0.02,

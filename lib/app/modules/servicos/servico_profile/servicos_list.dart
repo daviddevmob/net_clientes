@@ -20,7 +20,7 @@ class MeusServicosWidget extends StatelessWidget {
           children: [
             Icon(
               CupertinoIcons.circle_fill,
-              color: Cores.azul,
+              color: Colors.blue,
               ),
             SizedBox(width: size.width * 0.02,),
             Expanded(
