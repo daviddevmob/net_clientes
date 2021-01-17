@@ -25,59 +25,44 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
     });
   }
 
+  final _$sendWhatsAppAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.sendWhatsApp');
+
+  @override
+  Future sendWhatsApp(String numero) {
+    return _$sendWhatsAppAsyncAction.run(() => super.sendWhatsApp(numero));
+  }
+
+  final _$sendInstagramAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.sendInstagram');
+
+  @override
+  Future sendInstagram(String user) {
+    return _$sendInstagramAsyncAction.run(() => super.sendInstagram(user));
+  }
+
+  final _$sendCallAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.sendCall');
+
+  @override
+  Future sendCall(String numero) {
+    return _$sendCallAsyncAction.run(() => super.sendCall(numero));
+  }
+
+  final _$sendEmailAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.sendEmail');
+
+  @override
+  Future sendEmail(String email) {
+    return _$sendEmailAsyncAction.run(() => super.sendEmail(email));
+  }
+
   final _$getServicoUserAsyncAction =
       AsyncAction('_ServicoProfileControllerBase.getServicoUser');
 
   @override
   Future getServicoUser(int userId) {
     return _$getServicoUserAsyncAction.run(() => super.getServicoUser(userId));
-  }
-
-  final _$_ServicoProfileControllerBaseActionController =
-      ActionController(name: '_ServicoProfileControllerBase');
-
-  @override
-  dynamic sendWhatsApp(String numero) {
-    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
-        .startAction(name: '_ServicoProfileControllerBase.sendWhatsApp');
-    try {
-      return super.sendWhatsApp(numero);
-    } finally {
-      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic sendInstagram(String user) {
-    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
-        .startAction(name: '_ServicoProfileControllerBase.sendInstagram');
-    try {
-      return super.sendInstagram(user);
-    } finally {
-      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic sendCall(String numero) {
-    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
-        .startAction(name: '_ServicoProfileControllerBase.sendCall');
-    try {
-      return super.sendCall(numero);
-    } finally {
-      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic sendEmail(String email) {
-    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
-        .startAction(name: '_ServicoProfileControllerBase.sendEmail');
-    try {
-      return super.sendEmail(email);
-    } finally {
-      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
   }
 
   @override

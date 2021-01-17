@@ -131,6 +131,7 @@ class ServicosRepository implements IServico {
   }
 
   @override
+  // ignore: missing_return
   Future<ServicoModel> getServico(int userId) async {
     try {
       var query = '''
@@ -196,6 +197,189 @@ class ServicosRepository implements IServico {
       print('HASURA ERRO: ' + getErrorHasuraString(e.message));
     } catch (e) {
       print('CATCH ERRO: ' + e);
+      return e;
+    }
+  }
+
+  @override
+  Future<ServicosSearchModel> getServicosNome(String nome) async {
+    try {
+      var query = '''
+      query MyQuery {
+        usuario(
+          where: {
+          tipo_conta: {_eq: "servico"},
+          servico_geral: {
+            servico_status: 
+          {_eq: true}, 
+          servico_visibility: 
+          {_eq: true},
+          _or: [
+            {
+              servico_nome: {
+                _ilike: "%$nome%"
+              }
+            },
+            {
+              servico_descricao: {
+                _ilike: "%$nome%"
+              },
+            },
+          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
+          ]
+          }}) {
+          localizacao {
+            bairro
+          }
+          servico_geral {
+            servico_nome
+            categoria
+            servico_foto_perfil
+            usuario_id
+          }
+        }
+      }
+      ''';
+      var data = await api.query(query);
+      var result = await data['data'];
+      return ServicosSearchModel.fromJson(result);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  @override
+  Future<ServicosSearchModel> getServicosNomeCategoria(
+      String nome, int categoria) async {
+    try {
+      var query = '''
+      query MyQuery {
+      usuario(
+        where: {tipo_conta: {_eq: "servico"}, 
+        servico_geral: {servico_status: {_eq: true}, 
+        servico_visibility: {_eq: true}, 
+        _or: [
+            {
+              servico_nome: {
+                _ilike: "%$nome%"
+              }
+            },
+            {
+              servico_descricao: {
+                _ilike: "%$nome%"
+              },
+            },
+          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
+          ], 
+        categoria: {_eq: $categoria}}}) {
+        localizacao {
+          bairro
+        }
+        servico_geral {
+          servico_nome
+          categoria
+          servico_foto_perfil
+          usuario_id
+        }
+      }
+    }
+      ''';
+      var data = await api.query(query);
+      var result = await data['data'];
+      return ServicosSearchModel.fromJson(result);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  @override
+  Future<ServicosSearchModel> getServicosNomeCategoriaBairro(
+      String nome, int categoria, int bairro) async {
+    try {
+      var query = '''
+    query MyQuery {
+    usuario(
+      where: {
+        tipo_conta: {_eq: "servico"}, 
+        servico_geral: {servico_status: {_eq: true}, 
+        servico_visibility: {_eq: true}, 
+        categoria: {_eq: $categoria}, 
+        _or: [
+            {
+              servico_nome: {
+                _ilike: "%$nome%"
+              }
+            },
+            {
+              servico_descricao: {
+                _ilike: "%$nome%"
+              },
+            },
+          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
+          ]
+        }, 
+        localizacao: {bairro: {_eq: $bairro}}}) {
+        localizacao {
+          bairro
+        }
+        servico_geral {
+          servico_nome
+          categoria
+          servico_foto_perfil
+          usuario_id
+        }
+      }
+    }
+    ''';
+      var data = await api.query(query);
+      var result = await data['data'];
+      return ServicosSearchModel.fromJson(result);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  @override
+  Future<ServicosSearchModel> getServicosNomeBairro(
+      String nome, int bairro) async {
+    try {
+      var query = '''
+    query MyQuery {
+      usuario(
+        where: {tipo_conta: {_eq: "servico"}, 
+        servico_geral: {servico_status: {_eq: true}, 
+        servico_visibility: {_eq: true}, 
+        _or: [
+            {
+              servico_nome: {
+                _ilike: "%$nome%"
+              }
+            },
+            {
+              servico_descricao: {
+                _ilike: "%$nome%"
+              },
+            },
+          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
+          ]
+        }, 
+        localizacao: {bairro: {_eq: $bairro}}}) {
+        localizacao {
+          bairro
+        }
+        servico_geral {
+          servico_nome
+          categoria
+          servico_foto_perfil
+          usuario_id
+        }
+      }
+    }
+    ''';
+      var data = await api.query(query);
+      var result = await data['data'];
+      return ServicosSearchModel.fromJson(result);
+    } catch (e) {
       return e;
     }
   }

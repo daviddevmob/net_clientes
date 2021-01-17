@@ -55,6 +55,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
         if (controller.ong.usuario.isEmpty == true) {
           return Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   height: size.height * 0.03,
@@ -67,14 +68,14 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                   ),
                   child: TextWidget(
                     text:
-                        'Ops! Nenhum projeto social ou ong encontrado neste bairro.',
+                        'Ops! Nenhum projeto social ou ong encontrado nesta pesquisa.',
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     textColor: Colors.grey,
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.005,
+                  height: size.height * 0.15,
                 ),
                 Container(
                   width: size.width * 0.8,
@@ -96,7 +97,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                             color: Colors.white,
                           ),
                           borderRadius: BorderRadius.circular(8),
-                          color: Cores.verde,
+                          color: Cores.verdeClaro,
                         ),
                         child: DropdownButton<int>(
                           value: controller.bairro,
@@ -105,9 +106,9 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                             CupertinoIcons.list_bullet,
                             color: Colors.white,
                           ),
-                          dropdownColor: Cores.verde,
+                          dropdownColor: Cores.verdeClaro,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Cores.verdeClaro,
                           ),
                           hint: TextWidget(
                             text: 'Pesquise por bairro',
@@ -169,18 +170,19 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                               color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(8),
-                            color: Cores.verde,
+                            color: Cores.verdeClaro,
                           ),
                           child: DropdownButton<int>(
                             value: controller.bairro,
+                            elevation: 8,
                             isExpanded: true,
                             icon: Icon(
                               CupertinoIcons.list_bullet,
                               color: Colors.white,
                             ),
-                            dropdownColor: Cores.verde,
+                            dropdownColor: Cores.verdeClaro,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Cores.verdeClaro,
                             ),
                             hint: TextWidget(
                               text: 'Pesquise por bairro',

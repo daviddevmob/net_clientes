@@ -315,7 +315,7 @@ class _ServicoProfilePageState
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
-                  height: size.height * 0.05,
+                  height: size.height * 0.025,
                 ),
                 Container(
                   width: size.width * 0.8,

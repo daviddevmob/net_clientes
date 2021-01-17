@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class ButtonWidget extends StatelessWidget {

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
-import 'package:net_cliente/app/shared/utils/flatbutton.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
@@ -30,6 +28,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: AppBarWidget(
@@ -38,8 +37,8 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         ),
       ),
       body: Container(
-          child: Stack(
-            children: <Widget>[
+        child: Stack(
+          children: <Widget>[
             Container(
               margin: EdgeInsets.only(
                 top: 10,
@@ -48,14 +47,14 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                  width: size.width * 0.5,
-                  child: Image.asset(
-                        'assets/images/imagens-perfil/perfil.png',
-                        fit: BoxFit.cover,
-                          ),
-                      ),
-                    ],
+                    width: size.width * 0.5,
+                    child: Image.asset(
+                      'assets/images/imagens-perfil/perfil.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                ],
+              ),
             ),
             Center(
               child: Card(
@@ -95,6 +94,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                           enableField: !controller.loading,
                           textEditingController: controller.passwordController,
                           hintText: 'Senha',
+                          
                           validator: (senha) {
                             if (senha.isEmpty || senha.length < 6) {
                               return 'Senha inválida';
@@ -102,25 +102,40 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
 
                             return null;
                           },
-                          obscureText: controller.viewPassWord,
+                          obscureText: !controller.viewPassWord,
                         ),
                       ),
+                      
                       const SizedBox(
                         height: 16,
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.zero,
-                          child: const TextWidget(
-                            text: 'Esqueci minha senha',
-                            fontSize: 16,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Observer(
+                            builder:(_) => IconButton(
+                              icon: controller.viewPassWord == true 
+                              ? Icon(CupertinoIcons.eye)
+                              : Icon(CupertinoIcons.eye_slash),
+                              onPressed: () {
+                                controller.viewPassWord = !controller.viewPassWord;
+                              },
+                            ),
                           ),
-                        ),
+                          Observer(
+                            builder:(_) => FlatButton(
+                                onPressed: () {},
+                                padding: EdgeInsets.zero,
+                                child: const TextWidget(
+                                  text: 'Esqueci minha senha',
+                                  fontSize: 16,
+                                ),
+                              ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        height: 16,
+                        height: 30,
                       ),
                       SizedBox(
                         height: 44,
@@ -129,19 +144,23 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                             onPressed: controller.loading == true
                                 ? null
                                 : () async {
-                                  if (await ConnectionVerify.connectionStatus()) {
-                                    var login = await controller.login();
-                                    if (login != controller.emailController.text) {
-                                      return AvisoFlushBar().showFlushBarAviso(
-                                          context, 'Erro ao Entrar', login);
+                                    if (await ConnectionVerify
+                                        .connectionStatus()) {
+                                      var login = await controller.login();
+                                      if (login !=
+                                          controller.emailController.text) {
+                                        return AvisoFlushBar()
+                                            .showFlushBarAviso(context,
+                                                'Erro ao Entrar', login);
+                                      } else {
+                                        Modular.to.pushReplacementNamed('/home',
+                                            arguments: login);
+                                      }
                                     } else {
-                                      Modular.to.pushReplacementNamed('/home',
-                                          arguments: login);
+                                      InternetFlushBar()
+                                          .showFlushBarInternet(context);
                                     }
-                                  } else {
-                                    InternetFlushBar().showFlushBarInternet(context);
-                                  }
-                                },
+                                  },
                             color: Colors.blue,
                             disabledColor: Colors.white,
                             child: controller.loading == true
@@ -158,153 +177,36 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                         height: 30,
                       ),
                       Align(
-                            child: GestureDetector(
-                              onTap: () {
-                                Modular.to.pushNamed('/login/criar_conta');
-                              },
-                              child: Container(
-                                width: size.width * 0.8,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextWidget(
-                                      text: 'Crie sua conta agora!',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      textColor: Cores.verde,
-                                      textDecoration: TextDecoration.underline,
-                                    ),
-                                  ],
+                        child: GestureDetector(
+                          onTap: () {
+                            Modular.to.pushNamed('/login/criar_conta');
+                          },
+                          child: Container(
+                            width: size.width * 0.8,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextWidget(
+                                  text: 'Crie sua conta',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  textColor: Colors.black,
+                                  textDecoration: TextDecoration.underline,
                                 ),
-                              ),
+                              ],
                             ),
                           ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
-              /* Center(
-                  child: Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Form(
-                      key: controller.formLoginKey,
-                      child: ListView(
-                        padding: const EdgeInsets.all(16),
-                        shrinkWrap: true,
-                        children: [
-                          Align(
-                            child: Container(
-                              width: size.width * 0.8,
-                              child: Observer(
-                                builder: (_) => TextFieldWidget(
-                                  textEditingController: controller.emailController,
-                                  hintText: 'E-mail',
-                                  labelText: 'E-mail',
-                                  textInputType: TextInputType.emailAddress,
-                                  validator: (email) {
-                                    if (!emailValidator(email)) {
-                                      return 'E-mail inválido';
-                                    }
-
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.025,
-                          ),
-                          Align(
-                            child: Container(
-                              width: size.width * 0.8,
-                              child: Observer(
-                                builder: (_) => TextFieldWidget(
-                                  textEditingController:
-                                      controller.passwordController,
-                                  hintText: 'Senha',
-                                  labelText: 'Senha',
-                                  obscureText: controller.viewPassWord,
-                                  validator: (password) {
-                                    String erroPassword =
-                                        controller.validatorPassword(password);
-                                    return erroPassword;
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Observer(
-                            builder: (_) => IconButton(
-                              icon: controller.viewPassWord == false
-                                  ? Icon(CupertinoIcons.eye)
-                                  : Icon(CupertinoIcons.eye_slash),
-                              onPressed: () {
-                                controller.viewPassWord = !controller.viewPassWord;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          Observer(
-                            builder: (_) => Container(
-                              child:  controller.loading == true
-                              ? CupertinoActivityIndicator()
-                              : ButtonWidget(
-                                function: () async {
-                                  if (await ConnectionVerify.connectionStatus()) {
-                                    var login = await controller.login();
-                                    if (login != controller.emailController.text) {
-                                      return AvisoFlushBar().showFlushBarAviso(
-                                          context, 'Erro ao Entrar', login);
-                                    } else {
-                                      Modular.to.pushReplacementNamed('/home',
-                                          arguments: login);
-                                    }
-                                  } else {
-                                    InternetFlushBar().showFlushBarInternet(context);
-                                  }
-                                },
-                                text: 'Entrar',
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          Align(
-                            child: GestureDetector(
-                              onTap: () {
-                                Modular.to.pushNamed('/login/criar_conta');
-                              },
-                              child: Container(
-                                width: size.width * 0.8,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextWidget(
-                                      text: 'Crie sua conta agora!',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      textColor: Cores.verde,
-                                      textDecoration: TextDecoration.underline,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ), */
-            ],
-          ),
+          ],
         ),
-        bottomNavigationBar: TotemCeWidget(),
+      ),
+      bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

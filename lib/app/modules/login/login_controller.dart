@@ -23,7 +23,7 @@ abstract class _LoginControllerBase with Store {
   TextEditingController passwordController = TextEditingController();
 
   @observable
-  bool viewPassWord = true;
+  bool viewPassWord = false;
 
   @observable
   bool loading = false;

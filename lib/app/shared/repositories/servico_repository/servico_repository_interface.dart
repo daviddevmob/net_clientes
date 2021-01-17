@@ -6,6 +6,19 @@ abstract class IServico {
   Future<ServicosSearchModel> getServicosCategoria(int categoria);
   Future<ServicosSearchModel> getServicosBairro(int bairro);
   Future<ServicosSearchModel> getServicosCategoriaBairro(
-      int categoria, int bairro);
+    int categoria,
+    int bairro,
+  );
+  Future<ServicosSearchModel> getServicosNome(String nome);
+  Future<ServicosSearchModel> getServicosNomeCategoria(
+    String nome,
+    int categoria,
+  );
+  Future<ServicosSearchModel> getServicosNomeBairro(String nome, int bairro);
+  Future<ServicosSearchModel> getServicosNomeCategoriaBairro(
+    String nome,
+    int categoria,
+    int bairro,
+  );
   Future<ServicoModel> getServico(int userId);
 }

@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
 
 part 'servico_profile_controller.g.dart';
@@ -11,30 +12,31 @@ class ServicoProfileController = _ServicoProfileControllerBase
 
 abstract class _ServicoProfileControllerBase with Store {
   final IServico iServico;
+  final ISend iSend;
 
-  _ServicoProfileControllerBase(this.iServico);
+  _ServicoProfileControllerBase(this.iServico, this.iSend);
 
   @observable
   ServicoModel servicoUser;
 
   @action
-  sendWhatsApp(String numero) {
-
+  sendWhatsApp(String numero) async {
+    await iSend.sendWhats(numero);
   }
 
   @action
-  sendInstagram(String user) {
-
+  sendInstagram(String user) async {
+    await iSend.sendInstagram(user);
   }
 
   @action
-  sendCall(String numero) {
-
+  sendCall(String numero) async {
+    await iSend.sendLigacao(numero);
   }
 
   @action
-  sendEmail(String email) {
-
+  sendEmail(String email) async {
+    await iSend.sendEmail(email);
   }
 
   @action

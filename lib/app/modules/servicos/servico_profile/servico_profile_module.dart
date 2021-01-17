@@ -1,4 +1,6 @@
 import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/view_image_galeria.dart';
@@ -12,8 +14,9 @@ import 'servico_profile_page.dart';
 class ServicoProfileModule extends ChildModule {
   @override
   List<Bind> get binds => [
+      Bind<ISend>((i) => SendRepository(i.get())),
       Bind<IServico>((i) => ServicosRepository(i.get())),
-      Bind((i) => ServicoProfileController(i.get())),
+      Bind((i) => ServicoProfileController(i.get(), i.get())),
       ];
 
   @override

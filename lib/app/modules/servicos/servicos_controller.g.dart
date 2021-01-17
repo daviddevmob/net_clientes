@@ -9,6 +9,21 @@ part of 'servicos_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ServicosController on _ServicosControllerBase, Store {
+  Computed<String> _$categoriaTextComputed;
+
+  @override
+  String get categoriaText =>
+      (_$categoriaTextComputed ??= Computed<String>(() => super.categoriaText,
+              name: '_ServicosControllerBase.categoriaText'))
+          .value;
+  Computed<String> _$bairroTextComputed;
+
+  @override
+  String get bairroText =>
+      (_$bairroTextComputed ??= Computed<String>(() => super.bairroText,
+              name: '_ServicosControllerBase.bairroText'))
+          .value;
+
   final _$servicosSearchModelAtom =
       Atom(name: '_ServicosControllerBase.servicosSearchModel');
 
@@ -22,6 +37,22 @@ mixin _$ServicosController on _ServicosControllerBase, Store {
   set servicosSearchModel(ServicosSearchModel value) {
     _$servicosSearchModelAtom.reportWrite(value, super.servicosSearchModel, () {
       super.servicosSearchModel = value;
+    });
+  }
+
+  final _$pesquisaControllerAtom =
+      Atom(name: '_ServicosControllerBase.pesquisaController');
+
+  @override
+  TextEditingController get pesquisaController {
+    _$pesquisaControllerAtom.reportRead();
+    return super.pesquisaController;
+  }
+
+  @override
+  set pesquisaController(TextEditingController value) {
+    _$pesquisaControllerAtom.reportWrite(value, super.pesquisaController, () {
+      super.pesquisaController = value;
     });
   }
 
@@ -53,6 +84,14 @@ mixin _$ServicosController on _ServicosControllerBase, Store {
     _$bairroAtom.reportWrite(value, super.bairro, () {
       super.bairro = value;
     });
+  }
+
+  final _$getServicosParamsAsyncAction =
+      AsyncAction('_ServicosControllerBase.getServicosParams');
+
+  @override
+  Future getServicosParams() {
+    return _$getServicosParamsAsyncAction.run(() => super.getServicosParams());
   }
 
   final _$getServicesAsyncAction =
@@ -119,8 +158,11 @@ mixin _$ServicosController on _ServicosControllerBase, Store {
   String toString() {
     return '''
 servicosSearchModel: ${servicosSearchModel},
+pesquisaController: ${pesquisaController},
 categoria: ${categoria},
-bairro: ${bairro}
+bairro: ${bairro},
+categoriaText: ${categoriaText},
+bairroText: ${bairroText}
     ''';
   }
 }

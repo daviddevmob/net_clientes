@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class MeusServicosWidget extends StatelessWidget {
