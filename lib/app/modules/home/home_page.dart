@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
+import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           viewLeading: false,
           actions: [
             IconButton(
-              icon: Icon(CupertinoIcons.gear_solid),
+              icon: Icon(CupertinoIcons.person_fill),
               onPressed: () {
                 Modular.to.pushNamed(
                   '/home/configuracoes',
@@ -83,89 +84,249 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           );
         }
 
-
         return SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: EdgeInsets.only(
+              top: 20,
+              left: 20,
+            ),
             child: Column(
               children: [
+
+                
                 SizedBox(
-                  height: size.height * 0.01,
+                  height: size.height * 0.02,
                 ),
+
+                //RESTAURANTES
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/servicos.png',
-                      title: 'Prestadores de Serviços',
-                      descricao:
-                          'Encontre pessoas e empresas eusebienses que prestam serviço em reforma, transporte, saúde, beleza, informática, turismo, eventos, festas, comidas por encomenda e etc.',
-                      function: () {
-                        Modular.to.pushNamed('/servicos');
-                      },
+                    TextWidget(
+                      text: 'Restaurantes',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/ongs.png',
-                      title: 'Ongs e Projetos Sociais',
-                      descricao:
-                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.',
-                      function: () {
-                        Modular.to.pushNamed('/ongs');
-                      },
+                    SizedBox(
+                      width: size.width * 0.025,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/restaurantes-cinza.png',
-                      title: 'Restaurantes',
-                      descricao:
-                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.',
-                      function: () {
-                        /* Modular.to.pushNamed('/restaurantes'); */
-                        return avisoConstrucaoDialog(
-                          context, 
-                          'Restaurantes', 
-                          controller,
-                          );
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OpcoesHomeWidget(
-                      imagePath: 'assets/images/home/lojas-cinza.png',
-                      title: 'Lojas',
-                      descricao:
-                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.',
-                      function: () {
-                        /*  Modular.to.pushNamed('/lojas'); */
-                        avisoConstrucaoDialog(
+                    GestureDetector(
+                      onTap: () {
+                        return infoGeralDialog(
                           context,
-                          'Lojas',
-                          controller,
+                          'Restaurantes',
+                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.'
                         );
                       },
+                      child: Icon(
+                        CupertinoIcons.info_circle,
+                        size: 16,
+                      ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height * 0.15,
+                  padding: EdgeInsets.zero,
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CardsWidget(
+                        title: 'Pedir Comida',
+                        icon: CupertinoIcons.home,
+                        function: () {},
+                      ),
+                      CardsWidget(
+                        title: 'Meus Pedidos',
+                        icon: CupertinoIcons.bag,
+                        function: () {},
+                      ),
+                      CardsWidget(
+                        title: 'Favoritos',
+                        icon: CupertinoIcons.star,
+                        function: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+
+                //LOJAS
+                Row(
+                  children: [
+                    TextWidget(
+                      text: 'Lojas',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    SizedBox(
+                      width: size.width * 0.025,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        return infoGeralDialog(
+                          context,
+                          'Lojas',
+                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.'
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.info_circle,
+                        size: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height * 0.15,
+                  child: ListView(
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          CardsWidget(
+                            title: 'Comprar',
+                            icon: CupertinoIcons.cart,
+                            function: () {},
+                          ),
+                          CardsWidget(
+                            title: 'Meus Pedidos',
+                            icon: CupertinoIcons.cube_box,
+                            function: () {},
+                          ),
+                          CardsWidget(
+                            title: 'Favoritas',
+                            icon: CupertinoIcons.star,
+                            function: () {},
+                          ),
+                        ],
+                      ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+
+                //PRESTADORES DE SERVIÇO
+                Row(
+                  children: [
+                    TextWidget(
+                      text: 'Prestadores de Serviço',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    SizedBox(
+                      width: size.width * 0.025,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        return infoGeralDialog(
+                          context,
+                          'Projetos Sociais',
+                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.'
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.info_circle,
+                        size: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height * 0.15,
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CardsWidget(
+                        title: 'Procurar',
+                        icon: CupertinoIcons.search,
+                        function: () {
+                           Modular.to.pushNamed('/servicos');
+                        },
+                      ),
+                      CardsWidget(
+                        title: 'Favoritos',
+                        icon: CupertinoIcons.star,
+                        function: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+
+                //PROJETOS SOCIAIS
+                Row(
+                  children: [
+                    TextWidget(
+                      text: 'Projetos Sociais',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    SizedBox(
+                      width: size.width * 0.025,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        return infoGeralDialog(
+                          context,
+                          'Projetos Sociais',
+                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.'
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.info_circle,
+                        size: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
+                Container(
+                  width: size.width,
+                  height: size.height * 0.15,
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CardsWidget(
+                        title: 'Conhecer',
+                        icon: CupertinoIcons.heart,
+                        function: () {
+                          Modular.to.pushNamed('/ongs');
+                        },
+                      ),
+                      CardsWidget(
+                        title: 'Favoritos',
+                        icon: CupertinoIcons.star,
+                        function: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.05,
                 ),
               ],
             ),

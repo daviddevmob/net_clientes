@@ -21,58 +21,62 @@ class OpcoesHomeWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: function,
-      child: Container(
-        width: size.width * 0.9,
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[300]),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              child: Container(
-                height: size.height * 0.15,
-                width: size.width * 0.25,
-                child: Image.asset(
-                  imagePath,
-                  ),
+      child: Card(
+        elevation: 3,
+        child: Container(
+          width: size.width * 0.9,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                child: Container(
+                  height: size.height * 0.15,
+                  width: size.width * 0.25,
+                  child: Image.asset(
+                    imagePath,
+                    filterQuality: FilterQuality.high,
+                    ),
+                ),
               ),
-            ),
-            SizedBox(
-              width: size.width * 0.02,
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextWidget(
-                          text: title,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.007,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextWidget(
-                          text: descricao,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              SizedBox(
+                width: size.width * 0.02,
               ),
-            ),
-          ],
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextWidget(
+                            text: title,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.007,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextWidget(
+                            text: descricao,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
