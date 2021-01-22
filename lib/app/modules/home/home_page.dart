@@ -5,7 +5,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
-import 'package:net_cliente/app/modules/home/widgets/opcoes_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
@@ -92,8 +91,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ),
             child: Column(
               children: [
-
-                
                 SizedBox(
                   height: size.height * 0.02,
                 ),
@@ -111,11 +108,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        return infoGeralDialog(
-                          context,
-                          'Restaurantes',
-                          'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.'
-                        );
+                        return infoGeralDialog(context, 'Restaurantes',
+                            'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.');
                       },
                       child: Icon(
                         CupertinoIcons.info_circle,
@@ -171,11 +165,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        return infoGeralDialog(
-                          context,
-                          'Lojas',
-                          'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.'
-                        );
+                        return infoGeralDialog(context, 'Lojas',
+                            'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.');
                       },
                       child: Icon(
                         CupertinoIcons.info_circle,
@@ -191,27 +182,32 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   width: size.width,
                   height: size.height * 0.15,
                   child: ListView(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          CardsWidget(
-                            title: 'Comprar',
-                            icon: CupertinoIcons.cart,
-                            function: () {},
-                          ),
-                          CardsWidget(
-                            title: 'Meus Pedidos',
-                            icon: CupertinoIcons.cube_box,
-                            function: () {},
-                          ),
-                          CardsWidget(
-                            title: 'Favoritas',
-                            icon: CupertinoIcons.star,
-                            function: () {},
-                          ),
-                        ],
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CardsWidget(
+                        title: 'Comprar',
+                        icon: CupertinoIcons.cart,
+                        function: () {},
                       ),
+                      CardsWidget(
+                        title: 'Meus Pedidos',
+                        icon: CupertinoIcons.cube_box,
+                        function: () {
+                          Modular.to.pushNamed(
+                            '/home/pedidos_loja/', 
+                            arguments: controller.cliente.value.clienteId,
+                            );
+                        },
+                      ),
+                      CardsWidget(
+                        title: 'Favoritas',
+                        icon: CupertinoIcons.star,
+                        function: () {},
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -230,11 +226,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        return infoGeralDialog(
-                          context,
-                          'Projetos Sociais',
-                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.'
-                        );
+                        return infoGeralDialog(context, 'Projetos Sociais',
+                            'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.');
                       },
                       child: Icon(
                         CupertinoIcons.info_circle,
@@ -258,7 +251,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         title: 'Procurar',
                         icon: CupertinoIcons.search,
                         function: () {
-                           Modular.to.pushNamed('/servicos');
+                          Modular.to.pushNamed('/servicos');
                         },
                       ),
                       CardsWidget(
@@ -286,11 +279,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        return infoGeralDialog(
-                          context,
-                          'Projetos Sociais',
-                          'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.'
-                        );
+                        return infoGeralDialog(context, 'Projetos Sociais',
+                            'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.');
                       },
                       child: Icon(
                         CupertinoIcons.info_circle,

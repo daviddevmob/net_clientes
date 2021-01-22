@@ -6,15 +6,24 @@ class CardsWidget extends StatelessWidget {
   final IconData icon;
   final String title;
   final Function function;
+  final Color corText;
 
-  const CardsWidget({Key key, this.icon, this.title, this.function}) : super(key: key);
+  const CardsWidget({
+    Key key, 
+    this.icon, 
+    this.title, 
+    this.function,
+    this.corText = Colors.black,
+    })
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: function,
       child: Card(
-        elevation: 5,
+        margin: EdgeInsets.all(4),
+        elevation: 2,
         child: SizedBox(
           width: size.width * 0.3,
           child: Container(
@@ -23,7 +32,7 @@ class CardsWidget extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  ),
+                ),
                 SizedBox(
                   height: size.height * 0.02,
                 ),
@@ -31,6 +40,7 @@ class CardsWidget extends StatelessWidget {
                   text: title,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
+                  textColor: corText,
                 ),
               ],
             ),

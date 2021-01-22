@@ -24,7 +24,10 @@ class _RestaurantesPageState
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container()
+      body: Container(
+        height: size.height,
+        width: size.width,
+      )
     );
   }
 }

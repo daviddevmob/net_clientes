@@ -1,4 +1,5 @@
 import 'package:net_cliente/app/modules/home/configuracoes/configuracoes_module.dart';
+import 'package:net_cliente/app/modules/home/pedidos_loja/pedidos_loja_module.dart';
 import 'package:net_cliente/app/modules/home/widgets/view_photo_profile.dart';
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository.dart';
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository_interface.dart';
@@ -30,6 +31,7 @@ class HomeModule extends ChildModule {
         ModularRouter(Modular.initialRoute, child: (_, args) => HomePage(email: args.data,)),
         ModularRouter('/configuracoes', module: ConfiguracoesModule()),
         ModularRouter('/view_photo_profile', child: (_,args) => ViewPhotoProfile(urlPhoto: args.data,)),
+        ModularRouter('/pedidos_loja', module: PedidosLojaModule()),
         /* ModularRouter('/restaurantes', module: Ong) */
       ];
 
