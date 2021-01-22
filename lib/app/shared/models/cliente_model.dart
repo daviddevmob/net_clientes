@@ -19,6 +19,7 @@ class ClienteModel {
         this.fotoPerfil,
         this.firebaseId,
         this.whatsapp,
+        this.enderecoId,
     });
 
     int bairro;
@@ -30,6 +31,7 @@ class ClienteModel {
     String fotoPerfil;
     String firebaseId;
     String whatsapp;
+    int enderecoId;
 
     factory ClienteModel.fromJson(Map<String, dynamic> json) => ClienteModel(
         bairro: json["bairro"] == null ? null : json["bairro"],
@@ -41,6 +43,7 @@ class ClienteModel {
         fotoPerfil: json["foto_perfil"] == null ? null : json["foto_perfil"],
         firebaseId: json["firebase_id"] == null ? null : json["firebase_id"],
         whatsapp: json["whatsapp"] == null ? null : json["whatsapp"],
+        enderecoId: json["endereco_id"] == null ? null : json["endereco_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -53,5 +56,6 @@ class ClienteModel {
         "foto_perfil": fotoPerfil == null ? null : fotoPerfil,
         "firebase_id": firebaseId == null ? null : firebaseId,
         "whatsapp": whatsapp == null ? null : whatsapp,
+        "endereco_id": enderecoId == null ? null : enderecoId,
     };
 }

@@ -151,4 +151,50 @@ class SwitchsUtils {
 
     return statusPedido.toString();
   }
+
+  String getCategoriaLoja(int metodo) {
+    String categoriaLoja;
+    switch (metodo) {
+      case 1:
+        categoriaLoja = 'Alimentos e Bebidas';
+        break;
+      case 2:
+        categoriaLoja = 'Automotivo';
+        break;
+      case 3:
+        categoriaLoja = 'Bebês';
+        break;
+      case 4:
+        categoriaLoja = 'Beleza e Cuidados Pessoais';
+        break;
+      case 5:
+        categoriaLoja = 'Casa, Jardim e Limpeza';
+        break;
+      case 6:
+        categoriaLoja = 'Celulares e Comunicação';
+        break;
+      case 7:
+        categoriaLoja = 'Computadores e Informática';
+        break;
+      case 8:
+        categoriaLoja = 'Eletrônicos, TV e Áudio';
+        break;
+      case 9:
+        categoriaLoja = 'Ferramentas e Construção';
+        break;
+      case 10:
+        categoriaLoja = 'Papelaria e Escritório';
+        break;
+      case 11:
+        categoriaLoja = 'Pet Shop';
+        break;
+      case 12:
+        categoriaLoja = 'Roupas, Calçados e Acessórios';
+        break;
+      default:
+        categoriaLoja = 'Não identificado';
+        break;
+    }
+    return categoriaLoja;
+  }
 }

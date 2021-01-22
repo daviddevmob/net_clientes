@@ -4,39 +4,20 @@ import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart'
 import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
+import 'package:latlong/latlong.dart';
 
 class GeolocalizacaoRepository implements IGeo {
   final HasuraConnect api;
 
   GeolocalizacaoRepository(this.api);
 
+  final Distance distance = Distance();
+
   @override
   Future getLocalizacao(String url) async {
     await canLaunch(url);
     print(url);
     await launch(url);
-  }
-
-  @override
-  Future<String> attLocalizacao(int ongId) async {
-    Position position = await Geolocator.getCurrentPosition(
-      forceAndroidLocationManager: true,
-      desiredAccuracy: LocationAccuracy.best,
-    );
-    double lat = position.latitude;
-    double long = position.longitude;
-    String url = 'https://maps.google.com/?q=$lat,$long';
-    print(url);
-    var query = '''
-    mutation MyMutation {
-      update_ong_geral(where: {ong_id: {_eq: $ongId}}, _set: {ong_mapa_link: "$url"}) {
-        affected_rows
-      }
-    }
-    ''';
-
-    await api.mutation(query);
-    return 'ok';
   }
 
   @override
@@ -71,43 +52,44 @@ class GeolocalizacaoRepository implements IGeo {
 
   @override
   Future<String> salvarLocalizacao(
-      int localizacaoId, 
-      String endereco, 
-      String mapaLink,
-      String complemento,
-      int bairro,
-      ) async {
+    int clienteId,
+    String endereco,
+    String latlng,
+    String complemento,
+    int bairro,
+  ) async {
     try {
       var query = '''
     mutation MyMutation {
-    update_localizacao(
-      where: {localizacao_id: {_eq: $localizacaoId}}, 
-      _set: {
-        endereco: "$endereco", 
-        mapa_link: "$mapaLink",
-        complemento: "$complemento",
-        bairro: $bairro
-        }) {
+      insert_endereco_cliente(
+        objects: {
+          bairro: $bairro, 
+          cliente_id: $clienteId, 
+          complemento: "$complemento", 
+          endereco: "$endereco", 
+          latlgn: "$latlng"
+          }) {
         affected_rows
       }
     }
+
     ''';
 
       await api.mutation(query);
       return 'ok';
     } catch (e) {
-      return 'erro';
+      return '$e';
     }
   }
 
   @override
-  Future<String> deleteLocalizacaoMaps(int localizacaoId) async {
+  Future<String> deleteLocalizacaoMaps(int enderecoId) async {
     try {
       var query = '''
       mutation MyMutation {
-        delete_localizacao(
+        delete_endereco_cliente(
           where: {
-            localizacao_id: {_eq: $localizacaoId}}) {
+            endereco_id: {_eq: $enderecoId}}) {
           returning {
             complemento
           }
@@ -119,5 +101,33 @@ class GeolocalizacaoRepository implements IGeo {
     } catch (e) {
       return 'erro';
     }
+  }
+
+  @override
+  Future<String> updateEnderecoPrincipal(int clienteId, int enderecoId) async {
+    var query = '''
+    mutation MyMutation {
+      update_cliente(
+        where: {
+          cliente_id: {_eq: $clienteId}}, 
+          _set: {endereco_id: $enderecoId}) {
+        affected_rows
+      }
+    }
+    ''';
+
+    await api.mutation(query);
+    return 'ok';
+  }
+
+  @override
+  getDistacia(double userLat, double userLong, double lat, double lng) async {
+    final double distancia = distance.as(
+      LengthUnit.Kilometer,
+      LatLng(userLat, userLong),
+      LatLng(lat, lng),
+    );
+
+    return distancia;
   }
 }

@@ -39,6 +39,7 @@ class LojaPedido {
         this.totalPedido,
         this.troco,
         this.lojaId,
+        this.numeroPedido,
         this.lojaPedidoId,
         this.lojaPedidoItems,
         this.lojaGeral,
@@ -57,6 +58,7 @@ class LojaPedido {
     double totalPedido;
     String troco;
     int lojaId;
+    int numeroPedido;
     int lojaPedidoId;
     List<LojaPedidoItem> lojaPedidoItems;
     LojaGeral lojaGeral;
@@ -75,6 +77,7 @@ class LojaPedido {
         totalPedido: json["total_pedido"] == null ? null : json["total_pedido"].toDouble(),
         troco: json["troco"] == null ? null : json["troco"],
         lojaId: json["loja_id"] == null ? null : json["loja_id"],
+        numeroPedido: json["numero_pedido"] == null ? null : json["numero_pedido"],
         lojaPedidoId: json["loja_pedido_id"] == null ? null : json["loja_pedido_id"],
         lojaPedidoItems: json["loja_pedido_items"] == null ? null : List<LojaPedidoItem>.from(json["loja_pedido_items"].map((x) => LojaPedidoItem.fromJson(x))),
         lojaGeral: json["loja_geral"] == null ? null : LojaGeral.fromJson(json["loja_geral"]),
@@ -94,6 +97,7 @@ class LojaPedido {
         "total_pedido": totalPedido == null ? null : totalPedido,
         "troco": troco == null ? null : troco,
         "loja_id": lojaId == null ? null : lojaId,
+        "numero_pedido": numeroPedido == null ? null : numeroPedido,
         "loja_pedido_id": lojaPedidoId == null ? null : lojaPedidoId,
         "loja_pedido_items": lojaPedidoItems == null ? null : List<dynamic>.from(lojaPedidoItems.map((x) => x.toJson())),
         "loja_geral": lojaGeral == null ? null : lojaGeral.toJson(),

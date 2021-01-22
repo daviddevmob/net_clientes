@@ -25,24 +25,23 @@ class ButtonConfigsWidget extends StatelessWidget {
       onPressed: function,
       child: Container(
         height: size.height * 0.07,
-        width: size.width * 0.7,
+        width: size.width * 0.9,
         child: Card(
-          elevation: 1,
-          color: colorTile,
+          elevation: 2,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(width: size.width * 0.045),
               Icon(
                 icon,
-                color: Colors.white,
+                color: Colors.black,
               ),
               SizedBox(width: size.width * 0.055),
               TextWidget(
                 text: text,
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
-                textColor: Colors.white,
+                textColor: Colors.black,
               ),
             ],
           ),

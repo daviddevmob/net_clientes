@@ -3,8 +3,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/modules/home/home_controller.dart';
+import 'package:net_cliente/app/shared/models/endereco_cliente_model.dart';
 import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart';
-import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
 import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,8 +16,10 @@ class MapsController = _MapsControllerBase with _$MapsController;
 
 abstract class _MapsControllerBase with Store {
   final IGeo iGeo;
-
   _MapsControllerBase(this.iGeo);
+
+  @observable
+  HomeController homeController = Modular.get();
 
   @observable
   GoogleMapsLocalizacaoModel localizacaoModel;
@@ -28,7 +31,7 @@ abstract class _MapsControllerBase with Store {
   bool verBotaoSalvar = false;
 
   @observable
-  Localizacao localizacao;
+  EnderecoClienteModel localizacao;
 
   @observable
   MapType mapType = MapType.normal;
@@ -47,6 +50,9 @@ abstract class _MapsControllerBase with Store {
 
   @observable
   TextEditingController complementoController = TextEditingController();
+
+  @action
+  setBairro(int newValue) => bairro = newValue;
 
   @action
   criarMapa(GoogleMapController controller) {
@@ -116,14 +122,14 @@ abstract class _MapsControllerBase with Store {
   }
 
   @action
-  salvarLocalizacao(int localizacaoId) async {
+  salvarLocalizacao(int clienteId) async {
     var lat = '${localizacaoModel.candidates[0].geometry.location.lat}';
     var lng = '${localizacaoModel.candidates[0].geometry.location.lng}';
     var save = await iGeo.salvarLocalizacao(
-      localizacaoId,
+      clienteId,
       localizacaoModel.candidates[0].formattedAddress,
       '$lat,$lng',
-      complementoController.text,
+      complementoController.text == null ? '' : complementoController.text,
       bairro,
     );
     print(save);

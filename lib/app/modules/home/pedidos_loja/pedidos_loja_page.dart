@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -73,6 +72,7 @@ class _PedidosLojaPageState
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextWidget(
                         text: 'Meus Pedidos',
@@ -81,9 +81,14 @@ class _PedidosLojaPageState
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.02,
+                    height: size.height * 0.04,
                   ),
-                  ListView.builder(
+                  pedidos.lojaPedidos.isEmpty == true 
+                  ? TextWidget(
+                    text: 'Sem pedidos até agora',
+                    textColor: Colors.grey[400],
+                  )
+                  : ListView.builder(
                       itemCount: pedidos.lojaPedidos.length,
                       shrinkWrap: true,
                       physics: ScrollPhysics(),
@@ -111,6 +116,18 @@ class _PedidosLojaPageState
                                           text: pedido.lojaGeral.lojaNome,
                                           fontWeight: FontWeight.w500,
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text: 'Número do Pedido: ',
+                                        fontSize: 16,
+                                      ),
+                                      TextWidget(
+                                        text: pedido.numeroPedido.toString(),
+                                        fontSize: 16,
                                       ),
                                     ],
                                   ),

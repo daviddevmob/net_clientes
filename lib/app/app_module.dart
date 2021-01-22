@@ -1,5 +1,10 @@
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/modules/login/login_module.dart';
+import 'package:net_cliente/app/modules/lojas/loja_profile/loja_profile_module.dart';
+import 'package:net_cliente/app/modules/lojas/lojas_categoria/lojas_categoria_module.dart';
+import 'package:net_cliente/app/modules/lojas/lojas_module.dart';
+import 'package:net_cliente/app/modules/maps/maps_module.dart';
+import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
 import 'package:net_cliente/app/modules/ongs/ongs_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/restaurantes_module.dart';
 import 'package:net_cliente/app/modules/servicos/servicos_module.dart';
@@ -32,7 +37,12 @@ class AppModule extends MainModule {
     ModularRouter('/home', module: HomeModule()),
     ModularRouter('/servicos', module: ServicosModule()),
     ModularRouter('/restaurantes', module: RestaurantesModule()),
-    ModularRouter('/ongs', module: OngsModule())
+    ModularRouter('/ongs', module: OngsModule()),
+    ModularRouter('/maps', module: MapsModule()),
+    ModularRouter('/maps_view', module: MapsViewModule()),
+    ModularRouter('/lojas', module: LojasModule()),
+    ModularRouter('/lojas_categoria', module: LojasCategoriaModule()),
+    ModularRouter('/loja_profile', module: LojaProfileModule()),
       ];
 
   @override

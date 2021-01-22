@@ -9,6 +9,21 @@ part of 'maps_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MapsController on _MapsControllerBase, Store {
+  final _$homeControllerAtom = Atom(name: '_MapsControllerBase.homeController');
+
+  @override
+  HomeController get homeController {
+    _$homeControllerAtom.reportRead();
+    return super.homeController;
+  }
+
+  @override
+  set homeController(HomeController value) {
+    _$homeControllerAtom.reportWrite(value, super.homeController, () {
+      super.homeController = value;
+    });
+  }
+
   final _$localizacaoModelAtom =
       Atom(name: '_MapsControllerBase.localizacaoModel');
 
@@ -59,13 +74,13 @@ mixin _$MapsController on _MapsControllerBase, Store {
   final _$localizacaoAtom = Atom(name: '_MapsControllerBase.localizacao');
 
   @override
-  Localizacao get localizacao {
+  EnderecoClienteModel get localizacao {
     _$localizacaoAtom.reportRead();
     return super.localizacao;
   }
 
   @override
-  set localizacao(Localizacao value) {
+  set localizacao(EnderecoClienteModel value) {
     _$localizacaoAtom.reportWrite(value, super.localizacao, () {
       super.localizacao = value;
     });
@@ -213,13 +228,24 @@ mixin _$MapsController on _MapsControllerBase, Store {
       AsyncAction('_MapsControllerBase.salvarLocalizacao');
 
   @override
-  Future salvarLocalizacao(int localizacaoId) {
+  Future salvarLocalizacao(int clienteId) {
     return _$salvarLocalizacaoAsyncAction
-        .run(() => super.salvarLocalizacao(localizacaoId));
+        .run(() => super.salvarLocalizacao(clienteId));
   }
 
   final _$_MapsControllerBaseActionController =
       ActionController(name: '_MapsControllerBase');
+
+  @override
+  dynamic setBairro(int newValue) {
+    final _$actionInfo = _$_MapsControllerBaseActionController.startAction(
+        name: '_MapsControllerBase.setBairro');
+    try {
+      return super.setBairro(newValue);
+    } finally {
+      _$_MapsControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic criarMapa(GoogleMapController controller) {
@@ -246,6 +272,7 @@ mixin _$MapsController on _MapsControllerBase, Store {
   @override
   String toString() {
     return '''
+homeController: ${homeController},
 localizacaoModel: ${localizacaoModel},
 enderecoController: ${enderecoController},
 verBotaoSalvar: ${verBotaoSalvar},

@@ -24,6 +24,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$enderecoClienteAtom =
+      Atom(name: '_HomeControllerBase.enderecoCliente');
+
+  @override
+  ObservableStream<EnderecoClienteHome> get enderecoCliente {
+    _$enderecoClienteAtom.reportRead();
+    return super.enderecoCliente;
+  }
+
+  @override
+  set enderecoCliente(ObservableStream<EnderecoClienteHome> value) {
+    _$enderecoClienteAtom.reportWrite(value, super.enderecoCliente, () {
+      super.enderecoCliente = value;
+    });
+  }
+
   final _$sendInstagramAsyncAction =
       AsyncAction('_HomeControllerBase.sendInstagram');
 
@@ -39,10 +55,25 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return _$getClienteAsyncAction.run(() => super.getCliente(email));
   }
 
+  final _$_HomeControllerBaseActionController =
+      ActionController(name: '_HomeControllerBase');
+
+  @override
+  dynamic getEnderecoCliente() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.getEnderecoCliente');
+    try {
+      return super.getEnderecoCliente();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-cliente: ${cliente}
+cliente: ${cliente},
+enderecoCliente: ${enderecoCliente}
     ''';
   }
 }

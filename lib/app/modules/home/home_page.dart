@@ -5,7 +5,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
+import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
+import 'package:net_cliente/app/shared/models/loja/lojas_search.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'home_controller.dart';
@@ -83,16 +87,142 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           );
         }
 
+        controller.getEnderecoCliente();
+
         return SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(
               top: 20,
-              left: 20,
+              left: 10,
             ),
             child: Column(
               children: [
                 SizedBox(
                   height: size.height * 0.02,
+                ),
+
+                Observer(builder: (_) {
+                  if (controller.enderecoCliente.data == null) {
+                    return FlatButton(
+                      color: Cores.azul,
+                      onPressed: () {
+                        Modular.to.pushNamed(
+                          '/home/configuracoes/enderecos/',
+                          arguments: controller.cliente.value,
+                        );
+                      },
+                      child: TextWidget(
+                        text: 'Selecione um endereço',
+                        textColor: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    );
+                  }
+
+                  // ignore: unrelated_type_equality_checks
+                  if (controller.enderecoCliente.isEmpty == true) {
+                    return FlatButton(
+                      color: Cores.azul,
+                      onPressed: () {
+                        Modular.to.pushNamed(
+                          '/home/configuracoes/enderecos/',
+                          arguments: controller.cliente.value,
+                        );
+                      },
+                      child: TextWidget(
+                        text: 'Selecione um endereço',
+                        textColor: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    );
+                  }
+                  if (controller.enderecoCliente.hasError == true) {
+                    return FlatButton(
+                      color: Cores.azul,
+                      onPressed: () {
+                        Modular.to.pushNamed(
+                          '/home/configuracoes/enderecos/',
+                          arguments: controller.cliente.value,
+                        );
+                      },
+                      child: TextWidget(
+                        text: 'Selecione um endereço',
+                        textColor: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    );
+                  }
+                  EnderecoClienteHome eClienteHome =
+                      controller.enderecoCliente.value;
+                  String bairro = SwitchsUtils().getBairro(eClienteHome.bairro);
+                  return GestureDetector(
+                    onTap: () {
+                      Modular.to.pushNamed(
+                        '/home/configuracoes/enderecos/',
+                        arguments: controller.cliente.value,
+                      );
+                    },
+                    child: Card(
+                      elevation: 3,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: 10,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                TextWidget(
+                                  text: 'Endereço selecionado',
+                                  fontSize: 16,
+                                  textColor: Cores.verdeClaro,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: size.height * 0.02,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextWidget(
+                                    text: eClienteHome.endereco,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextWidget(
+                                    text: bairro,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+
+                SizedBox(
+                  height: size.height * 0.04,
                 ),
 
                 //RESTAURANTES
@@ -189,16 +319,25 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Comprar',
                         icon: CupertinoIcons.cart,
-                        function: () {},
+                        function: () {
+                          LojasSearch lojasSearch  = new LojasSearch(
+                            controller.cliente.value,
+                            controller.enderecoCliente.value,
+                          );
+                          Modular.to.pushNamed(
+                            '/lojas',
+                            arguments: lojasSearch,
+                          );
+                        },
                       ),
                       CardsWidget(
                         title: 'Meus Pedidos',
                         icon: CupertinoIcons.cube_box,
                         function: () {
                           Modular.to.pushNamed(
-                            '/home/pedidos_loja/', 
+                            '/home/pedidos_loja/',
                             arguments: controller.cliente.value.clienteId,
-                            );
+                          );
                         },
                       ),
                       CardsWidget(

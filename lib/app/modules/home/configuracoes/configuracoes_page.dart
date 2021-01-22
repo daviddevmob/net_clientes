@@ -152,6 +152,19 @@ class _ConfiguracoesPageState
                             ButtonConfigsWidget(
                               function: () {
                                 Modular.to.pushNamed(
+                                  '/home/configuracoes/enderecos',
+                                  arguments: cliente,
+                                );
+                              },
+                              text: 'Meus Endereços',
+                              icon: CupertinoIcons.map,
+                            ),
+                            SizedBox(
+                              height: size.height * 0.02,
+                            ),
+                            ButtonConfigsWidget(
+                              function: () {
+                                Modular.to.pushNamed(
                                   '/home/configuracoes/edit_cadastro',
                                   arguments: cliente,
                                 );

@@ -25,6 +25,7 @@ class PedidosLojaRepository implements IPedidosLoja {
             taxa_entrega
             total_pedido
             troco
+            numero_pedido
             loja_id
             loja_pedido_id
             loja_pedido_items {

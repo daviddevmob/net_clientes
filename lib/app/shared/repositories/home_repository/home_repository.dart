@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
+import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
+import 'package:net_cliente/app/shared/models/endereco_cliente_model.dart';
 import 'package:net_cliente/app/shared/repositories/home_repository/home_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
@@ -26,6 +28,7 @@ class HomeRepository implements IHome {
         foto_perfil
         firebase_id
         whatsapp
+        endereco_id
       }
     }
     ''';
@@ -64,8 +67,10 @@ class HomeRepository implements IHome {
 
   @override
   Future<String> updateFotoPerfil(File imageProfile, int clienteId) async {
-    Reference reference =
-        FirebaseStorage.instance.ref().child('clientes/$clienteId/').child('image-perfil');
+    Reference reference = FirebaseStorage.instance
+        .ref()
+        .child('clientes/$clienteId/')
+        .child('image-perfil');
 
     TaskSnapshot storageTaskSnapshot = await reference.putFile(imageProfile);
 
@@ -84,5 +89,67 @@ class HomeRepository implements IHome {
 
     await api.mutation(query);
     return 'salvo';
+  }
+
+  @override
+  Stream<List<EnderecoClienteModel>> getEnderecosCliente(int clienteId) {
+    var query = '''
+    subscription MySubscription {
+      endereco_cliente(where: {cliente_id: {_eq: $clienteId}}) {
+        cliente_id
+        complemento
+        endereco
+        endereco_id
+        latlgn
+        bairro
+      }
+    }
+    ''';
+
+    return api.subscription(query).map((event) {
+      return (event['data']['endereco_cliente'] as List).map((e) {
+        return EnderecoClienteModel.fromJson(e);
+      }).toList();
+    });
+  }
+
+  @override
+  Future<String> addEndereco(int clienteId, int bairro, String endereco,
+      String latlng, String complemento) {
+    var query = '''
+    mutation MyMutation {
+      insert_endereco_cliente(
+        objects: {
+          bairro: $bairro, 
+          cliente_id: $clienteId, 
+          complemento: "$complemento", 
+          endereco: "$endereco", 
+          latlgn: "$latlng"}) {
+        affected_rows
+      }
+    }
+    ''';
+  }
+
+  @override
+  Stream<EnderecoClienteHome> getEnderecoClienteHome(
+      int clienteId, int enderecoId) {
+    var query = '''
+    subscription MySubscription {
+      endereco_cliente(
+        where: {cliente_id: {_eq: $clienteId}, 
+        endereco_id: {_eq: $enderecoId}}) {
+        bairro
+        cliente_id
+        complemento
+        endereco
+        endereco_id
+        latlgn
+      }
+    }
+   ''';
+    return api.subscription(query).map((value) {
+      return EnderecoClienteHome.fromJson(value['data']['endereco_cliente'][0]);
+    });
   }
 }
