@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:net_cliente/app/modules/lojas/widgets_lojas/buttons_list_categorias.dart';
 import 'package:net_cliente/app/modules/lojas/widgets_lojas/categorias_lojas_widget.dart';
 import 'package:net_cliente/app/shared/models/loja/list_lojas.dart';
+import 'package:net_cliente/app/shared/models/loja/loja_profile.dart';
 import 'package:net_cliente/app/shared/models/loja/lojas_search.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
@@ -178,8 +178,8 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                   ],
                 ),
                 SizedBox(
-                      height: size.height * 0.02,
-                 ),
+                  height: size.height * 0.02,
+                ),
                 ListView.separated(
                   itemCount: lojas.lojaGeral.length,
                   shrinkWrap: true,
@@ -206,6 +206,17 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                     String categoriaLoja =
                         SwitchsUtils().getCategoriaLoja(loja.categoria);
                     return ListTile(
+                      onTap: () {
+                        LojaProfileModel lojaProfile = new LojaProfileModel(
+                          widget.lojasSearch.cliente,
+                          widget.lojasSearch.endereco,
+                          loja,
+                        );
+                        Modular.to.pushNamed(
+                          '/loja_profile/',
+                          arguments: lojaProfile,
+                          );
+                      },
                       contentPadding: EdgeInsets.zero,
                       leading: loja.fotoPerfilLink == null ||
                               loja.fotoPerfilLink == ''

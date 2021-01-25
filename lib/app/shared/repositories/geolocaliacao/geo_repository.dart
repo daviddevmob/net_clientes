@@ -1,4 +1,3 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart';
 import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';

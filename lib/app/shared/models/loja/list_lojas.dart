@@ -30,24 +30,27 @@ class LojaGeral {
         this.lojaNome,
         this.entregaDomicilio,
         this.lojaFisica,
-        this.usuario,
         this.fotoPerfilLink,
+        this.usuario,
+        this.lojaId,
     });
 
     int categoria;
     String lojaNome;
     bool entregaDomicilio;
     bool lojaFisica;
-    Usuario usuario;
     String fotoPerfilLink;
+    Usuario usuario;
+    int lojaId;
 
     factory LojaGeral.fromJson(Map<String, dynamic> json) => LojaGeral(
         categoria: json["categoria"] == null ? null : json["categoria"],
         lojaNome: json["loja_nome"] == null ? null : json["loja_nome"],
         entregaDomicilio: json["entrega_domicilio"] == null ? null : json["entrega_domicilio"],
         lojaFisica: json["loja_fisica"] == null ? null : json["loja_fisica"],
-        usuario: json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
         fotoPerfilLink: json["foto_perfil_link"] == null ? null : json["foto_perfil_link"],
+        usuario: json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
+        lojaId: json["loja_id"] == null ? null : json["loja_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -55,8 +58,9 @@ class LojaGeral {
         "loja_nome": lojaNome == null ? null : lojaNome,
         "entrega_domicilio": entregaDomicilio == null ? null : entregaDomicilio,
         "loja_fisica": lojaFisica == null ? null : lojaFisica,
-        "usuario": usuario == null ? null : usuario.toJson(),
         "foto_perfil_link": fotoPerfilLink == null ? null : fotoPerfilLink,
+        "usuario": usuario == null ? null : usuario.toJson(),
+        "loja_id": lojaId == null ? null : lojaId,
     };
 }
 
@@ -105,10 +109,10 @@ class TaxaEntrega {
         this.taxaEntrega,
     });
 
-    int taxaEntrega;
+    double taxaEntrega;
 
     factory TaxaEntrega.fromJson(Map<String, dynamic> json) => TaxaEntrega(
-        taxaEntrega: json["taxa_entrega"] == null ? null : json["taxa_entrega"],
+        taxaEntrega: json["taxa_entrega"] == null ? null : json["taxa_entrega"].toDouble(),
     );
 
     Map<String, dynamic> toJson() => {

@@ -1,5 +1,6 @@
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/modules/login/login_module.dart';
+import 'package:net_cliente/app/modules/lojas/loja_profile/item_carrinho_model.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/loja_profile_module.dart';
 import 'package:net_cliente/app/modules/lojas/lojas_categoria/lojas_categoria_module.dart';
 import 'package:net_cliente/app/modules/lojas/lojas_module.dart';
@@ -28,6 +29,7 @@ class AppModule extends MainModule {
           ),
       Bind<ILogin>((i) => LoginRepository(i.get())),
       Bind((i) =>AppController(i.get())),
+      Bind((i) => ItemCarrinhoModel(i.get(), i.get())),
       ];
 
   @override

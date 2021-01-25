@@ -33,7 +33,7 @@ class ButtonsCategoriasLojaWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.black,
+              color: Colors.transparent,
             ),
             borderRadius: BorderRadius.circular(8)
           ),

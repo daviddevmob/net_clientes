@@ -46,6 +46,7 @@ class ListLojasRepository implements IListLojas {
           entrega_domicilio
           loja_fisica
           foto_perfil_link
+          loja_id
           usuario {
             localizacao {
               mapa_link
