@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -153,36 +154,24 @@ class _PedidosLojaPageState
                                       ),
                                     ],
                                   ),
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text: formatDate(pedido.criadoEm.toLocal(), [dd, '/', mm, '/', yyyy]),
+                                        fontSize: 16,
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(
                                     height: size.height * 0.02,
                                   ),
-                                  /* pedido.statusPedido == 3 
-                                  ? Row(
-                                    children: [
-                                      FlatButton(
-                                        color: Colors.blue,
-                                        onPressed: (){
-
-                                        }, 
-                                        child: TextWidget(
-                                          text: 'Ver no Mapa',
-                                          fontSize: 16,
-                                          textColor: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                  : SizedBox(),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ), */
                                   ItensPedidoLojaWidget(
                                     pedido: pedido,
                                   ),
                                   SizedBox(
                                     height: size.height * 0.02,
                                   ),
-                                  pedido.entrega == false
+                                  pedido.entrega == true
                                       ? Column(
                                           children: [
                                             Row(
@@ -262,12 +251,14 @@ class _PedidosLojaPageState
                                       TextWidget(
                                         text: 'Total do Pedido: ',
                                         fontSize: 16,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                       TextWidget(
                                         text: 'R\$ ' +
                                             pedido.totalPedido
                                                 .toStringAsFixed(2),
                                         fontSize: 16,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ],
                                   ),

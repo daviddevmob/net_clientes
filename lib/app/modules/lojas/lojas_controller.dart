@@ -26,7 +26,7 @@ abstract class _LojasControllerBase with Store {
   bool lojaFisica;
 
   @observable
-  int categoria;
+  int categoria = 0;
 
   @observable
   TextEditingController textSearch = TextEditingController();
@@ -53,9 +53,15 @@ abstract class _LojasControllerBase with Store {
         .getLojas(
           domicilio,
           lojaFisica,
-          null,
+          categoria == 0 ? null : categoria,
           textSearch.text,
         )
         .asObservable();
+  }
+
+  @action
+  setCategoriaLojas(int newValue) {
+    categoria = newValue;
+    getListLojas();
   }
 }

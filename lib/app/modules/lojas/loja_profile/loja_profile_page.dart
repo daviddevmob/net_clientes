@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,6 +12,7 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/distancia.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'loja_profile_controller.dart';
 import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart';
@@ -43,6 +45,7 @@ class _LojaProfilePageState
       );
       controller.taxaEntrega = controller.distanciaEntrega *
           controller.loja.usuario.taxaEntrega.taxaEntrega;
+      controller.clienteId = widget.lojaProfile.cliente.clienteId;
     });
     super.initState();
   }
@@ -61,84 +64,80 @@ class _LojaProfilePageState
               Stack(
                 children: [
                   IconButton(
-                          icon: Icon(
-                            CupertinoIcons.cart,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            var metUser =
-                                controller.loja.usuario.metodoPagamento;
-                            List<MetodosPagamentoAceitos> metodos =
-                                new List<MetodosPagamentoAceitos>();
-                            if (metUser.visa == true) {
-                              metodos.add(MetodosPagamentoAceitos(1, 'Visa'));
-                            }
-                            if (metUser.americanExpress == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  2, 'American Express'));
-                            }
-                            if (metUser.mastercard == true) {
-                              metodos.add(
-                                  MetodosPagamentoAceitos(3, 'MasterCard'));
-                            }
-                            if (metUser.elo == true) {
-                              metodos.add(MetodosPagamentoAceitos(4, 'Elo'));
-                            }
-                            if (metUser.amex == true) {
-                              metodos.add(MetodosPagamentoAceitos(5, 'Amex'));
-                            }
-                            if (metUser.sodexoAlimentacao == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  6, 'Sodexo Alimentação'));
-                            }
-                            if (metUser.sodexoRefeicao == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  7, 'Sodexo Refeição'));
-                            }
-                            if (metUser.aleloAlimentacao == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  8, 'Alelo Alimentação'));
-                            }
-                            if (metUser.aleloRefeicao == true) {
-                              metodos.add(
-                                  MetodosPagamentoAceitos(9, 'Alelo Refeição'));
-                            }
-                            if (metUser.ticketAlimentacao == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  10, 'Ticket Alimentação'));
-                            }
-                            if (metUser.ticketRestaurante == true) {
-                              metodos.add(MetodosPagamentoAceitos(
-                                  11, 'Tikect Restaurante'));
-                            }
-                            int tipoEntrega;
-                            if (controller.loja.entregaDomicilio == true &&
-                                controller.loja.lojaFisica == true) {
-                              tipoEntrega = 1;
-                            } else if (controller.loja.entregaDomicilio ==
-                                    true &&
-                                controller.loja.lojaFisica == false) {
-                              tipoEntrega = 2;
-                            } else if (controller.loja.entregaDomicilio ==
-                                    false &&
-                                controller.loja.lojaFisica == true) {
-                              tipoEntrega = 3;
-                            } else {
-                              tipoEntrega = 4;
-                            }
-                            CarrinhoLojaPageModel carrinho =
-                                new CarrinhoLojaPageModel(
-                              controller,
-                              controller.taxaEntrega,
-                              controller.distanciaEntrega,
-                              metodos,
-                              tipoEntrega,
-                              widget.lojaProfile,
-                            );
-                            Modular.to.pushNamed('/loja_profile/carrinho_loja',
-                                arguments: carrinho);
-                          },
-                        ),
+                    icon: Icon(
+                      CupertinoIcons.cart,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      var metUser = controller.loja.usuario.metodoPagamento;
+                      List<MetodosPagamentoAceitos> metodos =
+                          new List<MetodosPagamentoAceitos>();
+                      if (metUser.visa == true) {
+                        metodos.add(MetodosPagamentoAceitos(1, 'Visa'));
+                      }
+                      if (metUser.americanExpress == true) {
+                        metodos.add(
+                            MetodosPagamentoAceitos(2, 'American Express'));
+                      }
+                      if (metUser.mastercard == true) {
+                        metodos.add(MetodosPagamentoAceitos(3, 'MasterCard'));
+                      }
+                      if (metUser.elo == true) {
+                        metodos.add(MetodosPagamentoAceitos(4, 'Elo'));
+                      }
+                      if (metUser.amex == true) {
+                        metodos.add(MetodosPagamentoAceitos(5, 'Amex'));
+                      }
+                      if (metUser.sodexoAlimentacao == true) {
+                        metodos.add(
+                            MetodosPagamentoAceitos(6, 'Sodexo Alimentação'));
+                      }
+                      if (metUser.sodexoRefeicao == true) {
+                        metodos
+                            .add(MetodosPagamentoAceitos(7, 'Sodexo Refeição'));
+                      }
+                      if (metUser.aleloAlimentacao == true) {
+                        metodos.add(
+                            MetodosPagamentoAceitos(8, 'Alelo Alimentação'));
+                      }
+                      if (metUser.aleloRefeicao == true) {
+                        metodos
+                            .add(MetodosPagamentoAceitos(9, 'Alelo Refeição'));
+                      }
+                      if (metUser.ticketAlimentacao == true) {
+                        metodos.add(
+                            MetodosPagamentoAceitos(10, 'Ticket Alimentação'));
+                      }
+                      if (metUser.ticketRestaurante == true) {
+                        metodos.add(
+                            MetodosPagamentoAceitos(11, 'Tikect Restaurante'));
+                      }
+                      int tipoEntrega;
+                      if (controller.loja.entregaDomicilio == true &&
+                          controller.loja.lojaFisica == true) {
+                        tipoEntrega = 1;
+                      } else if (controller.loja.entregaDomicilio == true &&
+                          controller.loja.lojaFisica == false) {
+                        tipoEntrega = 2;
+                      } else if (controller.loja.entregaDomicilio == false &&
+                          controller.loja.lojaFisica == true) {
+                        tipoEntrega = 3;
+                      } else {
+                        tipoEntrega = 4;
+                      }
+                      CarrinhoLojaPageModel carrinho =
+                          new CarrinhoLojaPageModel(
+                        controller,
+                        controller.taxaEntrega,
+                        controller.distanciaEntrega,
+                        metodos,
+                        tipoEntrega,
+                        widget.lojaProfile,
+                      );
+                      Modular.to.pushNamed('/loja_profile/carrinho_loja',
+                          arguments: carrinho);
+                    },
+                  ),
                   controller.produtosCarrinho.isEmpty
                       ? SizedBox()
                       : Positioned(
@@ -206,6 +205,9 @@ class _LojaProfilePageState
             ),
             child: Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     LojaProfileInfosWidget(
@@ -217,58 +219,49 @@ class _LojaProfilePageState
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 120,
-                      height: 30,
-                      child: Observer(
-                        builder: (_) => FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: BorderSide(color: Colors.transparent)),
-                          color: controller.somenteDisponiveis == true
-                              ? Cores.verdeClaro
-                              : Colors.grey,
-                          onPressed: () {
-                            controller.somenteDisponiveis =
-                                !controller.somenteDisponiveis;
-                            controller.filtroProduto();
-                          },
-                          child: TextWidget(
-                            text: 'Em Estoque',
-                            textColor: controller.somenteDisponiveis == true
-                                ? Colors.white
-                                : Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                    Observer(
+                      builder: (_) => DropdownButtonHideUnderline(
+                          child: Container(
+                          height: 45,
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          decoration: BoxDecoration(
+                          color: Cores.verdeClaro,
+                            border: Border.all(
+                              color: Colors.transparent
+                            ),
+                            borderRadius: BorderRadius.circular(4)
+                          ),
+                          child: DropdownButton<int>(
+                            value: controller.categoria,
+                            iconEnabledColor: Colors.white,
+                            dropdownColor: Cores.verdeClaro,
+                            hint: TextWidget(
+                              text: 'Todas Categorias',
+                              fontSize: 12,
+                              textColor: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            items: loja.lojaProdCategoria.map((e) {
+                              return DropdownMenuItem(
+                                value: e.lojaProdCategoriaId,
+                                child: TextWidget(
+                                  text: e.nomeCategoria,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  textColor: Colors.white,
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: controller.setCategoria,
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Observer(
-                      builder: (_) => DropdownButton<int>(
-                        value: controller.categoria,
-                        hint: TextWidget(
-                          text: 'Todas Categorias',
-                          fontSize: 16,
-                        ),
-                        items: loja.lojaProdCategoria.map((e) {
-                          return DropdownMenuItem(
-                            value: e.lojaProdCategoriaId,
-                            child: TextWidget(
-                              text: e.nomeCategoria,
-                              fontSize: 16,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: controller.setCategoria,
                       ),
                     ),
                   ],
@@ -276,9 +269,6 @@ class _LojaProfilePageState
                 SizedBox(
                   height: 30,
                 ),
-                /* controller.produtoList == null
-                ? TextWidget(text: 'Nenhum Produto Encotrado',)
-                :  */
                 ListView.builder(
                   itemCount: controller.produtoList.length,
                   shrinkWrap: true,
@@ -302,8 +292,8 @@ class _LojaProfilePageState
                               produto.foto1Link == null ||
                                       produto.foto1Link == ''
                                   ? Container(
-                                      height: 100,
-                                      width: 120,
+                                      height: 80,
+                                      width: 100,
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                               color: Colors.transparent),
@@ -312,8 +302,8 @@ class _LojaProfilePageState
                                               BorderRadius.circular(4)),
                                     )
                                   : Container(
-                                      height: 100,
-                                      width: 120,
+                                      height: 80,
+                                      width: 100,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.transparent),
@@ -330,18 +320,6 @@ class _LojaProfilePageState
                                 children: [
                                   TextWidget(
                                     text: produto.produtoNome,
-                                    fontSize: 14,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  TextWidget(
-                                    text: produto.disponivel == true
-                                        ? 'Disponível'
-                                        : 'Indisponível',
-                                    textColor: produto.disponivel == true
-                                        ? Colors.green
-                                        : Colors.red,
                                     fontSize: 14,
                                   ),
                                   SizedBox(
@@ -389,22 +367,29 @@ class _LojaProfilePageState
                             child: produto.disponivel == true
                                 ? Positioned(
                                     left: 320,
+                                    top: 22,
                                     child: IconButton(
                                       icon: Icon(
                                         CupertinoIcons.cart_badge_plus,
                                       ),
                                       onPressed: () async {
-                                        bool add = await controller
-                                            .addItemCarrinho(produto);
-                                        if (add == true) {
-                                          print('OK');
+                                        if (await ConnectionVerify
+                                            .connectionStatus()) {
+                                          bool add = await controller
+                                              .addItemCarrinho(produto);
+                                          if (add == true) {
+                                            print('OK');
+                                          } else {
+                                            return AvisoFlushBar()
+                                                .showFlushBarAviso(
+                                              context,
+                                              'Ops!',
+                                              'Produto sem estoque',
+                                            );
+                                          }
                                         } else {
-                                          return AvisoFlushBar()
-                                              .showFlushBarAviso(
-                                            context,
-                                            'Ops!',
-                                            'Produto sem estoque',
-                                          );
+                                          return InternetFlushBar()
+                                              .showFlushBarInternet(context);
                                         }
                                       },
                                     ),

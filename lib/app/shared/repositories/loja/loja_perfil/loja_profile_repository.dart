@@ -1,4 +1,6 @@
 import 'package:hasura_connect/hasura_connect.dart';
+import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/lojas/loja_profile/item_carrinho_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_pedido_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
@@ -116,7 +118,8 @@ class LojaPerfilRepository implements ILojaPerfil {
   }
 
   @override
-  Future<String> fazerPedido(LojaPedidoModel lojaPedidoModel) async {
+  Future<String> fazerPedido(LojaPedidoModel lojaPedidoModel,
+      ObservableList<ItemCarrinhoModel> itens) async {
     try {
       var query = '''
     mutation MyMutation {
@@ -146,27 +149,39 @@ class LojaPerfilRepository implements ILojaPerfil {
       var data = await api.mutation(query);
       int lojaPedidoId = await data['data']['insert_loja_pedido']['returning']
           [0]['loja_pedido_id'];
-      int x = 0;
-      for (x = 0; x <= lojaPedidoModel.lojaPedidoItems.length; x++) {
+
+      int repet = itens.length;
+      itens.map((element) {
+        
+      });
+      for (var x = 0; x < repet; x++) {
+        double precoUnidade = itens[x].produto.precoPromo != 0 &&
+                itens[x].produto.precoPromo < itens[x].produto.preco
+            ? itens[x].produto.precoPromo
+            : itens[x].produto.preco;
+        int quantidade = itens[x].quantidade;
+        double total = precoUnidade * quantidade;
+        int produtoLojaId = itens[x].produto.lojaProdutoId;
         var queryItens = '''
-      mutation MyMutation {
-        insert_loja_pedido_item(
-          objects: {
-            cliente_id: ${lojaPedidoModel.clienteId}, 
-            loja_pedido_id: $lojaPedidoId, 
-            preco_unidade: ${lojaPedidoModel.lojaPedidoItems[x].precoUnidade}, 
-            produto_loja_id: ${lojaPedidoModel.lojaPedidoItems[x].produtoLojaId}, 
-            quantidade: ${lojaPedidoModel.lojaPedidoItems[x].quantidade}, 
-            total: ${lojaPedidoModel.lojaPedidoItems[x].total}
-            }) {
-          affected_rows
-        }
-      }
+          mutation MyMutation {
+            insert_loja_pedido_item(
+              objects: {
+                cliente_id: ${lojaPedidoModel.clienteId}, 
+                loja_pedido_id: $lojaPedidoId, 
+                preco_unidade: $precoUnidade, 
+                produto_loja_id: $produtoLojaId, 
+                quantidade: $quantidade, 
+                total: $total
+                }) {
+              affected_rows
+            }
+          }
       ''';
         await api.mutation(queryItens);
+        print('Quantidade: $x');
       }
-      int y = 0;
-      for (y = 0; y <= lojaPedidoModel.lojaPedidoItems.length; y++) {
+      /*  int y;
+      for (y = 0; y >= lojaPedidoModel.lojaPedidoItems.length; y++) {
         var queryQuantidade = '''
         query MyQuery {
           loja_produto(
@@ -199,10 +214,12 @@ class LojaPerfilRepository implements ILojaPerfil {
         ''';
 
         await api.mutation(queryRemove);
-      }
+      } */
       return 'ok';
     } on HasuraError catch (e) {
       return getErrorHasuraString(e.message);
-    } catch (e) {}
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

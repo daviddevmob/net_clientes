@@ -23,6 +23,13 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
       (_$totalPedidoComputed ??= Computed<double>(() => super.totalPedido,
               name: '_LojaProfileControllerBase.totalPedido'))
           .value;
+  Computed<List<LojaPedidoItem>> _$pedidosItensComputed;
+
+  @override
+  List<LojaPedidoItem> get pedidosItens => (_$pedidosItensComputed ??=
+          Computed<List<LojaPedidoItem>>(() => super.pedidosItens,
+              name: '_LojaProfileControllerBase.pedidosItens'))
+      .value;
 
   final _$produtosCarrinhoAtom =
       Atom(name: '_LojaProfileControllerBase.produtosCarrinho');
@@ -52,6 +59,21 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   set loja(LojaPerfilPageModel value) {
     _$lojaAtom.reportWrite(value, super.loja, () {
       super.loja = value;
+    });
+  }
+
+  final _$clienteIdAtom = Atom(name: '_LojaProfileControllerBase.clienteId');
+
+  @override
+  int get clienteId {
+    _$clienteIdAtom.reportRead();
+    return super.clienteId;
+  }
+
+  @override
+  set clienteId(int value) {
+    _$clienteIdAtom.reportWrite(value, super.clienteId, () {
+      super.clienteId = value;
     });
   }
 
@@ -358,6 +380,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     return '''
 produtosCarrinho: ${produtosCarrinho},
 loja: ${loja},
+clienteId: ${clienteId},
 formCarrinhoKey: ${formCarrinhoKey},
 taxaEntrega: ${taxaEntrega},
 distanciaEntrega: ${distanciaEntrega},
@@ -371,7 +394,8 @@ metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
 filtroString: ${filtroString},
-totalPedido: ${totalPedido}
+totalPedido: ${totalPedido},
+pedidosItens: ${pedidosItens}
     ''';
   }
 }

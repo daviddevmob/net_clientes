@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -8,7 +6,6 @@ import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart
 import 'package:net_cliente/app/shared/models/loja/loja_pedido_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_profile.dart';
-import 'package:net_cliente/app/shared/repositories/loja/list_lojas/list_lojas_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
 
 part 'loja_profile_controller.g.dart';
@@ -27,6 +24,9 @@ abstract class _LojaProfileControllerBase with Store {
 
   @observable
   LojaPerfilPageModel loja;
+
+  @observable
+  int clienteId;
 
   @observable
   GlobalKey<FormState> formCarrinhoKey = GlobalKey<FormState>();
@@ -75,6 +75,7 @@ abstract class _LojaProfileControllerBase with Store {
     } else if (somenteDisponiveis == false && categoria == null) {
       return 4;
     }
+    return 5;
   }
 
   @computed
@@ -175,27 +176,32 @@ abstract class _LojaProfileControllerBase with Store {
     produtosCarrinho.elementAt(index).remove();
   }
 
-  @action
-  savePedido(LojaProfileModel lojaView, CarrinhoLojaPageModel carrinho,
-      bool entrega, double taxaEntrega, double totalPedido) async {
-    List<LojaPedidoItem> lojaPedidoItens = new List<LojaPedidoItem>();
-    int pedido = 0;
-    for (pedido = 0; pedido == produtosCarrinho.length; pedido++) {
+  @computed
+  List<LojaPedidoItem> get pedidosItens {
+    List<LojaPedidoItem> p = new List<LojaPedidoItem>();
+    for (int pedido = 0;
+        pedido >= produtosCarrinho.length;
+        pedido = pedido + 1) {
       double precoUnidade = produtosCarrinho[pedido].produto.precoPromo != 0 &&
               produtosCarrinho[pedido].produto.precoPromo <
                   produtosCarrinho[pedido].produto.preco
           ? produtosCarrinho[pedido].produto.precoPromo
           : produtosCarrinho[pedido].produto.preco;
-
-      lojaPedidoItens.add(LojaPedidoItem(
-        clienteId: lojaView.cliente.clienteId,
+      p.add(new LojaPedidoItem(
+        clienteId: clienteId,
         produtoLojaId: produtosCarrinho[pedido].produto.lojaProdutoId,
         quantidade: produtosCarrinho[pedido].produto.quantidade,
         precoUnidade: precoUnidade,
         total: (precoUnidade * produtosCarrinho[pedido].produto.quantidade),
       ));
-      print(pedido);
     }
+
+    return p;
+  }
+
+  @action
+  savePedido(LojaProfileModel lojaView, CarrinhoLojaPageModel carrinho,
+      bool entrega, double taxaEntrega, double totalPedido) async {
     LojaPedidoModel lojaPedidoModel = new LojaPedidoModel(
       bairro: lojaView.endereco.bairro,
       clienteId: lojaView.cliente.clienteId,
@@ -210,15 +216,12 @@ abstract class _LojaProfileControllerBase with Store {
       taxaEntrega: taxaEntrega,
       totalPedido: totalPedido,
       troco: pagamentoDinheiro == true ? trocoParaController.text : '',
-      lojaPedidoItems: lojaPedidoItens,
+      lojaPedidoItems: pedidosItens,
     );
-    salvandoDados = true;
-    var salvar = await iLojaPerfil.fazerPedido(lojaPedidoModel);
-    salvandoDados = false;
-    if (salvar == 'ok') {
-      pedidoSalvo = true;
-      salvandoDados = false;
-    }
+    pedidoSalvo = true;
+    var salvar =
+        await iLojaPerfil.fazerPedido(lojaPedidoModel, produtosCarrinho);
+    print('RETURN DO SALVAR: ' + salvar.toString());
     return salvar;
   }
 }

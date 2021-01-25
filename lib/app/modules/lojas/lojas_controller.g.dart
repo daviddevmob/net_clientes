@@ -108,6 +108,17 @@ mixin _$LojasController on _LojasControllerBase, Store {
   }
 
   @override
+  dynamic setCategoriaLojas(int newValue) {
+    final _$actionInfo = _$_LojasControllerBaseActionController.startAction(
+        name: '_LojasControllerBase.setCategoriaLojas');
+    try {
+      return super.setCategoriaLojas(newValue);
+    } finally {
+      _$_LojasControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listLojas: ${listLojas},

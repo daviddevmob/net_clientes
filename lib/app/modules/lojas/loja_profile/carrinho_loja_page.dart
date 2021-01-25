@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,6 +7,7 @@ import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/metodo_pagame
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart';
 import 'package:net_cliente/app/shared/utils/text_field.dart';
@@ -53,39 +55,55 @@ class CarrinhoLojaPage extends StatelessWidget {
               valorTotal = carrinho.controller.totalPedido;
             }
           }
-          if (carrinho.controller.salvandoDados == true) {
-            return Container(
-              margin: EdgeInsets.only(
-                top: 100,
-              ),
-              child: Column(
-                children: [
-                  TextWidget(
-                    text: 'Salvando Pedido..',
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CupertinoActivityIndicator(),
-                ],
-              ),
-            );
-          }
           if (carrinho.controller.pedidoSalvo == true) {
             return Container(
               margin: EdgeInsets.only(
-                top: 100,
+                top: 250,
               ),
-              child: Column(
-                children: [
-                  TextWidget(
-                    text: 'Pedido Realizado!',
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CupertinoActivityIndicator(),
-                ],
+              height: size.height,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextWidget(
+                                text: 'Pedido Realizado!',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(
+                                CupertinoIcons.check_mark_circled,
+                                color: Colors.green,
+                                )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              TextWidget(
+                                text: 'Acompanhe em ',
+                                fontSize: 14,
+                              ),
+                              TextWidget(
+                                text: 'Meus Pedidos',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(CupertinoIcons.cube_box),
+                            ],
+                          ),
+                        ],
+                      ),
+                  ],
               ),
             );
           }
@@ -122,29 +140,54 @@ class CarrinhoLojaPage extends StatelessWidget {
                                       TextWidget(
                                         text: 'Tipo de Entrega: ',
                                         fontSize: 16,
+                                        textColor: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
                                       ),
                                       Observer(
-                                        builder: (_) => DropdownButton<bool>(
-                                          value: carrinho
-                                              .controller.entregaDomicilio,
-                                          items: [
-                                            DropdownMenuItem(
-                                              value: true,
-                                              child: TextWidget(
-                                                text: 'Entrega em Domicílio',
-                                                fontSize: 16,
-                                              ),
+                                        builder: (_) => DropdownButtonHideUnderline(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                            left: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Cores.verdeClaro,
+                                            border: Border.all(
+                                              color: Colors.transparent,
                                             ),
-                                            DropdownMenuItem(
-                                              value: false,
-                                              child: TextWidget(
-                                                text: 'Retirar na Loja',
-                                                fontSize: 16,
-                                              ),
+                                            borderRadius: BorderRadius.circular(8),
                                             ),
-                                          ],
-                                          onChanged: carrinho
-                                              .controller.setEntregaDomicilio,
+                                            child: DropdownButton<bool>(
+                                              value: carrinho
+                                                  .controller.entregaDomicilio,
+                                              iconEnabledColor: Colors.white,
+                                              items: [
+                                                DropdownMenuItem(
+                                                  value: true,
+                                                  child: TextWidget(
+                                                    text: 'Entrega em Domicílio',
+                                                    fontSize: 16,
+                                                    textColor: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                DropdownMenuItem(
+                                                  value: false,
+                                                  child: TextWidget(
+                                                    text: 'Retirar na Loja',
+                                                    fontSize: 16,
+                                                    textColor: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                              dropdownColor: Cores.verdeClaro,
+                                              onChanged: carrinho
+                                                  .controller.setEntregaDomicilio,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -200,6 +243,9 @@ class CarrinhoLojaPage extends StatelessWidget {
                               textColor: Colors.grey[400],
                             );
                           }),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Observer(
                             builder: (_) => ListView.builder(
                               itemCount:
@@ -273,7 +319,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                             width: 150,
                                             child: Wrap(
                                               direction: Axis.vertical,
-                                              spacing: 3,
+                                              spacing: 5,
                                               children: [
                                                 TextWidget(
                                                   text:
@@ -298,28 +344,34 @@ class CarrinhoLojaPage extends StatelessWidget {
                                           children: [
                                             Observer(
                                               builder: (_) => IconButton(
-                                                iconSize: 30,
-                                                icon: Icon(
-                                                  item.quantidade == 1
-                                                      ? CupertinoIcons.delete
-                                                      : CupertinoIcons
-                                                          .minus_circle,
-                                                  color: item.quantidade == 1
-                                                      ? Colors.red
-                                                      : Colors.black,
-                                                ),
-                                                onPressed: item.quantidade == 1
-                                                    ? () {
+                                                  iconSize: 25,
+                                                  icon: Icon(
+                                                    item.quantidade == 1
+                                                        ? CupertinoIcons.delete
+                                                        : CupertinoIcons
+                                                            .minus_circle,
+                                                    color: item.quantidade == 1
+                                                        ? Colors.red
+                                                        : Colors.black,
+                                                  ),
+                                                  onPressed: () async {
+                                                    if (await ConnectionVerify
+                                                        .connectionStatus()) {
+                                                      if(item.quantidade == 1){
                                                         carrinho.controller
-                                                            .deleteItemCarrinho(
-                                                                item.produto);
+                                                          .deleteItemCarrinho(
+                                                            item.produto);
+                                                      }else{
+                                                        carrinho.controller
+                                                          .removeItemCarrinho(
+                                                          item.produto);
                                                       }
-                                                    : () {
-                                                        carrinho.controller
-                                                            .removeItemCarrinho(
-                                                                item.produto);
-                                                      },
-                                              ),
+                                                    } else {
+                                                      return InternetFlushBar()
+                                                          .showFlushBarInternet(
+                                                              context);
+                                                    }
+                                                  }),
                                             ),
                                             Observer(
                                               builder: (_) => TextWidget(
@@ -330,25 +382,32 @@ class CarrinhoLojaPage extends StatelessWidget {
                                             ),
                                             Observer(
                                               builder: (_) => IconButton(
-                                                iconSize: 30,
+                                                iconSize: 25,
                                                 icon: Icon(
                                                   CupertinoIcons.add_circled,
                                                   color: Colors.green,
                                                 ),
                                                 onPressed: () async {
-                                                  bool add = await carrinho
-                                                      .controller
-                                                      .addItemCarrinho(
-                                                          item.produto);
-                                                  if (add == true) {
-                                                    print('ok');
+                                                  if (await ConnectionVerify
+                                                      .connectionStatus()) {
+                                                    bool add = await carrinho
+                                                        .controller
+                                                        .addItemCarrinho(
+                                                            item.produto);
+                                                    if (add == true) {
+                                                      print('ok');
+                                                    } else {
+                                                      return AvisoFlushBar()
+                                                          .showFlushBarAviso(
+                                                        context,
+                                                        'Ops!',
+                                                        'Produto sem estoque',
+                                                      );
+                                                    }
                                                   } else {
-                                                    return AvisoFlushBar()
-                                                        .showFlushBarAviso(
-                                                      context,
-                                                      'Ops!',
-                                                      'Produto sem estoque',
-                                                    );
+                                                    return InternetFlushBar()
+                                                        .showFlushBarInternet(
+                                                            context);
                                                   }
                                                 },
                                               ),
@@ -361,6 +420,9 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 );
                               },
                             ),
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                           Container(
                             margin: EdgeInsets.only(
@@ -442,6 +504,9 @@ class CarrinhoLojaPage extends StatelessWidget {
                           ),
                           MetodoPagamentoLojaWidget(
                             carrinho: carrinho,
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                           Observer(
                             builder: (_) => Visibility(
@@ -537,34 +602,39 @@ class CarrinhoLojaPage extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Observer(
                             builder: (_) => FlatButton(
                               color: Colors.blue,
                               onPressed: () async {
-                                if (carrinho
-                                    .controller.formCarrinhoKey.currentState
-                                    .validate()) {
-                                  if (carrinho.controller.pagamentoDinheiro ==
-                                          false &&
-                                      carrinho.controller
-                                              .metodoPagamentoCartaoId ==
-                                          null) {
-                                    return AvisoFlushBar().showFlushBarAviso(
-                                      context,
-                                      'Cartão de Crédito',
-                                      'Selecione a bandeira do cartão de crédito',
-                                    );
+                                if (await ConnectionVerify.connectionStatus()) {
+                                  if (carrinho
+                                      .controller.formCarrinhoKey.currentState
+                                      .validate()) {
+                                    if (carrinho.controller.pagamentoDinheiro ==
+                                            false &&
+                                        carrinho.controller
+                                                .metodoPagamentoCartaoId ==
+                                            null) {
+                                      return AvisoFlushBar().showFlushBarAviso(
+                                        context,
+                                        'Cartão de Crédito',
+                                        'Selecione a bandeira do cartão de crédito',
+                                      );
+                                    } else {
+                                      await carrinho.controller.savePedido(
+                                        carrinho.lojaProfileModule,
+                                        carrinho,
+                                        entrega,
+                                        taxaEntrega,
+                                        valorTotal,
+                                      );
+                                    }
                                   } else {
-                                    var salvar =
-                                        await carrinho.controller.savePedido(
-                                      carrinho.lojaProfileModule,
-                                      carrinho,
-                                      entrega,
-                                      taxaEntrega,
-                                      valorTotal,
-                                    );
-
-                                    print(salvar);
+                                    return InternetFlushBar()
+                                        .showFlushBarInternet(context);
                                   }
                                 }
                               },
@@ -575,7 +645,10 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 textColor: Colors.white,
                               ),
                             ),
-                          )
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
                         ],
                       ),
                     ),

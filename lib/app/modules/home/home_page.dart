@@ -1,3 +1,4 @@
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,8 +8,12 @@ import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
 import 'package:net_cliente/app/shared/models/loja/lojas_search.dart';
+import 'package:net_cliente/app/shared/repositories/push_cliente/push_cliente_repository.dart';
+import 'package:net_cliente/app/shared/repositories/push_negocio/push_negocio_repository.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
@@ -30,6 +35,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   void initState() {
     disposer = autorun((_) async {
       await controller.getCliente(widget.email);
+      Future.delayed(Duration(seconds: 2)).then((value) async {
+        PushClienteRepository()
+            .initStatePushCliente(controller.cliente.value.firebaseId);
+        PushNegocioRepository()
+            .initStatePushNegocio(controller.cliente.value.firebaseId);
+      });
     });
     super.initState();
   }
@@ -100,7 +111,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-
                 Observer(builder: (_) {
                   if (controller.enderecoCliente.data == null) {
                     return FlatButton(
@@ -182,7 +192,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                   text: 'Endereço selecionado',
                                   fontSize: 16,
                                   textColor: Cores.verdeClaro,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ],
                             ),
@@ -319,15 +329,20 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Comprar',
                         icon: CupertinoIcons.cart,
-                        function: () {
-                          LojasSearch lojasSearch  = new LojasSearch(
-                            controller.cliente.value,
-                            controller.enderecoCliente.value,
-                          );
-                          Modular.to.pushNamed(
-                            '/lojas',
-                            arguments: lojasSearch,
-                          );
+                        function: () async {
+                          if (await ConnectionVerify.connectionStatus()) {
+                            LojasSearch lojasSearch = new LojasSearch(
+                              controller.cliente.value,
+                              controller.enderecoCliente.value,
+                            );
+                            Modular.to.pushNamed(
+                              '/lojas',
+                              arguments: lojasSearch,
+                            );
+                          } else {
+                            return InternetFlushBar()
+                                .showFlushBarInternet(context);
+                          }
                         },
                       ),
                       CardsWidget(
@@ -343,7 +358,21 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Favoritas',
                         icon: CupertinoIcons.star,
-                        function: () {},
+                        function: () async {
+                          if (await ConnectionVerify.connectionStatus()) {
+                            LojasSearch lojasSearch = new LojasSearch(
+                              controller.cliente.value,
+                              controller.enderecoCliente.value,
+                            );
+                            Modular.to.pushNamed(
+                              '/home/lojas_favoritas/',
+                              arguments: lojasSearch,
+                            );
+                          } else {
+                            return InternetFlushBar()
+                                .showFlushBarInternet(context);
+                          }
+                        }
                       ),
                     ],
                   ),
