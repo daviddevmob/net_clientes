@@ -218,6 +218,13 @@ mixin _$MapsController on _MapsControllerBase, Store {
         .run(() => super.salvarLocalizacao(localizacaoId));
   }
 
+  final _$verMapsAsyncAction = AsyncAction('_MapsControllerBase.verMaps');
+
+  @override
+  Future verMaps() {
+    return _$verMapsAsyncAction.run(() => super.verMaps());
+  }
+
   final _$_MapsControllerBaseActionController =
       ActionController(name: '_MapsControllerBase');
 

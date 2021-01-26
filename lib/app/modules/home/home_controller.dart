@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
@@ -22,17 +23,32 @@ abstract class _HomeControllerBase with Store {
   ObservableStream<ClienteModel> cliente;
 
   @observable
+  GlobalKey<FormState> formCreateUserKey = GlobalKey<FormState>();
+
+  @observable
   ObservableStream<EnderecoClienteHome> enderecoCliente;
 
-  
+  @observable
+  TextEditingController whatsappController = TextEditingController();
+
+  @observable
+  TextEditingController cpfController = TextEditingController();
+
+  @observable
+  bool saving = false;
+
+  @observable
+  int district;
+
+  @action
+  changeDistrict(int newValue) => district = newValue;
 
   @action
   getEnderecoCliente() {
     enderecoCliente = iHome
-    .getEnderecoClienteHome(
-      cliente.value.clienteId,
-      cliente.value.enderecoId
-      ).asObservable();
+        .getEnderecoClienteHome(
+            cliente.value.clienteId, cliente.value.enderecoId)
+        .asObservable();
   }
 
   @action
@@ -44,5 +60,28 @@ abstract class _HomeControllerBase with Store {
   getCliente(String email) async {
     // ignore: await_only_futures
     cliente = await iHome.getCliente(email).asObservable();
+  }
+
+  @action
+  saveUser() async {
+    if (formCreateUserKey.currentState.validate()) {
+      if (district != null) {
+        saving = true;
+        var saveUser = await iLogin.attDados(
+          cliente.value.clienteId,
+          district,
+          whatsappController.text,
+          cpfController.text,
+        );
+
+        saving = false;
+        return saveUser;
+      }
+
+      return 'Selecione o bairro onde mora.';
+    } else {
+      print(district);
+      return 'Preencha corretamente os campos.';
+    }
   }
 }

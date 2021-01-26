@@ -8,6 +8,7 @@ import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/loja_profile_top_foto.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_profile.dart';
+import 'package:net_cliente/app/shared/models/loja/loja_view_produto_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/distancia.dart';
@@ -356,10 +357,12 @@ class _LojaProfilePageState
                       children: [
                         GestureDetector(
                           onTap: () {
+                            LojaViewProduto prod =
+                                new LojaViewProduto(produto, controller);
                             Modular.to.pushNamed(
                               '/loja_profile/view_produto',
-                              arguments: produto,
-                              );
+                              arguments: prod,
+                            );
                           },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 20, top: 20),
@@ -426,7 +429,7 @@ class _LojaProfilePageState
                                                   )
                                                 : TextWidget(
                                                     text:
-                                                        'Por: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                        'R\$ ${produto.preco.toStringAsFixed(2)}',
                                                     fontSize: 18,
                                                   ),
                                           )

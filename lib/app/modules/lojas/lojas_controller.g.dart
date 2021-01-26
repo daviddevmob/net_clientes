@@ -54,6 +54,21 @@ mixin _$LojasController on _LojasControllerBase, Store {
     });
   }
 
+  final _$bairroAtom = Atom(name: '_LojasControllerBase.bairro');
+
+  @override
+  int get bairro {
+    _$bairroAtom.reportRead();
+    return super.bairro;
+  }
+
+  @override
+  set bairro(int value) {
+    _$bairroAtom.reportWrite(value, super.bairro, () {
+      super.bairro = value;
+    });
+  }
+
   final _$categoriaAtom = Atom(name: '_LojasControllerBase.categoria');
 
   @override
@@ -96,6 +111,17 @@ mixin _$LojasController on _LojasControllerBase, Store {
       ActionController(name: '_LojasControllerBase');
 
   @override
+  dynamic getBairro(int newValue) {
+    final _$actionInfo = _$_LojasControllerBaseActionController.startAction(
+        name: '_LojasControllerBase.getBairro');
+    try {
+      return super.getBairro(newValue);
+    } finally {
+      _$_LojasControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic getDistanciaNegocio(
       double userLat, double userLong, double lat, double lng) {
     final _$actionInfo = _$_LojasControllerBaseActionController.startAction(
@@ -124,6 +150,7 @@ mixin _$LojasController on _LojasControllerBase, Store {
 listLojas: ${listLojas},
 domicilio: ${domicilio},
 lojaFisica: ${lojaFisica},
+bairro: ${bairro},
 categoria: ${categoria},
 textSearch: ${textSearch}
     ''';

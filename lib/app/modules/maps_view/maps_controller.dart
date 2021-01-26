@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart';
+import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/models/ongs/ong_model.dart';
 import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:uuid/uuid.dart';
@@ -128,5 +129,11 @@ abstract class _MapsControllerBase with Store {
     );
     print(save);
     return save;
+  }
+
+  @action
+  verMaps() async {
+    var maps = await iGeo.verificarMaps();
+    return maps;
   }
 }

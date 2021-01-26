@@ -50,4 +50,12 @@ abstract class _LoginControllerBase with Store {
       return 'Preencha corretamente os campos.';
     }
   }
+
+  @action
+  loginGoogle() async {
+    loading = true;
+    String loginGoogle = await iLogin.verificarGoogle();
+    loading = false;
+    return loginGoogle;
+  }
 }

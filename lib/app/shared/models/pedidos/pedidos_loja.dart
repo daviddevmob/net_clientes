@@ -38,8 +38,8 @@ class LojaPedido {
         this.taxaEntrega,
         this.totalPedido,
         this.troco,
-        this.lojaId,
         this.numeroPedido,
+        this.lojaId,
         this.lojaPedidoId,
         this.lojaPedidoItems,
         this.lojaGeral,
@@ -57,8 +57,8 @@ class LojaPedido {
     double taxaEntrega;
     double totalPedido;
     String troco;
-    int lojaId;
     int numeroPedido;
+    int lojaId;
     int lojaPedidoId;
     List<LojaPedidoItem> lojaPedidoItems;
     LojaGeral lojaGeral;
@@ -76,8 +76,8 @@ class LojaPedido {
         taxaEntrega: json["taxa_entrega"] == null ? null : json["taxa_entrega"].toDouble(),
         totalPedido: json["total_pedido"] == null ? null : json["total_pedido"].toDouble(),
         troco: json["troco"] == null ? null : json["troco"],
-        lojaId: json["loja_id"] == null ? null : json["loja_id"],
         numeroPedido: json["numero_pedido"] == null ? null : json["numero_pedido"],
+        lojaId: json["loja_id"] == null ? null : json["loja_id"],
         lojaPedidoId: json["loja_pedido_id"] == null ? null : json["loja_pedido_id"],
         lojaPedidoItems: json["loja_pedido_items"] == null ? null : List<LojaPedidoItem>.from(json["loja_pedido_items"].map((x) => LojaPedidoItem.fromJson(x))),
         lojaGeral: json["loja_geral"] == null ? null : LojaGeral.fromJson(json["loja_geral"]),
@@ -96,8 +96,8 @@ class LojaPedido {
         "taxa_entrega": taxaEntrega == null ? null : taxaEntrega,
         "total_pedido": totalPedido == null ? null : totalPedido,
         "troco": troco == null ? null : troco,
-        "loja_id": lojaId == null ? null : lojaId,
         "numero_pedido": numeroPedido == null ? null : numeroPedido,
+        "loja_id": lojaId == null ? null : lojaId,
         "loja_pedido_id": lojaPedidoId == null ? null : lojaPedidoId,
         "loja_pedido_items": lojaPedidoItems == null ? null : List<dynamic>.from(lojaPedidoItems.map((x) => x.toJson())),
         "loja_geral": lojaGeral == null ? null : lojaGeral.toJson(),
@@ -107,16 +107,64 @@ class LojaPedido {
 class LojaGeral {
     LojaGeral({
         this.lojaNome,
+        this.usuario,
     });
 
     String lojaNome;
+    Usuario usuario;
 
     factory LojaGeral.fromJson(Map<String, dynamic> json) => LojaGeral(
         lojaNome: json["loja_nome"] == null ? null : json["loja_nome"],
+        usuario: json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
     );
 
     Map<String, dynamic> toJson() => {
         "loja_nome": lojaNome == null ? null : lojaNome,
+        "usuario": usuario == null ? null : usuario.toJson(),
+    };
+}
+
+class Usuario {
+    Usuario({
+        this.localizacao,
+    });
+
+    Localizacao localizacao;
+
+    factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
+        localizacao: json["localizacao"] == null ? null : Localizacao.fromJson(json["localizacao"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "localizacao": localizacao == null ? null : localizacao.toJson(),
+    };
+}
+
+class Localizacao {
+    Localizacao({
+        this.bairro,
+        this.complemento,
+        this.endereco,
+        this.mapaLink,
+    });
+
+    int bairro;
+    String complemento;
+    String endereco;
+    String mapaLink;
+
+    factory Localizacao.fromJson(Map<String, dynamic> json) => Localizacao(
+        bairro: json["bairro"] == null ? null : json["bairro"],
+        complemento: json["complemento"] == null ? null : json["complemento"],
+        endereco: json["endereco"] == null ? null : json["endereco"],
+        mapaLink: json["mapa_link"] == null ? null : json["mapa_link"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "bairro": bairro == null ? null : bairro,
+        "complemento": complemento == null ? null : complemento,
+        "endereco": endereco == null ? null : endereco,
+        "mapa_link": mapaLink == null ? null : mapaLink,
     };
 }
 

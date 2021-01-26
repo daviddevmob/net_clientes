@@ -3,19 +3,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mask_shifter/mask_shifter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
+import 'package:net_cliente/app/modules/home/widgets/att_dados_cliente.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
+import 'package:net_cliente/app/modules/login/criar_conta/dropdown_list.dart';
 import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
 import 'package:net_cliente/app/shared/models/loja/lojas_search.dart';
 import 'package:net_cliente/app/shared/repositories/push_cliente/push_cliente_repository.dart';
 import 'package:net_cliente/app/shared/repositories/push_negocio/push_negocio_repository.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/flatbutton.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'home_controller.dart';
 
@@ -72,7 +77,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         if (controller.cliente.hasError == true) {
           return Center(
             child: TextWidget(
-              text: 'Erro',
+              text: controller.cliente.error.toString(),
             ),
           );
         }
@@ -95,6 +100,13 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             child: TextWidget(
               text: 'Usuário Bloqueado',
             ),
+          );
+        }
+
+        if (controller.cliente.value.cpf == null &&
+            controller.cliente.value.whatsapp == null) {
+          return AttDadosClienteHome(
+            controller: controller,
           );
         }
 
@@ -356,24 +368,23 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         },
                       ),
                       CardsWidget(
-                        title: 'Favoritas',
-                        icon: CupertinoIcons.star,
-                        function: () async {
-                          if (await ConnectionVerify.connectionStatus()) {
-                            LojasSearch lojasSearch = new LojasSearch(
-                              controller.cliente.value,
-                              controller.enderecoCliente.value,
-                            );
-                            Modular.to.pushNamed(
-                              '/home/lojas_favoritas/',
-                              arguments: lojasSearch,
-                            );
-                          } else {
-                            return InternetFlushBar()
-                                .showFlushBarInternet(context);
-                          }
-                        }
-                      ),
+                          title: 'Favoritas',
+                          icon: CupertinoIcons.star,
+                          function: () async {
+                            if (await ConnectionVerify.connectionStatus()) {
+                              LojasSearch lojasSearch = new LojasSearch(
+                                controller.cliente.value,
+                                controller.enderecoCliente.value,
+                              );
+                              Modular.to.pushNamed(
+                                '/home/lojas_favoritas/',
+                                arguments: lojasSearch,
+                              );
+                            } else {
+                              return InternetFlushBar()
+                                  .showFlushBarInternet(context);
+                            }
+                          }),
                     ],
                   ),
                 ),

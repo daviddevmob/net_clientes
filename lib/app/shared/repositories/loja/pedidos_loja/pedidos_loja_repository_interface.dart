@@ -11,39 +11,47 @@ class PedidosLojaRepository implements IPedidosLoja {
   Stream<PedidosLojaModel> getPedidosLoja(int clienteId) {
     var query = '''
       subscription MySubscription {
-        cliente(where: {cliente_id: {_eq: $clienteId}}) {
-          loja_pedidos(order_by: {loja_pedido_id: desc}) {
-            atualizado_em
-            aviso
-            bairro
-            criado_em
-            endereco
-            entrega
-            localizacao
-            metodo_pagamento
-            status_pedido
-            taxa_entrega
-            total_pedido
-            troco
-            numero_pedido
-            loja_id
-            loja_pedido_id
-            loja_pedido_items {
-              preco_unidade
-              quantidade
-              total
-              loja_produto {
-                foto1_link
-                produto_nome
-                descricao
-              }
+      cliente(where: {cliente_id: {_eq: $clienteId}}) {
+        loja_pedidos(order_by: {loja_pedido_id: desc}) {
+          atualizado_em
+          aviso
+          bairro
+          criado_em
+          endereco
+          entrega
+          localizacao
+          metodo_pagamento
+          status_pedido
+          taxa_entrega
+          total_pedido
+          troco
+          numero_pedido
+          loja_id
+          loja_pedido_id
+          loja_pedido_items {
+            preco_unidade
+            quantidade
+            total
+            loja_produto {
+              foto1_link
+              produto_nome
+              descricao
             }
-            loja_geral {
-              loja_nome
+          }
+          loja_geral {
+            loja_nome
+            usuario {
+              localizacao {
+                bairro
+                complemento
+                endereco
+                mapa_link
+              }
             }
           }
         }
       }
+    }
     ''';
     return api.subscription(query).map((value) {
       return PedidosLojaModel.fromJson(value['data']['cliente'][0]);

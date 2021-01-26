@@ -5,7 +5,7 @@ List<DropdownMenuItem<int>> listBairros = [
           DropdownMenuItem<int>(
               value: 0,
               child: TextWidget(
-                text: 'Todos',
+                text: 'Todos os Bairros',
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 textColor: Colors.white,

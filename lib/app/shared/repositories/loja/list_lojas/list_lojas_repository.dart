@@ -12,6 +12,7 @@ class ListLojasRepository implements IListLojas {
     bool lojaFisica,
     int categoria,
     String text,
+    int bairro
   ) async {
     String params;
     text == null || text == '' ? params = null : params = "%$text%";
@@ -24,23 +25,15 @@ class ListLojasRepository implements IListLojas {
             visibility: {_eq: true}, 
             loja_fisica: {_eq: $lojaFisica}, 
             entrega_domicilio: {_eq: $domicilio}, 
-            categoria: {_eq: $categoria}
+            categoria: {_eq: $categoria}, 
             _or: [
-                  {
-                    loja_nome: {
-                      _ilike: $params
-                    }
-                  },
-                  {
-                    loja_produtos: {
-                      produto_nome: {
-                      _ilike: $params
-                    },
-                  },
-                
-                  loja_prod_categoria: {nome_categoria: {_ilike: $params}}}
-                ]
-          }) {
+              {loja_nome: {_ilike: $params}}, 
+              {loja_produtos: {produto_nome: {_ilike: $params}}, 
+              loja_prod_categoria: {nome_categoria: {_ilike: $params}}}], 
+              usuario: {
+                localizacao: {
+                  bairro: {_eq: $bairro}}}
+                  }) {
           categoria
           loja_nome
           entrega_domicilio

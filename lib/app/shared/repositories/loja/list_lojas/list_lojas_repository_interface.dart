@@ -6,5 +6,6 @@ abstract class IListLojas {
     bool lojaFisica,
     int categoria,
     String text,
+    int bairro,
   );
 }

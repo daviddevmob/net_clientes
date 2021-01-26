@@ -103,11 +103,12 @@ abstract class _LojaProfileControllerBase with Store {
 
   @action
   getLojaFavorita(int clineteId) {
-    lojaFavorita =  iLojasFavoritas.setFavoritos(loja.lojaId, clineteId).asObservable();
+    lojaFavorita =
+        iLojasFavoritas.setFavoritos(loja.lojaId, clineteId).asObservable();
   }
 
   @action
-  setEntregaDomicilio(bool newValue) => entregaDomicilio = !entregaDomicilio;
+  setEntregaDomicilio(bool newValue) => entregaDomicilio = newValue;
 
   @action
   setDinheiroOuCartao(bool newValue) => pagamentoDinheiro = newValue;
@@ -248,10 +249,10 @@ abstract class _LojaProfileControllerBase with Store {
   @action
   deletarFavorito(int lojaId) async {
     var deletar = await iLojasFavoritas.setStatusFavorito(
-      clienteId, 
+      clienteId,
       lojaId,
       !lojaFavorita.value.clienteFavoritoLoja[0].ativo,
-      );
+    );
     return deletar;
   }
 }

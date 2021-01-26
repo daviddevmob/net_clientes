@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:map_launcher/map_launcher.dart' as map;
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
@@ -43,7 +45,6 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
     });
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -148,8 +149,87 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
                       }),
                 ),
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                bottom: 10,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Observer(
+                        builder: (_) => FlatButton(
+                          color: Colors.blue,
+                          onPressed: () async {
+                            await openMapsSheet(context, widget.localizacao);
+                          },
+                          child: TextWidget(
+                            text: 'Abrir Rota',
+                            textColor: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ));
+  }
+}
+
+openMapsSheet(context, LocalizacaoModel loc) async {
+  try {
+    final coords = map.Coords(
+      double.parse(loc.mapaLink.split(',')[0]),
+      double.parse(loc.mapaLink.split(',').last),
+    );
+    final title = loc.endereco;
+    final availableMaps = await map.MapLauncher.installedMaps;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () {
+                        Modular.to.pop();
+                        Modular.to.pop();
+                        map.showMarker(
+                          coords: coords,
+                          title: title,
+                        );
+                      },
+                      title: TextWidget(
+                        text: map.mapName,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        textColor: Colors.black,
+                      ),
+                      leading: SvgPicture.asset(
+                        map.icon,
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  } catch (e) {
+    print(e);
   }
 }

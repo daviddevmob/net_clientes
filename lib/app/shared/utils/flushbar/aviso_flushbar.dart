@@ -43,7 +43,7 @@ class AvisoFlushBar {
                             fontWeight: FontWeight.bold
                                       ),
                                   ),
-                    duration: Duration(seconds: 4),
+                    duration: Duration(seconds: 2),
                   )..show(context);
   }
 }

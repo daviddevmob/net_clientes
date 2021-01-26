@@ -1,5 +1,7 @@
 import 'package:hasura_connect/hasura_connect.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:net_cliente/app/shared/models/googlemaps_localizacao_model.dart';
+import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/repositories/geolocaliacao/geo_repository_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
@@ -128,5 +130,26 @@ class GeolocalizacaoRepository implements IGeo {
     );
 
     return distancia;
+  }
+
+  @override
+  Future abrirRota(LocalizacaoModel loc, MapType map) async {
+
+    if (await MapLauncher.isMapAvailable(map)) {
+      await MapLauncher.showMarker(
+        mapType: MapType.google,
+        coords: Coords(
+          double.parse(loc.mapaLink.split(',')[0]),
+          double.parse(loc.mapaLink.split(',').last),
+        ),
+        title: loc.endereco,
+      );
+    }
+  }
+
+  @override
+  Future<List<AvailableMap>> verificarMaps() async {
+    final availableMaps = await MapLauncher.installedMaps;
+    return availableMaps;
   }
 }

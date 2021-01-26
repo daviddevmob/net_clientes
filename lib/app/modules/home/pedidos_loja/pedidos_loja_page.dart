@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/pedido_loja_itens.dart';
+import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/models/pedidos/pedidos_loja.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
@@ -84,215 +85,246 @@ class _PedidosLojaPageState
                   SizedBox(
                     height: size.height * 0.04,
                   ),
-                  pedidos.lojaPedidos.isEmpty == true 
-                  ? TextWidget(
-                    text: 'Sem pedidos até agora',
-                    textColor: Colors.grey[400],
-                  )
-                  : ListView.builder(
-                      itemCount: pedidos.lojaPedidos.length,
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        var pedido = pedidos.lojaPedidos[index];
-                        String statusPedido =
-                            SwitchsUtils().getStatusPedido(pedido.statusPedido);
-                        String metodoPagamento = SwitchsUtils()
-                            .getMetodoPagamento(pedido.metodoPagamento);
-                        return Container(
-                          margin: EdgeInsets.only(
-                            top: 5,
-                            bottom: 5,
-                          ),
-                          child: Card(
-                            elevation: 4,
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  Row(
+                  pedidos.lojaPedidos.isEmpty == true
+                      ? TextWidget(
+                          text: 'Sem pedidos até agora',
+                          textColor: Colors.grey[400],
+                        )
+                      : ListView.builder(
+                          itemCount: pedidos.lojaPedidos.length,
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var pedido = pedidos.lojaPedidos[index];
+                            String statusPedido = SwitchsUtils()
+                                .getStatusPedido(pedido.statusPedido);
+                            String metodoPagamento = SwitchsUtils()
+                                .getMetodoPagamento(pedido.metodoPagamento);
+                            return Container(
+                              margin: EdgeInsets.only(
+                                top: 5,
+                                bottom: 5,
+                              ),
+                              child: Card(
+                                elevation: 4,
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Column(
                                     children: [
-                                      Expanded(
-                                        child: TextWidget(
-                                          text: pedido.lojaGeral.lojaNome,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextWidget(
+                                              text: pedido.lojaGeral.lojaNome,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: 'Número do Pedido: ',
-                                        fontSize: 16,
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: 'Número do Pedido: ',
+                                            fontSize: 16,
+                                          ),
+                                          TextWidget(
+                                            text:
+                                                pedido.numeroPedido.toString(),
+                                            fontSize: 16,
+                                          ),
+                                        ],
                                       ),
-                                      TextWidget(
-                                        text: pedido.numeroPedido.toString(),
-                                        fontSize: 16,
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: 'Status do Pedido: ',
+                                            fontSize: 16,
+                                          ),
+                                          TextWidget(
+                                            text: statusPedido,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            textColor: pedido.statusPedido == 1
+                                                ? Colors.orange
+                                                : pedido.statusPedido == 2
+                                                    ? Colors.green
+                                                    : pedido.statusPedido == 3
+                                                        ? Colors.blue
+                                                        : pedido.statusPedido ==
+                                                                5
+                                                            ? Cores.azul
+                                                            : Colors.red,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: 'Status do Pedido: ',
-                                        fontSize: 16,
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: formatDate(
+                                                pedido.criadoEm.toLocal(),
+                                                [dd, '/', mm, '/', yyyy]),
+                                            fontSize: 16,
+                                          ),
+                                        ],
                                       ),
-                                      TextWidget(
-                                        text: statusPedido,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        textColor: pedido.statusPedido == 1
-                                            ? Colors.orange
-                                            : pedido.statusPedido == 2
-                                                ? Colors.green
-                                                : pedido.statusPedido == 3
-                                                    ? Colors.blue
-                                                    : pedido.statusPedido == 5
-                                                        ? Cores.azul
-                                                        : Colors.red,
+                                      SizedBox(
+                                        height: size.height * 0.02,
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: formatDate(pedido.criadoEm.toLocal(), [dd, '/', mm, '/', yyyy]),
-                                        fontSize: 16,
+                                      ItensPedidoLojaWidget(
+                                        pedido: pedido,
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  ItensPedidoLojaWidget(
-                                    pedido: pedido,
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  pedido.entrega == true
-                                      ? Column(
-                                          children: [
-                                            Row(
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                      pedido.entrega == true
+                                          ? Column(
                                               children: [
-                                                TextWidget(
-                                                  text: 'Taxa de Entrega: ',
-                                                  fontSize: 16,
+                                                Row(
+                                                  children: [
+                                                    TextWidget(
+                                                      text: 'Taxa de Entrega: ',
+                                                      fontSize: 16,
+                                                    ),
+                                                    TextWidget(
+                                                      text: 'R\$ ' +
+                                                          pedido.taxaEntrega
+                                                              .toString(),
+                                                      fontSize: 16,
+                                                    ),
+                                                  ],
                                                 ),
-                                                TextWidget(
-                                                  text: 'R\$ ' +
-                                                      pedido.taxaEntrega
-                                                          .toString(),
-                                                  fontSize: 16,
+                                                SizedBox(
+                                                  height: size.height * 0.005,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: TextWidget(
+                                                        text: 'Endereço: ' +
+                                                            pedido.endereco,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
-                                            ),
-                                            SizedBox(
-                                              height: size.height * 0.005,
-                                            ),
-                                            Row(
+                                            )
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
-                                                Expanded(
+                                                TextWidget(
+                                                  text: 'Retirada em Loja',
+                                                  fontSize: 16,
+                                                ),
+                                                FlatButton(
+                                                  color: Colors.blue,
+                                                  onPressed: () {
+                                                    var loc = pedido.lojaGeral
+                                                        .usuario.localizacao;
+                                                    LocalizacaoModel
+                                                        localizacao =
+                                                        new LocalizacaoModel(
+                                                      complemento:
+                                                          loc.complemento,
+                                                      endereco: loc.endereco,
+                                                      mapaLink: loc.mapaLink,
+                                                    );
+                                                    Modular.to.pushNamed(
+                                                        '/maps_view',
+                                                        arguments: localizacao
+                                                        );
+                                                  },
                                                   child: TextWidget(
-                                                    text: 'Endereço: ' +
-                                                        pedido.endereco,
-                                                    fontSize: 16,
+                                                    text: 'Ver no Mapa',
+                                                    fontSize: 14,
+                                                    textColor: Colors.white,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        )
-                                      : Row(
-                                          children: [
-                                            TextWidget(
-                                              text: 'Retirada em Loja',
-                                              fontSize: 16,
-                                            ),
-                                          ],
-                                        ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: 'Pagamento: ',
-                                        fontSize: 16,
+                                      SizedBox(
+                                        height: size.height * 0.02,
                                       ),
-                                      TextWidget(
-                                        text: pedido.metodoPagamento == 0
-                                        ? 'Dinheiro'
-                                        : 'Crédito($metodoPagamento)',
-                                        fontSize: 16,
-                                      )
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: 'Pagamento: ',
+                                            fontSize: 16,
+                                          ),
+                                          TextWidget(
+                                            text: pedido.metodoPagamento == 0
+                                                ? 'Dinheiro'
+                                                : 'Crédito($metodoPagamento)',
+                                            fontSize: 16,
+                                          )
+                                        ],
+                                      ),
+                                      pedido.troco == null || pedido.troco == ''
+                                          ? SizedBox()
+                                          : Row(
+                                              children: [
+                                                TextWidget(
+                                                  text:
+                                                      'Você pediu troco para:',
+                                                  fontSize: 16,
+                                                ),
+                                                TextWidget(
+                                                  text: ' R\$ ' + pedido.troco,
+                                                  fontSize: 16,
+                                                ),
+                                              ],
+                                            ),
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                      Row(
+                                        children: [
+                                          TextWidget(
+                                            text: 'Total do Pedido: ',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          TextWidget(
+                                            text: 'R\$ ' +
+                                                pedido.totalPedido
+                                                    .toStringAsFixed(2),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                      pedido.statusPedido == 4
+                                          ? Row(
+                                              children: [
+                                                Expanded(
+                                                  child: TextWidget(
+                                                    text: 'Cancelado por: ',
+                                                    fontSize: 16,
+                                                    textColor: Colors.red,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: TextWidget(
+                                                    text: pedido.aviso,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    textColor: Colors.red,
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          : SizedBox()
                                     ],
                                   ),
-                                  pedido.troco == null || pedido.troco == ''
-                                      ? SizedBox()
-                                      : Row(
-                                          children: [
-                                            TextWidget(
-                                              text: 'Você pediu troco para:',
-                                              fontSize: 16,
-                                            ),
-                                            TextWidget(
-                                              text: ' R\$ ' + pedido.troco,
-                                              fontSize: 16,
-                                            ),
-                                          ],
-                                        ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: 'Total do Pedido: ',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      TextWidget(
-                                        text: 'R\$ ' +
-                                            pedido.totalPedido
-                                                .toStringAsFixed(2),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  pedido.statusPedido == 4
-                                  ? Row(
-                                    children: [
-                                      Expanded(
-                                       child: TextWidget(
-                                          text: 'Cancelado por: ',
-                                          fontSize: 16,
-                                          textColor: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: TextWidget(
-                                          text: pedido.aviso,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          textColor: Colors.red,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                  : SizedBox()
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      })
+                            );
+                          })
                 ],
               ),
             ),

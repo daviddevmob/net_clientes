@@ -12,6 +12,7 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/distancia.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
+import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_lojas.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
@@ -96,8 +97,42 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                         ),
                       ],
                     ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      DropdownButtonHideUnderline(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Cores.verdeClaro,
+                          ),
+                          child: DropdownButton(
+                            value: controller.bairro,
+                            hint: TextWidget(
+                              text: 'Todos os Bairros',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.white,
+                            ),
+                            items: listBairros,
+                            iconEnabledColor: Colors.white,
+                            dropdownColor: Cores.verdeClaro,
+                            onChanged: controller.getBairro,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                     SizedBox(
-                      height: 8,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -229,6 +264,40 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                     ],
                   ),
                   SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      DropdownButtonHideUnderline(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Cores.verdeClaro,
+                          ),
+                          child: DropdownButton(
+                            value: controller.bairro,
+                            hint: TextWidget(
+                              text: 'Todos os Bairros',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.white,
+                            ),
+                            items: listBairros,
+                            iconEnabledColor: Colors.white,
+                            dropdownColor: Cores.verdeClaro,
+                            onChanged: controller.getBairro,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
                     height: 8,
                   ),
                   Row(
@@ -311,6 +380,7 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
+                  
                   ListView.separated(
                     itemCount: lojas.lojaGeral.length,
                     shrinkWrap: true,

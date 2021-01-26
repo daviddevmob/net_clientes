@@ -151,9 +151,6 @@ class LojaPerfilRepository implements ILojaPerfil {
           [0]['loja_pedido_id'];
 
       int repet = itens.length;
-      itens.map((element) {
-        
-      });
       for (var x = 0; x < repet; x++) {
         double precoUnidade = itens[x].produto.precoPromo != 0 &&
                 itens[x].produto.precoPromo < itens[x].produto.preco
@@ -180,13 +177,15 @@ class LojaPerfilRepository implements ILojaPerfil {
         await api.mutation(queryItens);
         print('Quantidade: $x');
       }
-      /*  int y;
-      for (y = 0; y >= lojaPedidoModel.lojaPedidoItems.length; y++) {
+
+      for (var y = 0; y < repet; y++) {
+        int produtoId = itens[y].produto.lojaProdutoId;
+        int quantidadeProduto = itens[y].quantidade;
         var queryQuantidade = '''
         query MyQuery {
           loja_produto(
             where: {
-              loja_produto_id: {_eq: ${lojaPedidoModel.lojaPedidoItems[y].produtoLojaId}}}) {
+              loja_produto_id: {_eq: $produtoId}}) {
             quantidade
           }
         }
@@ -194,11 +193,11 @@ class LojaPerfilRepository implements ILojaPerfil {
         var data1 = await api.query(queryQuantidade);
         int quantidade = data1['data']['loja_produto'][0]['quantidade'];
         int novaQuantidade;
-        if (quantidade == lojaPedidoModel.lojaPedidoItems[y].quantidade) {
+        if (quantidade == quantidadeProduto) {
           novaQuantidade = 0;
-        } else if (quantidade > lojaPedidoModel.lojaPedidoItems[y].quantidade) {
+        } else if (quantidade > quantidadeProduto) {
           novaQuantidade =
-              quantidade - lojaPedidoModel.lojaPedidoItems[y].quantidade;
+              quantidade - quantidadeProduto;
         } else {
           novaQuantidade = 0;
         }
@@ -206,15 +205,14 @@ class LojaPerfilRepository implements ILojaPerfil {
         mutation MyMutation {
         update_loja_produto(
           where: {
-            loja_produto_id: {_eq: ${lojaPedidoModel.lojaPedidoItems[y].produtoLojaId}}}, 
+            loja_produto_id: {_eq: $produtoId}}, 
             _set: {quantidade: $novaQuantidade}) {
           affected_rows
             }
           }
         ''';
-
         await api.mutation(queryRemove);
-      } */
+      }
       return 'ok';
     } on HasuraError catch (e) {
       return getErrorHasuraString(e.message);

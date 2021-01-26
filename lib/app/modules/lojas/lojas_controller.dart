@@ -26,10 +26,19 @@ abstract class _LojasControllerBase with Store {
   bool lojaFisica;
 
   @observable
+  int bairro = 0;
+
+  @observable
   int categoria = 0;
 
   @observable
   TextEditingController textSearch = TextEditingController();
+
+  @action
+  getBairro(int newValue) {
+    bairro = newValue;
+    getListLojas();
+  }
 
   @action
   getDistanciaNegocio(
@@ -55,6 +64,7 @@ abstract class _LojasControllerBase with Store {
           lojaFisica,
           categoria == 0 ? null : categoria,
           textSearch.text,
+          bairro == 0 ? null : bairro,
         )
         .asObservable();
   }
