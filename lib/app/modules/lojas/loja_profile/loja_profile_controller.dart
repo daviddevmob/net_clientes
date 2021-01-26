@@ -3,10 +3,12 @@ import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/item_carrinho_model.dart';
 import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart';
+import 'package:net_cliente/app/shared/models/loja/loja_favorito_profile.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_pedido_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_profile.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/loja/lojas_favotiras/loja_favoritas_repository_interface.dart';
 
 part 'loja_profile_controller.g.dart';
 
@@ -16,8 +18,9 @@ class LojaProfileController = _LojaProfileControllerBase
 
 abstract class _LojaProfileControllerBase with Store {
   final ILojaPerfil iLojaPerfil;
+  final ILojasFavoritas iLojasFavoritas;
 
-  _LojaProfileControllerBase(this.iLojaPerfil);
+  _LojaProfileControllerBase(this.iLojaPerfil, this.iLojasFavoritas);
 
   @observable
   var produtosCarrinho = ObservableList<ItemCarrinhoModel>();
@@ -27,6 +30,12 @@ abstract class _LojaProfileControllerBase with Store {
 
   @observable
   int clienteId;
+
+  @observable
+  bool favoritado;
+
+  @observable
+  ObservableStream<LojaFavoritaModelProfile> lojaFavorita;
 
   @observable
   GlobalKey<FormState> formCarrinhoKey = GlobalKey<FormState>();
@@ -90,6 +99,11 @@ abstract class _LojaProfileControllerBase with Store {
         return value;
       }
     }).reduce((value, element) => value + element);
+  }
+
+  @action
+  getLojaFavorita(int clineteId) {
+    lojaFavorita =  iLojasFavoritas.setFavoritos(loja.lojaId, clineteId).asObservable();
   }
 
   @action
@@ -223,5 +237,21 @@ abstract class _LojaProfileControllerBase with Store {
         await iLojaPerfil.fazerPedido(lojaPedidoModel, produtosCarrinho);
     print('RETURN DO SALVAR: ' + salvar.toString());
     return salvar;
+  }
+
+  @action
+  salvarFavorito(int lojaId) async {
+    var salvar = await iLojasFavoritas.salvarFavorito(lojaId, clienteId);
+    return salvar;
+  }
+
+  @action
+  deletarFavorito(int lojaId) async {
+    var deletar = await iLojasFavoritas.setStatusFavorito(
+      clienteId, 
+      lojaId,
+      !lojaFavorita.value.clienteFavoritoLoja[0].ativo,
+      );
+    return deletar;
   }
 }

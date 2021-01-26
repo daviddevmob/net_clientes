@@ -77,6 +77,37 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     });
   }
 
+  final _$favoritadoAtom = Atom(name: '_LojaProfileControllerBase.favoritado');
+
+  @override
+  bool get favoritado {
+    _$favoritadoAtom.reportRead();
+    return super.favoritado;
+  }
+
+  @override
+  set favoritado(bool value) {
+    _$favoritadoAtom.reportWrite(value, super.favoritado, () {
+      super.favoritado = value;
+    });
+  }
+
+  final _$lojaFavoritaAtom =
+      Atom(name: '_LojaProfileControllerBase.lojaFavorita');
+
+  @override
+  ObservableStream<LojaFavoritaModelProfile> get lojaFavorita {
+    _$lojaFavoritaAtom.reportRead();
+    return super.lojaFavorita;
+  }
+
+  @override
+  set lojaFavorita(ObservableStream<LojaFavoritaModelProfile> value) {
+    _$lojaFavoritaAtom.reportWrite(value, super.lojaFavorita, () {
+      super.lojaFavorita = value;
+    });
+  }
+
   final _$formCarrinhoKeyAtom =
       Atom(name: '_LojaProfileControllerBase.formCarrinhoKey');
 
@@ -305,8 +336,36 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
         .savePedido(lojaView, carrinho, entrega, taxaEntrega, totalPedido));
   }
 
+  final _$salvarFavoritoAsyncAction =
+      AsyncAction('_LojaProfileControllerBase.salvarFavorito');
+
+  @override
+  Future salvarFavorito(int lojaId) {
+    return _$salvarFavoritoAsyncAction.run(() => super.salvarFavorito(lojaId));
+  }
+
+  final _$deletarFavoritoAsyncAction =
+      AsyncAction('_LojaProfileControllerBase.deletarFavorito');
+
+  @override
+  Future deletarFavorito(int lojaId) {
+    return _$deletarFavoritoAsyncAction
+        .run(() => super.deletarFavorito(lojaId));
+  }
+
   final _$_LojaProfileControllerBaseActionController =
       ActionController(name: '_LojaProfileControllerBase');
+
+  @override
+  dynamic getLojaFavorita(int clineteId) {
+    final _$actionInfo = _$_LojaProfileControllerBaseActionController
+        .startAction(name: '_LojaProfileControllerBase.getLojaFavorita');
+    try {
+      return super.getLojaFavorita(clineteId);
+    } finally {
+      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setEntregaDomicilio(bool newValue) {
@@ -381,6 +440,8 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
 produtosCarrinho: ${produtosCarrinho},
 loja: ${loja},
 clienteId: ${clienteId},
+favoritado: ${favoritado},
+lojaFavorita: ${lojaFavorita},
 formCarrinhoKey: ${formCarrinhoKey},
 taxaEntrega: ${taxaEntrega},
 distanciaEntrega: ${distanciaEntrega},

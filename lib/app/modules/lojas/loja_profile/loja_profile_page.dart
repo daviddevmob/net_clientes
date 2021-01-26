@@ -46,6 +46,7 @@ class _LojaProfilePageState
       controller.taxaEntrega = controller.distanciaEntrega *
           controller.loja.usuario.taxaEntrega.taxaEntrega;
       controller.clienteId = widget.lojaProfile.cliente.clienteId;
+      await controller.getLojaFavorita(widget.lojaProfile.cliente.clienteId);
     });
     super.initState();
   }
@@ -210,11 +211,83 @@ class _LojaProfilePageState
                 ),
                 Row(
                   children: [
-                    LojaProfileInfosWidget(
-                      loja: loja,
-                      funcionamento: funcionamento,
-                      aberto: aberto,
-                      distancia: controller.distanciaEntrega,
+                    Container(
+                      width: size.width - 20,
+                      child: Stack(
+                        children: [
+                          LojaProfileInfosWidget(
+                            loja: loja,
+                            funcionamento: funcionamento,
+                            aberto: aberto,
+                            distancia: controller.distanciaEntrega,
+                          ),
+                          Positioned(
+                            left: 320,
+                            child: Observer(builder: (_) {
+                              if (controller.lojaFavorita.value
+                                  .clienteFavoritoLoja.isEmpty) {
+                                return IconButton(
+                                  icon: Icon(
+                                    CupertinoIcons.star,
+                                    color: Cores.verdeClaro,
+                                  ),
+                                  onPressed: () async {
+                                    if (await ConnectionVerify
+                                        .connectionStatus()) {
+                                      controller.salvarFavorito(
+                                        widget.lojaProfile.lojaGeral.lojaId,
+                                      );
+                                      controller.favoritado = true;
+                                    } else {
+                                      return InternetFlushBar()
+                                          .showFlushBarInternet(context);
+                                    }
+                                  },
+                                );
+                              } else if (controller.lojaFavorita.value
+                                      .clienteFavoritoLoja[0].ativo ==
+                                  true) {
+                                return IconButton(
+                                  icon: Icon(
+                                    CupertinoIcons.star_fill,
+                                    color: Cores.verdeClaro,
+                                  ),
+                                  onPressed: () async {
+                                    if (await ConnectionVerify
+                                        .connectionStatus()) {
+                                      controller.deletarFavorito(
+                                          widget.lojaProfile.lojaGeral.lojaId);
+                                    } else {
+                                      return InternetFlushBar()
+                                          .showFlushBarInternet(context);
+                                    }
+                                  },
+                                );
+                              } else if (controller.lojaFavorita.value
+                                      .clienteFavoritoLoja[0].ativo ==
+                                  false) {
+                                return IconButton(
+                                  icon: Icon(
+                                    CupertinoIcons.star,
+                                    color: Cores.verdeClaro,
+                                  ),
+                                  onPressed: () async {
+                                    if (await ConnectionVerify
+                                        .connectionStatus()) {
+                                      controller.deletarFavorito(
+                                          widget.lojaProfile.lojaGeral.lojaId);
+                                    } else {
+                                      return InternetFlushBar()
+                                          .showFlushBarInternet(context);
+                                    }
+                                  },
+                                );
+                              }
+                              return CupertinoActivityIndicator();
+                            }),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -226,18 +299,15 @@ class _LojaProfilePageState
                   children: [
                     Observer(
                       builder: (_) => DropdownButtonHideUnderline(
-                          child: Container(
+                        child: Container(
                           height: 45,
                           padding: EdgeInsets.only(
                             left: 10,
                           ),
                           decoration: BoxDecoration(
-                          color: Cores.verdeClaro,
-                            border: Border.all(
-                              color: Colors.transparent
-                            ),
-                            borderRadius: BorderRadius.circular(4)
-                          ),
+                              color: Cores.verdeClaro,
+                              border: Border.all(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(4)),
                           child: DropdownButton<int>(
                             value: controller.categoria,
                             iconEnabledColor: Colors.white,
@@ -284,82 +354,91 @@ class _LojaProfilePageState
                     }
                     return Stack(
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 20, top: 20),
-                          child: Wrap(
-                            spacing: 10,
-                            children: [
-                              produto.foto1Link == null ||
-                                      produto.foto1Link == ''
-                                  ? Container(
-                                      height: 80,
-                                      width: 100,
-                                      decoration: BoxDecoration(
+                        GestureDetector(
+                          onTap: () {
+                            Modular.to.pushNamed(
+                              '/loja_profile/view_produto',
+                              arguments: produto,
+                              );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 20, top: 20),
+                            child: Wrap(
+                              spacing: 10,
+                              children: [
+                                produto.foto1Link == null ||
+                                        produto.foto1Link == ''
+                                    ? Container(
+                                        height: 80,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.transparent),
+                                            color: Cores.verdeClaro,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                      )
+                                    : Container(
+                                        height: 80,
+                                        width: 100,
+                                        decoration: BoxDecoration(
                                           border: Border.all(
                                               color: Colors.transparent),
-                                          color: Cores.verdeClaro,
                                           borderRadius:
-                                              BorderRadius.circular(4)),
-                                    )
-                                  : Container(
-                                      height: 80,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.transparent),
-                                        borderRadius: BorderRadius.circular(4),
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: CachedNetworkImageProvider(
-                                              produto.foto1Link),
+                                              BorderRadius.circular(4),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: CachedNetworkImageProvider(
+                                                produto.foto1Link),
+                                          ),
                                         ),
                                       ),
+                                Wrap(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    TextWidget(
+                                      text: produto.produtoNome,
+                                      fontSize: 14,
                                     ),
-                              Wrap(
-                                direction: Axis.vertical,
-                                children: [
-                                  TextWidget(
-                                    text: produto.produtoNome,
-                                    fontSize: 14,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  produto.disponivel == true
-                                      ? Container(
-                                          child: promocao == true
-                                              ? Wrap(
-                                                  direction: Axis.vertical,
-                                                  children: [
-                                                    TextWidget(
-                                                      text:
-                                                          'De: R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                      fontSize: 13,
-                                                      textColor:
-                                                          Colors.grey[500],
-                                                    ),
-                                                    TextWidget(
-                                                      text:
-                                                          'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
-                                                      fontSize: 18,
-                                                      textColor: Colors.green,
-                                                    )
-                                                  ],
-                                                )
-                                              : TextWidget(
-                                                  text:
-                                                      'Por: R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                  fontSize: 18,
-                                                ),
-                                        )
-                                      : TextWidget(
-                                          text: 'Aguardando atualização',
-                                          fontSize: 14,
-                                          textColor: Colors.grey[400],
-                                        )
-                                ],
-                              ),
-                            ],
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    produto.disponivel == true
+                                        ? Container(
+                                            child: promocao == true
+                                                ? Wrap(
+                                                    direction: Axis.vertical,
+                                                    children: [
+                                                      TextWidget(
+                                                        text:
+                                                            'De: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                        fontSize: 13,
+                                                        textColor:
+                                                            Colors.grey[500],
+                                                      ),
+                                                      TextWidget(
+                                                        text:
+                                                            'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
+                                                        fontSize: 18,
+                                                        textColor: Colors.green,
+                                                      )
+                                                    ],
+                                                  )
+                                                : TextWidget(
+                                                    text:
+                                                        'Por: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                    fontSize: 18,
+                                                  ),
+                                          )
+                                        : TextWidget(
+                                            text: 'Aguardando atualização',
+                                            fontSize: 14,
+                                            textColor: Colors.grey[400],
+                                          )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Observer(

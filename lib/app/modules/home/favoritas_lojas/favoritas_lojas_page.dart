@@ -67,6 +67,9 @@ class _FavoritasLojasPageState
             return Center(
               child: TextWidget(
                 text: 'Você ainda não favoritou nenhuma loja',
+                fontSize: 16,
+                textColor: Colors.grey[400],
+                fontWeight: FontWeight.bold,
               ),
             );
           }
