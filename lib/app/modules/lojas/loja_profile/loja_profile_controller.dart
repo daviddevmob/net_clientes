@@ -9,6 +9,7 @@ import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_profile.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/loja/lojas_favotiras/loja_favoritas_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 
 part 'loja_profile_controller.g.dart';
 
@@ -19,8 +20,10 @@ class LojaProfileController = _LojaProfileControllerBase
 abstract class _LojaProfileControllerBase with Store {
   final ILojaPerfil iLojaPerfil;
   final ILojasFavoritas iLojasFavoritas;
+  final ISend iSend;
 
-  _LojaProfileControllerBase(this.iLojaPerfil, this.iLojasFavoritas);
+  _LojaProfileControllerBase(
+      this.iLojaPerfil, this.iLojasFavoritas, this.iSend);
 
   @observable
   var produtosCarrinho = ObservableList<ItemCarrinhoModel>();
@@ -105,6 +108,11 @@ abstract class _LojaProfileControllerBase with Store {
   getLojaFavorita(int clineteId) {
     lojaFavorita =
         iLojasFavoritas.setFavoritos(loja.lojaId, clineteId).asObservable();
+  }
+
+  @action
+  sendLigacao() {
+    iSend.sendLigacao(loja.usuario.socialLinks.telefone);
   }
 
   @action

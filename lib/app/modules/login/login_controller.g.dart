@@ -9,6 +9,13 @@ part of 'login_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginController on _LoginControllerBase, Store {
+  Computed<int> _$metodoComputed;
+
+  @override
+  int get metodo => (_$metodoComputed ??= Computed<int>(() => super.metodo,
+          name: '_LoginControllerBase.metodo'))
+      .value;
+
   final _$formLoginKeyAtom = Atom(name: '_LoginControllerBase.formLoginKey');
 
   @override
@@ -71,6 +78,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$metodoLoginAtom = Atom(name: '_LoginControllerBase.metodoLogin');
+
+  @override
+  int get metodoLogin {
+    _$metodoLoginAtom.reportRead();
+    return super.metodoLogin;
+  }
+
+  @override
+  set metodoLogin(int value) {
+    _$metodoLoginAtom.reportWrite(value, super.metodoLogin, () {
+      super.metodoLogin = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_LoginControllerBase.loading');
 
   @override
@@ -93,6 +115,14 @@ mixin _$LoginController on _LoginControllerBase, Store {
     return _$loginAsyncAction.run(() => super.login());
   }
 
+  final _$loginGoogleAsyncAction =
+      AsyncAction('_LoginControllerBase.loginGoogle');
+
+  @override
+  Future loginGoogle() {
+    return _$loginGoogleAsyncAction.run(() => super.loginGoogle());
+  }
+
   @override
   String toString() {
     return '''
@@ -100,7 +130,9 @@ formLoginKey: ${formLoginKey},
 emailController: ${emailController},
 passwordController: ${passwordController},
 viewPassWord: ${viewPassWord},
-loading: ${loading}
+metodoLogin: ${metodoLogin},
+loading: ${loading},
+metodo: ${metodo}
     ''';
   }
 }

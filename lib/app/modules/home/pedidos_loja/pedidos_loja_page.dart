@@ -73,23 +73,24 @@ class _PedidosLojaPageState
               ),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextWidget(
-                        text: 'Meus Pedidos',
-                        fontSize: 18,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.04,
+                 pedidos.lojaPedidos.isEmpty == false
+                 ? SizedBox(
+                   height: 20,
+                 )
+                 : SizedBox(
+                    height: size.height * 0.3,
                   ),
                   pedidos.lojaPedidos.isEmpty == true
-                      ? TextWidget(
-                          text: 'Sem pedidos até agora',
-                          textColor: Colors.grey[400],
-                        )
+                      ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextWidget(
+                              text: 'Sem pedidos até agora',
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.grey[400],
+                            ),
+                        ],
+                      )
                       : ListView.builder(
                           itemCount: pedidos.lojaPedidos.length,
                           shrinkWrap: true,
@@ -102,8 +103,8 @@ class _PedidosLojaPageState
                                 .getMetodoPagamento(pedido.metodoPagamento);
                             return Container(
                               margin: EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
+                                top: 8,
+                                bottom: 8,
                               ),
                               child: Card(
                                 elevation: 4,
@@ -263,18 +264,18 @@ class _PedidosLojaPageState
                                       pedido.troco == null || pedido.troco == ''
                                           ? SizedBox()
                                           : Row(
-                                              children: [
-                                                TextWidget(
-                                                  text:
-                                                      'Você pediu troco para:',
-                                                  fontSize: 16,
+                                                  children: [
+                                                    TextWidget(
+                                                      text:
+                                                          'Você pediu troco para:',
+                                                      fontSize: 16,
+                                                    ),
+                                                    TextWidget(
+                                                      text: ' R\$ ' + pedido.troco,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ],
                                                 ),
-                                                TextWidget(
-                                                  text: ' R\$ ' + pedido.troco,
-                                                  fontSize: 16,
-                                                ),
-                                              ],
-                                            ),
                                       SizedBox(
                                         height: size.height * 0.02,
                                       ),

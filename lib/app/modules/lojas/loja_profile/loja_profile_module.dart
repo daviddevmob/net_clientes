@@ -15,7 +15,7 @@ class LojaProfileModule extends ChildModule {
   List<Bind> get binds => [
       Bind<ILojasFavoritas>((i) => LojasFavotirasRepository(i.get())),
       Bind<ILojaPerfil>((i) => LojaPerfilRepository(i.get())),
-      Bind((i) => LojaProfileController(i.get(), i.get())),
+      Bind((i) => LojaProfileController(i.get(), i.get(), i.get())),
       ];
 
   @override

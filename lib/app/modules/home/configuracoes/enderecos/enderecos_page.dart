@@ -150,11 +150,16 @@ class _EnderecosPageState
                                   )
                                 : Row(
                                     children: [
-                                      TextWidget(
-                                        text: 'Clique para selecionar',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        textColor: Colors.grey[400],
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: 10,
+                                        ),
+                                        child: TextWidget(
+                                          text: 'Clique para selecionar',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          textColor: Colors.black,
+                                        ),
                                       ),
                                     ],
                                   ),

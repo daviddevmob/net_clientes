@@ -59,110 +59,135 @@ class _LojaProfilePageState
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: Observer(
-          builder: (_) => AppBarWidget(
+          builder: (_) {
+          var loja = controller.loja;
+          bool aberto;
+          var dia = DateTime.now().weekday;
+          if (dia == 1 && loja.usuario.diasSemana.segunda == true) {
+            aberto = true;
+          } else if (dia == 2 && loja.usuario.diasSemana.terca == true) {
+            aberto = true;
+          } else if (dia == 3 && loja.usuario.diasSemana.quarta == true) {
+            aberto = true;
+          } else if (dia == 4 && loja.usuario.diasSemana.quinta == true) {
+            aberto = true;
+          } else if (dia == 5 && loja.usuario.diasSemana.sexta == true) {
+            aberto = true;
+          } else if (dia == 6 && loja.usuario.diasSemana.sabado == true) {
+            aberto = true;
+          } else if (dia == 7 && loja.usuario.diasSemana.domingo == true) {
+            aberto = true;
+          }
+          return AppBarWidget(
             title: widget.lojaProfile.lojaGeral.lojaNome,
             viewLeading: true,
             actions: [
-              Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      CupertinoIcons.cart,
-                      color: Colors.white,
+              Container(
+                width: 70,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 20,
+                      child: IconButton(
+                        icon: Icon(
+                          CupertinoIcons.cart,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          var metUser = controller.loja.usuario.metodoPagamento;
+                          List<MetodosPagamentoAceitos> metodos =
+                              new List<MetodosPagamentoAceitos>();
+                          if (metUser.visa == true) {
+                            metodos.add(MetodosPagamentoAceitos(1, 'Visa'));
+                          }
+                          if (metUser.americanExpress == true) {
+                            metodos.add(
+                                MetodosPagamentoAceitos(2, 'American Express'));
+                          }
+                          if (metUser.mastercard == true) {
+                            metodos
+                                .add(MetodosPagamentoAceitos(3, 'MasterCard'));
+                          }
+                          if (metUser.elo == true) {
+                            metodos.add(MetodosPagamentoAceitos(4, 'Elo'));
+                          }
+                          if (metUser.amex == true) {
+                            metodos.add(MetodosPagamentoAceitos(5, 'Amex'));
+                          }
+                          if (metUser.sodexoAlimentacao == true) {
+                            metodos.add(MetodosPagamentoAceitos(
+                                6, 'Sodexo Alimentação'));
+                          }
+                          if (metUser.sodexoRefeicao == true) {
+                            metodos.add(
+                                MetodosPagamentoAceitos(7, 'Sodexo Refeição'));
+                          }
+                          if (metUser.aleloAlimentacao == true) {
+                            metodos.add(MetodosPagamentoAceitos(
+                                8, 'Alelo Alimentação'));
+                          }
+                          if (metUser.aleloRefeicao == true) {
+                            metodos.add(
+                                MetodosPagamentoAceitos(9, 'Alelo Refeição'));
+                          }
+                          if (metUser.ticketAlimentacao == true) {
+                            metodos.add(MetodosPagamentoAceitos(
+                                10, 'Ticket Alimentação'));
+                          }
+                          if (metUser.ticketRestaurante == true) {
+                            metodos.add(MetodosPagamentoAceitos(
+                                11, 'Tikect Restaurante'));
+                          }
+                          int tipoEntrega;
+                          if (controller.loja.entregaDomicilio == true &&
+                              controller.loja.lojaFisica == true) {
+                            tipoEntrega = 1;
+                          } else if (controller.loja.entregaDomicilio == true &&
+                              controller.loja.lojaFisica == false) {
+                            tipoEntrega = 2;
+                          } else if (controller.loja.entregaDomicilio ==
+                                  false &&
+                              controller.loja.lojaFisica == true) {
+                            tipoEntrega = 3;
+                          } else {
+                            tipoEntrega = 4;
+                          }
+
+                          CarrinhoLojaPageModel carrinho =
+                              new CarrinhoLojaPageModel(
+                            controller,
+                            controller.taxaEntrega,
+                            controller.distanciaEntrega,
+                            metodos,
+                            tipoEntrega,
+                            widget.lojaProfile,
+                            aberto,
+                          );
+                          Modular.to.pushNamed('/loja_profile/carrinho_loja',
+                              arguments: carrinho);
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      var metUser = controller.loja.usuario.metodoPagamento;
-                      List<MetodosPagamentoAceitos> metodos =
-                          new List<MetodosPagamentoAceitos>();
-                      if (metUser.visa == true) {
-                        metodos.add(MetodosPagamentoAceitos(1, 'Visa'));
-                      }
-                      if (metUser.americanExpress == true) {
-                        metodos.add(
-                            MetodosPagamentoAceitos(2, 'American Express'));
-                      }
-                      if (metUser.mastercard == true) {
-                        metodos.add(MetodosPagamentoAceitos(3, 'MasterCard'));
-                      }
-                      if (metUser.elo == true) {
-                        metodos.add(MetodosPagamentoAceitos(4, 'Elo'));
-                      }
-                      if (metUser.amex == true) {
-                        metodos.add(MetodosPagamentoAceitos(5, 'Amex'));
-                      }
-                      if (metUser.sodexoAlimentacao == true) {
-                        metodos.add(
-                            MetodosPagamentoAceitos(6, 'Sodexo Alimentação'));
-                      }
-                      if (metUser.sodexoRefeicao == true) {
-                        metodos
-                            .add(MetodosPagamentoAceitos(7, 'Sodexo Refeição'));
-                      }
-                      if (metUser.aleloAlimentacao == true) {
-                        metodos.add(
-                            MetodosPagamentoAceitos(8, 'Alelo Alimentação'));
-                      }
-                      if (metUser.aleloRefeicao == true) {
-                        metodos
-                            .add(MetodosPagamentoAceitos(9, 'Alelo Refeição'));
-                      }
-                      if (metUser.ticketAlimentacao == true) {
-                        metodos.add(
-                            MetodosPagamentoAceitos(10, 'Ticket Alimentação'));
-                      }
-                      if (metUser.ticketRestaurante == true) {
-                        metodos.add(
-                            MetodosPagamentoAceitos(11, 'Tikect Restaurante'));
-                      }
-                      int tipoEntrega;
-                      if (controller.loja.entregaDomicilio == true &&
-                          controller.loja.lojaFisica == true) {
-                        tipoEntrega = 1;
-                      } else if (controller.loja.entregaDomicilio == true &&
-                          controller.loja.lojaFisica == false) {
-                        tipoEntrega = 2;
-                      } else if (controller.loja.entregaDomicilio == false &&
-                          controller.loja.lojaFisica == true) {
-                        tipoEntrega = 3;
-                      } else {
-                        tipoEntrega = 4;
-                      }
-                      CarrinhoLojaPageModel carrinho =
-                          new CarrinhoLojaPageModel(
-                        controller,
-                        controller.taxaEntrega,
-                        controller.distanciaEntrega,
-                        metodos,
-                        tipoEntrega,
-                        widget.lojaProfile,
-                      );
-                      Modular.to.pushNamed('/loja_profile/carrinho_loja',
-                          arguments: carrinho);
-                    },
-                  ),
-                  controller.produtosCarrinho.isEmpty
-                      ? SizedBox()
-                      : Positioned(
-                          left: 20,
-                          top: 12,
-                          child: CircleAvatar(
-                            radius: 6,
-                            backgroundColor: Colors.black,
+                    controller.produtosCarrinho.isEmpty
+                        ? SizedBox()
+                        : Positioned(
+                            left: 10,
+                            top: 13.5,
                             child: TextWidget(
                               text: controller.produtosCarrinho.isEmpty
                                   ? ''
                                   : '${controller.produtosCarrinho.length}',
-                              fontSize: 11,
+                              fontSize: 20,
                               textColor: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               ),
             ],
-          ),
-        ),
+          );
+        }),
       ),
       body: Observer(builder: (_) {
         if (controller.loja == null) {
@@ -221,6 +246,7 @@ class _LojaProfilePageState
                             funcionamento: funcionamento,
                             aberto: aberto,
                             distancia: controller.distanciaEntrega,
+                            controller: controller,
                           ),
                           Positioned(
                             left: 320,

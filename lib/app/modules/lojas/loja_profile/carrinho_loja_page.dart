@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/metodo_pagamento_loja.dart';
+import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/tipo_entrega_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
@@ -115,137 +116,26 @@ class CarrinhoLojaPage extends StatelessWidget {
               bottom: 10,
             ),
             child: carrinho.controller.produtosCarrinho.isEmpty == true
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextWidget(
-                        text: 'Sem itens no carrinho',
-                        textColor: Colors.grey[400],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  )
+                ? Container(
+                  margin: EdgeInsets.only(
+                    top: 250,
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                          text: 'Sem itens no carrinho',
+                          textColor: Colors.grey[400],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                )
                 : Observer(
                     builder: (_) => Form(
                       key: carrinho.controller.formCarrinhoKey,
                       child: Column(
                         children: [
-                          Observer(builder: (_) {
-                            if (carrinho.tipoEntrega == 1) {
-                              return Row(
-                                children: [
-                                  Wrap(
-                                    direction: Axis.vertical,
-                                    children: [
-                                      TextWidget(
-                                        text: 'Tipo de Entrega: ',
-                                        fontSize: 16,
-                                        textColor: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Observer(
-                                        builder: (_) => DropdownButtonHideUnderline(
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                            left: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: Cores.verdeClaro,
-                                            border: Border.all(
-                                              color: Colors.transparent,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: DropdownButton<bool>(
-                                              value: carrinho
-                                                  .controller.entregaDomicilio,
-                                              iconEnabledColor: Colors.white,
-                                              items: [
-                                                DropdownMenuItem(
-                                                  value: true,
-                                                  child: TextWidget(
-                                                    text: 'Entrega em Domicílio',
-                                                    fontSize: 16,
-                                                    textColor: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value: false,
-                                                  child: TextWidget(
-                                                    text: 'Retirar na Loja',
-                                                    fontSize: 16,
-                                                    textColor: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                              dropdownColor: Cores.verdeClaro,
-                                              onChanged: carrinho
-                                                  .controller.setEntregaDomicilio,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            } else if (carrinho.tipoEntrega == 2) {
-                              return Wrap(
-                                direction: Axis.vertical,
-                                children: [
-                                  TextWidget(
-                                    text: 'Tipo de Entrega: ',
-                                    fontSize: 16,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Expanded(
-                                    child: TextWidget(
-                                      text:
-                                          'Disponível somente entrega em domicílio',
-                                      fontSize: 16,
-                                    ),
-                                  )
-                                ],
-                              );
-                            } else if (carrinho.tipoEntrega == 3) {
-                              return Wrap(
-                                direction: Axis.vertical,
-                                children: [
-                                  TextWidget(
-                                    text: 'Tipo de Entrega: ',
-                                    fontSize: 16,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Expanded(
-                                    child: TextWidget(
-                                      text:
-                                          'Disponível somente retirada em loja',
-                                      fontSize: 16,
-                                    ),
-                                  )
-                                ],
-                              );
-                            }
-
-                            return TextWidget(
-                              text: 'Loja não  está operando no momento :/',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              textColor: Colors.grey[400],
-                            );
-                          }),
-                          SizedBox(
-                            height: 20,
-                          ),
                           Observer(
                             builder: (_) => ListView.builder(
                               itemCount:
@@ -422,7 +312,13 @@ class CarrinhoLojaPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 40,
+                          ),
+                          TipoEntregaLojaWidget(
+                            carrinho: carrinho,
+                          ),
+                          SizedBox(
+                            height: 40,
                           ),
                           Container(
                             margin: EdgeInsets.only(
@@ -515,24 +411,42 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 margin: EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-                                    DropdownButton<int>(
-                                      value: carrinho
-                                          .controller.metodoPagamentoCartaoId,
-                                      hint: TextWidget(
-                                        text: 'Selecione a bandeira do cartão',
-                                        fontSize: 16,
-                                      ),
-                                      items: carrinho.metodos.map((e) {
-                                        return DropdownMenuItem<int>(
-                                          value: e.metodoId,
-                                          child: TextWidget(
-                                            text: e.nomeMetodo,
+                                    DropdownButtonHideUnderline(
+                                      child: Container(
+                                        height: 40,
+                                        padding: EdgeInsets.only(
+                                          left: 10,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Cores.verdeClaro,
+                                          border: Border.all(
+                                            color: Colors.transparent,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: DropdownButton<int>(
+                                          value: carrinho
+                                              .controller.metodoPagamentoCartaoId,
+                                          hint: TextWidget(
+                                            text: 'Selecione a bandeira do cartão',
                                             fontSize: 16,
                                           ),
-                                        );
-                                      }).toList(),
-                                      onChanged: carrinho.controller
-                                          .setMetodoPagamentoCartaoId,
+                                          dropdownColor: Cores.verdeClaro,
+                                          items: carrinho.metodos.map((e) {
+                                            return DropdownMenuItem<int>(
+                                              value: e.metodoId,
+                                              child: TextWidget(
+                                                text: e.nomeMetodo,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                textColor: Colors.white,
+                                              ),
+                                            );
+                                          }).toList(),
+                                          onChanged: carrinho.controller
+                                              .setMetodoPagamentoCartaoId,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -600,54 +514,61 @@ class CarrinhoLojaPage extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 20,
+                            height: 40,
                           ),
                           Observer(
-                            builder: (_) => FlatButton(
-                              color: Colors.blue,
-                              onPressed: () async {
-                                if (await ConnectionVerify.connectionStatus()) {
-                                  if (carrinho
-                                      .controller.formCarrinhoKey.currentState
-                                      .validate()) {
-                                    if (carrinho.controller.pagamentoDinheiro ==
-                                            false &&
-                                        carrinho.controller
-                                                .metodoPagamentoCartaoId ==
-                                            null) {
-                                      return AvisoFlushBar().showFlushBarAviso(
-                                        context,
-                                        'Cartão de Crédito',
-                                        'Selecione a bandeira do cartão de crédito',
-                                      );
-                                    } else {
-                                      await carrinho.controller.savePedido(
-                                        carrinho.lojaProfileModule,
-                                        carrinho,
-                                        entrega,
-                                        taxaEntrega,
-                                        valorTotal,
-                                      );
-                                    }
+                            builder: (_) => Observer(
+                              builder:(_) => FlatButton(
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                side: BorderSide(color: Colors.transparent)),
+                                color: Colors.blue,
+                                disabledColor: Colors.grey,
+                                onPressed: carrinho.aberto == null
+                                ? null
+                                : () async {
+                                  if (await ConnectionVerify.connectionStatus()) {
+                                    if (carrinho
+                                        .controller.formCarrinhoKey.currentState
+                                        .validate()) {
+                                      if (carrinho.controller.pagamentoDinheiro ==
+                                              false &&
+                                          carrinho.controller
+                                                  .metodoPagamentoCartaoId ==
+                                              null) {
+                                        return AvisoFlushBar().showFlushBarAviso(
+                                          context,
+                                          'Cartão de Crédito',
+                                          'Selecione a bandeira do cartão de crédito',
+                                        );
+                                      } else {
+                                        await carrinho.controller.savePedido(
+                                          carrinho.lojaProfileModule,
+                                          carrinho,
+                                          entrega,
+                                          taxaEntrega,
+                                          valorTotal,
+                                        );
+                                      }
+                                    } 
                                   } else {
-                                    return InternetFlushBar()
-                                        .showFlushBarInternet(context);
-                                  }
-                                }
-                              },
-                              child: TextWidget(
-                                text: 'Finalizar Pedido',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                textColor: Colors.white,
+                                      return InternetFlushBar()
+                                          .showFlushBarInternet(context);
+                                    }
+                                },
+                                child: TextWidget(
+                                  text: carrinho.aberto == null 
+                                  ? 'Loja Fechada'
+                                  : 'Concluir Pedido',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  textColor: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
                         ],
                       ),

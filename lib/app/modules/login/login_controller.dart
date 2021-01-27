@@ -26,6 +26,18 @@ abstract class _LoginControllerBase with Store {
   bool viewPassWord = false;
 
   @observable
+  int metodoLogin = 0;
+
+  @computed
+  int get metodo {
+    if (metodoLogin == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  @observable
   bool loading = false;
 
   // ignore: missing_return

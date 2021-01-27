@@ -343,14 +343,21 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         icon: CupertinoIcons.cart,
                         function: () async {
                           if (await ConnectionVerify.connectionStatus()) {
-                            LojasSearch lojasSearch = new LojasSearch(
-                              controller.cliente.value,
-                              controller.enderecoCliente.value,
-                            );
-                            Modular.to.pushNamed(
-                              '/lojas',
-                              arguments: lojasSearch,
-                            );
+                            if (controller.cliente.value.enderecoId == null) {
+                              return selecionarEndereco(
+                                context,
+                                controller,
+                              );
+                            } else {
+                              LojasSearch lojasSearch = new LojasSearch(
+                                controller.cliente.value,
+                                controller.enderecoCliente.value,
+                              );
+                              Modular.to.pushNamed(
+                                '/lojas',
+                                arguments: lojasSearch,
+                              );
+                            }
                           } else {
                             return InternetFlushBar()
                                 .showFlushBarInternet(context);
@@ -360,7 +367,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Meus Pedidos',
                         icon: CupertinoIcons.cube_box,
-                        function: () {
+                        function: () async {
                           Modular.to.pushNamed(
                             '/home/pedidos_loja/',
                             arguments: controller.cliente.value.clienteId,
@@ -372,7 +379,13 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           icon: CupertinoIcons.star,
                           function: () async {
                             if (await ConnectionVerify.connectionStatus()) {
-                              LojasSearch lojasSearch = new LojasSearch(
+                              if (controller.cliente.value.enderecoId == null) {
+                              return selecionarEndereco(
+                                context,
+                                controller,
+                              );
+                            } else{
+                                LojasSearch lojasSearch = new LojasSearch(
                                 controller.cliente.value,
                                 controller.enderecoCliente.value,
                               );
@@ -380,6 +393,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                 '/home/lojas_favoritas/',
                                 arguments: lojasSearch,
                               );
+                              }
                             } else {
                               return InternetFlushBar()
                                   .showFlushBarInternet(context);

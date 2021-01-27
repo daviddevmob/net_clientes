@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class MetodoPagamentoLojaWidget extends StatelessWidget {
@@ -16,7 +17,9 @@ class MetodoPagamentoLojaWidget extends StatelessWidget {
           children: [
             TextWidget(
               text: 'Método de Pagamento',
-              fontSize: 16,
+              fontSize: 18,
+              textColor: Colors.black,
+              fontWeight: FontWeight.w400,
             ),
             Observer(
               builder:(_) => Row(
@@ -25,6 +28,7 @@ class MetodoPagamentoLojaWidget extends StatelessWidget {
                     value: true,
                     groupValue: carrinho.controller.pagamentoDinheiro,
                     onChanged: carrinho.controller.setDinheiroOuCartao,
+                    activeColor: Cores.verdeClaro,
                   ),
                   TextWidget(
                     text: 'Dinheiro',
@@ -40,6 +44,7 @@ class MetodoPagamentoLojaWidget extends StatelessWidget {
                     value: false,
                     groupValue: carrinho.controller.pagamentoDinheiro,
                     onChanged: carrinho.controller.setDinheiroOuCartao,
+                    activeColor: Cores.verdeClaro,
                   ),
                   TextWidget(
                     text: 'Cartão de Crédito (entregador)',
