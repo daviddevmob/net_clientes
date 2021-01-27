@@ -311,7 +311,9 @@ class _PedidosLojaPageState
                                                 ),
                                                 Expanded(
                                                   child: TextWidget(
-                                                    text: pedido.aviso,
+                                                    text: pedido.aviso != null 
+                                                    ? pedido.aviso
+                                                    : '-',
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     textColor: Colors.red,
