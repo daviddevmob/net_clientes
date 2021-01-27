@@ -7,15 +7,12 @@ class ListLojasRepository implements IListLojas {
 
   ListLojasRepository(this.api);
   @override
-  Future<ListLojasModel> getLojas(
-    bool domicilio,
-    bool lojaFisica,
-    int categoria,
-    String text,
-    int bairro
-  ) async {
+  Future<ListLojasModel> getLojas(bool domicilio, bool lojaFisica,
+      int categoria, String text, int bairro) async {
     String params;
-    text == null || text == '' ? params = null : params = "%$text%";
+    if (text != '' || text != null) {
+      params = text;
+    }
 
     var query = '''
     query MyQuery {
@@ -27,9 +24,9 @@ class ListLojasRepository implements IListLojas {
             entrega_domicilio: {_eq: $domicilio}, 
             categoria: {_eq: $categoria}, 
             _or: [
-              {loja_nome: {_ilike: $params}}, 
-              {loja_produtos: {produto_nome: {_ilike: $params}}, 
-              loja_prod_categoria: {nome_categoria: {_ilike: $params}}}], 
+              {loja_nome: {_ilike: "%$params%"}}, 
+              {loja_produtos: {produto_nome: {_ilike: "%$params%"}}, 
+              loja_prod_categoria: {nome_categoria: {_ilike: "%$params%"}}}], 
               usuario: {
                 localizacao: {
                   bairro: {_eq: $bairro}}}
@@ -54,7 +51,7 @@ class ListLojasRepository implements IListLojas {
     ''';
 
     var data = await api.query(query);
-    var result  = await data['data'];
+    var result = await data['data'];
     return ListLojasModel.fromJson(result);
   }
 }

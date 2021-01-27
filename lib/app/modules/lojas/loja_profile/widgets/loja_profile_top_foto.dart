@@ -32,31 +32,36 @@ class LojaProfileInfosWidget extends StatelessWidget {
         children: [
           Wrap(
             children: [
-              loja.fotoPerfilLink == null || loja.fotoPerfilLink == ''
-                  ? Container(
-                      height: 200,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey[400],
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Cores.verdeClaro),
-                    )
-                  : Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[400]),
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: CachedNetworkImageProvider(
-                            loja.fotoPerfilLink,
-                          ),
-                        ),
-                      ),
-                    ),
+              Observer(
+                builder: (_) => Container(
+                  child:
+                      loja.fotoPerfilLink == null || loja.fotoPerfilLink == ''
+                          ? Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey[400],
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Cores.verdeClaro),
+                            )
+                          : Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                    loja.fotoPerfilLink,
+                                  ),
+                                ),
+                              ),
+                            ),
+                ),
+              ),
               SizedBox(
                 width: 10,
               ),
@@ -92,11 +97,9 @@ class LojaProfileInfosWidget extends StatelessWidget {
                     builder: (_) {
                       if (loja.entregaDomicilio == true &&
                           loja.lojaFisica == true) {
-                        return Expanded(
-                          child: TextWidget(
-                            text: 'Entrega e Retirada em Loja',
-                            fontSize: 14,
-                          ),
+                        return TextWidget(
+                          text: 'Entrega e Retirada em Loja',
+                          fontSize: 14,
                         );
                       } else if (loja.entregaDomicilio == true &&
                           loja.lojaFisica == false) {
@@ -111,58 +114,68 @@ class LojaProfileInfosWidget extends StatelessWidget {
                           fontSize: 14,
                         );
                       }
+
+                      return CupertinoActivityIndicator();
                     },
                   ),
-                  loja.entregaDomicilio == true
-                      ? Wrap(
-                          children: [
-                            TextWidget(
-                              text:
-                                  '${distancia.toStringAsPrecision(2).replaceAll('.', ',')} km',
-                              fontSize: 14,
-                            ),
-                            TextWidget(
-                              text: ' ● ',
-                              fontSize: 14,
-                              textColor: Colors.grey,
-                            ),
-                            TextWidget(
-                              text:
-                                  'R\$ ${(distancia * loja.usuario.taxaEntrega.taxaEntrega).toStringAsPrecision(3).replaceAll('.', ',')}',
-                              fontSize: 14,
+                  Observer(
+                    builder: (_) => Container(
+                      child: loja.entregaDomicilio == true
+                          ? Wrap(
+                              children: [
+                                TextWidget(
+                                  text:
+                                      '${distancia.toStringAsPrecision(2).replaceAll('.', ',')} km',
+                                  fontSize: 14,
+                                ),
+                                TextWidget(
+                                  text: ' ● ',
+                                  fontSize: 14,
+                                  textColor: Colors.grey,
+                                ),
+                                TextWidget(
+                                  text:
+                                      'R\$ ${(distancia * loja.usuario.taxaEntrega.taxaEntrega).toStringAsPrecision(3).replaceAll('.', ',')}',
+                                  fontSize: 14,
+                                )
+                              ],
                             )
-                          ],
-                        )
-                      : TextWidget(
-                          text: '',
-                        )
+                          : TextWidget(
+                              text: '',
+                            ),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          loja.usuario.socialLinks.telefone == null ||
-                  loja.usuario.socialLinks.telefone == ''
-              ? SizedBox()
-              : Positioned(
-                  top: 44,
-                  left: 320,
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    children: [
-                      Observer(
-                        builder:(_) => IconButton(
-                          icon: Icon(
-                            CupertinoIcons.phone,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            controller.sendLigacao();
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+          Observer(
+            builder: (_) => Container(
+              child: loja.usuario.socialLinks.telefone == null ||
+                      loja.usuario.socialLinks.telefone == ''
+                  ? SizedBox()
+                  : Positioned(
+                      top: 44,
+                      left: 320,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        children: [
+                          Observer(
+                            builder: (_) => IconButton(
+                              icon: Icon(
+                                CupertinoIcons.phone,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                controller.sendLigacao();
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+            ),
+          ),
         ],
       ),
     );
