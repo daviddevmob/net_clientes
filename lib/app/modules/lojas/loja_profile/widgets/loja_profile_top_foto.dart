@@ -37,8 +37,8 @@ class LojaProfileInfosWidget extends StatelessWidget {
                   child:
                       loja.fotoPerfilLink == null || loja.fotoPerfilLink == ''
                           ? Container(
-                              height: 200,
-                              width: 200,
+                              height: 80,
+                              width: 80,
                               decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.grey[400],
@@ -70,8 +70,8 @@ class LojaProfileInfosWidget extends StatelessWidget {
                 children: [
                   TextWidget(
                     text: loja.lojaNome,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                   Wrap(
                     direction: Axis.horizontal,
@@ -121,7 +121,9 @@ class LojaProfileInfosWidget extends StatelessWidget {
                   Observer(
                     builder: (_) => Container(
                       child: loja.entregaDomicilio == true
-                          ? Wrap(
+                          ? loja.usuario.localizacao.mapaLink == ''
+                            ? SizedBox()
+                            : Wrap(
                               children: [
                                 TextWidget(
                                   text:

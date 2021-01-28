@@ -200,33 +200,33 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                     ),
                   ],
                 ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 300,
-                        child: TextFieldWidget(
-                          textEditingController: controller.textSearch,
-                          hintText: 'Produto, Loja, Categoria..',
-                          onSubmit: (string) {
-                            controller.getListLojas();
-                            print('att');
-                          },
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(CupertinoIcons.search),
-                        onPressed: () {
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 300,
+                      child: TextFieldWidget(
+                        textEditingController: controller.textSearch,
+                        hintText: 'Produto, Loja, Categoria..',
+                        onSubmit: (string) {
                           controller.getListLojas();
+                          print('att');
                         },
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.06,
-                  ),
+                    ),
+                    IconButton(
+                      icon: Icon(CupertinoIcons.search),
+                      onPressed: () {
+                        controller.getListLojas();
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.06,
+                ),
                 SizedBox(
                   height: size.height * 0.06,
                 ),
@@ -443,16 +443,19 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                     physics: ScrollPhysics(),
                     itemBuilder: (context, index) {
                       var loja = lojas.lojaGeral[index];
-                      double distancia = DistanciaCalculo().getDistacia(
-                        double.parse(
-                            widget.lojasSearch.endereco.latlgn.split(',')[0]),
-                        double.parse(
-                            widget.lojasSearch.endereco.latlgn.split(',')[1]),
-                        double.parse(
-                            loja.usuario.localizacao.mapaLink.split(',')[0]),
-                        double.parse(
-                            loja.usuario.localizacao.mapaLink.split(',')[1]),
-                      );
+                      double distancia = 0;
+                      if (loja.usuario.localizacao.mapaLink != '') {
+                        distancia = DistanciaCalculo().getDistacia(
+                          double.parse(
+                              widget.lojasSearch.endereco.latlgn.split(',')[0]),
+                          double.parse(
+                              widget.lojasSearch.endereco.latlgn.split(',')[1]),
+                          double.parse(
+                              loja.usuario.localizacao.mapaLink.split(',')[0]),
+                          double.parse(
+                              loja.usuario.localizacao.mapaLink.split(',')[1]),
+                        );
+                      }
 
                       String categoriaLoja =
                           SwitchsUtils().getCategoriaLoja(loja.categoria);
@@ -480,7 +483,11 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                             ? Container(
                                 height: size.height * 0.1,
                                 width: size.width * 0.2,
+                                decoration: BoxDecoration(
                                 color: Cores.verdeClaro,
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(4),
+                                ),
                               )
                             : Container(
                                 height: size.height * 0.1,
@@ -514,11 +521,17 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                                   fontSize: 10,
                                   textColor: Colors.grey,
                                 ),
-                                TextWidget(
-                                  text:
-                                      '${distancia.toStringAsPrecision(1)} km',
-                                  fontSize: 13,
-                                )
+                                Observer(
+                                  builder: (_) => Container(
+                                    child: 
+                                    loja.usuario.localizacao.mapaLink == ''
+                                    ? SizedBox()
+                                    : TextWidget(
+                                      text: '${distancia.toStringAsPrecision(2)} km',
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -529,27 +542,32 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                                 textColor: Colors.grey[400],
                                 fontSize: 13,
                               )
-                            : Wrap(
-                                direction: Axis.horizontal,
-                                children: [
-                                  TextWidget(
-                                    text: 'Entrega',
-                                    textColor: Colors.green,
+                            : loja.usuario.localizacao.mapaLink == ''
+                                ? TextWidget(
+                                    text: 'Não entrega em domicílio',
+                                    textColor: Colors.grey[400],
                                     fontSize: 13,
-                                  ),
-                                  TextWidget(
-                                    text: ' ● ',
-                                    fontSize: 10,
-                                    textColor: Colors.green,
-                                  ),
-                                  TextWidget(
-                                    text:
-                                        'R\$ ${(distancia * loja.usuario.taxaEntrega.taxaEntrega).toStringAsFixed(2)}',
-                                    fontSize: 13,
-                                    textColor: Colors.green,
                                   )
-                                ],
-                              ),
+                                : Wrap(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      TextWidget(
+                                        text: 'Entrega',
+                                        textColor: Colors.green,
+                                        fontSize: 13,
+                                      ),
+                                      TextWidget(
+                                        text: ' ● ',
+                                        fontSize: 10,
+                                        textColor: Colors.green,
+                                      ),
+                                     TextWidget(
+                                    text: 'R\$ ${(distancia * loja.usuario.taxaEntrega.taxaEntrega).toStringAsFixed(2)}',
+                                    fontSize: 13,
+                                    textColor: Colors.green,
+                                  ) 
+                                    ],
+                                  ),
                       );
                     },
                   )

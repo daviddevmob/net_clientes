@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/models/servicos/base_service_profile.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_servicos.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
@@ -226,25 +228,6 @@ class _ServicosPageState
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.025,
-                    ),
-                    Observer(
-                      builder: (_) => FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          side: BorderSide(color: Colors.white)
-                            ),
-                        child: TextWidget(
-                          text: 'Pesquisar',
-                          textColor: Colors.white,
-                        ),
-                        color: Colors.blue,
-                        onPressed: () {
-                          controller.getServicosParams();
-                        },
-                      ),
-                    ),
-                    SizedBox(
                       height: size.height * 0.2,
                     ),
                     TextWidget(
@@ -345,14 +328,29 @@ class _ServicosPageState
                         left: 20,
                         right: 20,
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Cores.verdeClaro),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
                       width: size.width * 0.6,
-                      child: TextFieldWidget(
-                        textEditingController: controller.pesquisaController,
-                        hintText: 'Pintor, Nutricionista, Cantor, Eletricista',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 250,
+                            child: TextFieldWidget(
+                              textEditingController:
+                                  controller.pesquisaController,
+                              hintText:
+                                  'Pintor, Nutricionista, Cantor, Eletricista',
+                              onSubmit: (value) {
+                                controller.getServicosParams();
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(CupertinoIcons.search),
+                            onPressed: () {
+                              controller.getServicosParams();
+                            },
+                          )
+                        ],
                       ),
                     ),
                     SizedBox(
@@ -468,32 +466,7 @@ class _ServicosPageState
                       ),
                     ),
                     SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: size.width * 0.25,
-                        right: size.width * 0.25,
-                      ),
-                      child: Observer(
-                        builder:(_) => FlatButton(
-                          color: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide(color: Colors.white)
-                          ),
-                          child: TextWidget(
-                            text: 'Pesquisar',
-                            textColor: Colors.white,
-                          ),
-                          onPressed: () {
-                            controller.getServicosParams();
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.1,
+                      height: 40,
                     ),
                     Column(
                       children: [
@@ -543,9 +516,10 @@ class _ServicosPageState
                                   categoria = 'Outros';
                                   break;
                               }
-                              return GestureDetector(
-                                onTap: () {
-                                  BaseServiceProfile base =
+                              return ListTile(
+                        onTap: () async {
+                          if (await ConnectionVerify.connectionStatus()) {
+                           BaseServiceProfile base =
                                       new BaseServiceProfile(
                                     servico.servicoGeral.usuarioId,
                                     servico.servicoGeral.servicoNome,
@@ -554,97 +528,46 @@ class _ServicosPageState
                                     '/servicos/servico_profile',
                                     arguments: base,
                                   );
-                                },
-                                child: Card(
-                                  elevation: 3,
-                                  child: Container(
-                                    height: size.height * 0.11,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Cores.verdeClaro,
-                                        width: 0.5,
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.transparent,
-                                                    width: 0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(4),
-                                                    bottomLeft:
-                                                        Radius.circular(4),
-                                                  ),
-                                                  image: DecorationImage(
-                                                    image: servico.servicoGeral
-                                                                    .servicoFotoPerfil ==
-                                                                null ||
-                                                            servico.servicoGeral
-                                                                    .servicoFotoPerfil ==
-                                                                ''
-                                                        ? AssetImage(
-                                                            'assets/images/imagens-perfil/profile.png',
-                                                          )
-                                                        : CachedNetworkImageProvider(
-                                                            servico.servicoGeral
-                                                                .servicoFotoPerfil,
-                                                          ),
-                                                    fit: BoxFit.cover,
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.03,
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: TextWidget(
-                                                      text: servico.servicoGeral
-                                                          .servicoNome,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      textColor: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: TextWidget(
-                                                      text: categoria == null
-                                                          ? ''
-                                                          : categoria,
-                                                      fontSize: 18,
-                                                      textColor: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ), 
-                                  ),
-                                ),
+                          } else {
+                            return InternetFlushBar()
+                                .showFlushBarInternet(context);
+                          }
+                        },
+                        contentPadding: EdgeInsets.zero,
+                        leading: Container(
+                          height: size.height * 0.1,
+                          width: size.width * 0.2,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.transparent,
+                              width: 0,
+                              ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(4),
+                            bottomLeft: Radius.circular(4),
+                              ),
+                          image: DecorationImage(
+                            image: 
+                            servico.servicoGeral.servicoFotoPerfil == null 
+                            || servico.servicoGeral.servicoFotoPerfil == ''
+                            ? AssetImage(
+                              'assets/images/imagens-perfil/profile.png',
+                                  )
+                            : CachedNetworkImageProvider(
+                              servico.servicoGeral.servicoFotoPerfil,
+                              ),
+                              fit: BoxFit.cover,
+                              )),
+                           ),
+                        title: TextWidget(
+                          text: servico.servicoGeral.servicoNome,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        subtitle: TextWidget(
+                          text: categoria,
+                          fontSize: 13,
+                                 )
                               );
                             },
                           ),

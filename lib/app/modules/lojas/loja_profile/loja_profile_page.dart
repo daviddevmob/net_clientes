@@ -37,16 +37,22 @@ class _LojaProfilePageState
     disposer = autorun((_) async {
       await controller.getLoja(widget.lojaProfile.lojaGeral.lojaId);
       await controller.getLojaFavorita(widget.lojaProfile.cliente.clienteId);
-      controller.distanciaEntrega = DistanciaCalculo().getDistacia(
+      
+      if(widget.lojaProfile.lojaGeral.entregaDomicilio != false ||
+      widget.lojaProfile.lojaGeral.usuario.localizacao.mapaLink != ''){
+
+        controller.distanciaEntrega = DistanciaCalculo().getDistacia(
         double.parse(widget.lojaProfile.endereco.latlgn.split(',')[0]),
         double.parse(widget.lojaProfile.endereco.latlgn.split(',')[1]),
         double.parse(
             controller.loja.usuario.localizacao.mapaLink.split(',')[0]),
         double.parse(
             controller.loja.usuario.localizacao.mapaLink.split(',')[1]),
-      );
-      controller.taxaEntrega = controller.distanciaEntrega *
+        );
+        controller.taxaEntrega = controller.distanciaEntrega *
           controller.loja.usuario.taxaEntrega.taxaEntrega;
+      }
+
       controller.clienteId = widget.lojaProfile.cliente.clienteId;
     });
     super.initState();

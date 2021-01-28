@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "742825703016-ie8gn04m4f7pjjptl4jvghr480vg21g7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.noeusebiotem.br",
+            "certificate_hash": "b2864b43dd6a7050fc0766e06d556d979249ef45"
+          }
+        },
+        {
+          "client_id": "742825703016-oqj639tj89ralfi2r8ove7galalaull0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.noeusebiotem.br",
+            "certificate_hash": "3e3e05906c3619e7aa3d0c6ddb4abffdbd3fe89b"
+          }
+        },
+        {
           "client_id": "742825703016-94g5et4nfdrhu391nv3t2vtafaput8ar.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -186,10 +186,16 @@ abstract class _ServicosControllerBase with Store {
   }
 
   @action
-  selectCategoria(int newValue) => categoria = newValue;
+  selectCategoria(int newValue) {
+    categoria = newValue;
+    getServicosParams();
+  }
 
   @action
-  selectBairro(int newValue) => bairro = newValue;
+  selectBairro(int newValue) {
+    bairro = newValue;
+    getServicosParams();
+  }
 
   @action
   getServices() async {

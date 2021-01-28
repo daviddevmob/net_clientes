@@ -430,6 +430,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                           hint: TextWidget(
                                             text: 'Selecione a bandeira do cartão',
                                             fontSize: 16,
+                                            textColor: Colors.white,
                                           ),
                                           dropdownColor: Cores.verdeClaro,
                                           items: carrinho.metodos.map((e) {
