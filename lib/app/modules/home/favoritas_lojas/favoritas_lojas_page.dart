@@ -73,7 +73,6 @@ class _FavoritasLojasPageState
               ),
             );
           }
-          var lojas = controller.list;
 
           if (controller.list.clienteFavoritoLoja.isNotEmpty) {
             return SingleChildScrollView(
@@ -117,16 +116,19 @@ class _FavoritasLojasPageState
                           onTap: () async {
                             if (await ConnectionVerify.connectionStatus()) {
                               Localizacao loc = new Localizacao(
-                              mapaLink: loja.lojaGeral.usuario.localizacao.mapaLink,
-                              bairro: loja.lojaGeral.usuario.localizacao.bairro,
+                                mapaLink:
+                                    loja.lojaGeral.usuario.localizacao.mapaLink,
+                                bairro:
+                                    loja.lojaGeral.usuario.localizacao.bairro,
                               );
                               TaxaEntrega tax = new TaxaEntrega(
-                                taxaEntrega: loja.lojaGeral.usuario.taxaEntrega.taxaEntrega,
+                                taxaEntrega: loja
+                                    .lojaGeral.usuario.taxaEntrega.taxaEntrega,
                               );
                               Usuario user = new Usuario(
-                                  localizacao: loc,
-                                  taxaEntrega: tax,
-                                  );
+                                localizacao: loc,
+                                taxaEntrega: tax,
+                              );
                               LojaGeral lojaG = new LojaGeral(
                                 categoria: loja.lojaGeral.categoria,
                                 lojaNome: loja.lojaGeral.lojaNome,
@@ -239,9 +241,6 @@ class _FavoritasLojasPageState
             return Center(
               child: Column(
                 children: [
-                  TextWidget(
-                    text: 'else',
-                  ),
                   CupertinoActivityIndicator(),
                 ],
               ),

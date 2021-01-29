@@ -49,6 +49,11 @@ class PedidosLojaRepository implements IPedidosLoja {
               }
             }
           }
+          entregador_id
+          entregador {
+            nome
+            foto_link
+          }
         }
       }
     }

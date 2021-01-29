@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/pedido_loja_entregador.dart';
 import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/pedido_loja_itens.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/models/pedidos/pedidos_loja.dart';
@@ -73,24 +74,24 @@ class _PedidosLojaPageState
               ),
               child: Column(
                 children: [
-                 pedidos.lojaPedidos.isEmpty == false
-                 ? SizedBox(
-                   height: 20,
-                 )
-                 : SizedBox(
-                    height: size.height * 0.3,
-                  ),
+                  pedidos.lojaPedidos.isEmpty == false
+                      ? SizedBox(
+                          height: 20,
+                        )
+                      : SizedBox(
+                          height: size.height * 0.3,
+                        ),
                   pedidos.lojaPedidos.isEmpty == true
                       ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextWidget(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextWidget(
                               text: 'Sem pedidos até agora',
                               fontWeight: FontWeight.bold,
                               textColor: Colors.grey[400],
                             ),
-                        ],
-                      )
+                          ],
+                        )
                       : ListView.builder(
                           itemCount: pedidos.lojaPedidos.length,
                           shrinkWrap: true,
@@ -121,6 +122,9 @@ class _PedidosLojaPageState
                                             ),
                                           ),
                                         ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
                                       ),
                                       Row(
                                         children: [
@@ -169,13 +173,42 @@ class _PedidosLojaPageState
                                         ],
                                       ),
                                       SizedBox(
-                                        height: size.height * 0.02,
+                                        height: 5,
+                                      ),
+                                      Observer(
+                                        builder: (_) {
+                                          if (pedido.entrega == true &&
+                                              pedido.statusPedido != 4 &&
+                                              pedido.statusPedido != 5 &&
+                                              pedido.statusPedido != 1) {
+                                            if (pedido.entregadorId != null &&
+                                            pedido.statusPedido == 3) {
+                                              return PedidoLojaEntregadorTile(
+                                                pedido: pedido,
+                                              );
+                                            }
+                                            return Row(
+                                              children: [
+                                                TextWidget(
+                                                  text: 'Preparando para entrega',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  textColor: Colors.blue,
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                          return SizedBox();
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 15,
                                       ),
                                       ItensPedidoLojaWidget(
                                         pedido: pedido,
                                       ),
                                       SizedBox(
-                                        height: size.height * 0.02,
+                                        height: 15,
                                       ),
                                       pedido.entrega == true
                                           ? Column(
@@ -233,8 +266,7 @@ class _PedidosLojaPageState
                                                     );
                                                     Modular.to.pushNamed(
                                                         '/maps_view',
-                                                        arguments: localizacao
-                                                        );
+                                                        arguments: localizacao);
                                                   },
                                                   child: TextWidget(
                                                     text: 'Ver no Mapa',
@@ -245,7 +277,7 @@ class _PedidosLojaPageState
                                               ],
                                             ),
                                       SizedBox(
-                                        height: size.height * 0.02,
+                                        height: 15,
                                       ),
                                       Row(
                                         children: [
@@ -264,20 +296,20 @@ class _PedidosLojaPageState
                                       pedido.troco == null || pedido.troco == ''
                                           ? SizedBox()
                                           : Row(
-                                                  children: [
-                                                    TextWidget(
-                                                      text:
-                                                          'Você pediu troco para:',
-                                                      fontSize: 16,
-                                                    ),
-                                                    TextWidget(
-                                                      text: ' R\$ ' + pedido.troco,
-                                                      fontSize: 16,
-                                                    ),
-                                                  ],
+                                              children: [
+                                                TextWidget(
+                                                  text:
+                                                      'Você pediu troco para:',
+                                                  fontSize: 16,
                                                 ),
+                                                TextWidget(
+                                                  text: ' R\$ ' + pedido.troco,
+                                                  fontSize: 16,
+                                                ),
+                                              ],
+                                            ),
                                       SizedBox(
-                                        height: size.height * 0.02,
+                                        height: 15,
                                       ),
                                       Row(
                                         children: [
@@ -296,7 +328,7 @@ class _PedidosLojaPageState
                                         ],
                                       ),
                                       SizedBox(
-                                        height: size.height * 0.02,
+                                        height: 15,
                                       ),
                                       pedido.statusPedido == 4
                                           ? Row(
@@ -311,9 +343,9 @@ class _PedidosLojaPageState
                                                 ),
                                                 Expanded(
                                                   child: TextWidget(
-                                                    text: pedido.aviso != null 
-                                                    ? pedido.aviso
-                                                    : '-',
+                                                    text: pedido.aviso != null
+                                                        ? pedido.aviso
+                                                        : '-',
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     textColor: Colors.red,

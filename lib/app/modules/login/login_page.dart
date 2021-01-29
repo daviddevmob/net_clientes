@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,12 +6,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:net_cliente/app/modules/login/login_email_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
-import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
-import 'package:net_cliente/app/shared/utils/validators/validator_email.dart';
 import 'login_controller.dart';
 
 class LoginPage extends StatefulWidget {

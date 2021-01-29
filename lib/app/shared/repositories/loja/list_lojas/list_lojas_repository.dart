@@ -29,8 +29,12 @@ class ListLojasRepository implements IListLojas {
               loja_prod_categoria: {nome_categoria: {_ilike: "%$params%"}}}], 
               usuario: {
                 localizacao: {
-                  bairro: {_eq: $bairro}}}
-                  }) {
+                  _not: {
+                    mapa_link: {_eq: ""}}}}, 
+                    _not: {
+                      usuario: {
+                        localizacao: {
+                          mapa_link: {_eq: ""}}}}}) {
           categoria
           loja_nome
           entrega_domicilio

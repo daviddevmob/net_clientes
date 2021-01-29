@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/models/loja/carrinho_loja_page_model.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class TipoEntregaLojaWidget extends StatelessWidget {
@@ -10,6 +13,8 @@ class TipoEntregaLojaWidget extends StatelessWidget {
   const TipoEntregaLojaWidget({Key key, this.carrinho}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String bairro = SwitchsUtils().getBairro(
+        carrinho.lojaProfileModule.lojaGeral.usuario.localizacao.bairro);
     return Observer(builder: (_) {
       if (carrinho.tipoEntrega == 1) {
         return Row(
@@ -93,22 +98,73 @@ class TipoEntregaLojaWidget extends StatelessWidget {
           ],
         );
       } else if (carrinho.tipoEntrega == 3) {
-        return Wrap(
-          direction: Axis.vertical,
+        return Column(
           children: [
-            TextWidget(
-              text: 'Tipo de Entrega: ',
-              fontSize: 16,
+            Row(
+              children: [
+                TextWidget(
+                  text: 'Tipo de Entrega: ',
+                  fontSize: 16,
+                ),
+              ],
             ),
             SizedBox(
               height: 5,
             ),
-            Expanded(
-              child: TextWidget(
-                text: 'Disponível somente retirada em loja',
-                fontSize: 16,
-              ),
-            )
+            Row(
+              children: [
+                TextWidget(
+                  text: 'Disponível somente retirada em loja',
+                  fontSize: 16,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+            children: [
+            FlatButton(
+              color: Cores.azul,
+              onPressed: () {
+              var loc = carrinho
+                .lojaProfileModule.lojaGeral.usuario.localizacao;
+              LocalizacaoModel localizacao = new LocalizacaoModel(
+                complemento: '',
+                endereco:'Localização da ${carrinho.lojaProfileModule.lojaGeral.lojaNome}',
+                mapaLink: loc.mapaLink,
+                    );
+                    Modular.to.pushNamed('/maps_view', arguments: localizacao);
+                  },
+                  child: TextWidget(
+                    text: 'Ver no Mapa',
+                    fontSize: 14,
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  text: 'Bairro: $bairro',
+                  fontSize: 14,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextWidget(
+                    text: 'Você terá acesso a localização também na aba de Meus Pedidos de Loja',
+                    fontSize: 14,
+                    textColor: Colors.grey,
+                  ),
+                )
+              ],
+            ),
           ],
         );
       }

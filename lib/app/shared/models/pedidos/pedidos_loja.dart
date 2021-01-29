@@ -43,6 +43,8 @@ class LojaPedido {
         this.lojaPedidoId,
         this.lojaPedidoItems,
         this.lojaGeral,
+        this.entregadorId,
+        this.entregador,
     });
 
     DateTime atualizadoEm;
@@ -62,6 +64,8 @@ class LojaPedido {
     int lojaPedidoId;
     List<LojaPedidoItem> lojaPedidoItems;
     LojaGeral lojaGeral;
+    int entregadorId;
+    Entregador entregador;
 
     factory LojaPedido.fromJson(Map<String, dynamic> json) => LojaPedido(
         atualizadoEm: json["atualizado_em"] == null ? null : DateTime.parse(json["atualizado_em"]),
@@ -81,6 +85,8 @@ class LojaPedido {
         lojaPedidoId: json["loja_pedido_id"] == null ? null : json["loja_pedido_id"],
         lojaPedidoItems: json["loja_pedido_items"] == null ? null : List<LojaPedidoItem>.from(json["loja_pedido_items"].map((x) => LojaPedidoItem.fromJson(x))),
         lojaGeral: json["loja_geral"] == null ? null : LojaGeral.fromJson(json["loja_geral"]),
+        entregadorId: json["entregador_id"] == null ? null : json["entregador_id"],
+        entregador: json["entregador"] == null ? null : Entregador.fromJson(json["entregador"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -101,6 +107,28 @@ class LojaPedido {
         "loja_pedido_id": lojaPedidoId == null ? null : lojaPedidoId,
         "loja_pedido_items": lojaPedidoItems == null ? null : List<dynamic>.from(lojaPedidoItems.map((x) => x.toJson())),
         "loja_geral": lojaGeral == null ? null : lojaGeral.toJson(),
+        "entregador_id": entregadorId == null ? null : entregadorId,
+        "entregador": entregador == null ? null : entregador.toJson(),
+    };
+}
+
+class Entregador {
+    Entregador({
+        this.nome,
+        this.fotoLink,
+    });
+
+    String nome;
+    String fotoLink;
+
+    factory Entregador.fromJson(Map<String, dynamic> json) => Entregador(
+        nome: json["nome"] == null ? null : json["nome"],
+        fotoLink: json["foto_link"] == null ? null : json["foto_link"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "nome": nome == null ? null : nome,
+        "foto_link": fotoLink == null ? null : fotoLink,
     };
 }
 
@@ -203,18 +231,18 @@ class LojaProduto {
         this.descricao,
     });
 
-    String foto1Link;
+    dynamic foto1Link;
     String produtoNome;
     String descricao;
 
     factory LojaProduto.fromJson(Map<String, dynamic> json) => LojaProduto(
-        foto1Link: json["foto1_link"] == null ? null : json["foto1_link"],
+        foto1Link: json["foto1_link"],
         produtoNome: json["produto_nome"] == null ? null : json["produto_nome"],
         descricao: json["descricao"] == null ? null : json["descricao"],
     );
 
     Map<String, dynamic> toJson() => {
-        "foto1_link": foto1Link == null ? null : foto1Link,
+        "foto1_link": foto1Link,
         "produto_nome": produtoNome == null ? null : produtoNome,
         "descricao": descricao == null ? null : descricao,
     };
