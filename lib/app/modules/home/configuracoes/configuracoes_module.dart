@@ -14,7 +14,7 @@ import 'configuracoes_page.dart';
 class ConfiguracoesModule extends ChildModule {
   @override
   List<Bind> get binds => [
-      Bind<ILogin>((i) => LoginRepository(i.get(), i.get())),
+      Bind<ILogin>((i) => LoginRepository(i.get())),
       Bind<IHome>((i) => HomeRepository(i.get())),
       Bind((i) => ConfiguracoesController(i.get(), i.get())),
       ];

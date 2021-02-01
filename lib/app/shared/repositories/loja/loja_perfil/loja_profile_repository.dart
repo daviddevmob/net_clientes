@@ -4,6 +4,7 @@ import 'package:net_cliente/app/modules/lojas/loja_profile/item_carrinho_model.d
 import 'package:net_cliente/app/shared/models/loja/loja_pedido_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/one_signal/one_signal_repository.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
 class LojaPerfilRepository implements ILojaPerfil {
@@ -213,6 +214,7 @@ class LojaPerfilRepository implements ILojaPerfil {
         ''';
         await api.mutation(queryRemove);
       }
+      await OneSignalRepository().solicitarLoja(lojaPedidoModel.lojaFirebaseId);
       return 'ok';
     } on HasuraError catch (e) {
       return getErrorHasuraString(e.message);

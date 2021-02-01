@@ -126,7 +126,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         Modular.to.pushNamed(
                           '/home/configuracoes/enderecos/',
                           arguments: controller.cliente.value,
-                        );
+                        ); 
                       },
                       child: TextWidget(
                         text: 'Selecione um endereço',
@@ -144,7 +144,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         Modular.to.pushNamed(
                           '/home/configuracoes/enderecos/',
                           arguments: controller.cliente.value,
-                        );
+                        ); 
                       },
                       child: TextWidget(
                         text: 'Selecione um endereço',
@@ -156,11 +156,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   if (controller.enderecoCliente.hasError == true) {
                     return FlatButton(
                       color: Cores.azul,
-                      onPressed: () {
-                        Modular.to.pushNamed(
+                      onPressed: () async {
+                          Modular.to.pushNamed(
                           '/home/configuracoes/enderecos/',
                           arguments: controller.cliente.value,
-                        );
+                        ); 
                       },
                       child: TextWidget(
                         text: 'Selecione um endereço',

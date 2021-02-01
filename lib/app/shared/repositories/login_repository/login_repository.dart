@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
-import 'package:net_cliente/app/shared/push_notification/pn_repository.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/one_signal/one_signal_repository.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/firebase_erros.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
@@ -11,8 +11,7 @@ class LoginRepository implements ILogin {
   final HasuraConnect api;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final PushNotificationRepository pn;
-  LoginRepository(this.api, this.pn);
+  LoginRepository(this.api);
 
   @override
   Future<String> createCliente(ClienteModel userModel, String password) async {
@@ -23,8 +22,9 @@ class LoginRepository implements ILogin {
       );
 
       print(userCredential.user.email);
-      String tokenUser = await pn.getTokenUser();
-
+      
+      await OneSignalRepository().registerUserExternalId(userCredential.user.uid);
+      String id = await OneSignalRepository().saveIdOneSignal();
       var criarCliente = '''
       mutation MyMutation {
         insert_cliente(
@@ -32,7 +32,7 @@ class LoginRepository implements ILogin {
             bairro: ${userModel.bairro}, 
             cpf: "${userModel.cpf}", 
             email: "${userModel.email}", 
-            firebase_id: "$tokenUser", 
+            firebase_id: "$id", 
             nome: "${userModel.nome}", 
             status: true, 
             whatsapp: "${userModel.whatsapp}"
@@ -173,21 +173,22 @@ class LoginRepository implements ILogin {
       User user = await loginGoogle();
       print('FIREBASE ID 1: ' + user.uid);
       var verificarUserGoogle = '''
-    query MyQuery {
-      cliente(
-        where: {
-          email: {_eq: "${user.email}"}}) {
-        email
-      }
-    }
-    ''';
+        query MyQuery {
+          cliente(
+            where: {
+              email: {_eq: "${user.email}"}}) {
+            email
+          }
+        }
+        ''';
 
       var data = await api.query(verificarUserGoogle);
-      String tokenUser = await pn.getTokenUser();
       String email = data['data']['cliente'].toString();
 
       print('EMAIL: ' + email);
       print('FIREBASE ID 2: ' + user.uid);
+      await OneSignalRepository().registerUserExternalId(user.uid);
+      String id = await OneSignalRepository().saveIdOneSignal();
       if (email == null || email == '' || email == '[]') {
         var criarCliente = '''
       mutation MyMutation {
@@ -195,7 +196,7 @@ class LoginRepository implements ILogin {
           objects: {
             email: "${user.email}", 
             nome: "${user.displayName}", 
-            firebase_id: "$tokenUser"
+            firebase_id: "$id"
             status: true, 
             }) {
           returning {
@@ -208,9 +209,9 @@ class LoginRepository implements ILogin {
         print('FIREBASE ID 3 criado: ' + user.uid);
 
         await api.mutation(criarCliente);
-
         return user.email;
       } else {
+        await OneSignalRepository().registerUserExternalId(user.uid);
         return user.email;
       }
     } catch (e) {
