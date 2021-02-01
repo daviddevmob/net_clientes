@@ -9,7 +9,7 @@ import 'criar_conta_page.dart';
 class CriarContaModule extends ChildModule {
   @override
   List<Bind> get binds => [
-      Bind<ILogin>((i) => LoginRepository(i.get())),
+      Bind<ILogin>((i) => LoginRepository(i.get(),i.get())),
       Bind((i) => CriarContaController(i.get())),
       ];
 

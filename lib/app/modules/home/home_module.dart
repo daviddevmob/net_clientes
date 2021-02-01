@@ -19,7 +19,7 @@ class HomeModule extends ChildModule {
   List<Bind> get binds => [
       Bind<ISend>((i) => SendRepository(i.get())),
       Bind<IHome>((i) => HomeRepository(i.get())),
-      Bind<ILogin>((i) => LoginRepository(i.get())),
+      Bind<ILogin>((i) => LoginRepository(i.get(), i.get())),
       Bind((i) =>HomeController(
         i.get<IHome>(),
         i.get<ILogin>(),

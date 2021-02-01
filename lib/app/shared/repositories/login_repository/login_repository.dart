@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
+import 'package:net_cliente/app/shared/push_notification/pn_repository.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/firebase_erros.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
@@ -10,8 +11,8 @@ class LoginRepository implements ILogin {
   final HasuraConnect api;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  LoginRepository(this.api);
+  final PushNotificationRepository pn;
+  LoginRepository(this.api, this.pn);
 
   @override
   Future<String> createCliente(ClienteModel userModel, String password) async {
@@ -22,6 +23,7 @@ class LoginRepository implements ILogin {
       );
 
       print(userCredential.user.email);
+      String tokenUser = await pn.getTokenUser();
 
       var criarCliente = '''
       mutation MyMutation {
@@ -30,7 +32,7 @@ class LoginRepository implements ILogin {
             bairro: ${userModel.bairro}, 
             cpf: "${userModel.cpf}", 
             email: "${userModel.email}", 
-            firebase_id: "${userCredential.user.uid}", 
+            firebase_id: "$tokenUser", 
             nome: "${userModel.nome}", 
             status: true, 
             whatsapp: "${userModel.whatsapp}"
@@ -181,7 +183,7 @@ class LoginRepository implements ILogin {
     ''';
 
       var data = await api.query(verificarUserGoogle);
-
+      String tokenUser = await pn.getTokenUser();
       String email = data['data']['cliente'].toString();
 
       print('EMAIL: ' + email);
@@ -193,7 +195,7 @@ class LoginRepository implements ILogin {
           objects: {
             email: "${user.email}", 
             nome: "${user.displayName}", 
-            firebase_id: "${user.uid}"
+            firebase_id: "$tokenUser"
             status: true, 
             }) {
           returning {

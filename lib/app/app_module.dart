@@ -9,6 +9,8 @@ import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
 import 'package:net_cliente/app/modules/ongs/ongs_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/restaurantes_module.dart';
 import 'package:net_cliente/app/modules/servicos/servicos_module.dart';
+import 'package:net_cliente/app/shared/push_notification/pn_repository.dart';
+import 'package:net_cliente/app/shared/push_notification/pn_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
 import 'package:net_cliente/app/splash_screen.dart';
@@ -22,12 +24,13 @@ import 'package:net_cliente/app/modules/home/home_module.dart';
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
+      Bind<IPushNotification>((i) => PushNotificationRepository()),
       Bind((i) => HasuraConnect(
         'https://metacalorica.com.br/v1/graphql', 
         headers: {'x-hasura-admin-secret':'Mars20121a!'},
             ),
           ),
-      Bind<ILogin>((i) => LoginRepository(i.get())),
+      Bind<ILogin>((i) => LoginRepository(i.get(), i.get())),
       Bind((i) =>AppController(i.get())),
       Bind((i) => ItemCarrinhoModel(i.get(), i.get())),
       ];

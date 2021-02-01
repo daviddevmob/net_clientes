@@ -13,15 +13,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="net_cliente"
+        android:name=".Application"
+        android:label="No Eusébio Tem"
         android:icon="@mipmap/launcher_icon">
     <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBvIG3H9Ysx-422dT1jCmgtSlhPo9_GvP8"/>
+               android:value="AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

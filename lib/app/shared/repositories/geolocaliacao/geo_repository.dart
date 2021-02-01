@@ -39,7 +39,7 @@ class GeolocalizacaoRepository implements IGeo {
       String endereco) async {
     try {
       String enderecoEncode = Uri.encodeQueryComponent(endereco);
-      String porta = 'AIzaSyBvIG3H9Ysx-422dT1jCmgtSlhPo9_GvP8';
+      String porta = 'AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk';
       String url =
           "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$enderecoEncode&inputtype=textquery&fields=formatted_address,name,rating,geometry&key=$porta";
 

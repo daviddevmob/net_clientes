@@ -40,48 +40,10 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               ? Center(
                   child: CupertinoActivityIndicator(),
                 )
+              // ignore: missing_return
               : Observer(builder: (_) {
                   if (controller.metodo == 0) {
-                    /* Platform.isAndroid
-                            ? Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: SignInButton(
-                                  Buttons.Google,
-                                  text: "Entrar com Google",
-                                  onPressed: () async {
-                                    try {
-                                      String email =
-                                          await controller.loginGoogle();
-                                      if (email == 'erro') {
-                                        print('erro');
-                                      } else {
-                                        Modular.to.pushReplacementNamed('/home',
-                                            arguments: email);
-                                      }
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  },
-                                ),
-                              )
-                            : Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: SignInButton(
-                                  Buttons.AppleDark,
-                                  text: "Entrar com Apple",
-                                  onPressed: () async {
-                                    try {
-                                      await controller.loginGoogle();
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  },
-                                ),
-                              ), */
+
                     return Stack(
                       children: [
                         Container(

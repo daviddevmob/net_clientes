@@ -1,28 +1,64 @@
 {
   "project_info": {
-    "project_number": "742825703016",
-    "project_id": "no-eusebio-tem",
-    "storage_bucket": "no-eusebio-tem.appspot.com"
+    "project_number": "105256739639",
+    "project_id": "eusebio-project",
+    "storage_bucket": "eusebio-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:742825703016:android:7acb7d459227c25dc86ddd",
+        "mobilesdk_app_id": "1:105256739639:android:0faab7f24522c27bf8b0b2",
+        "android_client_info": {
+          "package_name": "com.eusebioproject.br"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105256739639-d59kfr034lnqt5i2divuoad77nsoj6b0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eusebioproject.br",
+            "certificate_hash": "b2864b43dd6a7050fc0766e06d556d979249ef45"
+          }
+        },
+        {
+          "client_id": "105256739639-d51opbjrqicfh01jrj93hauhtbv9cmja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105256739639-d51opbjrqicfh01jrj93hauhtbv9cmja.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105256739639-sfq3otdajq9mj013g22b11rnc32ggv2p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eusebioproject.br"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105256739639:android:5c57ac08c1f783c9f8b0b2",
         "android_client_info": {
           "package_name": "com.noeusebiotem.br"
         }
       },
       "oauth_client": [
         {
-          "client_id": "742825703016-ie8gn04m4f7pjjptl4jvghr480vg21g7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.noeusebiotem.br",
-            "certificate_hash": "b2864b43dd6a7050fc0766e06d556d979249ef45"
-          }
-        },
-        {
-          "client_id": "742825703016-oqj639tj89ralfi2r8ove7galalaull0.apps.googleusercontent.com",
+          "client_id": "105256739639-039ve632eu5cvfio8v1foovj359l2r4k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.noeusebiotem.br",
@@ -30,21 +66,28 @@
           }
         },
         {
-          "client_id": "742825703016-94g5et4nfdrhu391nv3t2vtafaput8ar.apps.googleusercontent.com",
+          "client_id": "105256739639-d51opbjrqicfh01jrj93hauhtbv9cmja.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyASO4NdBU2vfVQA4fn34vJIVYUSCi7rXWg"
+          "current_key": "AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "742825703016-94g5et4nfdrhu391nv3t2vtafaput8ar.apps.googleusercontent.com",
+              "client_id": "105256739639-d51opbjrqicfh01jrj93hauhtbv9cmja.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "105256739639-sfq3otdajq9mj013g22b11rnc32ggv2p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eusebioproject.br"
+              }
             }
           ]
         }

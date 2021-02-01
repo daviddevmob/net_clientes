@@ -14,7 +14,7 @@ class LoginModule extends ChildModule {
       Bind((i) => HasuraConnect(
         'https://metacalorica.com.br/v1/graphql', 
         headers: {'x-hasura-admin-secret':'Mars20121a!'})),
-      Bind<ILogin>((i) => LoginRepository(i.get())),
+      Bind<ILogin>((i) => LoginRepository(i.get(), i.get())),
       Bind((i) => LoginController(i.get())),
       ];
 

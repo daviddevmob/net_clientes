@@ -101,7 +101,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         if (controller.cliente.value.cpf == null &&
             controller.cliente.value.whatsapp == null) {
           return AttDadosClienteHome(
-            controller: controller,
+              controller: controller,
           );
         }
 

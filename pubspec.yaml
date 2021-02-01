@@ -43,6 +43,7 @@ dependencies:
   flutter_launcher_icons: "^0.8.0"
   flutter_mobx: ^1.1.0+2
   mobx: ^1.2.1+4
+  firebase_messaging: ^7.0.3
   google_sign_in: ^4.5.9
   flutter_modular: ^2.0.1
   firebase_auth: ^0.18.4+1
@@ -50,6 +51,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   flutter_native_image: ^0.0.5+3
   firebase_core: ^0.5.3
+  flutter_local_notifications: ^4.0.0
   firebase_storage: ^5.2.0
   map_launcher: ^1.1.2
   flutter_svg:
