@@ -27,18 +27,7 @@ class OneSignalRepository implements IOneSignal{
     await OneSignal().setSubscription(true);
   }
 
-  @override
-  Future solicitarLoja(String id) async {
-      var  playerId = '04dcac18-c93e-4310-8595-3c77fec16683';
-      await OneSignal.shared.postNotification(OSCreateNotification(
-        playerIds: [playerId],
-        heading: "Chegou um pedido! 👌",
-        content: "Vem ver! 👀",
-        androidLargeIcon: "https://firebasestorage.googleapis.com/v0/b/eusebio-project.appspot.com/o/perfil.png?alt=media&token=5de225ae-0418-4944-91ba-02ad5722a82c",
-        buttons: [
-        ]
-      ));
-  }
+ 
 
   @override
   Future<String> saveIdOneSignal() async {

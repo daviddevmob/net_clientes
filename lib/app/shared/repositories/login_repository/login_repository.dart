@@ -32,7 +32,7 @@ class LoginRepository implements ILogin {
             bairro: ${userModel.bairro}, 
             cpf: "${userModel.cpf}", 
             email: "${userModel.email}", 
-            firebase_id: "$id", 
+            firebase_id: "${userCredential.user.uid}", 
             nome: "${userModel.nome}", 
             status: true, 
             whatsapp: "${userModel.whatsapp}"
@@ -88,6 +88,17 @@ class LoginRepository implements ILogin {
     try {
       final UserCredential user = await auth.signInWithEmailAndPassword(
           email: email, password: password);
+      await OneSignalRepository().registerUserExternalId(user.user.uid);
+      var attId = '''
+        mutation MyMutation {
+          update_cliente(
+            where: {email: {_eq: "$email"}}, 
+            _set: {firebase_id: "${user.user.uid}"}) {
+            affected_rows
+          }
+        }
+        ''';
+      await api.mutation(attId);
       return user.user.email;
     } on FirebaseAuthException catch (e) {
       return getErrorFirebaseString(e.code);
@@ -188,7 +199,6 @@ class LoginRepository implements ILogin {
       print('EMAIL: ' + email);
       print('FIREBASE ID 2: ' + user.uid);
       await OneSignalRepository().registerUserExternalId(user.uid);
-      String id = await OneSignalRepository().saveIdOneSignal();
       if (email == null || email == '' || email == '[]') {
         var criarCliente = '''
       mutation MyMutation {
@@ -196,7 +206,7 @@ class LoginRepository implements ILogin {
           objects: {
             email: "${user.email}", 
             nome: "${user.displayName}", 
-            firebase_id: "$id"
+            firebase_id: "${user.uid}"
             status: true, 
             }) {
           returning {
@@ -211,7 +221,16 @@ class LoginRepository implements ILogin {
         await api.mutation(criarCliente);
         return user.email;
       } else {
-        await OneSignalRepository().registerUserExternalId(user.uid);
+        var attId = '''
+        mutation MyMutation {
+          update_cliente(
+            where: {email: {_eq: "${user.email}"}}, 
+            _set: {firebase_id: "${user.uid}"}) {
+            affected_rows
+          }
+        }
+        ''';
+        await api.mutation(attId);
         return user.email;
       }
     } catch (e) {

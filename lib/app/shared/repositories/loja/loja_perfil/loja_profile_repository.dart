@@ -4,7 +4,6 @@ import 'package:net_cliente/app/modules/lojas/loja_profile/item_carrinho_model.d
 import 'package:net_cliente/app/shared/models/loja/loja_pedido_model.dart';
 import 'package:net_cliente/app/shared/models/loja/loja_perfil_page_model.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository_interface.dart';
-import 'package:net_cliente/app/shared/repositories/one_signal/one_signal_repository.dart';
 import 'package:net_cliente/app/shared/utils/api_erros/hasura_erros_code.dart';
 
 class LojaPerfilRepository implements ILojaPerfil {
@@ -16,82 +15,83 @@ class LojaPerfilRepository implements ILojaPerfil {
   Future<LojaPerfilPageModel> getLoja(int lojaId) async {
     var query = '''
     query MyQuery {
-      loja_geral(where: {loja_id: {_eq: $lojaId}}) {
-        categoria
-        loja_nome
-        entrega_domicilio
-        loja_fisica
-        usuario {
-          localizacao {
-            mapa_link
-            bairro
-            endereco
-            complemento
+        loja_geral(where: {loja_id: {_eq: $lojaId}}) {
+          categoria
+          loja_nome
+          entrega_domicilio
+          loja_fisica
+          usuario {
+            firebase_id
+            localizacao {
+              mapa_link
+              bairro
+              endereco
+              complemento
+            }
+            taxa_entrega {
+              taxa_entrega
+            }
+            dias_semana {
+              domingo
+              quarta
+              quinta
+              sabado
+              segunda
+              sexta
+              terca
+            }
+            horario_atendimento {
+              domingo
+              quarta
+              quinta
+              sabado
+              segunda
+              sexta
+              terca
+            }
+            social_links {
+              telefone
+              whatsapp
+            }
+            metodo_pagamento {
+              alelo_alimentacao
+              alelo_refeicao
+              american_express
+              amex
+              dinheiro
+              elo
+              mastercard
+              metodo_pagamento
+              sodexo_alimentacao
+              sodexo_refeicao
+              ticket_alimentacao
+              ticket_restaurante
+              visa
+              metodo_pagamento
+            }
           }
-          taxa_entrega {
-            taxa_entrega
+          foto_perfil_link
+          loja_descricao
+          loja_id
+          loja_prod_categoria {
+            nome_categoria
+            loja_prod_categoria_id
           }
-          dias_semana {
-            domingo
-            quarta
-            quinta
-            sabado
-            segunda
-            sexta
-            terca
+          loja_produtos(where: {loja_categoria_prod_id: {_eq: null}, disponivel: {_eq: null}}) {
+            descricao
+            disponivel
+            foto1_link
+            foto2_link
+            preco
+            preco_promo
+            produto_nome
+            quantidade
+            loja_produto_id
+            loja_categoria_prod_id
           }
-          horario_atendimento {
-            domingo
-            quarta
-            quinta
-            sabado
-            segunda
-            sexta
-            terca
-          }
-          social_links {
-            telefone
-            whatsapp
-          }
-          metodo_pagamento {
-            alelo_alimentacao
-            alelo_refeicao
-            american_express
-            amex
-            dinheiro
-            elo
-            mastercard
-            metodo_pagamento
-            sodexo_alimentacao
-            sodexo_refeicao
-            ticket_alimentacao
-            ticket_restaurante
-            visa
-            metodo_pagamento
-          }
+          loja_firebase_id
         }
-        foto_perfil_link
-        loja_descricao
-        loja_id
-        loja_prod_categoria {
-          nome_categoria
-          loja_prod_categoria_id
-        }
-        loja_produtos(where: {loja_categoria_prod_id: {_eq: null}, disponivel: {_eq: null}}) {
-          descricao
-          disponivel
-          foto1_link
-          foto2_link
-          preco
-          preco_promo
-          produto_nome
-          quantidade
-          loja_produto_id
-          loja_categoria_prod_id
-        }
-        loja_firebase_id
       }
-    }
     ''';
 
     var data = await api.query(query);
@@ -214,7 +214,6 @@ class LojaPerfilRepository implements ILojaPerfil {
         ''';
         await api.mutation(queryRemove);
       }
-      await OneSignalRepository().solicitarLoja(lojaPedidoModel.lojaFirebaseId);
       return 'ok';
     } on HasuraError catch (e) {
       return getErrorHasuraString(e.message);

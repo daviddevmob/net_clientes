@@ -9,8 +9,6 @@ import 'package:net_cliente/app/modules/home/widgets/att_dados_cliente.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
 import 'package:net_cliente/app/shared/models/loja/lojas_search.dart';
-import 'package:net_cliente/app/shared/repositories/push_cliente/push_cliente_repository.dart';
-import 'package:net_cliente/app/shared/repositories/push_negocio/push_negocio_repository.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
@@ -35,12 +33,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   void initState() {
     disposer = autorun((_) async {
       await controller.getCliente(widget.email);
-      Future.delayed(Duration(seconds: 2)).then((value) async {
-        PushClienteRepository()
-            .initStatePushCliente(controller.cliente.value.firebaseId);
-        PushNegocioRepository()
-            .initStatePushNegocio(controller.cliente.value.firebaseId);
-      });
     });
     super.initState();
   }

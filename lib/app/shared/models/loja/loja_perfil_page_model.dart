@@ -138,6 +138,7 @@ class LojaProduto {
 
 class Usuario {
     Usuario({
+        this.firebaseId,
         this.localizacao,
         this.taxaEntrega,
         this.diasSemana,
@@ -146,6 +147,7 @@ class Usuario {
         this.metodoPagamento,
     });
 
+    String firebaseId;
     Localizacao localizacao;
     TaxaEntrega taxaEntrega;
     DiasSemana diasSemana;
@@ -154,6 +156,7 @@ class Usuario {
     MetodoPagamento metodoPagamento;
 
     factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
+        firebaseId: json["firebase_id"] == null ? null : json["firebase_id"],
         localizacao: json["localizacao"] == null ? null : Localizacao.fromJson(json["localizacao"]),
         taxaEntrega: json["taxa_entrega"] == null ? null : TaxaEntrega.fromJson(json["taxa_entrega"]),
         diasSemana: json["dias_semana"] == null ? null : DiasSemana.fromJson(json["dias_semana"]),
@@ -163,6 +166,7 @@ class Usuario {
     );
 
     Map<String, dynamic> toJson() => {
+        "firebase_id": firebaseId == null ? null : firebaseId,
         "localizacao": localizacao == null ? null : localizacao.toJson(),
         "taxa_entrega": taxaEntrega == null ? null : taxaEntrega.toJson(),
         "dias_semana": diasSemana == null ? null : diasSemana.toJson(),

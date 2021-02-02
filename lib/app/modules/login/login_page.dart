@@ -38,7 +38,18 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         builder: (_) => Container(
           child: controller.loading == true
               ? Center(
-                  child: CupertinoActivityIndicator(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        text: 'Carregando..',
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CupertinoActivityIndicator(),
+                    ],
+                  ),
                 )
               // ignore: missing_return
               : Observer(builder: (_) {
