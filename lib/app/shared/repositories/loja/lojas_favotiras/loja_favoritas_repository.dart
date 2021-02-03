@@ -12,13 +12,13 @@ class LojasFavotirasRepository implements ILojasFavoritas {
   Future<LojaFavotiraModel> getLojas(int clienteId) async {
     var query = '''
     query MyQuery {
-      cliente_favorito_loja(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}}) {
-        loja_geral {
+      cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}}) {
+        rest_geral{
           categoria
-          loja_nome
+          rest_nome
           entrega_domicilio
-          loja_fisica
-          foto_perfil_link
+          retirada_loja
+          foto_link
           usuario {
             localizacao {
               mapa_link
@@ -28,7 +28,7 @@ class LojasFavotirasRepository implements ILojasFavoritas {
               taxa_entrega
             }
           }
-          loja_id
+          rest_id
         }
       }
     }

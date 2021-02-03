@@ -7,6 +7,7 @@ import 'package:net_cliente/app/modules/lojas/lojas_module.dart';
 import 'package:net_cliente/app/modules/maps/maps_module.dart';
 import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
 import 'package:net_cliente/app/modules/ongs/ongs_module.dart';
+import 'package:net_cliente/app/modules/restaurantes/rest_profile/rest_profile_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/restaurantes_module.dart';
 import 'package:net_cliente/app/modules/servicos/servicos_module.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository.dart';
@@ -38,13 +39,14 @@ class AppModule extends MainModule {
     ModularRouter('/login', module: LoginModule()),
     ModularRouter('/home', module: HomeModule()),
     ModularRouter('/servicos', module: ServicosModule()),
-    ModularRouter('/restaurantes', module: RestaurantesModule()),
+    ModularRouter('/rests', module: RestaurantesModule()),
     ModularRouter('/ongs', module: OngsModule()),
     ModularRouter('/maps', module: MapsModule()),
     ModularRouter('/maps_view', module: MapsViewModule()),
     ModularRouter('/lojas', module: LojasModule()),
     ModularRouter('/lojas_categoria', module: LojasCategoriaModule()),
     ModularRouter('/loja_profile', module: LojaProfileModule()),
+    ModularRouter('/rest_profile', module: RestProfileModule()),
       ];
 
   @override

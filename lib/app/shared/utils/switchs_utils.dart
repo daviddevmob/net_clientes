@@ -79,6 +79,95 @@ class SwitchsUtils {
     return bairroCliente.toString();
   }
 
+  String getCategoriaRest(int categ){
+    String categoriaEscolhida;
+    switch (categ){
+      case 1:
+        categoriaEscolhida = 'Açaí';
+        break;
+      case 2:
+        categoriaEscolhida = 'Bebidas';
+        break;
+      case 3:
+        categoriaEscolhida = 'Brasileira';
+        break;
+      case 4:
+        categoriaEscolhida = 'Cafeteria';
+        break;
+      case 5:
+        categoriaEscolhida = 'Carnes';
+        break;
+      case 6:
+        categoriaEscolhida = 'Chinesa';
+        break;
+      case 7:
+        categoriaEscolhida = 'Congelados';
+        break;
+      case 8:
+        categoriaEscolhida = 'Conveniência';
+        break;
+      case 9:
+        categoriaEscolhida = 'Doces & Bolos';
+        break;
+      case 10:
+        categoriaEscolhida = 'Frangos';
+        break;
+      case 11:
+        categoriaEscolhida = 'Frutos do Mar';
+        break;
+      case 12:
+        categoriaEscolhida = 'Hambúrguer';
+        break;
+      case 13:
+        categoriaEscolhida = 'Italiana';
+        break;
+      case 14:
+        categoriaEscolhida = 'Japonesa';
+        break;
+      case 15:
+        categoriaEscolhida = 'Lanches';
+        break;
+      case 16:
+        categoriaEscolhida = 'Marmita';
+        break;
+      case 17:
+        categoriaEscolhida = 'Padarias';
+        break;
+      case 18:
+        categoriaEscolhida = 'Panqueca';
+        break;
+      case 19:
+        categoriaEscolhida = 'Pastel';
+        break;
+      case 20:
+        categoriaEscolhida = 'Pizza';
+        break;
+      case 21:
+        categoriaEscolhida = 'Salgados';
+        break;
+      case 22:
+        categoriaEscolhida = 'Saudável';
+        break;
+      case 23:
+        categoriaEscolhida = 'Sopas e Caldos';
+        break;
+      case 24:
+        categoriaEscolhida = 'Sorvete';
+        break;
+      case 25:
+        categoriaEscolhida = 'Tapioca';
+        break;
+      case 26:
+        categoriaEscolhida = 'Vegana';
+        break;
+      case 27:
+        categoriaEscolhida = 'Vegetariana';
+        break;
+    }
+
+    return categoriaEscolhida.toString();
+  }
+
   String getMetodoPagamento(int metodo) {
     String metodoPagamento;
     switch (metodo) {

@@ -26,7 +26,6 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: AppBarWidget(

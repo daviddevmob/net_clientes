@@ -30,7 +30,8 @@ class ListLojasRepository implements IListLojas {
               usuario: {
                 localizacao: {
                   _not: {
-                    mapa_link: {_eq: ""}}}}, 
+                    mapa_link: {_eq: ""}}, 
+                      bairro: {_eq: $bairro}}},
                     _not: {
                       usuario: {
                         localizacao: {

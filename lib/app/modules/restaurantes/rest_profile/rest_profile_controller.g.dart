@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'loja_profile_controller.dart';
+part of 'rest_profile_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,61 +8,31 @@ part of 'loja_profile_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
+mixin _$RestProfileController on _RestProfileControllerBase, Store {
   Computed<int> _$filtroStringComputed;
 
   @override
   int get filtroString =>
       (_$filtroStringComputed ??= Computed<int>(() => super.filtroString,
-              name: '_LojaProfileControllerBase.filtroString'))
+              name: '_RestProfileControllerBase.filtroString'))
           .value;
-  Computed<double> _$totalPedidoComputed;
+
+  final _$restAtom = Atom(name: '_RestProfileControllerBase.rest');
 
   @override
-  double get totalPedido =>
-      (_$totalPedidoComputed ??= Computed<double>(() => super.totalPedido,
-              name: '_LojaProfileControllerBase.totalPedido'))
-          .value;
-  Computed<List<LojaPedidoItem>> _$pedidosItensComputed;
-
-  @override
-  List<LojaPedidoItem> get pedidosItens => (_$pedidosItensComputed ??=
-          Computed<List<LojaPedidoItem>>(() => super.pedidosItens,
-              name: '_LojaProfileControllerBase.pedidosItens'))
-      .value;
-
-  final _$produtosCarrinhoAtom =
-      Atom(name: '_LojaProfileControllerBase.produtosCarrinho');
-
-  @override
-  ObservableList<ItemCarrinhoModel> get produtosCarrinho {
-    _$produtosCarrinhoAtom.reportRead();
-    return super.produtosCarrinho;
+  RestProfile get rest {
+    _$restAtom.reportRead();
+    return super.rest;
   }
 
   @override
-  set produtosCarrinho(ObservableList<ItemCarrinhoModel> value) {
-    _$produtosCarrinhoAtom.reportWrite(value, super.produtosCarrinho, () {
-      super.produtosCarrinho = value;
+  set rest(RestProfile value) {
+    _$restAtom.reportWrite(value, super.rest, () {
+      super.rest = value;
     });
   }
 
-  final _$lojaAtom = Atom(name: '_LojaProfileControllerBase.loja');
-
-  @override
-  LojaPerfilPageModel get loja {
-    _$lojaAtom.reportRead();
-    return super.loja;
-  }
-
-  @override
-  set loja(LojaPerfilPageModel value) {
-    _$lojaAtom.reportWrite(value, super.loja, () {
-      super.loja = value;
-    });
-  }
-
-  final _$clienteIdAtom = Atom(name: '_LojaProfileControllerBase.clienteId');
+  final _$clienteIdAtom = Atom(name: '_RestProfileControllerBase.clienteId');
 
   @override
   int get clienteId {
@@ -77,7 +47,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     });
   }
 
-  final _$favoritadoAtom = Atom(name: '_LojaProfileControllerBase.favoritado');
+  final _$favoritadoAtom = Atom(name: '_RestProfileControllerBase.favoritado');
 
   @override
   bool get favoritado {
@@ -92,24 +62,24 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     });
   }
 
-  final _$lojaFavoritaAtom =
-      Atom(name: '_LojaProfileControllerBase.lojaFavorita');
+  final _$restFavoritoAtom =
+      Atom(name: '_RestProfileControllerBase.restFavorito');
 
   @override
-  ObservableStream<LojaFavoritaModelProfile> get lojaFavorita {
-    _$lojaFavoritaAtom.reportRead();
-    return super.lojaFavorita;
+  ObservableStream<RestFavoritoModelProfile> get restFavorito {
+    _$restFavoritoAtom.reportRead();
+    return super.restFavorito;
   }
 
   @override
-  set lojaFavorita(ObservableStream<LojaFavoritaModelProfile> value) {
-    _$lojaFavoritaAtom.reportWrite(value, super.lojaFavorita, () {
-      super.lojaFavorita = value;
+  set restFavorito(ObservableStream<RestFavoritoModelProfile> value) {
+    _$restFavoritoAtom.reportWrite(value, super.restFavorito, () {
+      super.restFavorito = value;
     });
   }
 
   final _$formCarrinhoKeyAtom =
-      Atom(name: '_LojaProfileControllerBase.formCarrinhoKey');
+      Atom(name: '_RestProfileControllerBase.formCarrinhoKey');
 
   @override
   GlobalKey<FormState> get formCarrinhoKey {
@@ -125,7 +95,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$taxaEntregaAtom =
-      Atom(name: '_LojaProfileControllerBase.taxaEntrega');
+      Atom(name: '_RestProfileControllerBase.taxaEntrega');
 
   @override
   double get taxaEntrega {
@@ -141,7 +111,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$distanciaEntregaAtom =
-      Atom(name: '_LojaProfileControllerBase.distanciaEntrega');
+      Atom(name: '_RestProfileControllerBase.distanciaEntrega');
 
   @override
   double get distanciaEntrega {
@@ -157,7 +127,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$somenteDisponiveisAtom =
-      Atom(name: '_LojaProfileControllerBase.somenteDisponiveis');
+      Atom(name: '_RestProfileControllerBase.somenteDisponiveis');
 
   @override
   bool get somenteDisponiveis {
@@ -173,7 +143,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$pedidoSalvoAtom =
-      Atom(name: '_LojaProfileControllerBase.pedidoSalvo');
+      Atom(name: '_RestProfileControllerBase.pedidoSalvo');
 
   @override
   bool get pedidoSalvo {
@@ -188,7 +158,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     });
   }
 
-  final _$categoriaAtom = Atom(name: '_LojaProfileControllerBase.categoria');
+  final _$categoriaAtom = Atom(name: '_RestProfileControllerBase.categoria');
 
   @override
   int get categoria {
@@ -204,7 +174,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$salvandoDadosAtom =
-      Atom(name: '_LojaProfileControllerBase.salvandoDados');
+      Atom(name: '_RestProfileControllerBase.salvandoDados');
 
   @override
   bool get salvandoDados {
@@ -220,23 +190,23 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$produtoListAtom =
-      Atom(name: '_LojaProfileControllerBase.produtoList');
+      Atom(name: '_RestProfileControllerBase.produtoList');
 
   @override
-  List<LojaProduto> get produtoList {
+  List<RestProduto> get produtoList {
     _$produtoListAtom.reportRead();
     return super.produtoList;
   }
 
   @override
-  set produtoList(List<LojaProduto> value) {
+  set produtoList(List<RestProduto> value) {
     _$produtoListAtom.reportWrite(value, super.produtoList, () {
       super.produtoList = value;
     });
   }
 
   final _$pagamentoDinheiroAtom =
-      Atom(name: '_LojaProfileControllerBase.pagamentoDinheiro');
+      Atom(name: '_RestProfileControllerBase.pagamentoDinheiro');
 
   @override
   bool get pagamentoDinheiro {
@@ -252,7 +222,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$metodoPagamentoCartaoIdAtom =
-      Atom(name: '_LojaProfileControllerBase.metodoPagamentoCartaoId');
+      Atom(name: '_RestProfileControllerBase.metodoPagamentoCartaoId');
 
   @override
   int get metodoPagamentoCartaoId {
@@ -269,7 +239,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$entregaDomicilioAtom =
-      Atom(name: '_LojaProfileControllerBase.entregaDomicilio');
+      Atom(name: '_RestProfileControllerBase.entregaDomicilio');
 
   @override
   bool get entregaDomicilio {
@@ -285,7 +255,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$trocoParaControllerAtom =
-      Atom(name: '_LojaProfileControllerBase.trocoParaController');
+      Atom(name: '_RestProfileControllerBase.trocoParaController');
 
   @override
   TextEditingController get trocoParaController {
@@ -300,44 +270,24 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
     });
   }
 
-  final _$getLojaAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.getLoja');
+  final _$getRestauranteAsyncAction =
+      AsyncAction('_RestProfileControllerBase.getRestaurante');
 
   @override
-  Future getLoja(int lojaId) {
-    return _$getLojaAsyncAction.run(() => super.getLoja(lojaId));
+  Future getRestaurante(int restId) {
+    return _$getRestauranteAsyncAction.run(() => super.getRestaurante(restId));
   }
 
-  final _$addItemCarrinhoAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.addItemCarrinho');
+  final _$setCategoriaAsyncAction =
+      AsyncAction('_RestProfileControllerBase.setCategoria');
 
   @override
-  Future addItemCarrinho(LojaProduto lojaProduto) {
-    return _$addItemCarrinhoAsyncAction
-        .run(() => super.addItemCarrinho(lojaProduto));
-  }
-
-  final _$removeItemCarrinhoAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.removeItemCarrinho');
-
-  @override
-  Future removeItemCarrinho(LojaProduto lojaProduto) {
-    return _$removeItemCarrinhoAsyncAction
-        .run(() => super.removeItemCarrinho(lojaProduto));
-  }
-
-  final _$savePedidoAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.savePedido');
-
-  @override
-  Future savePedido(LojaProfileModel lojaView, CarrinhoLojaPageModel carrinho,
-      bool entrega, double taxaEntrega, double totalPedido) {
-    return _$savePedidoAsyncAction.run(() => super
-        .savePedido(lojaView, carrinho, entrega, taxaEntrega, totalPedido));
+  Future setCategoria(int newValue) {
+    return _$setCategoriaAsyncAction.run(() => super.setCategoria(newValue));
   }
 
   final _$salvarFavoritoAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.salvarFavorito');
+      AsyncAction('_RestProfileControllerBase.salvarFavorito');
 
   @override
   Future salvarFavorito(int lojaId) {
@@ -345,7 +295,7 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
   }
 
   final _$deletarFavoritoAsyncAction =
-      AsyncAction('_LojaProfileControllerBase.deletarFavorito');
+      AsyncAction('_RestProfileControllerBase.deletarFavorito');
 
   @override
   Future deletarFavorito(int lojaId) {
@@ -353,106 +303,72 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
         .run(() => super.deletarFavorito(lojaId));
   }
 
-  final _$_LojaProfileControllerBaseActionController =
-      ActionController(name: '_LojaProfileControllerBase');
-
-  @override
-  dynamic getLojaFavorita(int clineteId) {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.getLojaFavorita');
-    try {
-      return super.getLojaFavorita(clineteId);
-    } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
+  final _$_RestProfileControllerBaseActionController =
+      ActionController(name: '_RestProfileControllerBase');
 
   @override
   dynamic sendLigacao() {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.sendLigacao');
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.sendLigacao');
     try {
       return super.sendLigacao();
     } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setEntregaDomicilio(bool newValue) {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.setEntregaDomicilio');
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.setEntregaDomicilio');
     try {
       return super.setEntregaDomicilio(newValue);
     } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setDinheiroOuCartao(bool newValue) {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.setDinheiroOuCartao');
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.setDinheiroOuCartao');
     try {
       return super.setDinheiroOuCartao(newValue);
     } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic setMetodoPagamentoCartaoId(int newValue) {
     final _$actionInfo =
-        _$_LojaProfileControllerBaseActionController.startAction(
-            name: '_LojaProfileControllerBase.setMetodoPagamentoCartaoId');
+        _$_RestProfileControllerBaseActionController.startAction(
+            name: '_RestProfileControllerBase.setMetodoPagamentoCartaoId');
     try {
       return super.setMetodoPagamentoCartaoId(newValue);
     } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setCategoria(int newValue) {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.setCategoria');
-    try {
-      return super.setCategoria(newValue);
-    } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic deleteItemCarrinho(LojaProduto produto) {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.deleteItemCarrinho');
-    try {
-      return super.deleteItemCarrinho(produto);
-    } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic filtroProduto() {
-    final _$actionInfo = _$_LojaProfileControllerBaseActionController
-        .startAction(name: '_LojaProfileControllerBase.filtroProduto');
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.filtroProduto');
     try {
       return super.filtroProduto();
     } finally {
-      _$_LojaProfileControllerBaseActionController.endAction(_$actionInfo);
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   String toString() {
     return '''
-produtosCarrinho: ${produtosCarrinho},
-loja: ${loja},
+rest: ${rest},
 clienteId: ${clienteId},
 favoritado: ${favoritado},
-lojaFavorita: ${lojaFavorita},
+restFavorito: ${restFavorito},
 formCarrinhoKey: ${formCarrinhoKey},
 taxaEntrega: ${taxaEntrega},
 distanciaEntrega: ${distanciaEntrega},
@@ -465,9 +381,7 @@ pagamentoDinheiro: ${pagamentoDinheiro},
 metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
-filtroString: ${filtroString},
-totalPedido: ${totalPedido},
-pedidosItens: ${pedidosItens}
+filtroString: ${filtroString}
     ''';
   }
 }

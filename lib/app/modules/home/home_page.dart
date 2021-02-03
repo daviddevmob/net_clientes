@@ -16,6 +16,7 @@ import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'home_controller.dart';
+import 'package:net_cliente/app/shared/models/rest/rest_search_list_page_model.dart';
 
 class HomePage extends StatefulWidget {
   final String email;
@@ -272,7 +273,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Pedir Comida',
                         icon: CupertinoIcons.home,
-                        function: () {},
+                        function: () {
+                          RestSearch rests = new RestSearch(
+                            controller.cliente.value,
+                            controller.enderecoCliente.value,
+                          );
+                          Modular.to.pushNamed(
+                            '/rests/',
+                            arguments: rests,
+                            );
+                        },
                       ),
                       CardsWidget(
                         title: 'Meus Pedidos',
