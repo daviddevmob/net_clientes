@@ -15,7 +15,7 @@ import 'produto_rest_controller.dart';
 
 class ProdutoRestPage extends StatefulWidget {
   final ProdutoRestViewModel produto;
-  const ProdutoRestPage({Key key, this.produto})
+  const ProdutoRestPage({Key key, @required this.produto})
       : super(key: key);
 
   @override
@@ -31,6 +31,7 @@ class _ProdutoRestPageState
   void initState() {
     disposer = autorun((_) async {
      await controller.getProdutoView(widget.produto.produtoId, widget.produto.categoriaId);
+     await controller.criarRadios();
     });
     super.initState();
   }
@@ -51,10 +52,10 @@ class _ProdutoRestPageState
             return SizedBox();
           }),
       ),
-      body:   Observer(
+      body:  Observer(
         builder: (_){
           if(controller.produto != null){
-            SingleChildScrollView(
+           return SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -145,7 +146,6 @@ class _ProdutoRestPageState
                 physics: ScrollPhysics(),
                 itemBuilder: (context, index){
                   var op = controller.produto.restProdutos[0].restOpcaos[index];
-                  double opcaoRadio;
                   return  Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 10,
@@ -168,33 +168,24 @@ class _ProdutoRestPageState
                               physics: ScrollPhysics(),
                               itemBuilder: (context, x){
                                 var i = op.restOpcaoItems[x];
-                                
                                 return Observer(
-                                  builder:(_) => ListTile(
-                                    onTap: (){
-                                     opcaoRadio = i.itemPreco;
-                                    },
+                                  builder:(_) => RadioListTile(
+                                    groupValue: controller.value[index],
+                                    value: i.itemPreco,
                                     title: TextWidget(
                                       text: i.itemNome,
                                       fontSize: 16,
-                                      textColor: opcaoRadio == i.itemPreco
-                                      ? Colors.red
-                                      : Colors.black,
+                                      textColor: Colors.black,
                                     ),
                                     subtitle: TextWidget(
                                       text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
                                       fontSize: 16,
                                         ),
-                                    trailing: Radio(
-                                      value: i.itemPreco,
-                                      groupValue: opcaoRadio,
-                                      activeColor: Cores.verdeClaro,
-                                      onChanged: (value){
+                                    onChanged: (value){
                                        setState(() {
-                                          opcaoRadio = value;
+                                          controller.value[index] = value;
                                        });
                                       },
-                                    ),
                                       ),
                                 );
                                   }

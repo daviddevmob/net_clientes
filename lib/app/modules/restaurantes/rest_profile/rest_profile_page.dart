@@ -8,7 +8,7 @@ import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/widgets/rest_profile_top_foto.dart';
 import 'package:net_cliente/app/shared/models/rest/carrinho_rest_page_model.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_profile_page.dart';
-import 'package:net_cliente/app/shared/models/rest/rest_view_produto_page.dart';
+import 'package:net_cliente/app/shared/models/rest/produto_view/produto_view_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/distancia.dart';
@@ -370,11 +370,14 @@ class _RestProfilePageState
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      RestViewProduto prod =
-                                          new RestViewProduto(
-                                            produto, 
-                                            controller, 
-                                            categ.restAdicionals,
+                                      
+                                      ProdutoRestViewModel prod =
+                                          new ProdutoRestViewModel(
+                                            produto.restProdutoId, 
+                                            produto.restCategoriaId, 
+                                            widget.rest.cliente.clienteId,
+                                            widget.rest.cliente.firebaseId,
+                                            widget.rest.restGeral.restId,
                                             );
                                       Modular.to.pushNamed(
                                         '/rest_profile/view_produto',

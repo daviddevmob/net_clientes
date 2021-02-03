@@ -24,6 +24,21 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
     });
   }
 
+  final _$valueAtom = Atom(name: '_ProdutoRestControllerBase.value');
+
+  @override
+  List<double> get value {
+    _$valueAtom.reportRead();
+    return super.value;
+  }
+
+  @override
+  set value(List<double> value) {
+    _$valueAtom.reportWrite(value, super.value, () {
+      super.value = value;
+    });
+  }
+
   final _$getProdutoViewAsyncAction =
       AsyncAction('_ProdutoRestControllerBase.getProdutoView');
 
@@ -31,6 +46,14 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   Future getProdutoView(int produtoId, int categoriaId) {
     return _$getProdutoViewAsyncAction
         .run(() => super.getProdutoView(produtoId, categoriaId));
+  }
+
+  final _$criarRadiosAsyncAction =
+      AsyncAction('_ProdutoRestControllerBase.criarRadios');
+
+  @override
+  Future criarRadios() {
+    return _$criarRadiosAsyncAction.run(() => super.criarRadios());
   }
 
   final _$addItemCarrinhoAsyncAction =
@@ -45,7 +68,8 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   @override
   String toString() {
     return '''
-produto: ${produto}
+produto: ${produto},
+value: ${value}
     ''';
   }
 }

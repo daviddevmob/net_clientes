@@ -24,6 +24,17 @@ abstract class _ProdutoRestControllerBase with Store {
       categoriaId,
       );
   }
+  
+  @observable
+  List<double> value = List<double>();
+
+  @action
+  criarRadios() async {
+    for(var x = 0; x >= produto.restProdutos[0].restOpcaos.length; x++){
+      value.add(0);
+      print('add $x');
+    }
+  }
 
   @action
   addItemCarrinho(int produtoId) async {
