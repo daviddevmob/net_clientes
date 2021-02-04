@@ -46,18 +46,18 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
     });
   }
 
-  final _$opcoesAtom = Atom(name: '_ProdutoRestControllerBase.opcoes');
+  final _$itemAtom = Atom(name: '_ProdutoRestControllerBase.item');
 
   @override
-  ObservableList<RestOpcaoItem> get opcoes {
-    _$opcoesAtom.reportRead();
-    return super.opcoes;
+  List<RestOpcao> get item {
+    _$itemAtom.reportRead();
+    return super.item;
   }
 
   @override
-  set opcoes(ObservableList<RestOpcaoItem> value) {
-    _$opcoesAtom.reportWrite(value, super.opcoes, () {
-      super.opcoes = value;
+  set item(List<RestOpcao> value) {
+    _$itemAtom.reportWrite(value, super.item, () {
+      super.item = value;
     });
   }
 
@@ -76,18 +76,19 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
     });
   }
 
-  final _$valueAtom = Atom(name: '_ProdutoRestControllerBase.value');
+  final _$opcoesEscolhidasAtom =
+      Atom(name: '_ProdutoRestControllerBase.opcoesEscolhidas');
 
   @override
-  List<double> get value {
-    _$valueAtom.reportRead();
-    return super.value;
+  ObservableList<OpcaoEscolhida> get opcoesEscolhidas {
+    _$opcoesEscolhidasAtom.reportRead();
+    return super.opcoesEscolhidas;
   }
 
   @override
-  set value(List<double> value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
+  set opcoesEscolhidas(ObservableList<OpcaoEscolhida> value) {
+    _$opcoesEscolhidasAtom.reportWrite(value, super.opcoesEscolhidas, () {
+      super.opcoesEscolhidas = value;
     });
   }
 
@@ -98,14 +99,6 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   Future getProdutoView(int produtoId, int categoriaId) {
     return _$getProdutoViewAsyncAction
         .run(() => super.getProdutoView(produtoId, categoriaId));
-  }
-
-  final _$criarRadiosAsyncAction =
-      AsyncAction('_ProdutoRestControllerBase.criarRadios');
-
-  @override
-  Future criarRadios() {
-    return _$criarRadiosAsyncAction.run(() => super.criarRadios());
   }
 
   final _$addItemCarrinhoAsyncAction =
@@ -121,9 +114,9 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   String toString() {
     return '''
 produto: ${produto},
-opcoes: ${opcoes},
+item: ${item},
 add: ${add},
-value: ${value},
+opcoesEscolhidas: ${opcoesEscolhidas},
 totalItem: ${totalItem},
 adicionaisTotal: ${adicionaisTotal},
 opcoesTotal: ${opcoesTotal}

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/model/opcao_escolhida.dart';
 import 'package:net_cliente/app/shared/models/rest/produto_view/produto_view_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
@@ -31,7 +32,6 @@ class _ProdutoRestPageState
   void initState() {
     disposer = autorun((_) async {
      await controller.getProdutoView(widget.produto.produtoId, widget.produto.categoriaId);
-     await controller.criarRadios();
     });
     super.initState();
   }
@@ -138,63 +138,113 @@ class _ProdutoRestPageState
               SizedBox(
                 height: 20,
               ),
-              controller.produto.restProdutos[0].restOpcaos.isEmpty == true
-              ? SizedBox()
-              : ListView.builder(
-                itemCount: controller.produto.restProdutos[0].restOpcaos.length,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, index){
-                  var op = controller.produto.restProdutos[0].restOpcaos[index];
-                  double opcao;
-                  return  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Stack(
-                        children: [
-                         TextWidget(
-                              text: op.opcaoNome,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              top:20,
-                              left: 0,
-                            ),
-                            child:  ListView.builder(
-                              itemCount: op.restOpcaoItems.length,
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemBuilder: (context, x){
-                                var i = op.restOpcaoItems[x];
-                                return Observer(
-                                  builder:(_) => RadioListTile(
-                                    groupValue: controller.opcoes,
-                                    value: i,
-                                    title: TextWidget(
-                                      text: i.itemNome,
-                                      fontSize: 16,
-                                      textColor: Colors.black,
-                                    ),
-                                    subtitle: TextWidget(
-                                      text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
-                                      fontSize: 16,
-                                        ),
-                                    onChanged: (value){
-                                      controller.opcoes.add(i);
-                                      },
-                                      ),
-                                );
-                                  }
-                                ), 
-                          )
-                            ],
-                    ),
-                  );
-                },
+              Observer(
+                builder:(_) => Container(
+                  child: controller.produto.restProdutos[0].restOpcaos.isEmpty == true
+                ? SizedBox()
+                : ListView.builder(
+                  itemCount: controller.produto.restProdutos[0].restOpcaos.length,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemBuilder: (context, index){
+                    var op = controller.produto.restProdutos[0].restOpcaos[index];
+                    return  Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: Stack(
+                          children: [
+                           Observer(
+                              builder:(_) => TextWidget(
+                                  text: '${op.opcaoNome}',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                              ),
+                           ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top:20,
+                                left: 0,
+                              ),
+                              child: ListView.builder(
+                                itemCount: op.restOpcaoItems.length,
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemBuilder: (context, x){
+                                  var i = op.restOpcaoItems[x];
+                                  return Observer(
+                                    builder:(_) {
+                                      
+                                      OpcaoEscolhida opAtual = OpcaoEscolhida(
+                                        op.opcaoNome, 
+                                        op.restOpcaoId, 
+                                        i.itemNome, 
+                                        i.itemPreco,
+                                        i.restOpcaoItemId,
+                                        );
+                                        
+                                      return Observer(
+                                        builder:(_) {
+                                         return ListTile(
+                                                tileColor: Colors.white,
+                                                title:TextWidget(
+                                                text: i.itemNome,
+                                                fontSize: 16,
+                                                textColor: Colors.black,
+                                                fontWeight: FontWeight.w300,
+                                                ),
+                                                subtitle: TextWidget(
+                                                text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
+                                                textColor: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight:FontWeight.w300,
+                                                ),
+                                                 trailing: Observer(
+                                                   builder: (_){
+                                                     if(controller.opcoesEscolhidas.isEmpty){
+                                                       return Icon(CupertinoIcons.circle);
+                                                     }  else if(controller.opcoesEscolhidas[index].nomeItem == i.itemNome && op.restOpcaoId == controller.opcoesEscolhidas[index].opId){
+                                                       return Icon(
+                                                          CupertinoIcons.circle_fill,
+                                                          color: Cores.verdeClaro,
+                                                          );
+
+                                                     } else {
+                                                      return Icon(CupertinoIcons.circle);
+                                                     }
+                                                   },
+                                                 ), 
+                                                onTap: (){
+                                                  controller.opcoesEscolhidas.removeWhere(
+                                                  (element) => element.opId == op.restOpcaoId);
+                                                OpcaoEscolhida opcaoEscolhida= new OpcaoEscolhida(
+                                                  op.opcaoNome,
+                                                  op.restOpcaoId,
+                                                  i.itemNome,
+                                                  i.itemPreco,
+                                                  i.restOpcaoItemId,
+                                                );
+                                                print(opAtual.nomeItem.toString());
+                                                print(opAtual.opItemId.toString());
+                                                print(opAtual.opId.toString());
+                                                print('TAMANHO DA LISTA: ' + controller.produto.restProdutos[0].restOpcaos.length.toString() + ' INDEX: $index');
+                                                controller.opcoesEscolhidas.add(opcaoEscolhida);
+                                                },
+                                              );
+                                        }, 
+                                      );
+                                    }
+                                  );
+                                    }
+                                  ), 
+                            )
+                              ],
+                      ),
+                    );
+                  },
+                  ), 
                 ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -273,7 +323,6 @@ class _ProdutoRestPageState
                     physics: ScrollPhysics(),
                     itemBuilder: (context, index){
                       var add = controller.produto.restAdicionals[index];
-                      int quantidade = 0;
                       return ListTile(
                         title: TextWidget(
                           text: add.nome,

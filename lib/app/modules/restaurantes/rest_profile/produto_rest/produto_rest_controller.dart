@@ -1,7 +1,9 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/model/opcao_escolhida.dart';
 import 'package:net_cliente/app/shared/models/rest/produto_view/rest_produto_profile.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_profile/rest_profile_repository_interface.dart';
+
 
 part 'produto_rest_controller.g.dart';
 
@@ -16,9 +18,6 @@ abstract class _ProdutoRestControllerBase with Store {
 
   @observable
   RestProdutoProfile produto;
-
-  @computed
-
 
   @computed
   double get totalItem {
@@ -37,9 +36,8 @@ abstract class _ProdutoRestControllerBase with Store {
     
   }
 
-
   @observable
-  ObservableList<RestOpcaoItem> opcoes = ObservableList<RestOpcaoItem>();
+  List<RestOpcao> item = List<RestOpcao>();
 
   @observable
   ObservableList<RestAdicional> add = ObservableList<RestAdicional>();
@@ -56,17 +54,6 @@ abstract class _ProdutoRestControllerBase with Store {
     
   }
 
-  @computed
-  double get opcoesTotal {
-    if(opcoes.length > 0){
-      var compilado = opcoes.map((element) => element.itemPreco);
-      var total = compilado.fold(0, (init, element) => init + element);
-      return total;
-    }
-
-    return 0;
-  }
-  
   @action
   getProdutoView(int produtoId, int categoriaId) async {
     produto = await iRestProfile.getProdutoView(
@@ -74,18 +61,21 @@ abstract class _ProdutoRestControllerBase with Store {
       categoriaId,
       );
   }
-  
+
   @observable
-  List<double> value = List<double>();
+  ObservableList<OpcaoEscolhida> opcoesEscolhidas = ObservableList<OpcaoEscolhida>();
 
-  @action
-  criarRadios() async {
-    for(var x = 0; x >= produto.restProdutos[0].restOpcaos.length; x++){
-      value.add(0);
-      print('add $x');
+  @computed
+  double get opcoesTotal{
+    if(opcoesEscolhidas.length > 0){
+     var compilado = opcoesEscolhidas.map((element) => element.valorItem);
+     double total = compilado.fold(0, (init, element) => element + init);
+     return total;
     }
-  }
 
+    return 0;
+  }
+  
   @action
   addItemCarrinho(int produtoId) async {
     var add = await iRestProfile.veridicaQuantidadeProduto(
