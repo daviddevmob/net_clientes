@@ -17,6 +17,56 @@ abstract class _ProdutoRestControllerBase with Store {
   @observable
   RestProdutoProfile produto;
 
+  @computed
+
+
+  @computed
+  double get totalItem {
+    if(produto.restProdutos[0].precoPromo != 0 
+    && produto.restProdutos[0].precoPromo < produto.restProdutos[0].preco ){
+      double preco = produto.restProdutos[0].precoPromo;
+      double adicionais = adicionaisTotal;
+      double total = preco + adicionais;
+      return total;
+    } else{
+      double preco = produto.restProdutos[0].preco;
+      double adicionais = adicionaisTotal;
+      double total = preco + adicionais + opcoesTotal;
+      return total;
+    }
+    
+  }
+
+
+  @observable
+  ObservableList<RestOpcaoItem> opcoes = ObservableList<RestOpcaoItem>();
+
+  @observable
+  ObservableList<RestAdicional> add = ObservableList<RestAdicional>();
+
+  @computed
+  double get adicionaisTotal {
+    if(add.length >0){
+      var compilado = add.map((e) => e.preco);
+    var total = compilado.fold(0, (init, element) => init + element);
+    return total;
+    }
+
+    return 0;
+    
+  }
+
+  @computed
+  double get opcoesTotal {
+    if(opcoes.length > 0){
+      var compilado = opcoes.map((element) => element.itemPreco);
+      var total = compilado.fold(0, (init, element) => init + element);
+      return total;
+    }
+
+    return 0;
+  }
+  
   @action
   getProdutoView(int produtoId, int categoriaId) async {
     produto = await iRestProfile.getProdutoView(

@@ -146,6 +146,7 @@ class _ProdutoRestPageState
                 physics: ScrollPhysics(),
                 itemBuilder: (context, index){
                   var op = controller.produto.restProdutos[0].restOpcaos[index];
+                  double opcao;
                   return  Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 10,
@@ -162,7 +163,7 @@ class _ProdutoRestPageState
                               top:20,
                               left: 0,
                             ),
-                            child: ListView.builder(
+                            child:  ListView.builder(
                               itemCount: op.restOpcaoItems.length,
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
@@ -170,8 +171,8 @@ class _ProdutoRestPageState
                                 var i = op.restOpcaoItems[x];
                                 return Observer(
                                   builder:(_) => RadioListTile(
-                                    groupValue: controller.value[index],
-                                    value: i.itemPreco,
+                                    groupValue: controller.opcoes,
+                                    value: i,
                                     title: TextWidget(
                                       text: i.itemNome,
                                       fontSize: 16,
@@ -182,14 +183,12 @@ class _ProdutoRestPageState
                                       fontSize: 16,
                                         ),
                                     onChanged: (value){
-                                       setState(() {
-                                          controller.value[index] = value;
-                                       });
+                                      controller.opcoes.add(i);
                                       },
                                       ),
                                 );
                                   }
-                                ),
+                                ), 
                           )
                             ],
                     ),
@@ -297,7 +296,7 @@ class _ProdutoRestPageState
                                       color: Colors.black,
                                       ),
                                     onPressed: (){
-                                      quantidade = quantidade + 1;
+                                     controller.add.add(add);
                                     },
                                   ),
                                 ),
@@ -306,23 +305,33 @@ class _ProdutoRestPageState
                                 left: 50,
                                 top: 12,
                                 child: Observer(
-                                  builder:(_) => TextWidget(
-                                        text: quantidade.toString(),
+                                  builder:(_) {
+                                    var quantidade = controller.add.map((e){
+                                      if(add.nome == e.nome){
+                                        return 1;
+                                      }
+                                      return 0;
+                                    }).toList();
+                                    var q = quantidade.fold(0, (init, element) => init + element);
+                                    return TextWidget(
+                                        text: q.toString(),
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
-                                    ),
+                                    );
+                                  } 
                                 ),
                               ),
-                              IconButton(
-                                icon: Icon(
-                                  CupertinoIcons.minus_circle,
-                                  color: Colors.black,
-                                  ),
-                                onPressed: quantidade == 0 
-                                ? null
-                                : (){
-                                  quantidade = quantidade - 1;
-                                },
+                              Observer(
+                                builder:(_) => IconButton(
+                                  icon: Icon(
+                                    CupertinoIcons.minus_circle,
+                                    color: Colors.black,
+                                    ),
+                                  onPressed:(){
+                                    controller.add.removeWhere(
+                                      (element) => add.nome == element.nome);
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -331,6 +340,12 @@ class _ProdutoRestPageState
                     }
                     ),
                 ],
+              ),
+              SizedBox(
+                height: 35,
+              ),
+              TextWidget(
+                text: 'R\$ ${controller.totalItem.toStringAsFixed(2)}',
               ),
               SizedBox(
                 height: 35,
