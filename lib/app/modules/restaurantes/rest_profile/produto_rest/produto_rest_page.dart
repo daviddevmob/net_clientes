@@ -203,7 +203,7 @@ class _ProdutoRestPageState
                                                    builder: (_){
                                                      if(controller.opcoesEscolhidas.isEmpty){
                                                        return Icon(CupertinoIcons.circle);
-                                                     }  else if(controller.opcoesEscolhidas[index].nomeItem == i.itemNome && op.restOpcaoId == controller.opcoesEscolhidas[index].opId){
+                                                     }  else if(controller.opcoesEscolhidas.where((element) => element.opItemId == i.restOpcaoItemId).isNotEmpty){
                                                        return Icon(
                                                           CupertinoIcons.circle_fill,
                                                           color: Cores.verdeClaro,
@@ -288,8 +288,7 @@ class _ProdutoRestPageState
                       child: Row(
                         children: [
                           TextWidget(
-                            text:
-                                'R\$ ${controller.produto.restProdutos[0].preco.toStringAsFixed(2)}',
+                            text:'R\$ ${controller.produto.restProdutos[0].preco.toStringAsFixed(2)}',
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
                           ),
