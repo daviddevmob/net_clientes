@@ -30,6 +30,41 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
       (_$opcoesTotalComputed ??= Computed<double>(() => super.opcoesTotal,
               name: '_ProdutoRestControllerBase.opcoesTotal'))
           .value;
+  Computed<bool> _$addLiberadoComputed;
+
+  @override
+  bool get addLiberado =>
+      (_$addLiberadoComputed ??= Computed<bool>(() => super.addLiberado,
+              name: '_ProdutoRestControllerBase.addLiberado'))
+          .value;
+  Computed<bool> _$existeOpcoesComputed;
+
+  @override
+  bool get existeOpcoes =>
+      (_$existeOpcoesComputed ??= Computed<bool>(() => super.existeOpcoes,
+              name: '_ProdutoRestControllerBase.existeOpcoes'))
+          .value;
+  Computed<bool> _$existeAdicionaisComputed;
+
+  @override
+  bool get existeAdicionais => (_$existeAdicionaisComputed ??= Computed<bool>(
+          () => super.existeAdicionais,
+          name: '_ProdutoRestControllerBase.existeAdicionais'))
+      .value;
+  Computed<String> _$textOpcoesEscolhidasComputed;
+
+  @override
+  String get textOpcoesEscolhidas => (_$textOpcoesEscolhidasComputed ??=
+          Computed<String>(() => super.textOpcoesEscolhidas,
+              name: '_ProdutoRestControllerBase.textOpcoesEscolhidas'))
+      .value;
+  Computed<String> _$textAdicionaisEscolhidosComputed;
+
+  @override
+  String get textAdicionaisEscolhidos => (_$textAdicionaisEscolhidosComputed ??=
+          Computed<String>(() => super.textAdicionaisEscolhidos,
+              name: '_ProdutoRestControllerBase.textAdicionaisEscolhidos'))
+      .value;
 
   final _$produtoAtom = Atom(name: '_ProdutoRestControllerBase.produto');
 
@@ -43,6 +78,21 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   set produto(RestProdutoProfile value) {
     _$produtoAtom.reportWrite(value, super.produto, () {
       super.produto = value;
+    });
+  }
+
+  final _$salvandoAtom = Atom(name: '_ProdutoRestControllerBase.salvando');
+
+  @override
+  bool get salvando {
+    _$salvandoAtom.reportRead();
+    return super.salvando;
+  }
+
+  @override
+  set salvando(bool value) {
+    _$salvandoAtom.reportWrite(value, super.salvando, () {
+      super.salvando = value;
     });
   }
 
@@ -110,16 +160,40 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
         .run(() => super.addItemCarrinho(produtoId));
   }
 
+  final _$salvarCarrinhoAsyncAction =
+      AsyncAction('_ProdutoRestControllerBase.salvarCarrinho');
+
+  @override
+  Future salvarCarrinho(
+      int clienteId, int restId, int produtoId, String clienteFirebaseId) {
+    return _$salvarCarrinhoAsyncAction.run(() =>
+        super.salvarCarrinho(clienteId, restId, produtoId, clienteFirebaseId));
+  }
+
+  final _$salvarProdutoAsyncAction =
+      AsyncAction('_ProdutoRestControllerBase.salvarProduto');
+
+  @override
+  Future salvarProduto(int produtoId) {
+    return _$salvarProdutoAsyncAction.run(() => super.salvarProduto(produtoId));
+  }
+
   @override
   String toString() {
     return '''
 produto: ${produto},
+salvando: ${salvando},
 item: ${item},
 add: ${add},
 opcoesEscolhidas: ${opcoesEscolhidas},
 totalItem: ${totalItem},
 adicionaisTotal: ${adicionaisTotal},
-opcoesTotal: ${opcoesTotal}
+opcoesTotal: ${opcoesTotal},
+addLiberado: ${addLiberado},
+existeOpcoes: ${existeOpcoes},
+existeAdicionais: ${existeAdicionais},
+textOpcoesEscolhidas: ${textOpcoesEscolhidas},
+textAdicionaisEscolhidos: ${textAdicionaisEscolhidos}
     ''';
   }
 }

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -9,8 +8,6 @@ import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/m
 import 'package:net_cliente/app/shared/models/rest/produto_view/produto_view_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'produto_rest_controller.dart';
 
@@ -54,27 +51,43 @@ class _ProdutoRestPageState
       ),
       body:  Observer(
         builder: (_){
+          String aPartir;
+          controller.existeOpcoes == true
+          ? aPartir = 'a partir de'
+          : aPartir = '';
+          if(controller.produto == null){
+            return Center(child: CupertinoActivityIndicator(),);
+          }
+          if(controller.salvando == true){
+            return Center(child: CupertinoActivityIndicator(),);
+          }
           if(controller.produto != null){
            return SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
-              SizedBox(
-                height: 20,
-              ),
               Container(
-                width: 400,
+                width: size.width,
                 height: 300,
                 child: Observer(builder: (_) {
                   if (controller.produto.restProdutos[0].foto != null) {
-                    return  Container(
-                              height: 200,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                controller.produto.restProdutos[0].foto,
-                              ))));
+                    return  GestureDetector(
+                      onTap: (){
+                        Modular.to.pushNamed(
+                          '/rest_profile/view_produto/view_foto',
+                          arguments: controller.produto.restProdutos[0].foto
+                          );
+                      },
+                      child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                        image: CachedNetworkImageProvider(
+                                  controller.produto.restProdutos[0].foto,
+                                )))),
+                    );
                   }
                   double preco = 
                   controller.produto.restProdutos[0].precoPromo != 0 
@@ -130,123 +143,15 @@ class _ProdutoRestPageState
                       child: TextWidget(
                         text: controller.produto.restProdutos[0].descricao,
                         fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        textColor: Colors.grey[500],
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              Observer(
-                builder:(_) => Container(
-                  child: controller.produto.restProdutos[0].restOpcaos.isEmpty == true
-                ? SizedBox()
-                : ListView.builder(
-                  itemCount: controller.produto.restProdutos[0].restOpcaos.length,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  itemBuilder: (context, index){
-                    var op = controller.produto.restProdutos[0].restOpcaos[index];
-                    return  Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      child: Stack(
-                          children: [
-                           Observer(
-                              builder:(_) => TextWidget(
-                                  text: '${op.opcaoNome}',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                              ),
-                           ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top:20,
-                                left: 0,
-                              ),
-                              child: ListView.builder(
-                                itemCount: op.restOpcaoItems.length,
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                itemBuilder: (context, x){
-                                  var i = op.restOpcaoItems[x];
-                                  return Observer(
-                                    builder:(_) {
-                                      
-                                      OpcaoEscolhida opAtual = OpcaoEscolhida(
-                                        op.opcaoNome, 
-                                        op.restOpcaoId, 
-                                        i.itemNome, 
-                                        i.itemPreco,
-                                        i.restOpcaoItemId,
-                                        );
-                                        
-                                      return Observer(
-                                        builder:(_) {
-                                         return ListTile(
-                                                tileColor: Colors.white,
-                                                title:TextWidget(
-                                                text: i.itemNome,
-                                                fontSize: 16,
-                                                textColor: Colors.black,
-                                                fontWeight: FontWeight.w300,
-                                                ),
-                                                subtitle: TextWidget(
-                                                text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
-                                                textColor: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight:FontWeight.w300,
-                                                ),
-                                                 trailing: Observer(
-                                                   builder: (_){
-                                                     if(controller.opcoesEscolhidas.isEmpty){
-                                                       return Icon(CupertinoIcons.circle);
-                                                     }  else if(controller.opcoesEscolhidas.where((element) => element.opItemId == i.restOpcaoItemId).isNotEmpty){
-                                                       return Icon(
-                                                          CupertinoIcons.circle_fill,
-                                                          color: Cores.verdeClaro,
-                                                          );
-
-                                                     } else {
-                                                      return Icon(CupertinoIcons.circle);
-                                                     }
-                                                   },
-                                                 ), 
-                                                onTap: (){
-                                                  controller.opcoesEscolhidas.removeWhere(
-                                                  (element) => element.opId == op.restOpcaoId);
-                                                OpcaoEscolhida opcaoEscolhida= new OpcaoEscolhida(
-                                                  op.opcaoNome,
-                                                  op.restOpcaoId,
-                                                  i.itemNome,
-                                                  i.itemPreco,
-                                                  i.restOpcaoItemId,
-                                                );
-                                                print(opAtual.nomeItem.toString());
-                                                print(opAtual.opItemId.toString());
-                                                print(opAtual.opId.toString());
-                                                print('TAMANHO DA LISTA: ' + controller.produto.restProdutos[0].restOpcaos.length.toString() + ' INDEX: $index');
-                                                controller.opcoesEscolhidas.add(opcaoEscolhida);
-                                                },
-                                              );
-                                        }, 
-                                      );
-                                    }
-                                  );
-                                    }
-                                  ), 
-                            )
-                              ],
-                      ),
-                    );
-                  },
-                  ), 
-                ),
-              ),
-              SizedBox(
-                height: 20,
+                height: 15,
               ),
               controller.produto.restProdutos[0].precoPromo != 0 &&
                       controller.produto.restProdutos[0].precoPromo < controller.produto.restProdutos[0].preco
@@ -271,7 +176,7 @@ class _ProdutoRestPageState
                             children: [
                               TextWidget(
                                 text:
-                                    'Por: R\$ ${controller.produto.restProdutos[0].precoPromo.toStringAsFixed(2)}',
+                                    'Por $aPartir  R\$ ${controller.produto.restProdutos[0].precoPromo.toStringAsFixed(2)}',
                                 fontSize: 18,
                                 textColor: Colors.green,
                               ),
@@ -288,7 +193,7 @@ class _ProdutoRestPageState
                       child: Row(
                         children: [
                           TextWidget(
-                            text:'R\$ ${controller.produto.restProdutos[0].preco.toStringAsFixed(2)}',
+                            text:'$aPartir R\$ ${controller.produto.restProdutos[0].preco.toStringAsFixed(2)}',
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
                           ),
@@ -296,7 +201,152 @@ class _ProdutoRestPageState
                       ),
                     ),
               SizedBox(
-                height: 35,
+                height: 25,
+              ),
+              Observer(
+                builder:(_) => Container(
+                  child: controller.produto.restProdutos[0].restOpcaos.isEmpty == true
+                ? SizedBox()
+                : ListView.builder(
+                  itemCount: controller.produto.restProdutos[0].restOpcaos.length,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemBuilder: (context, index){
+                    var op = controller.produto.restProdutos[0].restOpcaos[index];
+                    return  Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: Stack(
+                          children: [
+                           Observer(
+                              builder:(_) => TextWidget(
+                                  text: '${op.opcaoNome}',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  textColor: Cores.verdeClaro,
+                              ),
+                           ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 20,
+                                bottom: 20,
+                              ),
+                              child: ListView.builder(
+                                itemCount: op.restOpcaoItems.length,
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemBuilder: (context, x){
+                                  var i = op.restOpcaoItems[x];
+                                  return Observer(
+                                    builder:(_) {
+                                      
+                                      OpcaoEscolhida opAtual = OpcaoEscolhida(
+                                        op.opcaoNome, 
+                                        op.restOpcaoId, 
+                                        i.itemNome, 
+                                        i.itemPreco,
+                                        i.restOpcaoItemId,
+                                        );
+                                        
+                                      return Observer(
+                                        builder:(_) {
+                                         return Container(
+                                           margin: EdgeInsets.symmetric(
+                                             vertical: 5,
+                                           ),
+                                           child: Card(
+                                              elevation: 0,
+                                               child: ListTile(
+                                                  tileColor: Colors.white,
+                                                  title:Observer(
+                                                    builder: (_){
+                                                      if(controller.opcoesEscolhidas.where((element) => element.opItemId == i.restOpcaoItemId).isNotEmpty){
+                                                        return TextWidget(
+                                                          text: i.itemNome,
+                                                          fontSize: 16,
+                                                          textColor: Cores.verdeClaro,
+                                                          fontWeight: FontWeight.w500,
+                                                          );
+                                                      } else{
+                                                       return TextWidget(
+                                                          text: i.itemNome,
+                                                          fontSize: 16,
+                                                          textColor: Colors.black,
+                                                          fontWeight: FontWeight.w300,
+                                                          );
+                                                      }
+                                                    },
+                                                  ),
+                                                  subtitle: Observer(
+                                                    builder: (_){
+                                                      if(controller.opcoesEscolhidas.where((element) => element.opItemId == i.restOpcaoItemId).isNotEmpty){
+                                                        return TextWidget(
+                                                          text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
+                                                          textColor: Cores.verdeClaro,
+                                                          fontSize: 16,
+                                                          fontWeight:FontWeight.w500,
+                                                        );
+                                                      } else{
+                                                        return TextWidget(
+                                                          text: 'R\$ ${i.itemPreco.toStringAsFixed(2)}',
+                                                          textColor: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:FontWeight.w300,
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                 trailing: Observer(
+                                                   builder: (_){
+                                                    if(controller.opcoesEscolhidas.isEmpty){
+                                                      return Icon(CupertinoIcons.circle);
+                                                      }  else if(controller.opcoesEscolhidas.where((element) => element.opItemId == i.restOpcaoItemId).isNotEmpty){
+                                                        return Icon(
+                                                          CupertinoIcons.circle_fill,
+                                                          color: Cores.verdeClaro,
+                                                          );
+
+                                                      } else {
+                                                       return Icon(CupertinoIcons.circle);
+                                                           }
+                                                           },
+                                                         ), 
+                                                        onTap: (){
+                                                          controller.opcoesEscolhidas.removeWhere(
+                                                          (element) => element.opId == op.restOpcaoId);
+                                                        OpcaoEscolhida opcaoEscolhida= new OpcaoEscolhida(
+                                                          op.opcaoNome,
+                                                          op.restOpcaoId,
+                                                          i.itemNome,
+                                                          i.itemPreco,
+                                                          i.restOpcaoItemId,
+                                                        );
+                                                        print(opAtual.nomeItem.toString());
+                                                        print(opAtual.opItemId.toString());
+                                                        print(opAtual.opId.toString());
+                                                        print('TAMANHO DA LISTA: ' + controller.produto.restProdutos[0].restOpcaos.length.toString() + ' INDEX: $index');
+                                                        controller.opcoesEscolhidas.add(opcaoEscolhida);
+                                                        },
+                                                ),
+                                             ),
+                                         );
+                                        }, 
+                                      );
+                                    }
+                                  );
+                                    }
+                                  ), 
+                            ),
+                      ],
+                      ),
+                    );
+                  },
+                  ), 
+                ),
+              ),
+              SizedBox(
+                height: 0,
               ),
              controller.produto.restAdicionals.isEmpty
               ? SizedBox()
@@ -312,6 +362,7 @@ class _ProdutoRestPageState
                           text: 'Adicionais: ',
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          textColor: Cores.verdeClaro,
                         ),
                       ),
                     ],
@@ -341,7 +392,8 @@ class _ProdutoRestPageState
                                   builder:(_) => IconButton(
                                     icon: Icon(
                                       CupertinoIcons.add_circled,
-                                      color: Colors.black,
+                                    color: Cores.verdeClaro,
+                                      size: 20,
                                       ),
                                     onPressed: (){
                                      controller.add.add(add);
@@ -364,7 +416,7 @@ class _ProdutoRestPageState
                                     return TextWidget(
                                         text: q.toString(),
                                         fontSize: 20,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                     );
                                   } 
                                 ),
@@ -373,7 +425,8 @@ class _ProdutoRestPageState
                                 builder:(_) => IconButton(
                                   icon: Icon(
                                     CupertinoIcons.minus_circle,
-                                    color: Colors.black,
+                                    color: Cores.verdeClaro,
+                                    size: 20,
                                     ),
                                   onPressed:(){
                                     controller.add.removeWhere(
@@ -392,8 +445,40 @@ class _ProdutoRestPageState
               SizedBox(
                 height: 35,
               ),
-              TextWidget(
-                text: 'R\$ ${controller.totalItem.toStringAsFixed(2)}',
+               Container(
+                margin: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: controller.existeOpcoes == false
+                ? SizedBox()
+                : Column(
+                  children: [
+                    Row(
+                      children: [
+                        TextWidget(
+                          text: 'Opções selecionadas do produto:',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          textColor: Cores.verdeClaro,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        TextWidget(
+                          text:controller.textOpcoesEscolhidas == "XX"
+                          ? 'Selecione as opções'
+                          : '${controller.textOpcoesEscolhidas}'
+                          .replaceAll('(', '').replaceAll(')', '').replaceAll(',', '\n').replaceAll('', ''),
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 35,
@@ -402,40 +487,33 @@ class _ProdutoRestPageState
                 margin: EdgeInsets.only(
                   left: 10,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: controller.existeAdicionais == false
+                ? SizedBox()
+                : Column(
                   children: [
-                    FlatButton(
-                      color: Colors.blue,
-                      onPressed: () async {
-                        if (await ConnectionVerify.connectionStatus()) {
-                          bool add = await controller
-                              .addItemCarrinho(widget.produto.produtoId);
-                          if (add == true) {
-                            Modular.to.pop();
-                            return AvisoFlushBar().showFlushBarAviso(
-                              context,
-                              'Produto Adicionado ao Carrinho!',
-                              'Verifique na barra superior',
-                            );
-                          } else {
-                            return AvisoFlushBar().showFlushBarAviso(
-                              context,
-                              'Ops!',
-                              'Produto sem estoque',
-                            );
-                          }
-                        } else {
-                          return InternetFlushBar()
-                              .showFlushBarInternet(context);
-                        }
-                      },
-                      child: TextWidget(
-                        text: 'Adicionar ao Carrinho',
-                        textColor: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                      ),
+                    Row(
+                      children: [
+                        TextWidget(
+                          text: 'Adicionais:',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          textColor: Cores.verdeClaro,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        TextWidget(
+                          text: controller.textAdicionaisEscolhidos == 'XX'
+                          ? 'Selecione suas opções'
+                          : ' ${controller.textAdicionaisEscolhidos}'
+                          .replaceAll('(', '').replaceAll(')', '').replaceAll(',', '\n').replaceAll('', ''),
+                          fontSize: 14,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -447,7 +525,49 @@ class _ProdutoRestPageState
           }
 
           return Center(child: CupertinoActivityIndicator(),);
-      })
+      }),
+      bottomNavigationBar: Observer(
+        builder: (_){
+          if(controller.salvando == true){
+            return SizedBox();
+          }
+          return Container(
+            width: size.width,
+            margin: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: 'R\$ ${controller.totalItem.toStringAsFixed(2).replaceAll('.', ',')}',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                Container(
+                  width: 250,
+                  child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: Colors.transparent)), 
+                    color: Cores.verdeClaro,
+                    disabledColor: Colors.grey,
+                    onPressed: controller.addLiberado == false
+                    ? null
+                    : (){
+                      controller.salvarProduto(widget.produto.produtoId);
+                    },
+                    child: TextWidget(
+                      text: 'Adicionar ao Carrinho',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
       
     );
   }

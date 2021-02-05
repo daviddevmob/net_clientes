@@ -1,4 +1,5 @@
 import 'package:hasura_connect/hasura_connect.dart';
+import 'package:net_cliente/app/shared/models/rest/pedido_rest_model/pedido_rest_model.dart';
 import 'package:net_cliente/app/shared/models/rest/produto_view/rest_produto_profile.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_profile_page.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_profile/rest_profile_repository_interface.dart';
@@ -115,9 +116,46 @@ class RestProfileRepository implements IRestProfile{
   }
 
   @override
-  Future<String> fazerPedido() {
-    // TODO: implement fazerPedido
-    throw UnimplementedError();
+  Future<String> fazerPedido(PedidoRestModel pedidoRestModel) {
+    var query = '''
+    mutation MyMutation {
+      insert_rest_pedido(
+        objects: {
+          cliente_firebase_id: "${pedidoRestModel.clienteFirebaseId}", 
+          cliente_id: ${pedidoRestModel.clienteId}, 
+          endereco: "${pedidoRestModel.endereco}", 
+          entrega: ${pedidoRestModel.entrega}, 
+          localizacao: "${pedidoRestModel.localizacao}", 
+          metodo_pagamento: ${pedidoRestModel.metodoPagamento}, 
+          rest_id: ${pedidoRestModel.restId}, 
+          status_pedido: 1, 
+          taxa_entrega: ${pedidoRestModel.taxaEntrega}, 
+          total_pedido: ${pedidoRestModel.totalPedido}, 
+          troco: "${pedidoRestModel.troco}", 
+          bairro: ${pedidoRestModel.bairro}
+          }) {
+        affected_rows
+      }
+    }
+    ''';
+
+    var itemPedido = '''
+    mutation MyMutation {
+      insert_rest_item_pedido(
+        objects: {
+          cliente_id: 10, 
+          complementos: "", 
+          opcoes_produto: "", 
+          preco_unidade: "", 
+          produto_rest_id: 10, 
+          quantidade: 10, 
+          rest_pedido_id: 10, 
+          total: ""
+          }) {
+        affected_rows
+      }
+    }
+    ''';
   }
 
   @override
@@ -153,6 +191,98 @@ class RestProfileRepository implements IRestProfile{
     
     var data = await api.query(query);
     return RestProdutoProfile.fromJson(data['data']['rest_categoria'][0]);
+  }
+
+  @override
+  Future addProdutoCarrinho(
+    int clienteId, 
+    int restId, 
+    int produtoId, 
+    double preco, 
+    double total,
+    int quantidade, 
+    String  complementos,
+    String opcoes,
+    String clienteFirebaseId,)  async {
+    var verCarrinho = '''
+    query MyQuery {
+      rest_pedido(
+        where: {
+          rest_id: {_eq: $restId}, 
+          cliente_id: {_eq: $clienteId},
+          status_pedido: {_eq: 0}}) {
+        rest_pedido_id
+      }
+    }
+    ''';
+
+    var data = await api.query(verCarrinho);
+    var result = await data['data']['rest_pedido'];
+
+    if(result != '[]'){
+      int pedidoId = await data['data']['rest_pedido'][0]['rest_pedido_id'];
+      var salvarProduto =  '''
+      mutation MyMutation {
+        insert_rest_item_pedido(
+          objects: {
+            cliente_id: $clienteId, 
+            complementos: "$complementos", 
+            opcoes_produto: "$opcoes", 
+            preco_unidade: $preco, 
+            produto_rest_id: $produtoId, 
+            quantidade: $quantidade, 
+            rest_pedido_id: $pedidoId, 
+            total: $total
+            }) {
+          affected_rows
+        }
+      }
+      ''';
+
+      await api.mutation(salvarProduto);
+      return 'ok';
+    } else{
+      var criarCarrinho = '''
+      mutation MyMutation {
+      insert_rest_pedido(
+        objects: {
+          cliente_firebase_id: "$clienteFirebaseId", 
+          cliente_id: $clienteId, 
+          rest_id: $restId, 
+          status_pedido: 0
+          }) {
+        returning {
+          rest_pedido_id
+        }
+      }
+    }
+      ''';
+
+      var data = await api.mutation(criarCarrinho);
+      int pedidoId = await data['data']['insert_rest_pedido']['returning'][0]['rest_pedido_id'];
+
+      var salvarProduto =  '''
+      mutation MyMutation {
+        insert_rest_item_pedido(
+          objects: {
+            cliente_id: $clienteId, 
+            complementos: "$complementos", 
+            opcoes_produto: "$opcoes", 
+            preco_unidade: $preco, 
+            produto_rest_id: $produtoId, 
+            quantidade: $quantidade, 
+            rest_pedido_id: $pedidoId, 
+            total: $total
+            }) {
+          affected_rows
+        }
+      }
+      ''';
+
+      await api.mutation(salvarProduto);
+      return 'ok';
+    }
+
   }
 
 }

@@ -6,6 +6,7 @@ import 'package:net_cliente/app/shared/models/rest/pedido_rest_model.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_favorito_profile.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_profile.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_profile_page.dart';
+import 'package:net_cliente/app/shared/repositories/local_storage/carrinho_rest/carrinho_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_favoritos/rest_favoritos_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_profile/rest_profile_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
@@ -20,8 +21,11 @@ abstract class _RestProfileControllerBase with Store {
   final IRestProfile iRestProfile;
   final IRestFavoritos iRestFavoritos;
   final ISend iSend;
+  final ICarrinhoRestLocal iLocal;
 
-  _RestProfileControllerBase(this.iRestProfile, this.iRestFavoritos, this.iSend);
+  _RestProfileControllerBase(this.iRestProfile, this.iRestFavoritos, this.iSend, this.iLocal){
+    iLocal.deleteCarrinho();
+  }
 
   @observable
   RestProfile rest;

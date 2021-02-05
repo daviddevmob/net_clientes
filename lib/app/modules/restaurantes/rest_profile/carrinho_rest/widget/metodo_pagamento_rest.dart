@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:net_cliente/app/modules/restaurantes/rest_profile/carrinho_rest/carrinho_rest_controller.dart';
 import 'package:net_cliente/app/shared/models/rest/carrinho_rest_page_model.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class MetodoPagamentoRestWidget extends StatelessWidget {
   final CarrinhoRestPageModel carrinho;
+  final CarrinhoRestController controller;
 
-  const MetodoPagamentoRestWidget({Key key, this.carrinho}) : super(key: key);
+  const MetodoPagamentoRestWidget({Key key, this.carrinho, this.controller}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -15,19 +17,22 @@ class MetodoPagamentoRestWidget extends StatelessWidget {
         Wrap(
           direction: Axis.vertical,
           children: [
-            TextWidget(
-              text: 'Método de Pagamento',
-              fontSize: 18,
-              textColor: Colors.black,
-              fontWeight: FontWeight.w400,
+            Container(
+              margin: EdgeInsets.only(
+                left: 10,
+              ),
+              child: TextWidget(
+                text: 'Método de Pagamento',
+                fontSize: 16,
+              ),
             ),
             Observer(
               builder:(_) => Row(
                 children: [
                   Radio(
                     value: true,
-                    groupValue: carrinho.controller.pagamentoDinheiro,
-                    onChanged: carrinho.controller.setDinheiroOuCartao,
+                    groupValue: controller.pagamentoDinheiro,
+                    onChanged: controller.setDinheiroOuCartao,
                     activeColor: Cores.verdeClaro,
                   ),
                   TextWidget(
@@ -42,8 +47,8 @@ class MetodoPagamentoRestWidget extends StatelessWidget {
                 children: [
                   Radio(
                     value: false,
-                    groupValue: carrinho.controller.pagamentoDinheiro,
-                    onChanged: carrinho.controller.setDinheiroOuCartao,
+                    groupValue: controller.pagamentoDinheiro,
+                    onChanged: controller.setDinheiroOuCartao,
                     activeColor: Cores.verdeClaro,
                   ),
                   TextWidget(

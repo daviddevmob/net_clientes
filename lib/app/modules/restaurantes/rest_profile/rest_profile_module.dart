@@ -1,5 +1,7 @@
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/carrinho_rest/carrinho_rest_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/produto_rest_module.dart';
+import 'package:net_cliente/app/shared/repositories/local_storage/carrinho_rest/carrinho_repository.dart';
+import 'package:net_cliente/app/shared/repositories/local_storage/carrinho_rest/carrinho_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_favoritos/rest_favoritos_repository.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_favoritos/rest_favoritos_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_profile/rest_profile_repository.dart';
@@ -15,10 +17,11 @@ import 'rest_profile_page.dart';
 class RestProfileModule extends ChildModule {
   @override
   List<Bind> get binds => [
+    Bind<ICarrinhoRestLocal>((i) => CarrinhoRestLocalRepository()),
     Bind<IRestFavoritos>((i) => RestsFavotirosRepository(i.get())),
     Bind<IRestProfile>((i) => RestProfileRepository(i.get())),
     Bind<ISend>((i) => SendRepository(i.get())),
-    Bind((i) => RestProfileController(i.get(), i.get(), i.get())),
+    Bind((i) => RestProfileController(i.get(), i.get(), i.get(), i.get())),
       ];
 
   @override
