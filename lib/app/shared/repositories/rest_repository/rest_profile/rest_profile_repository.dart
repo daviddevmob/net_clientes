@@ -77,7 +77,7 @@ class RestProfileRepository implements IRestProfile{
             preco
             nome
           }
-          rest_produtos {
+          rest_produtos(where: {disponivel: {_eq: true}, quantidade: {_neq: 0}}) {
             descricao
             disponivel
             foto
@@ -116,8 +116,9 @@ class RestProfileRepository implements IRestProfile{
   }
 
   @override
-  Future<String> fazerPedido(PedidoRestModel pedidoRestModel) {
-    var query = '''
+  Future<String> fazerPedido(PedidoRestModel pedidoRestModel)  async {
+    try{
+      var query = '''
     mutation MyMutation {
       insert_rest_pedido(
         objects: {
@@ -132,30 +133,97 @@ class RestProfileRepository implements IRestProfile{
           taxa_entrega: ${pedidoRestModel.taxaEntrega}, 
           total_pedido: ${pedidoRestModel.totalPedido}, 
           troco: "${pedidoRestModel.troco}", 
-          bairro: ${pedidoRestModel.bairro}
+          bairro: "${pedidoRestModel.bairro}"
           }) {
-        affected_rows
+            returning {
+          rest_pedido_id
+        }
       }
     }
+    ''';
+    var data = await api.mutation(query);
+    int pedidoId = data['data']['insert_rest_pedido']['returning'][0]['rest_pedido_id'];
+    int tamanho = pedidoRestModel.produtos.length;
+    for(var x = 0; x < tamanho; x++){
+      print('loop');
+      var i = pedidoRestModel.produtos[x];
+      var itemPedido = '''
+        mutation MyMutation {
+          insert_rest_item_pedido(
+            objects: {
+              cliente_id: ${i.clienteId}, 
+              complementos: "${i.complementosProduto}", 
+              opcoes_produto: "${i.opcoesProduto}", 
+              preco_unidade: ${i.precoUnidade}, 
+              produto_rest_id: ${i.produtoRestId}, 
+              quantidade: 1, 
+              rest_pedido_id: $pedidoId, 
+              total: ${i.total}
+              }) {
+            affected_rows
+          }
+        }
     ''';
 
-    var itemPedido = '''
-    mutation MyMutation {
-      insert_rest_item_pedido(
-        objects: {
-          cliente_id: 10, 
-          complementos: "", 
-          opcoes_produto: "", 
-          preco_unidade: "", 
-          produto_rest_id: 10, 
-          quantidade: 10, 
-          rest_pedido_id: 10, 
-          total: ""
-          }) {
-        affected_rows
+      await api.mutation(itemPedido);
+    
+      var quantidade = '''
+      query MyQuery {
+        rest_produto(
+          where: {
+            rest_produto_id: {_eq: ${i.produtoRestId}}
+            }) {
+          quantidade
+        }
       }
+      ''';
+      
+      var dataQntProduto = await api.query(quantidade);
+      int qnt = await dataQntProduto['data']['rest_produto'][0]['quantidade'];
+
+      if(qnt > 1){
+
+        int qntAtt = qnt -1;
+        var editProduto = '''
+        mutation MyMutation {
+          update_rest_produto(
+            where: {
+              rest_produto_id: {_eq: ${i.produtoRestId}}}, 
+              _set: {quantidade: $qntAtt}) {
+            affected_rows
+          }
+        }
+        ''';
+
+        await api.mutation(editProduto);
+      } else if(qnt == 1){
+
+        var editProduto = '''
+        mutation MyMutation {
+          update_rest_produto(
+            where: {
+              rest_produto_id: {_eq: ${i.produtoRestId}}}, 
+              _set: {quantidade: 0}) {
+            affected_rows
+          }
+        }
+        ''';
+
+        await api.mutation(editProduto);
+      } else{
+        print('sem estoque');
+      }
+      
     }
-    ''';
+
+    return 'ok';
+    }on HasuraError catch (e) {
+      print(e.message.toString());
+      return e.message.toString();
+    }catch(e){
+      print('ERRO: $e : ' +e.toString());
+    }
+    
   }
 
   @override

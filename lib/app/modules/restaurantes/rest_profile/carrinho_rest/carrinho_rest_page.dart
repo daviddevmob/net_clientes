@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,12 +6,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/carrinho_rest/widget/metodo_pagamento_rest.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/carrinho_rest/widget/tipo_entrega_rest.dart';
-import 'package:net_cliente/app/modules/restaurantes/rest_profile/widgets/tipo_entrega_rest_widget.dart';
-import 'package:net_cliente/app/shared/models/rest/item_carrinho/item_carrinho_rest_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/aviso_flushbar.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'carrinho_rest_controller.dart';
@@ -37,6 +32,7 @@ class _CarrinhoRestPageState
   void initState() {
     disposer = autorun((_) async {
       controller.taxaEntrega = widget.carrinho.taxaEntrega;
+      controller.clienteId = widget.carrinho.restProfileModule.cliente.clienteId;
     });
     super.initState();
   }
@@ -75,6 +71,20 @@ class _CarrinhoRestPageState
                ),
               );
            } 
+
+          if(controller.salvo == true){
+            return Center(
+              child: TextWidget(
+                text: 'Salvo',
+              ),
+            );
+          }
+
+          if(controller.salvando == true){
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
 
            var produto = controller.produtos;
            return Container(
@@ -355,7 +365,6 @@ class _CarrinhoRestPageState
                     onPressed: controller.liberarPedir == false
                     ? null
                     : () async {
-                      print('teste');
                       if(controller.pagamentoDinheiro == true){
                         if(controller.formKey.currentState.validate()){
                         var salvar = await controller.fazerPedido(
@@ -384,7 +393,7 @@ class _CarrinhoRestPageState
                             widget.carrinho.restProfileModule.endereco.latlgn,
                             );
                           print(salvar);
-                      }
+                      } 
                     }, 
                     child: TextWidget(
                       text: 'Pedir Agora!',

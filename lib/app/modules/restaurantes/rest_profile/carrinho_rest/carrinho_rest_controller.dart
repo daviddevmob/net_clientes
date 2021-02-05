@@ -23,6 +23,12 @@ abstract class _CarrinhoRestControllerBase with Store {
   @observable
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  @observable
+  bool salvo = false;
+
+  @observable
+  bool salvando = false;
+
   @observable 
   int metodoPagamentoCartaoId;
 
@@ -33,10 +39,13 @@ abstract class _CarrinhoRestControllerBase with Store {
   double taxaEntrega;
 
   @observable
+  int clienteId;
+
+  @observable
   bool pagamentoDinheiro = false;
 
   @observable
-  ObservableList<ItemCarrinhoRestModel> produtos = ObservableList<ItemCarrinhoRestModel>();
+  var produtos = ObservableList<ItemCarrinhoRestModel>();
 
   @observable
   TextEditingController trocoParaController = TextEditingController();
@@ -78,7 +87,6 @@ abstract class _CarrinhoRestControllerBase with Store {
   @action
   getProdutos() async {
     produtos = await iLocal.getItensCarrinho();
-    return produtos;
   }
 
   @action
@@ -94,6 +102,47 @@ abstract class _CarrinhoRestControllerBase with Store {
     await iLocal.deleteItemCarrinho(item);
   }
 
+  @computed
+  List<ItemPedidoRestModel> get itens {
+    List<ItemPedidoRestModel> item = new List<ItemPedidoRestModel>();
+    for(int i = 0; i >= produtos.length; i++) {
+      item.add(new ItemPedidoRestModel(
+        clienteId,
+        produtos[i].produtoId,
+        produtos[i].quantidade,
+        produtos[i].opcoes,
+        produtos[i].complementos,
+        produtos[i].precoUnidade,
+        produtos[i].total
+        ));
+    }
+    return item;
+  }
+
+  @computed
+  List<ItemPedidoRestModel> get todosItens {
+    List<ItemPedidoRestModel> i = new List<ItemPedidoRestModel>();
+    for(int item = 0; item >= produtos.length; item++) {
+      i.add(new ItemPedidoRestModel(
+        clienteId,
+        produtos[item].produtoId,
+        produtos[item].quantidade,
+        produtos[item].opcoes,
+        produtos[item].complementos,
+        produtos[item].precoUnidade,
+        produtos[item].total
+        ));
+    }
+    return i;
+  }
+
+  @action
+  printItens() async {
+    print('PRODUTOS TAMANHO: ' + produtos.length.toString());
+    print('PRODUTOS: ' + produtos.map((e) => e).toList().toString());
+    print('ITENS: ' + itens.map((e) => e).toList().toString());
+    print('ITENS: ' + todosItens.map((e) => e).toList().toString());
+  }
 
   @action
   fazerPedido(
@@ -104,20 +153,22 @@ abstract class _CarrinhoRestControllerBase with Store {
     String endereco,
     String localizacao,
     ) async {
-    
-    List<ItemPedidoRestModel> itens = new List<ItemPedidoRestModel>();
-    for(var x = 0; x > produtos.length; x++){
-      ItemPedidoRestModel item 
-      = new ItemPedidoRestModel(
+    /* salvando = true; */
+
+    List<ItemPedidoRestModel> item = new List<ItemPedidoRestModel>();
+
+    int total = produtos.length;
+
+    for(int i = 0; i >= total; i++) {
+      item.add(new ItemPedidoRestModel(
         clienteId,
-        produtos[x].produtoId,
-        produtos[x].quantidade,
-        produtos[x].opcoes,
-        produtos[x].complementos,
-        produtos[x].precoUnidade,
-        produtos[x].total
-        );
-      itens.add(item);
+        produtos[i].produtoId,
+        produtos[i].quantidade,
+        produtos[i].opcoes,
+        produtos[i].complementos,
+        produtos[i].precoUnidade,
+        produtos[i].total
+        ));
     }
 
     PedidoRestModel pedido = new PedidoRestModel(
@@ -133,11 +184,17 @@ abstract class _CarrinhoRestControllerBase with Store {
       trocoParaController.text, 
       taxaEntrega, 
       totalPedido, 
-      itens,
+      item,
       );
-
-      return pedido.toString();
-   /*  var fazerPedido = await iRestProfile.fazerPedido(pedido); */
+      if(item.isEmpty){
+        print(item);
+      } else{
+      var fazerPedido = await iRestProfile.fazerPedido(pedido);
+      salvando = false;
+      salvo = true;
+      await iLocal.deleteCarrinho();
+      return fazerPedido;
+      }
   }
 
 }

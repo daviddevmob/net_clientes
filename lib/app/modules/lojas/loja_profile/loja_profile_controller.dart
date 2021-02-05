@@ -202,14 +202,14 @@ abstract class _LojaProfileControllerBase with Store {
   @computed
   List<LojaPedidoItem> get pedidosItens {
     List<LojaPedidoItem> p = new List<LojaPedidoItem>();
-    for (int pedido = 0;
-        pedido >= produtosCarrinho.length;
-        pedido = pedido + 1) {
+    for (int pedido = 0; pedido >= produtosCarrinho.length; pedido = pedido + 1) {
+
       double precoUnidade = produtosCarrinho[pedido].produto.precoPromo != 0 &&
               produtosCarrinho[pedido].produto.precoPromo <
                   produtosCarrinho[pedido].produto.preco
           ? produtosCarrinho[pedido].produto.precoPromo
           : produtosCarrinho[pedido].produto.preco;
+
       p.add(new LojaPedidoItem(
         clienteId: clienteId,
         produtoLojaId: produtosCarrinho[pedido].produto.lojaProdutoId,
@@ -217,6 +217,7 @@ abstract class _LojaProfileControllerBase with Store {
         precoUnidade: precoUnidade,
         total: (precoUnidade * produtosCarrinho[pedido].produto.quantidade),
       ));
+
     }
 
     return p;

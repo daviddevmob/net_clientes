@@ -23,6 +23,20 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
       (_$liberarPedirComputed ??= Computed<bool>(() => super.liberarPedir,
               name: '_CarrinhoRestControllerBase.liberarPedir'))
           .value;
+  Computed<List<ItemPedidoRestModel>> _$itensComputed;
+
+  @override
+  List<ItemPedidoRestModel> get itens => (_$itensComputed ??=
+          Computed<List<ItemPedidoRestModel>>(() => super.itens,
+              name: '_CarrinhoRestControllerBase.itens'))
+      .value;
+  Computed<List<ItemPedidoRestModel>> _$todosItensComputed;
+
+  @override
+  List<ItemPedidoRestModel> get todosItens => (_$todosItensComputed ??=
+          Computed<List<ItemPedidoRestModel>>(() => super.todosItens,
+              name: '_CarrinhoRestControllerBase.todosItens'))
+      .value;
 
   final _$formKeyAtom = Atom(name: '_CarrinhoRestControllerBase.formKey');
 
@@ -36,6 +50,36 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
   set formKey(GlobalKey<FormState> value) {
     _$formKeyAtom.reportWrite(value, super.formKey, () {
       super.formKey = value;
+    });
+  }
+
+  final _$salvoAtom = Atom(name: '_CarrinhoRestControllerBase.salvo');
+
+  @override
+  bool get salvo {
+    _$salvoAtom.reportRead();
+    return super.salvo;
+  }
+
+  @override
+  set salvo(bool value) {
+    _$salvoAtom.reportWrite(value, super.salvo, () {
+      super.salvo = value;
+    });
+  }
+
+  final _$salvandoAtom = Atom(name: '_CarrinhoRestControllerBase.salvando');
+
+  @override
+  bool get salvando {
+    _$salvandoAtom.reportRead();
+    return super.salvando;
+  }
+
+  @override
+  set salvando(bool value) {
+    _$salvandoAtom.reportWrite(value, super.salvando, () {
+      super.salvando = value;
     });
   }
 
@@ -85,6 +129,21 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
   set taxaEntrega(double value) {
     _$taxaEntregaAtom.reportWrite(value, super.taxaEntrega, () {
       super.taxaEntrega = value;
+    });
+  }
+
+  final _$clienteIdAtom = Atom(name: '_CarrinhoRestControllerBase.clienteId');
+
+  @override
+  int get clienteId {
+    _$clienteIdAtom.reportRead();
+    return super.clienteId;
+  }
+
+  @override
+  set clienteId(int value) {
+    _$clienteIdAtom.reportWrite(value, super.clienteId, () {
+      super.clienteId = value;
     });
   }
 
@@ -151,6 +210,14 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
     return _$deleteProdutoAsyncAction.run(() => super.deleteProduto(item));
   }
 
+  final _$printItensAsyncAction =
+      AsyncAction('_CarrinhoRestControllerBase.printItens');
+
+  @override
+  Future printItens() {
+    return _$printItensAsyncAction.run(() => super.printItens());
+  }
+
   final _$fazerPedidoAsyncAction =
       AsyncAction('_CarrinhoRestControllerBase.fazerPedido');
 
@@ -202,14 +269,19 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
   String toString() {
     return '''
 formKey: ${formKey},
+salvo: ${salvo},
+salvando: ${salvando},
 metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 tipoEntrega: ${tipoEntrega},
 taxaEntrega: ${taxaEntrega},
+clienteId: ${clienteId},
 pagamentoDinheiro: ${pagamentoDinheiro},
 produtos: ${produtos},
 trocoParaController: ${trocoParaController},
 totalPedido: ${totalPedido},
-liberarPedir: ${liberarPedir}
+liberarPedir: ${liberarPedir},
+itens: ${itens},
+todosItens: ${todosItens}
     ''';
   }
 }
