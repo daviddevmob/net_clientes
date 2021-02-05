@@ -136,6 +136,25 @@ abstract class _CarrinhoRestControllerBase with Store {
     return i;
   }
 
+
+  @computed
+  List<ItemPedidoRestModel> get item {
+    List<ItemPedidoRestModel> item = List<ItemPedidoRestModel>();
+    int total = produtos.length;
+    for(int i = 0; i >= total; i++) {
+      item.add(new ItemPedidoRestModel(
+        clienteId,
+        produtos[i].produtoId,
+        produtos[i].quantidade,
+        produtos[i].opcoes,
+        produtos[i].complementos,
+        produtos[i].precoUnidade,
+        produtos[i].total
+        ));
+    } 
+
+    return item;
+  }
   @action
   printItens() async {
     print('PRODUTOS TAMANHO: ' + produtos.length.toString());
@@ -153,23 +172,7 @@ abstract class _CarrinhoRestControllerBase with Store {
     String endereco,
     String localizacao,
     ) async {
-    /* salvando = true; */
-
-    List<ItemPedidoRestModel> item = new List<ItemPedidoRestModel>();
-
-    int total = produtos.length;
-
-    for(int i = 0; i >= total; i++) {
-      item.add(new ItemPedidoRestModel(
-        clienteId,
-        produtos[i].produtoId,
-        produtos[i].quantidade,
-        produtos[i].opcoes,
-        produtos[i].complementos,
-        produtos[i].precoUnidade,
-        produtos[i].total
-        ));
-    }
+    salvando = true; 
 
     PedidoRestModel pedido = new PedidoRestModel(
       clienteId, 
@@ -184,17 +187,13 @@ abstract class _CarrinhoRestControllerBase with Store {
       trocoParaController.text, 
       taxaEntrega, 
       totalPedido, 
-      item,
+      produtos,
       );
-      if(item.isEmpty){
-        print(item);
-      } else{
       var fazerPedido = await iRestProfile.fazerPedido(pedido);
       salvando = false;
       salvo = true;
       await iLocal.deleteCarrinho();
       return fazerPedido;
-      }
   }
 
 }

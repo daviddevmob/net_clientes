@@ -37,6 +37,13 @@ mixin _$CarrinhoRestController on _CarrinhoRestControllerBase, Store {
           Computed<List<ItemPedidoRestModel>>(() => super.todosItens,
               name: '_CarrinhoRestControllerBase.todosItens'))
       .value;
+  Computed<List<ItemPedidoRestModel>> _$itemComputed;
+
+  @override
+  List<ItemPedidoRestModel> get item =>
+      (_$itemComputed ??= Computed<List<ItemPedidoRestModel>>(() => super.item,
+              name: '_CarrinhoRestControllerBase.item'))
+          .value;
 
   final _$formKeyAtom = Atom(name: '_CarrinhoRestControllerBase.formKey');
 
@@ -281,7 +288,8 @@ trocoParaController: ${trocoParaController},
 totalPedido: ${totalPedido},
 liberarPedir: ${liberarPedir},
 itens: ${itens},
-todosItens: ${todosItens}
+todosItens: ${todosItens},
+item: ${item}
     ''';
   }
 }

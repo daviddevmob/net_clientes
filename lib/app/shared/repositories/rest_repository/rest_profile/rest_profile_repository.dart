@@ -151,11 +151,11 @@ class RestProfileRepository implements IRestProfile{
         mutation MyMutation {
           insert_rest_item_pedido(
             objects: {
-              cliente_id: ${i.clienteId}, 
-              complementos: "${i.complementosProduto}", 
-              opcoes_produto: "${i.opcoesProduto}", 
+              cliente_id: ${pedidoRestModel.clienteId}, 
+              complementos: "${i.complementos}", 
+              opcoes_produto: "${i.opcoes}", 
               preco_unidade: ${i.precoUnidade}, 
-              produto_rest_id: ${i.produtoRestId}, 
+              produto_rest_id: ${i.produtoId}, 
               quantidade: 1, 
               rest_pedido_id: $pedidoId, 
               total: ${i.total}
@@ -171,7 +171,7 @@ class RestProfileRepository implements IRestProfile{
       query MyQuery {
         rest_produto(
           where: {
-            rest_produto_id: {_eq: ${i.produtoRestId}}
+            rest_produto_id: {_eq: ${i.produtoId}}
             }) {
           quantidade
         }
@@ -188,7 +188,7 @@ class RestProfileRepository implements IRestProfile{
         mutation MyMutation {
           update_rest_produto(
             where: {
-              rest_produto_id: {_eq: ${i.produtoRestId}}}, 
+              rest_produto_id: {_eq: ${i.produtoId}}}, 
               _set: {quantidade: $qntAtt}) {
             affected_rows
           }
@@ -202,7 +202,7 @@ class RestProfileRepository implements IRestProfile{
         mutation MyMutation {
           update_rest_produto(
             where: {
-              rest_produto_id: {_eq: ${i.produtoRestId}}}, 
+              rest_produto_id: {_eq: ${i.produtoId}}}, 
               _set: {quantidade: 0}) {
             affected_rows
           }

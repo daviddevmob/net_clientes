@@ -73,9 +73,73 @@ class _CarrinhoRestPageState
            } 
 
           if(controller.salvo == true){
-            return Center(
-              child: TextWidget(
-                text: 'Salvo',
+            return Container(
+              margin: EdgeInsets.only(
+                top: 250,
+              ),
+              height: size.height,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextWidget(
+                                text: 'Pedido Realizado!',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(
+                                CupertinoIcons.check_mark_circled,
+                                color: Colors.green,
+                                )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              TextWidget(
+                                text: 'Acompanhe em ',
+                                fontSize: 14,
+                              ),
+                              TextWidget(
+                                text: 'Meus Pedidos',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(CupertinoIcons.bag),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          FlatButton(
+                            color: Cores.verdeClaro,
+                            onPressed: (){
+                              Modular.to.pop();
+                              Modular.to.pop();
+                              Modular.to.pushReplacementNamed(
+                                '/home/pedidos_rest/',
+                                arguments: widget.carrinho.restProfileModule.cliente.clienteId,
+                                );
+                            }, 
+                            child: TextWidget(
+                              text: 'Ir para Pedidos',
+                              fontSize: 16,
+                              textColor: Colors.white,
+                            ),
+                            )
+                        ],
+                      ),
+                  ],
               ),
             );
           }
@@ -330,6 +394,10 @@ class _CarrinhoRestPageState
           }
 
           if(controller.produtos.isEmpty){
+            return SizedBox();
+          }
+
+          if(controller.salvando == true || controller.salvo == true){
             return SizedBox();
           }
 

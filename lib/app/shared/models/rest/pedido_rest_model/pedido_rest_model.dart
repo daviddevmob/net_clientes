@@ -1,3 +1,5 @@
+import 'package:net_cliente/app/shared/models/rest/item_carrinho/item_carrinho_rest_model.dart';
+
 class PedidoRestModel {
   final int clienteId;
   final int restId;
@@ -11,7 +13,7 @@ class PedidoRestModel {
   final String troco;
   final double taxaEntrega;
   final double totalPedido;
-  final List<ItemPedidoRestModel> produtos;
+  final List<ItemCarrinhoRestModel> produtos;
 
   PedidoRestModel(this.clienteId, this.restId, this.status, this.bairro, this.metodoPagamento, this.entrega, this.clienteFirebaseId, this.endereco, this.localizacao, this.troco, this.taxaEntrega, this.totalPedido, this.produtos);
 }
