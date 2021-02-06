@@ -52,7 +52,16 @@ class _ServicoProfilePageState
           child: AppBarWidget(
             title: widget.baseServiceProfile.title,
             viewLeading: true,
-          )),
+            actions: [
+              IconButton(
+                icon: Icon(CupertinoIcons.star), 
+                onPressed: (){
+                  
+                },
+                )
+            ],
+            ),
+          ),
       body: Observer(
         builder: (_) {
           if (controller.servicoUser == null) {

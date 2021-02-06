@@ -5,9 +5,9 @@ List<DropdownMenuItem<int>> listServicos = [
                                       DropdownMenuItem<int>(
                                         value: 0,
                                         child: TextWidget(
-                                          text: 'Todos',
+                                          text: 'Todas Categorias',
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.bold,
                                           textColor: Colors.white,
                                         ),
                                       ),

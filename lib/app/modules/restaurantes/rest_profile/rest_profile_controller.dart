@@ -19,6 +19,7 @@ abstract class _RestProfileControllerBase with Store {
   final IRestFavoritos iRestFavoritos;
   final ISend iSend;
   final ICarrinhoRestLocal iLocal;
+  final ScrollController listController = ScrollController();
 
   _RestProfileControllerBase(this.iRestProfile, this.iRestFavoritos, this.iSend, this.iLocal){
     iLocal.deleteCarrinho();
@@ -27,11 +28,9 @@ abstract class _RestProfileControllerBase with Store {
   @observable
   RestProfile rest;
 
-
   @action
   getRestaurante(int restId) async{
     rest = await iRestProfile.getRest(restId);
-    await filtroProduto();
   }
 
   @action

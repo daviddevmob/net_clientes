@@ -40,6 +40,12 @@ class _ProdutoRestPageState
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: Observer(builder: (_) {
+
+          if(controller.produto == null 
+          || controller.produto.restProdutos == null){
+            return SizedBox();
+          }
+
           if (controller.produto != null) {
             return AppBarWidget(
               title: controller.produto.restProdutos[0].nome,
@@ -51,44 +57,52 @@ class _ProdutoRestPageState
       ),
       body:  Observer(
         builder: (_){
+          if(controller.produto.restProdutos == null
+          || controller.produto == null ){
+            return Center(child: CupertinoActivityIndicator(),);
+          }
+          if(controller.produto.restProdutos.isEmpty == true){
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
+          }
+
+          if(controller.salvando == true){
+            return Center(child: CupertinoActivityIndicator(),);
+          }
+          
+          if(controller.produto.restProdutos.isNotEmpty){
           String aPartir;
           controller.existeOpcoes == true
           ? aPartir = 'a partir de'
           : aPartir = '';
-          if(controller.produto == null){
-            return Center(child: CupertinoActivityIndicator(),);
-          }
-          if(controller.salvando == true){
-            return Center(child: CupertinoActivityIndicator(),);
-          }
-          if(controller.produto != null){
            return SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                width: size.width,
-                height: 300,
-                child: Observer(builder: (_) {
-                  if (controller.produto.restProdutos[0].foto != null) {
-                    return  GestureDetector(
-                      onTap: (){
-                        Modular.to.pushNamed(
-                          '/rest_profile/view_produto/view_foto',
-                          arguments: controller.produto.restProdutos[0].foto
-                          );
-                      },
-                      child: Container(
-                                height: 200,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                        image: CachedNetworkImageProvider(
-                                  controller.produto.restProdutos[0].foto,
-                                )))),
-                    );
-                  }
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    width: size.width,
+                    height: 300,
+                    child: Observer(builder: (_) {
+                      if (controller.produto.restProdutos[0].foto != null) {
+                        return  GestureDetector(
+                          onTap: (){
+                            Modular.to.pushNamed(
+                              '/rest_profile/view_produto/view_foto',
+                              arguments: controller.produto.restProdutos[0].foto
+                              );
+                          },
+                          child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                            image: CachedNetworkImageProvider(
+                                      controller.produto.restProdutos[0].foto,
+                                    )))),
+                        );
+                      }
                   double preco = 
                   controller.produto.restProdutos[0].precoPromo != 0 
                   && controller.produto.restProdutos[0].precoPromo < controller.produto.restProdutos[0].preco
@@ -122,7 +136,7 @@ class _ProdutoRestPageState
                     Expanded(
                       child: TextWidget(
                         text: controller.produto.restProdutos[0].nome,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -153,7 +167,8 @@ class _ProdutoRestPageState
               SizedBox(
                 height: 15,
               ),
-              controller.produto.restProdutos[0].precoPromo != 0 &&
+              Container(
+                child: controller.produto.restProdutos[0].precoPromo != 0 &&
                       controller.produto.restProdutos[0].precoPromo < controller.produto.restProdutos[0].preco
                   ? Container(
                       margin: EdgeInsets.only(
@@ -179,6 +194,7 @@ class _ProdutoRestPageState
                                     'Por $aPartir  R\$ ${controller.produto.restProdutos[0].precoPromo.toStringAsFixed(2)}',
                                 fontSize: 18,
                                 textColor: Colors.green,
+                                fontWeight: FontWeight.w500,
                               ),
                             ],
                           )
@@ -200,6 +216,7 @@ class _ProdutoRestPageState
                         ],
                       ),
                     ),
+              ),
               SizedBox(
                 height: 25,
               ),
@@ -494,7 +511,7 @@ class _ProdutoRestPageState
                     Row(
                       children: [
                         TextWidget(
-                          text: 'Adicionais:',
+                          text: 'Adicionais Selecionados:',
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           textColor: Cores.verdeClaro,
@@ -522,12 +539,20 @@ class _ProdutoRestPageState
           ),
         ),  
       );
-          }
+    }
 
           return Center(child: CupertinoActivityIndicator(),);
       }),
       bottomNavigationBar: Observer(
         builder: (_){
+          if(controller.produto == null 
+          || controller.produto.restProdutos == null){
+            return SizedBox();
+          }
+
+          if(controller.produto.restProdutos.isEmpty == true){
+            return SizedBox();
+          }
           if(controller.salvando == true){
             return SizedBox();
           }
@@ -552,8 +577,9 @@ class _ProdutoRestPageState
                     disabledColor: Colors.grey,
                     onPressed: controller.addLiberado == false
                     ? null
-                    : (){
-                      controller.salvarProduto(widget.produto.produtoId);
+                    : () async {
+                     await controller.salvarProduto(widget.produto.produtoId);
+                     Modular.to.pop();
                     },
                     child: TextWidget(
                       text: 'Adicionar ao Carrinho',

@@ -156,7 +156,7 @@ class _EnderecosPageState
                                         ),
                                         child: TextWidget(
                                           text: 'Clique para selecionar',
-                                          fontSize: 14,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           textColor: Colors.black,
                                         ),
@@ -229,13 +229,6 @@ class _EnderecosPageState
                                                       .showFlushBarInternet(
                                                           context);
                                                 }
-                                                Navigator.pop(context);
-                                                return DialogsEndereco()
-                                                    .deleteCategoria(
-                                                  context,
-                                                  controller,
-                                                  e.enderecoId,
-                                                );
                                               }
                                             },
                                           )

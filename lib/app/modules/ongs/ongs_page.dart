@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/modules/ongs/widgets/buscar_ongs_erro_widget.dart';
+import 'package:net_cliente/app/modules/ongs/widgets/buscar_ongs_widget.dart';
 import 'package:net_cliente/app/shared/models/ongs/ong_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
@@ -53,75 +57,8 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
         }
 
         if (controller.ong.usuario.isEmpty == true) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: TextWidget(
-                    text:
-                        'Ops! Nenhum projeto social ou ong encontrado nesta pesquisa.',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    textColor: Colors.grey,
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.15,
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: Observer(
-                    builder: (_) => DropdownButtonHideUnderline(
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          top: 2,
-                          bottom: 2,
-                          left: 10,
-                          right: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Cores.verdeClaro,
-                        ),
-                        child: DropdownButton<int>(
-                          value: controller.bairro,
-                          isExpanded: true,
-                          icon: Icon(
-                            CupertinoIcons.list_bullet,
-                            color: Colors.white,
-                          ),
-                          dropdownColor: Cores.verdeClaro,
-                          style: TextStyle(
-                            color: Cores.verdeClaro,
-                          ),
-                          hint: TextWidget(
-                            text: 'Pesquise por bairro',
-                          ),
-                          items: listBairros,
-                          onChanged: controller.setBairro,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          return BuscarOngsPageErroWidget(
+            controller: controller,
           );
         }
 
@@ -130,72 +67,35 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
         return SingleChildScrollView(
           child: Align(
             child: Container(
-              margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+              margin: EdgeInsets.only(top: 0, left: 5, right: 5),
               height: size.height,
               child: ListView(
                 children: [
                   SizedBox(
-                    height: size.height * 0.02,
+                    height: 20,
+                  ),
+                  BuscarOngsPageWidget(
+                    controller: controller,
                   ),
                   SizedBox(
-                    height: size.height * 0.025,
+                    height: 35,
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                      left: 20,
+                      left: 10
                     ),
-                    child: TextWidget(
-                      text: 'Pesquise por bairro',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      textColor: Colors.grey,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Observer(
-                      builder: (_) => DropdownButtonHideUnderline(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            top: 2,
-                            bottom: 2,
-                            left: 10,
-                            right: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Cores.verdeClaro,
-                          ),
-                          child: DropdownButton<int>(
-                            value: controller.bairro,
-                            elevation: 8,
-                            isExpanded: true,
-                            icon: Icon(
-                              CupertinoIcons.list_bullet,
-                              color: Colors.white,
-                            ),
-                            dropdownColor: Cores.verdeClaro,
-                            style: TextStyle(
-                              color: Cores.verdeClaro,
-                            ),
-                            hint: TextWidget(
-                              text: 'Pesquise por bairro',
-                            ),
-                            items: listBairros,
-                            onChanged: controller.setBairro,
-                          ),
+                    child: Row(
+                      children: [
+                        TextWidget(
+                          text: 'Contas Sociais',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.1,
+                    height: 20,
                   ),
                   Column(
                     children: [
@@ -285,151 +185,53 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                                   bairro = 'Vereda Tropical';
                                   break;
                               }
-                            return GestureDetector(
-                              onTap: () {
-                                    Modular.to.pushNamed(
+                           return ListTile(
+                              onTap: () async {
+                                if (await ConnectionVerify.connectionStatus()) {
+                                Modular.to.pushNamed(
                                       '/ongs/ong_profile',
                                       arguments: ong.usuario[index]
                                       );
-                                  },
-                              child: Card(
-                                elevation: 3,
-                                  child: Container(
-                                  height: size.height * 0.11,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Cores.verdeClaro,
-                                        width: 0.5,
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
+                                } else {
+                                  return InternetFlushBar()
+                                      .showFlushBarInternet(context);
+                                }
+                              },
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                height: size.height * 0.1,
+                                width: size.width * 0.2,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey[400],
+                                    width: 0,
                                     ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                       child: SizedBox(
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.transparent,
-                                                  width: 0,
-                                                ),
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(4),
-                                                    bottomLeft: Radius.circular(4),
-                                                  ),
-                                                image: DecorationImage(
-                                                  image: 
-                                                  user.ongGeral.ongImagemPerfil == null ||
-                                                    user.ongGeral.ongImagemPerfil == ''
-                                                ? AssetImage(
-                                                    'assets/images/imagens-perfil/profile.png',
-                                                  )
-                                                : CachedNetworkImageProvider(
-                                                    user.ongGeral.ongImagemPerfil,
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                )
-                                              ),
-                                            ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.03,
-                                      ),
-                                      Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: TextWidget(
-                                                  text: user.ongGeral.ongNome,
-                                                  fontWeight: FontWeight.w400,
-                                                  textColor: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: TextWidget(
-                                                  text: bairro == null ? '' : bairro,
-                                                  fontSize: 18,
-                                                  textColor: Colors.grey,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                borderRadius: BorderRadius.circular(4),
+                                image: DecorationImage(
+                                  image: 
+                                  user.ongGeral.ongImagemPerfil == null 
+                                  || user.ongGeral.ongImagemPerfil == ''
+                                  ? AssetImage(
+                                    'assets/images/imagens-perfil/profile.png',
+                                        )
+                                  : CachedNetworkImageProvider(
+                                  user.ongGeral.ongImagemPerfil,
                                     ),
-                                      )
-                                    ],
-                                  ),/* ListTile(
-                                    tileColor: Cores.verdeClaro,
-                                        leading: Container(
-                                          height: 200,
-                                          width: 70,
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.grey[200],
-                                              ),
-                                              borderRadius: BorderRadius.circular(2),
-                                              image: DecorationImage(
-                                                image: 
-                                                user.ongGeral.ongImagemPerfil == null ||
-                                                  user.ongGeral.ongImagemPerfil == ''
-                                              ? AssetImage(
-                                                  'assets/images/imagens-perfil/profile.png',
-                                                )
-                                              : CachedNetworkImageProvider(
-                                                  user.ongGeral.ongImagemPerfil,
-                                                ),
-                                                fit: BoxFit.cover,
-                                              )
-                                            ),
-                                          ),
-                                    title: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: TextWidget(
-                                                text: user.ongGeral.ongNome,
-                                                fontWeight: FontWeight.w400,
-                                                textColor: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: TextWidget(
-                                                text: bairro == null ? 'teste' : bairro,
-                                                fontSize: 18,
-                                                textColor: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      Modular.to.pushNamed(
-                                        '/ongs/ong_profile',
-                                        arguments: ong.usuario[index]
-                                        );
-                                    },
-                                  ) */
+                                    fit: BoxFit.cover,
+                                    )),
                                 ),
+                              title: TextWidget(
+                                text: user.ongGeral.ongNome,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
-                            );
+                              subtitle: TextWidget(
+                                text: bairro,
+                                fontSize: 13,
+                                textColor: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                                      )
+                              ); 
                           },
                         ),
                       ),

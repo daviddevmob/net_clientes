@@ -43,7 +43,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: PreferredSize(
+      /* appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: AppBarWidget(
           title: 'No Eusébio Tem!',
@@ -60,7 +60,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             )
           ],
         ),
-      ),
+      ), */
       body: Observer(builder: (_) {
         if (controller.cliente.hasError == true) {
           return Center(
@@ -113,126 +113,210 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 ),
                 Observer(builder: (_) {
                   if (controller.enderecoCliente.data == null) {
-                    return FlatButton(
-                      color: Cores.azul,
-                      onPressed: () {
-                        Modular.to.pushNamed(
-                          '/home/configuracoes/enderecos/',
-                          arguments: controller.cliente.value,
-                        ); 
-                      },
-                      child: TextWidget(
-                        text: 'Selecione um endereço',
-                        textColor: Colors.white,
-                        fontWeight: FontWeight.w400,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: size.width * 0.5,
+                          child: FlatButton(
+                            color: Cores.azul,
+                            onPressed: () async {
+                                Modular.to.pushNamed(
+                                '/home/configuracoes/enderecos/',
+                                arguments: controller.cliente.value,
+                              ); 
+                            },
+                            child: TextWidget(
+                              text: 'Selecione um endereço',
+                              textColor: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      Container(
+                        height: 95,
+                        child: CardsWidget(
+                          title: 'Meu Perfil',
+                          icon: CupertinoIcons.person,
+                          function: () {
+                              Modular.to.pushNamed(
+                                '/home/configuracoes',
+                                arguments: controller.cliente.value,
+                              );
+                            },
+                        ),
                       ),
+                      ],
                     );
                   }
 
                   // ignore: unrelated_type_equality_checks
                   if (controller.enderecoCliente.isEmpty == true) {
-                    return FlatButton(
-                      color: Cores.azul,
-                      onPressed: () {
-                        Modular.to.pushNamed(
-                          '/home/configuracoes/enderecos/',
-                          arguments: controller.cliente.value,
-                        ); 
-                      },
-                      child: TextWidget(
-                        text: 'Selecione um endereço',
-                        textColor: Colors.white,
-                        fontWeight: FontWeight.w400,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: size.width * 0.5,
+                          child: FlatButton(
+                            color: Cores.azul,
+                            onPressed: () async {
+                                Modular.to.pushNamed(
+                                '/home/configuracoes/enderecos/',
+                                arguments: controller.cliente.value,
+                              ); 
+                            },
+                            child: TextWidget(
+                              text: 'Selecione um endereço',
+                              textColor: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      Container(
+                        height: 95,
+                        child: CardsWidget(
+                          title: 'Meu Perfil',
+                          icon: CupertinoIcons.person,
+                          function: () {
+                              Modular.to.pushNamed(
+                                '/home/configuracoes',
+                                arguments: controller.cliente.value,
+                              );
+                            },
+                        ),
                       ),
+                      ],
                     );
                   }
                   if (controller.enderecoCliente.hasError == true) {
-                    return FlatButton(
-                      color: Cores.azul,
-                      onPressed: () async {
-                          Modular.to.pushNamed(
-                          '/home/configuracoes/enderecos/',
-                          arguments: controller.cliente.value,
-                        ); 
-                      },
-                      child: TextWidget(
-                        text: 'Selecione um endereço',
-                        textColor: Colors.white,
-                        fontWeight: FontWeight.w400,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: size.width * 0.5,
+                          child: FlatButton(
+                            color: Cores.azul,
+                            onPressed: () async {
+                                Modular.to.pushNamed(
+                                '/home/configuracoes/enderecos/',
+                                arguments: controller.cliente.value,
+                              ); 
+                            },
+                            child: TextWidget(
+                              text: 'Selecione um endereço',
+                              textColor: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      Container(
+                        height: 95,
+                        child: CardsWidget(
+                          title: 'Meu Perfil',
+                          icon: CupertinoIcons.person,
+                          function: () {
+                              Modular.to.pushNamed(
+                                '/home/configuracoes',
+                                arguments: controller.cliente.value,
+                              );
+                            },
+                        ),
                       ),
+                      ],
                     );
                   }
                   EnderecoClienteHome eClienteHome =
                       controller.enderecoCliente.value;
                   String bairro = SwitchsUtils().getBairro(eClienteHome.bairro);
-                  return GestureDetector(
-                    onTap: () {
-                      Modular.to.pushNamed(
-                        '/home/configuracoes/enderecos/',
-                        arguments: controller.cliente.value,
-                      );
-                    },
-                    child: Card(
-                      elevation: 3,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        padding: EdgeInsets.only(
-                          left: 10,
-                          right: 10,
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
+                  return Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Modular.to.pushNamed(
+                            '/home/configuracoes/enderecos/',
+                            arguments: controller.cliente.value,
+                          );
+                        },
+                        child: Card(
+                          elevation: 2,
+                          child: Container(
+                            width: size.width * 0.62,
+                            height: 88,
+                            margin: EdgeInsets.only(
+                              right: 0,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: 5,
+                              right: 0,
+                              top: 5,
+                              bottom: 5,
+                            ),
+                            child: Column(
                               children: [
-                                TextWidget(
-                                  text: 'Endereço selecionado',
-                                  fontSize: 16,
-                                  textColor: Cores.verdeClaro,
-                                  fontWeight: FontWeight.bold,
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: size.width * 0.4,
+                                      child: TextWidget(
+                                        text: 'Endereço selecionado',
+                                        fontSize: 12,
+                                        textColor: Cores.verdeClaro,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: size.width * 0.5,
+                                      child: TextWidget(
+                                          text: eClienteHome.endereco,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                    ),
+                             
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextWidget(
+                                        text: bairro,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextWidget(
-                                    text: eClienteHome.endereco,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextWidget(
-                                    text: bairro,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        height: 95,
+                        child: CardsWidget(
+                          title: 'Meu Perfil',
+                          icon: CupertinoIcons.person,
+                          function: () {
+                              Modular.to.pushNamed(
+                                '/home/configuracoes',
+                                arguments: controller.cliente.value,
+                              );
+                            },
+                        ),
+                      ),
+                    ],
                   );
                 }),
 
                 SizedBox(
-                  height: size.height * 0.04,
+                  height: 20,
                 ),
 
                 //RESTAURANTES
@@ -240,8 +324,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   children: [
                     TextWidget(
                       text: 'Restaurantes',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     SizedBox(
                       width: size.width * 0.025,
@@ -259,7 +342,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: 10,
                 ),
                 Container(
                   width: size.width,
@@ -324,7 +407,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.02,
+                  height: 10,
                 ),
 
                 //LOJAS
@@ -332,8 +415,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   children: [
                     TextWidget(
                       text: 'Lojas',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     SizedBox(
                       width: size.width * 0.025,
@@ -351,7 +433,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: 10,
                 ),
                 Container(
                   width: size.width,
@@ -427,7 +509,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.02,
+                  height: 10,
                 ),
 
                 //PRESTADORES DE SERVIÇO
@@ -435,8 +517,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   children: [
                     TextWidget(
                       text: 'Prestadores de Serviço',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     SizedBox(
                       width: size.width * 0.025,
@@ -454,7 +535,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: 10,
                 ),
                 Container(
                   width: size.width,
@@ -480,7 +561,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.02,
+                  height: 10,
                 ),
 
                 //PROJETOS SOCIAIS
@@ -488,8 +569,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   children: [
                     TextWidget(
                       text: 'Projetos Sociais',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     SizedBox(
                       width: size.width * 0.025,
@@ -507,7 +587,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: 10,
                 ),
                 Container(
                   width: size.width,

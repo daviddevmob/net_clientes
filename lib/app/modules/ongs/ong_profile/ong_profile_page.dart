@@ -47,6 +47,14 @@ class _OngProfilePageState
         child: AppBarWidget(
           title: widget.ongSearch.ongGeral.ongNome,
           viewLeading: true,
+          actions: [
+            IconButton(
+              icon: Icon(CupertinoIcons.star), 
+              onPressed: (){
+                
+              },
+              )
+          ],
         ),
       ),
       body: Observer(builder: (_) {

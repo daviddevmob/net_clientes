@@ -28,9 +28,13 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
-        child: AppBarWidget(
-          title: 'Login',
-          viewLeading: false,
+        child: Observer(
+          builder:(_) => controller.loading == true
+          ? SizedBox()
+          : AppBarWidget(
+            title: 'Login',
+            viewLeading: false,
+          ),
         ),
       ),
       body: Observer(
@@ -54,7 +58,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               : Observer(builder: (_) {
                   if (controller.metodo == 0) {
 
-                    return Stack(
+                    return Column(
                       children: [
                         Container(
                           margin: EdgeInsets.only(
@@ -75,7 +79,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                         ),
                         Center(
                           child: Card(
-                            elevation: 4,
+                            elevation: 0,
                             margin: const EdgeInsets.only(
                               left: 16,
                               right: 16,
@@ -95,9 +99,9 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.8,
+                                                  0.9,
                                               child: SignInButton(
-                                                Buttons.Google,
+                                                Buttons.GoogleDark,
                                                 text: "Entrar com Google",
                                                 onPressed: () async {
                                                   try {
@@ -132,7 +136,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                 Container(
                                                   height: 50,
                                                   child: SignInButton(
-                                                    Buttons.Apple,
+                                                    Buttons.AppleDark,
                                                     text: "Entrar com Apple",
                                                     onPressed: () async {},
                                                   ),

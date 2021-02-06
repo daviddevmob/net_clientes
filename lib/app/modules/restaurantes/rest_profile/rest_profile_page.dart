@@ -36,6 +36,7 @@ class _RestProfilePageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getRestaurante(widget.rest.restGeral.restId);
+      controller.clienteId = widget.rest.cliente.clienteId;
       await controller.getRestFavorito(widget.rest.restGeral.restId);
       if(widget.rest.restGeral.entregaDomicilio != false ||
       widget.rest.restGeral.usuario.localizacao.mapaLink != ''){
@@ -51,8 +52,6 @@ class _RestProfilePageState
         controller.taxaEntrega = controller.distanciaEntrega *
           controller.rest.usuario.taxaEntrega.taxaEntrega;
       }
-
-      controller.clienteId = widget.rest.cliente.clienteId;
     });
     super.initState();
   }
@@ -215,17 +214,15 @@ class _RestProfilePageState
             funcionamento = rest.usuario.horarioAtendimento.domingo;
           }
 
-          return SingleChildScrollView(
-            child: Container(
+          return Container(
+            width: size.width,
+            height: size.height,
               margin: EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 10,
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
                   Row(
                     children: [
                       Container(
@@ -321,166 +318,238 @@ class _RestProfilePageState
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ListView.builder(
-                    itemCount: controller.rest.restProdCategoria.length,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      var categ = controller.rest.restProdCategoria[index];
-                      return Column(
-                        children: [
-                          Row(
-                            children: [
-                              TextWidget(
-                                text: categ.nomeCategoria,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                textColor: Colors.black,
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            height: 1,
-                            color: Cores.verdeClaro,
-                            thickness: 1,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          ListView.builder(
-                            itemCount: categ.restProdutos.length,
-                            shrinkWrap: true,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index){
-                             var produto = categ.restProdutos[index];
-                              bool promocao;
-                              if (produto.precoPromo != 0 &&
-                                  produto.precoPromo < produto.preco) {
-                                promocao = true;
-                              } else {
-                                promocao = false;
-                              }
-                              return Stack(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      
-                                      ProdutoRestViewModel prod =
-                                          new ProdutoRestViewModel(
-                                            produto.restProdutoId, 
-                                            produto.restCategoriaId, 
-                                            widget.rest.cliente.clienteId,
-                                            widget.rest.cliente.firebaseId,
-                                            widget.rest.restGeral.restId,
-                                            );
-                                      Modular.to.pushNamed(
-                                        '/rest_profile/view_produto',
-                                        arguments: prod,
-                                      );
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(bottom: 20, top: 20),
-                                      child: Wrap(
-                                        spacing: 10,
-                                        children: [
-                                        Observer(
-                                          builder:(_) => Container(
-                                            child:  produto.foto == null ||
-                                                    produto.foto == ''
-                                                ? Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors.transparent),
-                                                        color: Cores.verdeClaro,
-                                                        borderRadius:
-                                                            BorderRadius.circular(4)),
-                                                  )
-                                                : Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.transparent),
-                                                      borderRadius:
-                                                          BorderRadius.circular(4),
-                                                      image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: CachedNetworkImageProvider(
-                                                            produto.foto),
-                                                      ),
-                                                    ),
-                                                  ),
-                                          ),
+                  Positioned(
+                    top: 120,
+                    child: Container(
+                      height: 40,
+                      width: size.width * 0.95,
+                      child: ListView.separated(
+                        itemCount: controller.rest.restProdCategoria.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, index){
+                          return SizedBox(
+                            width: 5,
+                          );
+                        },
+                        physics: ScrollPhysics(),
+                        itemBuilder: (context, index){
+                          var categ = controller.rest.restProdCategoria[index];
+                          return Container(
+                            padding: EdgeInsets.only(
+                              right: 0
+                            ),
+                            child: Observer(
+                              builder:(_) => Card(
+                                elevation: 3,
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                    right: 10,
+                                    left: 10,
+                                    top: 5,
+                                    bottom: 5
+                                  ),
+                                  child: GestureDetector(
+                                        onTap: () async {
+                                          if(index == 0){
+                                           controller.listController.jumpTo(0);
+                                          } else if(index == (controller.rest.restProdCategoria.length -1)){
+                                            controller.listController.jumpTo(controller.listController.position.maxScrollExtent);
+                                          }else{
+                                            double value = (categ.restProdutos.length * 90).toDouble() * index;
+                                            controller.listController.jumpTo(value);
+                                          }
+                                        },
+                                        child: TextWidget(
+                                          text: categ.nomeCategoria,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w300,
                                         ),
-                                          Wrap(
-                                            direction: Axis.vertical,
-                                            children: [
-                                              TextWidget(
-                                                text: produto.nome,
-                                                fontSize: 14,
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              produto.disponivel == true
-                                                  ? Container(
-                                                      child: promocao == true
-                                                          ? Wrap(
-                                                              direction: Axis.vertical,
-                                                              children: [
-                                                                TextWidget(
-                                                                  text:
-                                                                      'De: R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                                  fontSize: 13,
-                                                                  textColor:
-                                                                      Colors.grey[500],
-                                                                ),
-                                                                TextWidget(
-                                                                  text:
-                                                                      'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
-                                                                  fontSize: 18,
-                                                                  textColor:
-                                                                      Colors.green,
-                                                                )
-                                                              ],
+                                      ),
+                                ),
+                              ),
+                                ),
+                          );
+                          },
+                        ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 190,
+                    ),
+                    padding: EdgeInsets.only(
+                      top: 10,
+                    ),
+                    width: size.width,
+                    child: SingleChildScrollView(
+                      controller: controller.listController,
+                        child: Observer(
+                          builder:(_) => ListView.builder(
+                            itemCount: controller.rest.restProdCategoria.length,
+                            shrinkWrap: true,
+                            controller: controller.listController,
+                            physics: ScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var categ = controller.rest.restProdCategoria[index];
+                              return Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text: categ.nomeCategoria,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        textColor: Colors.grey[500],
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    height: 0.5,
+                                    thickness: 1,
+                                  ),
+                                  Container(
+                                  child: categ.restProdutos.isEmpty == true 
+                                  || categ.restProdutos == null
+                                  ? Row(
+                                    children: [
+                                      TextWidget(
+                                        text: 'Sem produtos cadastrados',
+                                        fontSize: 16,
+                                      ),
+                                    ],
+                                  )
+                                  : ListView.builder(
+                                    itemCount: categ.restProdutos.length,
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    itemBuilder: (context, index){
+                                     var produto = categ.restProdutos[index];
+                                      bool promocao;
+                                      if (produto.precoPromo != 0 &&
+                                          produto.precoPromo < produto.preco) {
+                                        promocao = true;
+                                      } else {
+                                        promocao = false;
+                                      }
+                                      return Stack(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              
+                                              ProdutoRestViewModel prod =
+                                                  new ProdutoRestViewModel(
+                                                    produto.restProdutoId, 
+                                                    produto.restCategoriaId, 
+                                                    widget.rest.cliente.clienteId,
+                                                    widget.rest.cliente.firebaseId,
+                                                    widget.rest.restGeral.restId,
+                                                    );
+                                              Modular.to.pushNamed(
+                                                '/rest_profile/view_produto',
+                                                arguments: prod,
+                                              );
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(bottom: 20, top: 20),
+                                              child: Wrap(
+                                                spacing: 10,
+                                                children: [
+                                                Observer(
+                                                  builder:(_) => Container(
+                                                    child:  produto.foto == null ||
+                                                            produto.foto == ''
+                                                        ? Container(
+                                                            height: 80,
+                                                            width: 100,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors.transparent),
+                                                                color: Cores.verdeClaro,
+                                                                borderRadius:
+                                                                    BorderRadius.circular(4)),
+                                                          )
+                                                        : Container(
+                                                            height: 80,
+                                                            width: 100,
+                                                            decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Colors.transparent),
+                                                              borderRadius:
+                                                                  BorderRadius.circular(4),
+                                                              image: DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: CachedNetworkImageProvider(
+                                                                    produto.foto),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                  ),
+                                                ),
+                                                  Wrap(
+                                                    direction: Axis.vertical,
+                                                    children: [
+                                                      TextWidget(
+                                                        text: produto.nome,
+                                                        fontSize: 14,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      produto.disponivel == true
+                                                          ? Container(
+                                                              child: promocao == true
+                                                                  ? Wrap(
+                                                                      direction: Axis.vertical,
+                                                                      children: [
+                                                                        TextWidget(
+                                                                          text:
+                                                                              'De: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                          fontSize: 13,
+                                                                          textColor:
+                                                                              Colors.grey[500],
+                                                                        ),
+                                                                        TextWidget(
+                                                                          text:
+                                                                              'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
+                                                                          fontSize: 18,
+                                                                          textColor:
+                                                                              Colors.green,
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  : TextWidget(
+                                                                      text:
+                                                                          'R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                      fontSize: 18,
+                                                                    ),
                                                             )
                                                           : TextWidget(
-                                                              text:
-                                                                  'R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                              fontSize: 18,
+                                                              text: 'Aguardando atualização',
+                                                              fontSize: 14,
+                                                              textColor: Colors.grey[400],
                                                             ),
-                                                    )
-                                                  : TextWidget(
-                                                      text: 'Aguardando atualização',
-                                                      fontSize: 14,
-                                                      textColor: Colors.grey[400],
-                                                    ),
-                                            ],
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
-                                      ),
+                                      );
+                                    },
                                     ),
                                   ),
                                 ],
-                              );
-                            },
-                            )
-                        ],
-                      );/* 
-                       */
-                    }
-                  ),
+                              );/* 
+                               */
+                            }
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
-            ),
           );
         }
 
