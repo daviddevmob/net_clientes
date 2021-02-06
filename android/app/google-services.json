@@ -37,6 +37,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk"
+        },
+        {
+          "current_key": "AIzaSyCZjO9JSJs2vVuO5eefAG7SObw_KYJGgzE"
         }
       ],
       "services": {
@@ -59,14 +62,14 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:105256739639:android:5c57ac08c1f783c9f8b0b2",
+        "mobilesdk_app_id": "1:105256739639:android:fcaf22849e316cdaf8b0b2",
         "android_client_info": {
           "package_name": "com.noeusebiotem.br"
         }
       },
       "oauth_client": [
         {
-          "client_id": "105256739639-039ve632eu5cvfio8v1foovj359l2r4k.apps.googleusercontent.com",
+          "client_id": "105256739639-f9gfs0k8kfe097p9upo36vq3dphs7dkc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.noeusebiotem.br",
@@ -74,7 +77,7 @@
           }
         },
         {
-          "client_id": "105256739639-hlg1ag0ekqgnsep4ulvee0i0hdnuoo5d.apps.googleusercontent.com",
+          "client_id": "105256739639-hgj9ktcn31rjtp60l1ti7hn42571b9ag.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.noeusebiotem.br",
@@ -89,6 +92,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyAENKIoR3T2YuAtkjSbCpB1jixzUi5pTVk"
+        },
+        {
+          "current_key": "AIzaSyCZjO9JSJs2vVuO5eefAG7SObw_KYJGgzE"
         }
       ],
       "services": {

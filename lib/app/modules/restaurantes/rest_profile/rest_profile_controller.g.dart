@@ -278,6 +278,15 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
     return _$getRestauranteAsyncAction.run(() => super.getRestaurante(restId));
   }
 
+  final _$getRestFavoritoAsyncAction =
+      AsyncAction('_RestProfileControllerBase.getRestFavorito');
+
+  @override
+  Future getRestFavorito(int restId) {
+    return _$getRestFavoritoAsyncAction
+        .run(() => super.getRestFavorito(restId));
+  }
+
   final _$setCategoriaAsyncAction =
       AsyncAction('_RestProfileControllerBase.setCategoria');
 

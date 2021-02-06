@@ -287,12 +287,38 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       CardsWidget(
                         title: 'Meus Pedidos',
                         icon: CupertinoIcons.bag,
-                        function: () {},
+                        function: () async {
+                          Modular.to.pushNamed(
+                            '/home/pedidos_rest/',
+                            arguments: controller.cliente.value.clienteId,
+                          );
+                        },
                       ),
                       CardsWidget(
                         title: 'Favoritos',
                         icon: CupertinoIcons.star,
-                        function: () {},
+                        function: () async {
+                            if (await ConnectionVerify.connectionStatus()) {
+                              if (controller.cliente.value.enderecoId == null) {
+                              return selecionarEndereco(
+                                context,
+                                controller,
+                              );
+                            } else{
+                                LojasSearch lojasSearch = new LojasSearch(
+                                controller.cliente.value,
+                                controller.enderecoCliente.value,
+                              );
+                              Modular.to.pushNamed(
+                                '/home/rests_favoritos/',
+                                arguments: lojasSearch,
+                              );
+                              }
+                            } else {
+                              return InternetFlushBar()
+                                  .showFlushBarInternet(context);
+                            }
+                          },
                       ),
                     ],
                   ),
@@ -395,7 +421,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                               return InternetFlushBar()
                                   .showFlushBarInternet(context);
                             }
-                          }),
+                          },
+                        ),
                     ],
                   ),
                 ),

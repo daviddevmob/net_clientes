@@ -36,7 +36,7 @@ class _RestProfilePageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getRestaurante(widget.rest.restGeral.restId);
-      
+      await controller.getRestFavorito(widget.rest.restGeral.restId);
       if(widget.rest.restGeral.entregaDomicilio != false ||
       widget.rest.restGeral.usuario.localizacao.mapaLink != ''){
 

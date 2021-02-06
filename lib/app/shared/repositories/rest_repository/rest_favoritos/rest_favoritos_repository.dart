@@ -8,7 +8,7 @@ class RestsFavotirosRepository implements IRestFavoritos{
 
   RestsFavotirosRepository(this.api);
   @override
-  Future<RestFavoritoModel> getFavoritos(int clienteId) {
+  Future<RestFavoritoModelList> getFavoritos(int clienteId) {
     var query = '''
     subscription MySubscription {
       cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}}) {
@@ -21,10 +21,35 @@ class RestsFavotirosRepository implements IRestFavoritos{
   }
 
   @override
-  Future<RestFavoritoModel> getLojas(int clienteId) {
-      // TODO: implement getLojas
-      throw UnimplementedError();
+  Future<RestFavoritoModelList> getLojas(int clienteId)  async {
+    var query = '''
+    query MyQuery {
+      cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}}) {
+        rest_geral{
+          categoria
+          rest_nome
+          entrega_domicilio
+          retirada_loja
+          foto_link
+          usuario {
+            localizacao {
+              mapa_link
+              bairro
+            }
+            taxa_entrega {
+              taxa_entrega
+            }
+          }
+          rest_id
+        }
+      }
     }
+    ''';
+
+    var data = await api.query(query);
+    var result = await data['data'];
+    return RestFavoritoModelList.fromJson(result);
+  }
   
     @override
     Future<String> salvarFavorito(int lojaId, int clienteId) async {
@@ -48,7 +73,7 @@ class RestsFavotirosRepository implements IRestFavoritos{
     Stream<RestFavoritoModelProfile> setFavoritos(int lojaId, int clienteId) {
       var query = '''
       subscription MySubscription {
-        cliente_favorito_rest(where: {cliente_id: {_eq: $lojaId}, rest_id: {_eq: $clienteId}}) {
+        cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}, rest_id: {_eq: $lojaId}}) {
           ativo
           cliente_id
         }

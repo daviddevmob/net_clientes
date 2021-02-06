@@ -349,7 +349,7 @@ class _CarrinhoRestPageState
                                                   }
                                                   if (double.parse(value
                                                           .replaceAll(',', '.')
-                                                          .replaceAll(' ', '')) >=
+                                                          .replaceAll(' ', '')) <
                                                       controller.totalPedido) {
                                                     return 'Valor abaixo do total do pedido';
                                                   }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:net_cliente/app/shared/models/rest/carrinho_rest_page_model.dart';
-import 'package:net_cliente/app/shared/models/rest/pedido_rest_model.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_favorito_profile.dart';
-import 'package:net_cliente/app/shared/models/rest/rest_profile.dart';
 import 'package:net_cliente/app/shared/models/rest/rest_profile_page.dart';
 import 'package:net_cliente/app/shared/repositories/local_storage/carrinho_rest/carrinho_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/rest_repository/rest_favoritos/rest_favoritos_repository_interface.dart';
@@ -30,10 +27,16 @@ abstract class _RestProfileControllerBase with Store {
   @observable
   RestProfile rest;
 
+
   @action
   getRestaurante(int restId) async{
     rest = await iRestProfile.getRest(restId);
     await filtroProduto();
+  }
+
+  @action
+  getRestFavorito(int restId) async {
+    restFavorito = iRestFavoritos.setFavoritos(restId, clienteId).asObservable();
   }
 
 
