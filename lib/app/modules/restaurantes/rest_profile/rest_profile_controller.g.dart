@@ -16,6 +16,13 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
       (_$filtroStringComputed ??= Computed<int>(() => super.filtroString,
               name: '_RestProfileControllerBase.filtroString'))
           .value;
+  Computed<bool> _$abertoRestComputed;
+
+  @override
+  bool get abertoRest =>
+      (_$abertoRestComputed ??= Computed<bool>(() => super.abertoRest,
+              name: '_RestProfileControllerBase.abertoRest'))
+          .value;
 
   final _$restAtom = Atom(name: '_RestProfileControllerBase.rest');
 
@@ -390,7 +397,8 @@ pagamentoDinheiro: ${pagamentoDinheiro},
 metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
-filtroString: ${filtroString}
+filtroString: ${filtroString},
+abertoRest: ${abertoRest}
     ''';
   }
 }

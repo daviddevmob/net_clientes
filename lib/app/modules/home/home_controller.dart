@@ -29,6 +29,9 @@ abstract class _HomeControllerBase with Store {
   ObservableStream<EnderecoClienteHome> enderecoCliente;
 
   @observable
+  int index = 0;
+
+  @observable
   TextEditingController whatsappController = TextEditingController();
 
   @observable
@@ -42,6 +45,9 @@ abstract class _HomeControllerBase with Store {
 
   @action
   changeDistrict(int newValue) => district = newValue;
+
+  @action
+  setIndexNavigator(int newIndex) => index = newIndex;
 
   @action
   getEnderecoCliente() {

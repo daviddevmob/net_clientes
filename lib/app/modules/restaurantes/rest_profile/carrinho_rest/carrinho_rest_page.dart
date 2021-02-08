@@ -427,7 +427,15 @@ class _CarrinhoRestPageState
                   textColor: Colors.black,
                 ),
                 Observer(
-                  builder:(_) => FlatButton(
+                  builder:(_) { 
+                    if(widget.carrinho.aberto == false){
+                      return TextWidget(
+                        text: 'Fechado',
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.red,
+                      );
+                    }
+                    return FlatButton(
                     color: Colors.red,
                     disabledColor: Colors.grey,
                     onPressed: controller.liberarPedir == false
@@ -469,7 +477,8 @@ class _CarrinhoRestPageState
                       textColor: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                    ),
+                    );
+                  }
                 )
               ],
             ),

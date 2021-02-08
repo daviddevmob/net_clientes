@@ -5,6 +5,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/home/dialogs.dart';
+import 'package:net_cliente/app/modules/home/pages/page_loja.dart';
+import 'package:net_cliente/app/modules/home/pages/page_ong.dart';
+import 'package:net_cliente/app/modules/home/pages/page_rest.dart';
+import 'package:net_cliente/app/modules/home/pages/page_servico.dart';
 import 'package:net_cliente/app/modules/home/widgets/att_dados_cliente.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/shared/models/endereco_cliente_home.dart';
@@ -100,527 +104,87 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
 
         controller.getEnderecoCliente();
 
-        return SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(
-              top: 20,
-              left: 10,
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Observer(builder: (_) {
-                  if (controller.enderecoCliente.data == null) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: size.width * 0.5,
-                          child: FlatButton(
-                            color: Cores.azul,
-                            onPressed: () async {
-                                Modular.to.pushNamed(
-                                '/home/configuracoes/enderecos/',
-                                arguments: controller.cliente.value,
-                              ); 
-                            },
-                            child: TextWidget(
-                              text: 'Selecione um endereço',
-                              textColor: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      Container(
-                        height: 95,
-                        child: CardsWidget(
-                          title: 'Meu Perfil',
-                          icon: CupertinoIcons.person,
-                          function: () {
-                              Modular.to.pushNamed(
-                                '/home/configuracoes',
-                                arguments: controller.cliente.value,
-                              );
-                            },
-                        ),
-                      ),
-                      ],
-                    );
-                  }
 
-                  // ignore: unrelated_type_equality_checks
-                  if (controller.enderecoCliente.isEmpty == true) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: size.width * 0.5,
-                          child: FlatButton(
-                            color: Cores.azul,
-                            onPressed: () async {
-                                Modular.to.pushNamed(
-                                '/home/configuracoes/enderecos/',
-                                arguments: controller.cliente.value,
-                              ); 
-                            },
-                            child: TextWidget(
-                              text: 'Selecione um endereço',
-                              textColor: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      Container(
-                        height: 95,
-                        child: CardsWidget(
-                          title: 'Meu Perfil',
-                          icon: CupertinoIcons.person,
-                          function: () {
-                              Modular.to.pushNamed(
-                                '/home/configuracoes',
-                                arguments: controller.cliente.value,
-                              );
-                            },
-                        ),
-                      ),
-                      ],
-                    );
-                  }
-                  if (controller.enderecoCliente.hasError == true) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: size.width * 0.5,
-                          child: FlatButton(
-                            color: Cores.azul,
-                            onPressed: () async {
-                                Modular.to.pushNamed(
-                                '/home/configuracoes/enderecos/',
-                                arguments: controller.cliente.value,
-                              ); 
-                            },
-                            child: TextWidget(
-                              text: 'Selecione um endereço',
-                              textColor: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      Container(
-                        height: 95,
-                        child: CardsWidget(
-                          title: 'Meu Perfil',
-                          icon: CupertinoIcons.person,
-                          function: () {
-                              Modular.to.pushNamed(
-                                '/home/configuracoes',
-                                arguments: controller.cliente.value,
-                              );
-                            },
-                        ),
-                      ),
-                      ],
-                    );
-                  }
-                  EnderecoClienteHome eClienteHome =
-                      controller.enderecoCliente.value;
-                  String bairro = SwitchsUtils().getBairro(eClienteHome.bairro);
-                  return Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Modular.to.pushNamed(
-                            '/home/configuracoes/enderecos/',
-                            arguments: controller.cliente.value,
-                          );
-                        },
-                        child: Card(
-                          elevation: 2,
-                          child: Container(
-                            width: size.width * 0.62,
-                            height: 88,
-                            margin: EdgeInsets.only(
-                              right: 0,
-                            ),
-                            padding: EdgeInsets.only(
-                              left: 5,
-                              right: 0,
-                              top: 5,
-                              bottom: 5,
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: size.width * 0.4,
-                                      child: TextWidget(
-                                        text: 'Endereço selecionado',
-                                        fontSize: 12,
-                                        textColor: Cores.verdeClaro,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: size.width * 0.5,
-                                      child: TextWidget(
-                                          text: eClienteHome.endereco,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                    ),
-                             
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextWidget(
-                                        text: bairro,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 95,
-                        child: CardsWidget(
-                          title: 'Meu Perfil',
-                          icon: CupertinoIcons.person,
-                          function: () {
-                              Modular.to.pushNamed(
-                                '/home/configuracoes',
-                                arguments: controller.cliente.value,
-                              );
-                            },
-                        ),
-                      ),
-                    ],
-                  );
-                }),
+        return Container(
+          child: Observer(
+            builder: (_){
+              //REST
+              if(controller.index == 0){
+                return PageRestHomeWidget(
+                  controller: controller,
+                );
+              }
 
-                SizedBox(
-                  height: 20,
-                ),
+              //LOJA
+              if(controller.index == 1){
+                return PageLojaHomeWidget(
+                  controller: controller,
+                );
+              }
 
-                //RESTAURANTES
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Restaurantes',
-                      fontSize: 16,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.025,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        return infoGeralDialog(context, 'Restaurantes',
-                            'Encontre os melhores restaurantes de Eusébio, faça o pedido pelo app e acompanhe a entrega em tempo real.');
-                      },
-                      child: Icon(
-                        CupertinoIcons.info_circle,
-                        size: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: size.width,
-                  height: size.height * 0.15,
-                  padding: EdgeInsets.zero,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      CardsWidget(
-                        title: 'Pedir Comida',
-                        icon: CupertinoIcons.home,
-                        function: () {
-                          RestSearch rests = new RestSearch(
-                            controller.cliente.value,
-                            controller.enderecoCliente.value,
-                          );
-                          Modular.to.pushNamed(
-                            '/rests/',
-                            arguments: rests,
-                            );
-                        },
-                      ),
-                      CardsWidget(
-                        title: 'Meus Pedidos',
-                        icon: CupertinoIcons.bag,
-                        function: () async {
-                          Modular.to.pushNamed(
-                            '/home/pedidos_rest/',
-                            arguments: controller.cliente.value.clienteId,
-                          );
-                        },
-                      ),
-                      CardsWidget(
-                        title: 'Favoritos',
-                        icon: CupertinoIcons.star,
-                        function: () async {
-                            if (await ConnectionVerify.connectionStatus()) {
-                              if (controller.cliente.value.enderecoId == null) {
-                              return selecionarEndereco(
-                                context,
-                                controller,
-                              );
-                            } else{
-                                LojasSearch lojasSearch = new LojasSearch(
-                                controller.cliente.value,
-                                controller.enderecoCliente.value,
-                              );
-                              Modular.to.pushNamed(
-                                '/home/rests_favoritos/',
-                                arguments: lojasSearch,
-                              );
-                              }
-                            } else {
-                              return InternetFlushBar()
-                                  .showFlushBarInternet(context);
-                            }
-                          },
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+              //SERVIÇOS
+              if(controller.index == 2){
+                return PageServicoHomeWidget(
+                  controller: controller,
+                );
+              }
 
-                //LOJAS
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Lojas',
-                      fontSize: 16,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.025,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        return infoGeralDialog(context, 'Lojas',
-                            'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.');
-                      },
-                      child: Icon(
-                        CupertinoIcons.info_circle,
-                        size: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: size.width,
-                  height: size.height * 0.15,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      CardsWidget(
-                        title: 'Comprar',
-                        icon: CupertinoIcons.cart,
-                        function: () async {
-                          if (await ConnectionVerify.connectionStatus()) {
-                            if (controller.cliente.value.enderecoId == null) {
-                              return selecionarEndereco(
-                                context,
-                                controller,
-                              );
-                            } else {
-                              LojasSearch lojasSearch = new LojasSearch(
-                                controller.cliente.value,
-                                controller.enderecoCliente.value,
-                              );
-                              Modular.to.pushNamed(
-                                '/lojas',
-                                arguments: lojasSearch,
-                              );
-                            }
-                          } else {
-                            return InternetFlushBar()
-                                .showFlushBarInternet(context);
-                          }
-                        },
-                      ),
-                      CardsWidget(
-                        title: 'Meus Pedidos',
-                        icon: CupertinoIcons.cube_box,
-                        function: () async {
-                          Modular.to.pushNamed(
-                            '/home/pedidos_loja/',
-                            arguments: controller.cliente.value.clienteId,
-                          );
-                        },
-                      ),
-                      CardsWidget(
-                          title: 'Favoritas',
-                          icon: CupertinoIcons.star,
-                          function: () async {
-                            if (await ConnectionVerify.connectionStatus()) {
-                              if (controller.cliente.value.enderecoId == null) {
-                              return selecionarEndereco(
-                                context,
-                                controller,
-                              );
-                            } else{
-                                LojasSearch lojasSearch = new LojasSearch(
-                                controller.cliente.value,
-                                controller.enderecoCliente.value,
-                              );
-                              Modular.to.pushNamed(
-                                '/home/lojas_favoritas/',
-                                arguments: lojasSearch,
-                              );
-                              }
-                            } else {
-                              return InternetFlushBar()
-                                  .showFlushBarInternet(context);
-                            }
-                          },
-                        ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                //PRESTADORES DE SERVIÇO
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Prestadores de Serviço',
-                      fontSize: 16,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.025,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        return infoGeralDialog(context, 'Projetos Sociais',
-                            'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.');
-                      },
-                      child: Icon(
-                        CupertinoIcons.info_circle,
-                        size: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: size.width,
-                  height: size.height * 0.15,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      CardsWidget(
-                        title: 'Procurar',
-                        icon: CupertinoIcons.search,
-                        function: () {
-                          Modular.to.pushNamed('/servicos');
-                        },
-                      ),
-                      CardsWidget(
-                        title: 'Favoritos',
-                        icon: CupertinoIcons.star,
-                        function: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                //PROJETOS SOCIAIS
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Projetos Sociais',
-                      fontSize: 16,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.025,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        return infoGeralDialog(context, 'Projetos Sociais',
-                            'Tem mais do que precisa? Colabore com movimentos sociais eusebienses, ajude pessoas e animais.');
-                      },
-                      child: Icon(
-                        CupertinoIcons.info_circle,
-                        size: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: size.width,
-                  height: size.height * 0.15,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      CardsWidget(
-                        title: 'Conhecer',
-                        icon: CupertinoIcons.heart,
-                        function: () {
-                          Modular.to.pushNamed('/ongs');
-                        },
-                      ),
-                      CardsWidget(
-                        title: 'Favoritos',
-                        icon: CupertinoIcons.star,
-                        function: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.05,
-                ),
-              ],
-            ),
+              //SOCIAL
+              if(controller.index == 3){
+                return PageOngHomeWidget(controller: controller,);
+              }
+            },
           ),
         );
       }),
-      bottomNavigationBar: TotemCeWidget(),
+      bottomNavigationBar: Observer(
+        builder:(_) => BottomNavigationBar(
+            backgroundColor: Cores.verdeClaro,
+            selectedIconTheme: IconThemeData(
+              color: Colors.black,
+              size: 22
+            ),
+            unselectedIconTheme: IconThemeData(
+              color: Colors.black,
+              size: 18,
+            ),
+            type: BottomNavigationBarType.shifting,
+            unselectedLabelStyle:  null,
+            selectedLabelStyle: null,
+            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            elevation: 8,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.house_alt,
+                  ),
+                label: 'Restaurantes',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.cart,
+                  ),
+                label: 'Lojas',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.hammer,
+                  ),
+                label: 'Serviços',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.heart,
+                  ),
+                label: 'Social',
+              ),
+            ],
+            currentIndex: controller.index,
+            selectedItemColor: Colors.black,
+            onTap: controller.setIndexNavigator,
+          ),
+        ),
     );
   }
 }

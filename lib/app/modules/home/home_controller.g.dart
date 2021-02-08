@@ -56,6 +56,21 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$indexAtom = Atom(name: '_HomeControllerBase.index');
+
+  @override
+  int get index {
+    _$indexAtom.reportRead();
+    return super.index;
+  }
+
+  @override
+  set index(int value) {
+    _$indexAtom.reportWrite(value, super.index, () {
+      super.index = value;
+    });
+  }
+
   final _$whatsappControllerAtom =
       Atom(name: '_HomeControllerBase.whatsappController');
 
@@ -154,6 +169,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  dynamic setIndexNavigator(int newIndex) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.setIndexNavigator');
+    try {
+      return super.setIndexNavigator(newIndex);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic getEnderecoCliente() {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.getEnderecoCliente');
@@ -170,6 +196,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
 cliente: ${cliente},
 formCreateUserKey: ${formCreateUserKey},
 enderecoCliente: ${enderecoCliente},
+index: ${index},
 whatsappController: ${whatsappController},
 cpfController: ${cpfController},
 saving: ${saving},

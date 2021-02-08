@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.9.2+12
+version: 0.9.3+13
 
 ## Slidy Scripts 
 vars: 
@@ -130,12 +130,16 @@ flutter:
     - assets/images/imagens-perfil/perfil.png
     - assets/images/imagens-perfil/perfil-negocios.png
     - assets/images/imagens-perfil/profile.png
-    - assets/images/home/lojas.png
-    - assets/images/home/restaurantes.png
-    - assets/images/home/servicos.png
-    - assets/images/home/ongs.png
-    - assets/images/home/lojas-cinza.png
-    - assets/images/home/restaurantes-cinza.png
+    - assets/images/home/loja/favoritos.svg
+    - assets/images/home/loja/pedidos.svg
+    - assets/images/home/loja/procurar.svg
+    - assets/images/home/rest/favoritos.svg
+    - assets/images/home/rest/pedidos.svg
+    - assets/images/home/rest/procurar.svg
+    - assets/images/home/servico/procurar.svg
+    - assets/images/home/servico/favoritos.svg
+    - assets/images/home/social/procurar.svg
+    - assets/images/home/social/favoritos.svg
     - assets/icon/icon.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see

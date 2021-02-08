@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 class CardsWidget extends StatelessWidget {
-  final IconData icon;
+  final String path;
   final String title;
   final Function function;
   final Color corText;
 
   const CardsWidget({
     Key key, 
-    this.icon, 
+    this.path, 
     this.title, 
     this.function,
     this.corText = Colors.black,
@@ -21,28 +22,37 @@ class CardsWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: function,
-      child: Card(
-        margin: EdgeInsets.all(4),
-        elevation: 2,
-        child: SizedBox(
-          width: size.width * 0.3,
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextWidget(
-                  text: title,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  textColor: corText,
-                ),
-              ],
+      child: Container(
+        child: Card(
+          margin: EdgeInsets.all(4),
+          elevation: 1,
+          child: SizedBox(
+            width: size.width * 0.2,
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 15,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 140,
+                    width: 140,
+                    child: SvgPicture.asset(
+                      path
+                    ),
+                  ),
+                  SizedBox(
+                   width: size.width * 0.1,
+                  ),
+                  TextWidget(
+                    text: title,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300,
+                    textColor: corText,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

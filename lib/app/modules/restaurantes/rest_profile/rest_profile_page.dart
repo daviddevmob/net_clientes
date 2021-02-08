@@ -65,25 +65,9 @@ class _RestProfilePageState
         child: Observer(builder: (_) {
           if (controller.rest != null) {
             var loja = controller.rest;
-            bool aberto;
-            var dia = DateTime.now().weekday;
-            if (dia == 1 && loja.usuario.diasSemana.segunda == true) {
-              aberto = true;
-            } else if (dia == 2 && loja.usuario.diasSemana.terca == true) {
-              aberto = true;
-            } else if (dia == 3 && loja.usuario.diasSemana.quarta == true) {
-              aberto = true;
-            } else if (dia == 4 && loja.usuario.diasSemana.quinta == true) {
-              aberto = true;
-            } else if (dia == 5 && loja.usuario.diasSemana.sexta == true) {
-              aberto = true;
-            } else if (dia == 6 && loja.usuario.diasSemana.sabado == true) {
-              aberto = true;
-            } else if (dia == 7 && loja.usuario.diasSemana.domingo == true) {
-              aberto = true;
-            }
+            
             return AppBarWidget(
-              title: widget.rest.restGeral.restNome,
+              title: widget.rest.restGeral.restNome ,
               viewLeading: true,
               actions: [
                 Container(
@@ -167,7 +151,7 @@ class _RestProfilePageState
                               metodos,
                               tipoEntrega,
                               widget.rest,
-                              aberto,
+                              controller.abertoRest,
                             );
                             Modular.to.pushNamed('/rest_profile/carrinho_rest',
                                 arguments: carrinho);
