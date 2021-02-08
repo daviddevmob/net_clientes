@@ -3,6 +3,8 @@ import 'package:net_cliente/app/shared/repositories/send/send_repository.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/servico_repository/servicos_favoritos/servicos_favoritos_repository.dart';
+import 'package:net_cliente/app/shared/repositories/servico_repository/servicos_favoritos/servicos_favoritos_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/view_image_galeria.dart';
 import 'package:net_cliente/app/shared/utils/view_image_profile.dart';
 
@@ -14,9 +16,10 @@ import 'servico_profile_page.dart';
 class ServicoProfileModule extends ChildModule {
   @override
   List<Bind> get binds => [
+      Bind<IServicosFavoritos>((i) => ServicosFavoritosRepository((i.get()))),
       Bind<ISend>((i) => SendRepository(i.get())),
       Bind<IServico>((i) => ServicosRepository(i.get())),
-      Bind((i) => ServicoProfileController(i.get(), i.get())),
+      Bind((i) => ServicoProfileController(i.get(), i.get(), i.get())),
       ];
 
   @override

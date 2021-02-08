@@ -16,6 +16,7 @@ abstract class _ServicosControllerBase with Store {
     getServices();
   }
 
+
   @observable
   ServicosSearchModel servicosSearchModel;
 
@@ -149,40 +150,7 @@ abstract class _ServicosControllerBase with Store {
 
   @action
   getServicosParams() async {
-    if (pesquisaController.text == null || pesquisaController.text == '') {
-      if (categoria == 0 && bairro != 0) {
-        servicosSearchModel = await iServico.getServicosBairro(bairro);
-      } else if (categoria != 0 && bairro == 0) {
-        servicosSearchModel = await iServico.getServicosCategoria(categoria);
-      } else if (categoria != 0 && bairro != 0) {
-        servicosSearchModel =
-            await iServico.getServicosCategoriaBairro(categoria, bairro);
-      } else {
-        servicosSearchModel = await iServico.getServicos();
-      }
-    } else {
-      if (categoria == 0 && bairro == 0) {
-        servicosSearchModel = await iServico.getServicosNome(
-          pesquisaController.text,
-        );
-      } else if (categoria == 0 && bairro != 0) {
-        servicosSearchModel = await iServico.getServicosNomeBairro(
-          pesquisaController.text,
-          bairro,
-        );
-      } else if (categoria != 0 && bairro == 0) {
-        servicosSearchModel = await iServico.getServicosNomeCategoria(
-          pesquisaController.text,
-          categoria,
-        );
-      } else if (categoria != 0 && bairro != 0) {
-        servicosSearchModel = await iServico.getServicosNomeCategoriaBairro(
-          pesquisaController.text,
-          categoria,
-          bairro,
-        );
-      }
-    }
+    await getServices();
   }
 
   @action
@@ -199,22 +167,11 @@ abstract class _ServicosControllerBase with Store {
 
   @action
   getServices() async {
-    servicosSearchModel = await iServico.getServicos();
+    servicosSearchModel = await iServico.getServicos(
+      categoria == 0 ? null : categoria, 
+      pesquisaController.text,
+      bairro == 0 ? null : bairro,
+      ).asObservable();
   }
-
-  @action
-  getServicesCategory(int categoria) async {
-    servicosSearchModel = await iServico.getServicosCategoria(categoria);
-  }
-
-  @action
-  getServicesCategoryDistric(int categoria, int bairro) async {
-    servicosSearchModel =
-        await iServico.getServicosCategoriaBairro(categoria, bairro);
-  }
-
-  @action
-  getServicesDistric(int bairro) async {
-    servicosSearchModel = await iServico.getServicosBairro(bairro);
-  }
+ 
 }

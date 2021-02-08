@@ -66,18 +66,21 @@ class OngGeral {
         this.ongDescricao,
         this.ongImagemPerfil,
         this.usuarioId,
+        this.ongId,
     });
 
     String ongNome;
     String ongDescricao;
     String ongImagemPerfil;
     int usuarioId;
+    int ongId;
 
     factory OngGeral.fromJson(Map<String, dynamic> json) => OngGeral(
         ongNome: json["ong_nome"] == null ? null : json["ong_nome"],
         ongDescricao: json["ong_descricao"] == null ? null : json["ong_descricao"],
         ongImagemPerfil: json["ong_imagem_perfil"] == null ? null : json["ong_imagem_perfil"],
         usuarioId: json["usuario_id"] == null ? null : json["usuario_id"],
+        ongId: json["ong_id"] == null ? null : json["ong_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -85,5 +88,6 @@ class OngGeral {
         "ong_descricao": ongDescricao == null ? null : ongDescricao,
         "ong_imagem_perfil": ongImagemPerfil == null ? null : ongImagemPerfil,
         "usuario_id": usuarioId == null ? null : usuarioId,
+        "ong_id": ongId == null ? null : ongId,
     };
 }

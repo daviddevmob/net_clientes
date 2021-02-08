@@ -273,7 +273,10 @@ class PageServicoHomeWidget extends StatelessWidget {
                         title: 'Procurar',
                           path: 'assets/images/home/servico/procurar.svg',
                         function: () {
-                          Modular.to.pushNamed('/servicos');
+                          Modular.to.pushNamed(
+                            '/servicos',
+                            arguments: controller.cliente.value.clienteId,
+                            );
                         },
                       ),
                       SizedBox(
@@ -282,7 +285,12 @@ class PageServicoHomeWidget extends StatelessWidget {
                       CardsWidget(
                         title: 'Favoritos',
                           path: 'assets/images/home/servico/favoritos.svg',
-                        function: () {},
+                        function: () {
+                          Modular.to.pushNamed(
+                             '/home/servicos_favoritos/',
+                            arguments: controller.cliente.value.clienteId,
+                            );
+                        },
                       ),
                     ],
                   ),

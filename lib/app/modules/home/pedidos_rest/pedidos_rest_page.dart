@@ -136,8 +136,7 @@ class _PedidosRestPageState
                                             fontSize: 16,
                                           ),
                                           TextWidget(
-                                            text:
-                                                pedido.numeroPedido.toString(),
+                                            text: pedido.numeroPedido.toString(),
                                             fontSize: 16,
                                           ),
                                         ],

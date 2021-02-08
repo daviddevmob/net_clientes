@@ -1,6 +1,8 @@
 import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
 import 'package:net_cliente/app/shared/repositories/ong_repository/ong_repository.dart';
 import 'package:net_cliente/app/shared/repositories/ong_repository/ong_repository_interface.dart';
+import 'package:net_cliente/app/shared/repositories/ong_repository/ongs_favoritas/ongs_favoritas_repository.dart';
+import 'package:net_cliente/app/shared/repositories/ong_repository/ongs_favoritas/ongs_favoritas_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 import 'package:net_cliente/app/shared/utils/view_image_galeria.dart';
@@ -14,9 +16,10 @@ import 'ong_profile_page.dart';
 class OngProfileModule extends ChildModule {
   @override
   List<Bind> get binds => [
+      Bind<IOngsFavoritas>((i) => OngsFavoritasRepository(i.get())),
       Bind<ISend>((i) => SendRepository(i.get())),
       Bind<IOng>((i) => OngRepository(i.get())),
-      Bind((i) => OngProfileController(i.get(), i.get())),
+      Bind((i) => OngProfileController(i.get(), i.get(), i.get())),
       ];
 
   @override

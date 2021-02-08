@@ -102,33 +102,6 @@ mixin _$ServicosController on _ServicosControllerBase, Store {
     return _$getServicesAsyncAction.run(() => super.getServices());
   }
 
-  final _$getServicesCategoryAsyncAction =
-      AsyncAction('_ServicosControllerBase.getServicesCategory');
-
-  @override
-  Future getServicesCategory(int categoria) {
-    return _$getServicesCategoryAsyncAction
-        .run(() => super.getServicesCategory(categoria));
-  }
-
-  final _$getServicesCategoryDistricAsyncAction =
-      AsyncAction('_ServicosControllerBase.getServicesCategoryDistric');
-
-  @override
-  Future getServicesCategoryDistric(int categoria, int bairro) {
-    return _$getServicesCategoryDistricAsyncAction
-        .run(() => super.getServicesCategoryDistric(categoria, bairro));
-  }
-
-  final _$getServicesDistricAsyncAction =
-      AsyncAction('_ServicosControllerBase.getServicesDistric');
-
-  @override
-  Future getServicesDistric(int bairro) {
-    return _$getServicesDistricAsyncAction
-        .run(() => super.getServicesDistric(bairro));
-  }
-
   final _$_ServicosControllerBaseActionController =
       ActionController(name: '_ServicosControllerBase');
 

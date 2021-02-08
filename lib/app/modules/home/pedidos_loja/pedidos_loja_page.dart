@@ -118,7 +118,8 @@ class _PedidosLojaPageState
                                           Expanded(
                                             child: TextWidget(
                                               text: pedido.lojaGeral.lojaNome,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
                                         ],
@@ -133,8 +134,7 @@ class _PedidosLojaPageState
                                             fontSize: 16,
                                           ),
                                           TextWidget(
-                                            text:
-                                                pedido.numeroPedido.toString(),
+                                            text: pedido.numeroPedido.toString(),
                                             fontSize: 16,
                                           ),
                                         ],
@@ -168,7 +168,7 @@ class _PedidosLojaPageState
                                             text: formatDate(
                                                 pedido.criadoEm.toLocal(),
                                                 [dd, '/', mm, '/', yyyy]),
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                         ],
                                       ),
@@ -217,13 +217,13 @@ class _PedidosLojaPageState
                                                   children: [
                                                     TextWidget(
                                                       text: 'Taxa de Entrega: ',
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                     ),
                                                     TextWidget(
                                                       text: 'R\$ ' +
                                                           pedido.taxaEntrega
                                                               .toString(),
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                     ),
                                                   ],
                                                 ),
@@ -236,7 +236,7 @@ class _PedidosLojaPageState
                                                       child: TextWidget(
                                                         text: 'Endereço: ' +
                                                             pedido.endereco,
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                       ),
                                                     ),
                                                   ],
@@ -249,7 +249,7 @@ class _PedidosLojaPageState
                                               children: [
                                                 TextWidget(
                                                   text: 'Retirada em Loja',
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                 ),
                                                 FlatButton(
                                                   color: Colors.blue,
@@ -283,13 +283,13 @@ class _PedidosLojaPageState
                                         children: [
                                           TextWidget(
                                             text: 'Pagamento: ',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                           TextWidget(
                                             text: pedido.metodoPagamento == 0
                                                 ? 'Dinheiro'
                                                 : 'Crédito($metodoPagamento)',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           )
                                         ],
                                       ),
@@ -300,11 +300,11 @@ class _PedidosLojaPageState
                                                 TextWidget(
                                                   text:
                                                       'Você pediu troco para:',
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                 ),
                                                 TextWidget(
                                                   text: ' R\$ ' + pedido.troco,
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                 ),
                                               ],
                                             ),

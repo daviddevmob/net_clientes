@@ -4,93 +4,74 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:net_cliente/app/modules/servicos/widgets/buscar_servico_erro_widget.dart';
-import 'package:net_cliente/app/modules/servicos/widgets/buscar_servico_widget.dart';
+import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/shared/models/servicos/base_service_profile.dart';
-import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
-import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
-import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
-import 'servicos_controller.dart';
+import 'favotiros_servicos_controller.dart';
 
-class ServicosPage extends StatefulWidget {
+class FavotirosServicosPage extends StatefulWidget {
   final int clienteId;
-  const ServicosPage({Key key, @required this.clienteId}) : super(key: key);
+  const FavotirosServicosPage({Key key,@required this.clienteId})
+      : super(key: key);
 
   @override
-  _ServicosPageState createState() => _ServicosPageState();
+  _FavotirosServicosPageState createState() => _FavotirosServicosPageState();
 }
 
-class _ServicosPageState
-    extends ModularState<ServicosPage, ServicosController> {
+class _FavotirosServicosPageState
+    extends ModularState<FavotirosServicosPage, FavotirosServicosController> {
   //use 'controller' variable to access controller
+
+  ReactionDisposer disposer;
+
+  void initState() {
+    disposer = autorun((_) async {
+      await controller.getServicos(widget.clienteId);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: AppBarWidget(
-          title: 'Serviços',
+          title: 'Serviços Favoritos',
           viewLeading: true,
         ),
       ),
       body: Observer(
-        builder: (_) {
-          if (controller.servicosSearchModel == null) {
+        builder: (_){
+          if(controller.servicos == null){
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget(
-                    text: 'Carregando..',
-                  ),
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  CupertinoActivityIndicator(),
-                ],
+              child: CupertinoActivityIndicator(),
+            );
+          }
+
+          if(controller.servicos.clenteFavoritoServico.isEmpty){
+            return Center(
+              child: TextWidget(
+                text: 'Nenhum serviço favoritado',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                textColor: Colors.grey[500],
               ),
             );
           }
 
-          if (controller.servicosSearchModel.servicoGeral.isEmpty == true) {
-            return Observer(
-              builder:(_) => BuscarServicoErroWidget(
-                controller: controller,
-              ),
-            );
-          }
-
-          ServicosSearchModel servicos = controller.servicosSearchModel;
-
-          return SingleChildScrollView(
-            child: Align(
+          if(controller.servicos.clenteFavoritoServico.isNotEmpty){
+            return SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.only(top: 0, left: 5, right: 5),
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: size.height * 0.01,
-                    ),
-                    BuscarServicoPageWidget(
-                      controller: controller,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
+                margin: EdgeInsets.all(10),
+                child: SizedBox(
                           width: size.width * 0.9,
                           child: ListView.separated(
                             physics: ScrollPhysics(),
-                            itemCount: servicos.servicoGeral.length,
+                            itemCount: controller.servicos.clenteFavoritoServico.length,
                             shrinkWrap: true,
                             separatorBuilder: (context, index) {
                               return SizedBox(
@@ -98,9 +79,9 @@ class _ServicosPageState
                               );
                             },
                             itemBuilder: (context, index) {
-                              var servico = servicos.servicoGeral[index];
+                              var servico = controller.servicos.clenteFavoritoServico[index];
                               var categoria;
-                              switch (servico.categoria) {
+                              switch (servico.servicoGeral.categoria) {
                                 case 1:
                                   categoria = 'Babá';
                                   break;
@@ -137,10 +118,10 @@ class _ServicosPageState
                           if (await ConnectionVerify.connectionStatus()) {
                            BaseServiceProfile base =
                                       new BaseServiceProfile(
-                                    servico.usuarioId,
-                                    servico.servicoNome,
+                                    servico.servicoGeral.usuarioId,
+                                    servico.servicoGeral.servicoNome,
                                     widget.clienteId,
-                                    servico.servicoId,
+                                    servico.servicoGeral.servicoId,
                                   );
                                   Modular.to.pushNamed(
                                     '/servicos/servico_profile',
@@ -163,19 +144,19 @@ class _ServicosPageState
                           borderRadius: BorderRadius.circular(4),
                           image: DecorationImage(
                             image: 
-                            servico.servicoFotoPerfil == null 
-                            || servico.servicoFotoPerfil == ''
+                            servico.servicoGeral.servicoFotoPerfil == null 
+                            || servico.servicoGeral.servicoFotoPerfil == ''
                             ? AssetImage(
                               'assets/images/imagens-perfil/profile.png',
                                   )
                             : CachedNetworkImageProvider(
-                              servico.servicoFotoPerfil,
+                              servico.servicoGeral.servicoFotoPerfil,
                               ),
                               fit: BoxFit.cover,
                               )),
                            ),
                         title: TextWidget(
-                          text: servico.servicoNome,
+                          text: servico.servicoGeral.servicoNome,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -189,19 +170,11 @@ class _ServicosPageState
                             },
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: size.height * 0.05,
-                    ),
-                  ],
-                ),
               ),
-            ),
-          );
+            );
+          }
         },
       ),
-      bottomNavigationBar: TotemCeWidget(),
     );
   }
 }

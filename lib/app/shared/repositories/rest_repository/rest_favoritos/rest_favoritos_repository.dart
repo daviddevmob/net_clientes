@@ -24,8 +24,12 @@ class RestsFavotirosRepository implements IRestFavoritos{
   Future<RestFavoritoModelList> getLojas(int clienteId)  async {
     var query = '''
     query MyQuery {
-      cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}}) {
-        rest_geral{
+      cliente_favorito_rest(
+        where: {
+          cliente_id: {_eq: $clienteId}, 
+          ativo: {_eq: true}, 
+          rest_geral: {visibility: {_eq: true}, status: {_eq: true}}}) {
+        rest_geral {
           categoria
           rest_nome
           entrega_domicilio

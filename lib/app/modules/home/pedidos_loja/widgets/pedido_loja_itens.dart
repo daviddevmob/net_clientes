@@ -34,7 +34,7 @@ class ItensPedidoLojaWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Wrap(
-                    direction: Axis.vertical,
+                    direction: Axis.horizontal,
                     children: [
                       item.lojaProduto.foto1Link == null ||
                               item.lojaProduto.foto1Link == ''
@@ -67,30 +67,32 @@ class ItensPedidoLojaWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
-                      Row(
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Wrap(
+                        direction: Axis.vertical,
                         children: [
-                          TextWidget(
-                            text: item.lojaProduto.produtoNome,
-                            fontSize: 16,
+                          Row(
+                            children: [
+                              TextWidget(
+                                text: item.lojaProduto.produtoNome,
+                                fontSize: 16,
+                              ),
+                            ],
                           ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextWidget(
+                            text:'R\$ ' + item.precoUnidade.toStringAsFixed(2),
+                            fontSize: 14,
+                          ),
+                      TextWidget(
+                        text:'Quantidade: ' + item.quantidade.toString(),
+                        fontSize: 14,
+                      ),
                         ],
-                      ),
-                    ],
-                  ),
-                  Wrap(
-                    direction: Axis.vertical,
-                    children: [
-                      TextWidget(
-                        text:'Uni: R\$ ' + item.precoUnidade.toStringAsFixed(2),
-                        fontSize: 16,
-                      ),
-                      TextWidget(
-                        text:'Qtd: ' + item.quantidade.toString(),
-                        fontSize: 16,
-                      ),
-                      TextWidget(
-                        text:'Total: R\$' + item.total.toStringAsFixed(2),
-                        fontSize: 16,
                       ),
                     ],
                   ),

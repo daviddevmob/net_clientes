@@ -23,7 +23,7 @@ class PerfilCardProfile extends StatelessWidget {
       onTap: function,
       child: Card(
         margin: EdgeInsets.all(4),
-        elevation: 2,
+        elevation: 1,
         child: SizedBox(
           width: size.width * 0.3,
           child: Container(

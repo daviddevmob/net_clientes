@@ -39,17 +39,21 @@ class CardsWidget extends StatelessWidget {
                     height: 140,
                     width: 140,
                     child: SvgPicture.asset(
-                      path
+                      path,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   SizedBox(
                    width: size.width * 0.1,
                   ),
-                  TextWidget(
-                    text: title,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                    textColor: corText,
+                  Container(
+                    width: size.width * 0.35,
+                    child: TextWidget(
+                      text: title,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      textColor: corText,
+                    ),
                   ),
                 ],
               ),

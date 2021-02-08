@@ -277,7 +277,7 @@ class PageRestHomeWidget extends StatelessWidget {
                           height: 10,
                         ),
                         CardsWidget(
-                          title: 'Pedir Comida',
+                          title: 'Fazer Pedido',
                           path: 'assets/images/home/rest/procurar.svg',
                           function: () {
                             RestSearch rests = new RestSearch(

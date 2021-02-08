@@ -26,6 +26,7 @@ class OngRepository implements IOng {
           ong_descricao
           ong_imagem_perfil
           usuario_id
+          ong_id
         }
       }
     }
@@ -56,6 +57,7 @@ class OngRepository implements IOng {
           ong_descricao
           ong_imagem_perfil
           usuario_id
+          ong_id
         }
       }
     }

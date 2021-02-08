@@ -274,7 +274,10 @@ class PageOngHomeWidget extends StatelessWidget {
                         title: 'Conhecer',
                         path: 'assets/images/home/social/procurar.svg',
                         function: () {
-                          Modular.to.pushNamed('/ongs');
+                          Modular.to.pushNamed(
+                            '/ongs',
+                            arguments: controller.cliente.value.clienteId,
+                            );
                         },
                       ),
                       SizedBox(
@@ -283,7 +286,12 @@ class PageOngHomeWidget extends StatelessWidget {
                       CardsWidget(
                         title: 'Favoritos',
                         path: 'assets/images/home/social/favoritos.svg',
-                        function: () {},
+                        function: () {
+                          Modular.to.pushNamed(
+                            '/home/ongs_favoritas/',
+                            arguments: controller.cliente.value.clienteId,
+                            );
+                        },
                       ),
                     ],
                   ),

@@ -83,7 +83,7 @@ class BuscarServicoPageWidget extends StatelessWidget {
                           items: listBairros,
                           iconEnabledColor: Colors.white,
                           dropdownColor: Cores.verdeClaro,
-                          onChanged: controller.getServicesDistric,
+                          onChanged: controller.selectBairro,
                         ),
                       ),
                     ),

@@ -24,6 +24,39 @@ mixin _$OngProfileController on _OngProfileControllerBase, Store {
     });
   }
 
+  final _$ongFavoritaAtom = Atom(name: '_OngProfileControllerBase.ongFavorita');
+
+  @override
+  ObservableStream<OngFavoritasProfile> get ongFavorita {
+    _$ongFavoritaAtom.reportRead();
+    return super.ongFavorita;
+  }
+
+  @override
+  set ongFavorita(ObservableStream<OngFavoritasProfile> value) {
+    _$ongFavoritaAtom.reportWrite(value, super.ongFavorita, () {
+      super.ongFavorita = value;
+    });
+  }
+
+  final _$deletarFavoritoAsyncAction =
+      AsyncAction('_OngProfileControllerBase.deletarFavorito');
+
+  @override
+  Future deletarFavorito(int ongId, int clienteId, bool value) {
+    return _$deletarFavoritoAsyncAction
+        .run(() => super.deletarFavorito(ongId, clienteId, value));
+  }
+
+  final _$salvarFavoritoAsyncAction =
+      AsyncAction('_OngProfileControllerBase.salvarFavorito');
+
+  @override
+  Future salvarFavorito(int ongId, int clienteId) {
+    return _$salvarFavoritoAsyncAction
+        .run(() => super.salvarFavorito(ongId, clienteId));
+  }
+
   final _$getOngAsyncAction = AsyncAction('_OngProfileControllerBase.getOng');
 
   @override
@@ -63,10 +96,25 @@ mixin _$OngProfileController on _OngProfileControllerBase, Store {
     return _$sendEmailAsyncAction.run(() => super.sendEmail(email));
   }
 
+  final _$_OngProfileControllerBaseActionController =
+      ActionController(name: '_OngProfileControllerBase');
+
+  @override
+  dynamic getOngFavorita(int ongId, int clienteId) {
+    final _$actionInfo = _$_OngProfileControllerBaseActionController
+        .startAction(name: '_OngProfileControllerBase.getOngFavorita');
+    try {
+      return super.getOngFavorita(ongId, clienteId);
+    } finally {
+      _$_OngProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-ong: ${ong}
+ong: ${ong},
+ongFavorita: ${ongFavorita}
     ''';
   }
 }

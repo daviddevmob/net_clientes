@@ -242,7 +242,7 @@ class _RestaurantesPageState
                   height: size.height * 0.06,
                 ),
                 TextWidget(
-                  text: 'Nenhuma loja encontrada',
+                  text: 'Nenhum restaurante encontrado',
                   textColor: Colors.grey[400],
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

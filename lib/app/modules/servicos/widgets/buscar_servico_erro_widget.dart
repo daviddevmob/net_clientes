@@ -73,18 +73,22 @@ class BuscarServicoErroWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           color: Cores.verdeClaro,
                         ),
-                        child: DropdownButton(
-                          value: controller.bairro,
-                          hint: TextWidget(
-                            text: 'Todos os Bairros',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            textColor: Colors.white,
+                        child: Observer(
+                          builder:(_) => Observer(
+                            builder:(_) => DropdownButton(
+                              value: controller.bairro,
+                              hint: TextWidget(
+                                text: 'Todos os Bairros',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                textColor: Colors.white,
+                              ),
+                              items: listBairros,
+                              iconEnabledColor: Colors.white,
+                              dropdownColor: Cores.verdeClaro,
+                              onChanged: controller.selectBairro,
+                            ),
                           ),
-                          items: listBairros,
-                          iconEnabledColor: Colors.white,
-                          dropdownColor: Cores.verdeClaro,
-                          onChanged: controller.getServicesDistric,
                         ),
                       ),
                     ),
@@ -124,7 +128,7 @@ class BuscarServicoErroWidget extends StatelessWidget {
                   height: size.height * 0.06,
                 ),
                 TextWidget(
-                  text: 'Nenhuma loja encontrada',
+                  text: 'Nenhum serviço encontrado',
                   textColor: Colors.grey[400],
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

@@ -1,6 +1,8 @@
 import 'package:net_cliente/app/modules/home/configuracoes/configuracoes_module.dart';
 import 'package:net_cliente/app/modules/home/favoritas_lojas/favoritas_lojas_module.dart';
 import 'package:net_cliente/app/modules/home/favoritos_rest/favoritos_rest_module.dart';
+import 'package:net_cliente/app/modules/home/favotiros_ongs/favotiros_ongs_module.dart';
+import 'package:net_cliente/app/modules/home/favotiros_servicos/favotiros_servicos_module.dart';
 import 'package:net_cliente/app/modules/home/pedidos_loja/pedidos_loja_module.dart';
 import 'package:net_cliente/app/modules/home/pedidos_rest/pedidos_rest_module.dart';
 import 'package:net_cliente/app/modules/home/widgets/view_photo_profile.dart';
@@ -38,6 +40,8 @@ class HomeModule extends ChildModule {
         ModularRouter('/lojas_favoritas', module: FavoritasLojasModule()),
         ModularRouter('/rests_favoritos', module: FavoritosRestModule()),
         ModularRouter('/pedidos_rest', module: PedidosRestModule()),
+        ModularRouter('/servicos_favoritos', module: FavotirosServicosModule()),
+        ModularRouter('/ongs_favoritas', module: FavotirosOngsModule()),
         /* ModularRouter('/restaurantes', module: Ong) */
       ];
 

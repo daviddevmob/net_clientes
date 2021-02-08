@@ -25,6 +25,40 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
     });
   }
 
+  final _$getServicoAtom =
+      Atom(name: '_ServicoProfileControllerBase.getServico');
+
+  @override
+  ObservableStream<ServicoFavoritoModelProfile> get getServico {
+    _$getServicoAtom.reportRead();
+    return super.getServico;
+  }
+
+  @override
+  set getServico(ObservableStream<ServicoFavoritoModelProfile> value) {
+    _$getServicoAtom.reportWrite(value, super.getServico, () {
+      super.getServico = value;
+    });
+  }
+
+  final _$setFavoritoAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.setFavorito');
+
+  @override
+  Future setFavorito(int lojaId, int clienteId, bool value) {
+    return _$setFavoritoAsyncAction
+        .run(() => super.setFavorito(lojaId, clienteId, value));
+  }
+
+  final _$salvarFavoritoAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.salvarFavorito');
+
+  @override
+  Future salvarFavorito(int lojaId, int clienteId) {
+    return _$salvarFavoritoAsyncAction
+        .run(() => super.salvarFavorito(lojaId, clienteId));
+  }
+
   final _$sendWhatsAppAsyncAction =
       AsyncAction('_ServicoProfileControllerBase.sendWhatsApp');
 
@@ -65,10 +99,25 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
     return _$getServicoUserAsyncAction.run(() => super.getServicoUser(userId));
   }
 
+  final _$_ServicoProfileControllerBaseActionController =
+      ActionController(name: '_ServicoProfileControllerBase');
+
+  @override
+  dynamic getServicoFavorito(int lojaId, int clienteId) {
+    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
+        .startAction(name: '_ServicoProfileControllerBase.getServicoFavorito');
+    try {
+      return super.getServicoFavorito(lojaId, clienteId);
+    } finally {
+      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-servicoUser: ${servicoUser}
+servicoUser: ${servicoUser},
+getServico: ${getServico}
     ''';
   }
 }

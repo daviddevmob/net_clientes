@@ -6,18 +6,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/modules/ongs/widgets/buscar_ongs_erro_widget.dart';
 import 'package:net_cliente/app/modules/ongs/widgets/buscar_ongs_widget.dart';
+import 'package:net_cliente/app/shared/models/ongs/ong_params_profile.dart';
 import 'package:net_cliente/app/shared/models/ongs/ong_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
-import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
-import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'ongs_controller.dart';
 
 class OngsPage extends StatefulWidget {
-  final String title;
-  const OngsPage({Key key, this.title = "Ongs"}) : super(key: key);
+  final int clienteId;
+  const OngsPage({Key key, @required this.clienteId}) : super(key: key);
 
   @override
   _OngsPageState createState() => _OngsPageState();
@@ -188,9 +187,13 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                            return ListTile(
                               onTap: () async {
                                 if (await ConnectionVerify.connectionStatus()) {
+                                OngParamsProfile params = new OngParamsProfile(
+                                  ong.usuario[index],
+                                  widget.clienteId,
+                                );
                                 Modular.to.pushNamed(
                                       '/ongs/ong_profile',
-                                      arguments: ong.usuario[index]
+                                      arguments: params,
                                       );
                                 } else {
                                   return InternetFlushBar()

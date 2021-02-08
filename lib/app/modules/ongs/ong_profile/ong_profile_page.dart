@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,16 +9,17 @@ import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/ongs/ong_profile/dialogs.dart';
 import 'package:net_cliente/app/modules/ongs/ong_profile/widgets/como_ajudar_widget.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
-import 'package:net_cliente/app/shared/models/ongs/ong_search_model.dart';
+import 'package:net_cliente/app/shared/models/ongs/ong_params_profile.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
+import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/social_button.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'ong_profile_controller.dart';
 
 class OngProfilePage extends StatefulWidget {
-  final Usuario ongSearch;
+  final OngParamsProfile ongSearch;
   const OngProfilePage({Key key, @required this.ongSearch}) : super(key: key);
 
   @override
@@ -32,7 +34,8 @@ class _OngProfilePageState
 
   void initState() {
     disposer = autorun((_) async {
-      await controller.getOng(widget.ongSearch.ongGeral.usuarioId.toInt());
+      await controller.getOng(widget.ongSearch.usuario.ongGeral.usuarioId.toInt());
+      await controller.getOngFavorita(widget.ongSearch.usuario.ongGeral.ongId, widget.ongSearch.clienteId);
     });
     super.initState();
   }
@@ -45,15 +48,10 @@ class _OngProfilePageState
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: AppBarWidget(
-          title: widget.ongSearch.ongGeral.ongNome,
+          title: widget.ongSearch.usuario.ongGeral.ongNome,
           viewLeading: true,
           actions: [
-            IconButton(
-              icon: Icon(CupertinoIcons.star), 
-              onPressed: (){
-                
-              },
-              )
+
           ],
         ),
       ),
@@ -121,6 +119,87 @@ class _OngProfilePageState
                       )),
                 ),
               ),
+              
+                            Positioned(
+                              top: 240,
+                              left: 340,
+                              child: Observer(
+                                builder: (_) {
+
+                                if (controller.ongFavorita.value == null) {
+                                  return CupertinoActivityIndicator();
+                                }
+
+                                if (controller.ongFavorita.value.clienteFavoritaOng.isEmpty) {
+                                  return IconButton(
+                                    icon: Icon(
+                                      CupertinoIcons.star,
+                                      color: Cores.verdeClaro,
+                                    ),
+                                    onPressed: () async {
+                                      if (await ConnectionVerify
+                                          .connectionStatus()) {
+                                       controller.salvarFavorito(
+                                          widget.ongSearch.usuario.ongGeral.ongId,
+                                          widget.ongSearch.clienteId,
+                                        );
+                                      } else {
+                                        return InternetFlushBar()
+                                            .showFlushBarInternet(context);
+                                      }
+                                    },
+                                  );
+                                } 
+                                else if (controller.ongFavorita.value
+                                        .clienteFavoritaOng[0].ativo ==
+                                    true) {
+                                  return IconButton(
+                                    icon: Icon(
+                                      CupertinoIcons.star_fill,
+                                      color: Cores.verdeClaro,
+                                    ),
+                                    onPressed: () async {
+                                      if (await ConnectionVerify
+                                          .connectionStatus()) {
+                                       controller.deletarFavorito(
+                                         widget.ongSearch.usuario.ongGeral.ongId,
+                                         widget.ongSearch.clienteId,
+                                         false,
+                                         ); 
+                                      } else {
+                                        return InternetFlushBar()
+                                            .showFlushBarInternet(context);
+                                      }
+                                    },
+                                  );
+                                } 
+                                else if (controller.ongFavorita.value
+                                        .clienteFavoritaOng[0].ativo ==
+                                    false) {
+                                  return IconButton(
+                                    icon: Icon(
+                                      CupertinoIcons.star,
+                                      color: Cores.verdeClaro,
+                                    ),
+                                    onPressed: () async {
+                                      if (await ConnectionVerify
+                                          .connectionStatus()) {
+                                         controller.deletarFavorito(
+                                         widget.ongSearch.usuario.ongGeral.ongId,
+                                         widget.ongSearch.clienteId,
+                                         true,
+                                         ); 
+                                      } else {
+                                        return InternetFlushBar()
+                                            .showFlushBarInternet(context);
+                                      }
+                                    },
+                                  );
+                                }
+                                return CupertinoActivityIndicator();
+                                },
+                              ),
+                            ),
               Positioned(
                 top: 150,
                 left: size.width * 0.29,

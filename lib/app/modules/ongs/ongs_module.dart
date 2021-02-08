@@ -16,7 +16,7 @@ class OngsModule extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(Modular.initialRoute, child: (_, args) => OngsPage()),
+        ModularRouter(Modular.initialRoute, child: (_, args) => OngsPage(clienteId: args.data,)),
         ModularRouter('/ong_profile', module: OngProfileModule()),
       ];
 

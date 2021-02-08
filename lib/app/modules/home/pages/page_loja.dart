@@ -274,7 +274,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                           height: 10,
                         ),
                         CardsWidget(
-                          title: 'Explorar',
+                          title: 'Só uma olhadinha',
                           path: 'assets/images/home/loja/procurar.svg',
                           function: () async {
                             if (await ConnectionVerify.connectionStatus()) {
@@ -316,7 +316,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                         height: 20,
                       ),
                         CardsWidget(
-                            title: 'Favoritas',
+                          title: 'Favoritas',
                           path: 'assets/images/home/loja/favoritos.svg',
                             function: () async {
                               if (await ConnectionVerify.connectionStatus()) {

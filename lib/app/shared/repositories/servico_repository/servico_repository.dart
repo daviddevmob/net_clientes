@@ -10,22 +10,35 @@ class ServicosRepository implements IServico {
   ServicosRepository(this.api);
 
   @override
-  Future<ServicosSearchModel> getServicos() async {
+  Future<ServicosSearchModel> getServicos(
+    int categoria,
+    String text,
+    int bairro,) async {
+      String params;
+    if (text != '' || text != null) {
+      params = text;
+    }
     try {
       var query = '''
       query MyQuery {
-      usuario(where: {tipo_conta: {_eq: "servico"}, servico_geral: {servico_status: {_eq: true}, servico_visibility: {_eq: true}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
+      servico_geral(
+        where: {
+          servico_status: {_eq: true}, 
+          servico_visibility: {_eq: true}, 
+          categoria: {_eq: $categoria}, 
+          _or: [
+            {
+              servico_nome: {_ilike: "%$params%"}, 
+              servico_descricao: {_ilike: "%$params%"}}], 
+        usuario: {localizacao: {bairro: {_eq: $bairro}}}}) {
+        categoria
+        servico_nome
+        servico_foto_perfil
+        usuario_id
+        servico_id
         }
       }
-    }
+
       ''';
 
       var data = await api.query(query);
@@ -36,100 +49,7 @@ class ServicosRepository implements IServico {
     }
   }
 
-  @override
-  Future<ServicosSearchModel> getServicosCategoria(int categoria) async {
-    try {
-      var query = '''
-    query MyQuery {
-      usuario(
-        where: {tipo_conta: {_eq: "servico"}, 
-        servico_geral: {servico_status: {_eq: true}, 
-        servico_visibility: {_eq: true}, 
-        categoria: {_eq: $categoria}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-    ''';
-
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  @override
-  Future<ServicosSearchModel> getServicosBairro(int bairro) async {
-    try {
-      var query = '''
-    query MyQuery {
-      usuario(
-        where: {tipo_conta: {_eq: "servico"}, 
-        servico_geral: {servico_status: {_eq: true}, 
-        servico_visibility: {_eq: true}}, 
-        localizacao: {bairro: {_eq: $bairro}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-    ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  @override
-  Future<ServicosSearchModel> getServicosCategoriaBairro(
-      int categoria, int bairro) async {
-    try {
-      var query = '''
-    query MyQuery {
-      usuario(
-        where: {
-          tipo_conta: {_eq: "servico"}, 
-          servico_geral: {servico_status: {_eq: true}, 
-          servico_visibility: {_eq: true}, 
-          categoria: {_eq: $categoria}}, 
-          localizacao: {bairro: {_eq: $bairro}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-    ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
+ 
   @override
   // ignore: missing_return
   Future<ServicoModel> getServico(int userId) async {
@@ -201,186 +121,5 @@ class ServicosRepository implements IServico {
     }
   }
 
-  @override
-  Future<ServicosSearchModel> getServicosNome(String nome) async {
-    try {
-      var query = '''
-      query MyQuery {
-        usuario(
-          where: {
-          tipo_conta: {_eq: "servico"},
-          servico_geral: {
-            servico_status: 
-          {_eq: true}, 
-          servico_visibility: 
-          {_eq: true},
-          _or: [
-            {
-              servico_nome: {
-                _ilike: "%$nome%"
-              }
-            },
-            {
-              servico_descricao: {
-                _ilike: "%$nome%"
-              },
-            },
-          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
-          ]
-          }}) {
-          localizacao {
-            bairro
-          }
-          servico_geral {
-            servico_nome
-            categoria
-            servico_foto_perfil
-            usuario_id
-          }
-        }
-      }
-      ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  @override
-  Future<ServicosSearchModel> getServicosNomeCategoria(
-      String nome, int categoria) async {
-    try {
-      var query = '''
-      query MyQuery {
-      usuario(
-        where: {tipo_conta: {_eq: "servico"}, 
-        servico_geral: {servico_status: {_eq: true}, 
-        servico_visibility: {_eq: true}, 
-        _or: [
-            {
-              servico_nome: {
-                _ilike: "%$nome%"
-              }
-            },
-            {
-              servico_descricao: {
-                _ilike: "%$nome%"
-              },
-            },
-          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
-          ], 
-        categoria: {_eq: $categoria}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-      ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  @override
-  Future<ServicosSearchModel> getServicosNomeCategoriaBairro(
-      String nome, int categoria, int bairro) async {
-    try {
-      var query = '''
-    query MyQuery {
-    usuario(
-      where: {
-        tipo_conta: {_eq: "servico"}, 
-        servico_geral: {servico_status: {_eq: true}, 
-        servico_visibility: {_eq: true}, 
-        categoria: {_eq: $categoria}, 
-        _or: [
-            {
-              servico_nome: {
-                _ilike: "%$nome%"
-              }
-            },
-            {
-              servico_descricao: {
-                _ilike: "%$nome%"
-              },
-            },
-          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
-          ]
-        }, 
-        localizacao: {bairro: {_eq: $bairro}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-    ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
-
-  @override
-  Future<ServicosSearchModel> getServicosNomeBairro(
-      String nome, int bairro) async {
-    try {
-      var query = '''
-    query MyQuery {
-      usuario(
-        where: {tipo_conta: {_eq: "servico"}, 
-        servico_geral: {servico_status: {_eq: true}, 
-        servico_visibility: {_eq: true}, 
-        _or: [
-            {
-              servico_nome: {
-                _ilike: "%$nome%"
-              }
-            },
-            {
-              servico_descricao: {
-                _ilike: "%$nome%"
-              },
-            },
-          {servico_lists: {servico_nome: {_ilike: "%$nome%"}}}
-          ]
-        }, 
-        localizacao: {bairro: {_eq: $bairro}}}) {
-        localizacao {
-          bairro
-        }
-        servico_geral {
-          servico_nome
-          categoria
-          servico_foto_perfil
-          usuario_id
-        }
-      }
-    }
-    ''';
-      var data = await api.query(query);
-      var result = await data['data'];
-      return ServicosSearchModel.fromJson(result);
-    } catch (e) {
-      return e;
-    }
-  }
+ 
 }

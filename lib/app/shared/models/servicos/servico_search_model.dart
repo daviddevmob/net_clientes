@@ -10,80 +10,48 @@ String servicosSearchModelToJson(ServicosSearchModel data) => json.encode(data.t
 
 class ServicosSearchModel {
     ServicosSearchModel({
-        this.usuario,
-    });
-
-    List<Usuario> usuario;
-
-    factory ServicosSearchModel.fromJson(Map<String, dynamic> json) => ServicosSearchModel(
-        usuario: json["usuario"] == null ? null : List<Usuario>.from(json["usuario"].map((x) => Usuario.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "usuario": usuario == null ? null : List<dynamic>.from(usuario.map((x) => x.toJson())),
-    };
-}
-
-class Usuario {
-    Usuario({
-        this.localizacao,
         this.servicoGeral,
     });
 
-    Localizacao localizacao;
-    ServicoGeral servicoGeral;
+    List<ServicoGeral> servicoGeral;
 
-    factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
-        localizacao: json["localizacao"] == null ? null : Localizacao.fromJson(json["localizacao"]),
-        servicoGeral: json["servico_geral"] == null ? null : ServicoGeral.fromJson(json["servico_geral"]),
+    factory ServicosSearchModel.fromJson(Map<String, dynamic> json) => ServicosSearchModel(
+        servicoGeral: json["servico_geral"] == null ? null : List<ServicoGeral>.from(json["servico_geral"].map((x) => ServicoGeral.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "localizacao": localizacao == null ? null : localizacao.toJson(),
-        "servico_geral": servicoGeral == null ? null : servicoGeral.toJson(),
-    };
-}
-
-class Localizacao {
-    Localizacao({
-        this.bairro,
-    });
-
-    int bairro;
-
-    factory Localizacao.fromJson(Map<String, dynamic> json) => Localizacao(
-        bairro: json["bairro"] == null ? null : json["bairro"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "bairro": bairro == null ? null : bairro,
+        "servico_geral": servicoGeral == null ? null : List<dynamic>.from(servicoGeral.map((x) => x.toJson())),
     };
 }
 
 class ServicoGeral {
     ServicoGeral({
-        this.servicoNome,
         this.categoria,
+        this.servicoNome,
         this.servicoFotoPerfil,
         this.usuarioId,
+        this.servicoId,
     });
 
-    String servicoNome;
     int categoria;
+    String servicoNome;
     String servicoFotoPerfil;
     int usuarioId;
+    int servicoId;
 
     factory ServicoGeral.fromJson(Map<String, dynamic> json) => ServicoGeral(
-        servicoNome: json["servico_nome"] == null ? null : json["servico_nome"],
         categoria: json["categoria"] == null ? null : json["categoria"],
+        servicoNome: json["servico_nome"] == null ? null : json["servico_nome"],
         servicoFotoPerfil: json["servico_foto_perfil"] == null ? null : json["servico_foto_perfil"],
         usuarioId: json["usuario_id"] == null ? null : json["usuario_id"],
+        servicoId: json["servico_id"] == null ? null : json["servico_id"],
     );
 
     Map<String, dynamic> toJson() => {
-        "servico_nome": servicoNome == null ? null : servicoNome,
         "categoria": categoria == null ? null : categoria,
+        "servico_nome": servicoNome == null ? null : servicoNome,
         "servico_foto_perfil": servicoFotoPerfil == null ? null : servicoFotoPerfil,
         "usuario_id": usuarioId == null ? null : usuarioId,
+        "servico_id": servicoId == null ? null : servicoId,
     };
 }

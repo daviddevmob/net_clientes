@@ -289,7 +289,10 @@ class ViewProdutoPage extends StatelessWidget {
                 child: Row(
                   children: [
                     FlatButton(
-                      color: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(color: Colors.transparent)),
+                      color: Cores.verdeClaro,
                       onPressed: () async {
                         if (await ConnectionVerify.connectionStatus()) {
                           bool add = await produto.controller
@@ -315,6 +318,7 @@ class ViewProdutoPage extends StatelessWidget {
                       },
                       child: TextWidget(
                         text: 'Adicionar ao Carrinho',
+                        fontSize: 16,
                         textColor: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),

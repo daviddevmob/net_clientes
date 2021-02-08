@@ -37,6 +37,10 @@ class _ServicoProfilePageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getServicoUser(widget.baseServiceProfile.userId);
+      await controller.getServicoFavorito(
+        widget.baseServiceProfile.servicoId, 
+        widget.baseServiceProfile.clienteId,
+        );
     });
     super.initState();
   }
@@ -53,14 +57,9 @@ class _ServicoProfilePageState
             title: widget.baseServiceProfile.title,
             viewLeading: true,
             actions: [
-              IconButton(
-                icon: Icon(CupertinoIcons.star), 
-                onPressed: (){
-                  
-                },
-                )
+              
             ],
-            ),
+          ),
           ),
       body: Observer(
         builder: (_) {
@@ -94,6 +93,65 @@ class _ServicoProfilePageState
               children: [
                 Stack(
                   children: [
+               Positioned(
+                top: 250,
+                left: 340,
+                child: Observer(
+                  builder: (_){
+                    if(controller.getServico.value == null 
+                    || controller.getServico.data == null
+                    || controller.getServico == null ){
+                        return CupertinoActivityIndicator();
+                    }
+
+                    if(controller.getServico.value.clenteFavoritoServico.isEmpty == true){
+                        return IconButton(
+                          icon: Icon(CupertinoIcons.star), 
+                          onPressed: () async {
+                            await controller.salvarFavorito(
+                              widget.baseServiceProfile.servicoId,
+                              widget.baseServiceProfile.clienteId,
+                            );
+                          },
+                          );
+                    }
+
+                    if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == true){
+                        return IconButton(
+                          icon: Icon(
+                            CupertinoIcons.star_fill,
+                            color: Cores.verdeClaro,
+                            ), 
+                          onPressed: () async {
+                            await controller.setFavorito(
+                              widget.baseServiceProfile.servicoId,
+                              widget.baseServiceProfile.clienteId,
+                              false,
+                            );
+                          },
+                          );
+                    }
+
+                    if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == false){
+                        return IconButton(
+                          icon: Icon(
+                            CupertinoIcons.star,
+                            color: Cores.verdeClaro,
+                            ),  
+                          onPressed: () async {
+                            await controller.setFavorito(
+                              widget.baseServiceProfile.servicoId,
+                              widget.baseServiceProfile.clienteId,
+                              true,
+                            );
+                          },
+                          );
+                    }
+
+                    return CupertinoActivityIndicator();
+                  },
+              ),
+               ),
                     Container(
                       height: size.height * 0.45,
                     ),

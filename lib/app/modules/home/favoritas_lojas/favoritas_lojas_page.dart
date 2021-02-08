@@ -158,10 +158,13 @@ class _FavoritasLojasPageState
                           leading: loja.lojaGeral.fotoPerfilLink == null ||
                                   loja.lojaGeral.fotoPerfilLink == ''
                               ? Container(
-                                  height: size.height * 0.1,
-                                  width: size.width * 0.2,
-                                  color: Cores.verdeClaro,
-                                )
+                                height: size.height * 0.1,
+                                width: size.width * 0.2,
+                                decoration: BoxDecoration(
+                                color: Cores.verdeClaro,
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(4),
+                                ))
                               : Container(
                                   height: size.height * 0.1,
                                   width: size.width * 0.2,
