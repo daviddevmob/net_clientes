@@ -143,6 +143,7 @@ class _RestProfilePageState
                               tipoEntrega = 4;
                             }
 
+
                             CarrinhoRestPageModel carrinho =
                                 new CarrinhoRestPageModel(
                               controller,
@@ -200,7 +201,6 @@ class _RestProfilePageState
 
           return Container(
             width: size.width,
-            height: size.height,
               margin: EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 10,
@@ -214,16 +214,20 @@ class _RestProfilePageState
                         child: Stack(
                           children: [
                             Observer(
-                              builder: (_) => RestProfileInfosWidget(
-                                rest: rest,
-                                funcionamento: funcionamento,
-                                aberto: aberto,
-                                distancia: controller.distanciaEntrega,
-                                controller: controller,
+                              builder: (_) => Positioned(
+                                top: 25,
+                                child: RestProfileInfosWidget(
+                                  rest: rest,
+                                  funcionamento: funcionamento,
+                                  aberto: aberto,
+                                  distancia: controller.distanciaEntrega,
+                                  controller: controller,
+                                ),
                               ),
                             ),
                             Positioned(
                               left: 320,
+                              top: 25,
                               child: Observer(
                                 builder: (_) {
 
@@ -263,8 +267,9 @@ class _RestProfilePageState
                                     onPressed: () async {
                                       if (await ConnectionVerify
                                           .connectionStatus()) {
-                                        controller.deletarFavorito(widget
-                                            .rest.restGeral.restId);
+                                        /* controller.deletarFavorito(widget
+                                            .rest.restGeral.restId); */
+                                            print(rest.usuario.horarioAtendimento.terca.substring(4).substring(5).substring(0,2));
                                       } else {
                                         return InternetFlushBar()
                                             .showFlushBarInternet(context);
@@ -302,7 +307,7 @@ class _RestProfilePageState
                       ),
                     ],
                   ),
-                  Positioned(
+                 /*  Positioned(
                     top: 120,
                     child: Container(
                       height: 40,
@@ -357,10 +362,10 @@ class _RestProfilePageState
                           },
                         ),
                     ),
-                  ),
+                  ), */
                   Container(
                     margin: EdgeInsets.only(
-                      top: 190,
+                      top: 135,
                     ),
                     padding: EdgeInsets.only(
                       top: 10,
@@ -382,15 +387,11 @@ class _RestProfilePageState
                                     children: [
                                       TextWidget(
                                         text: categ.nomeCategoria,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        textColor: Colors.grey[500],
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        textColor: Colors.grey[600],
                                       ),
                                     ],
-                                  ),
-                                  Divider(
-                                    height: 0.5,
-                                    thickness: 1,
                                   ),
                                   Container(
                                   child: categ.restProdutos.isEmpty == true 

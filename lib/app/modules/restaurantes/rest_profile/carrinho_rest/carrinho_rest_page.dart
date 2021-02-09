@@ -54,13 +54,16 @@ class _CarrinhoRestPageState
          child: Observer(builder: (_) {
 
             if(controller.produtos == null){
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget(
-                      text: 'Nenhum Produto cadastrado',
-                    ),
-                ],
+              return Container(
+                height: size.height * 0.8,
+                child: Center(
+                  child: TextWidget(
+                    text: 'Nenhum produto adicionado',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    textColor: Colors.grey[500],
+                          ),
+                ),
               );
             }
 
@@ -434,8 +437,8 @@ class _CarrinhoRestPageState
                         fontWeight: FontWeight.bold,
                         textColor: Colors.red,
                       );
-                    }
-                    return FlatButton(
+                    } else {
+                      return FlatButton(
                     color: Colors.red,
                     disabledColor: Colors.grey,
                     onPressed: controller.liberarPedir == false
@@ -478,6 +481,8 @@ class _CarrinhoRestPageState
                       fontWeight: FontWeight.bold,
                     ),
                     );
+                    }
+                    
                   }
                 )
               ],
