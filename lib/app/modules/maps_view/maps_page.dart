@@ -179,7 +179,8 @@ class _MapsPageState extends ModularState<MapsPage, MapsController> {
               ),
             ),
           ],
-        ));
+        ),
+        );
   }
 }
 

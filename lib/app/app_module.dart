@@ -5,6 +5,7 @@ import 'package:net_cliente/app/modules/lojas/loja_profile/loja_profile_module.d
 import 'package:net_cliente/app/modules/lojas/lojas_categoria/lojas_categoria_module.dart';
 import 'package:net_cliente/app/modules/lojas/lojas_module.dart';
 import 'package:net_cliente/app/modules/maps/maps_module.dart';
+import 'package:net_cliente/app/modules/maps_entregador/maps_entregador_module.dart';
 import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
 import 'package:net_cliente/app/modules/ongs/ongs_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/rest_profile_module.dart';
@@ -47,6 +48,7 @@ class AppModule extends MainModule {
     ModularRouter('/lojas_categoria', module: LojasCategoriaModule()),
     ModularRouter('/loja_profile', module: LojaProfileModule()),
     ModularRouter('/rest_profile', module: RestProfileModule()),
+    ModularRouter('/maps_entregador', module: MapsEntregadorModule()),
       ];
 
   @override

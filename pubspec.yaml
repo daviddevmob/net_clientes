@@ -141,6 +141,7 @@ flutter:
     - assets/images/home/social/procurar.svg
     - assets/images/home/social/favoritos.svg
     - assets/icon/icon.jpg
+    - assets/maps_style/style.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
