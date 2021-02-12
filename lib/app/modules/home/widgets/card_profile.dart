@@ -25,7 +25,7 @@ class CardsWidget extends StatelessWidget {
       child: Container(
         child: Card(
           margin: EdgeInsets.all(4),
-          elevation: 1,
+          elevation: 0,
           child: SizedBox(
             width: size.width * 0.2,
             child: Container(

@@ -9,6 +9,28 @@ part of 'maps_entregador_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MapsEntregadorController on _MapsEntregadorControllerBase, Store {
+  Computed<Set<Marker>> _$pinosComputed;
+
+  @override
+  Set<Marker> get pinos =>
+      (_$pinosComputed ??= Computed<Set<Marker>>(() => super.pinos,
+              name: '_MapsEntregadorControllerBase.pinos'))
+          .value;
+  Computed<bool> _$movimentoComputed;
+
+  @override
+  bool get movimento =>
+      (_$movimentoComputed ??= Computed<bool>(() => super.movimento,
+              name: '_MapsEntregadorControllerBase.movimento'))
+          .value;
+  Computed<LatLng> _$localizacaoEntregadorComputed;
+
+  @override
+  LatLng get localizacaoEntregador => (_$localizacaoEntregadorComputed ??=
+          Computed<LatLng>(() => super.localizacaoEntregador,
+              name: '_MapsEntregadorControllerBase.localizacaoEntregador'))
+      .value;
+
   final _$entregadorAtom =
       Atom(name: '_MapsEntregadorControllerBase.entregador');
 
@@ -70,6 +92,38 @@ mixin _$MapsEntregadorController on _MapsEntregadorControllerBase, Store {
   set mapStyle(String value) {
     _$mapStyleAtom.reportWrite(value, super.mapStyle, () {
       super.mapStyle = value;
+    });
+  }
+
+  final _$sourceIconAtom =
+      Atom(name: '_MapsEntregadorControllerBase.sourceIcon');
+
+  @override
+  BitmapDescriptor get sourceIcon {
+    _$sourceIconAtom.reportRead();
+    return super.sourceIcon;
+  }
+
+  @override
+  set sourceIcon(BitmapDescriptor value) {
+    _$sourceIconAtom.reportWrite(value, super.sourceIcon, () {
+      super.sourceIcon = value;
+    });
+  }
+
+  final _$destinationIconAtom =
+      Atom(name: '_MapsEntregadorControllerBase.destinationIcon');
+
+  @override
+  BitmapDescriptor get destinationIcon {
+    _$destinationIconAtom.reportRead();
+    return super.destinationIcon;
+  }
+
+  @override
+  set destinationIcon(BitmapDescriptor value) {
+    _$destinationIconAtom.reportWrite(value, super.destinationIcon, () {
+      super.destinationIcon = value;
     });
   }
 
@@ -135,6 +189,78 @@ mixin _$MapsEntregadorController on _MapsEntregadorControllerBase, Store {
     });
   }
 
+  final _$polylinesAtom = Atom(name: '_MapsEntregadorControllerBase.polylines');
+
+  @override
+  Set<Polyline> get polylines {
+    _$polylinesAtom.reportRead();
+    return super.polylines;
+  }
+
+  @override
+  set polylines(Set<Polyline> value) {
+    _$polylinesAtom.reportWrite(value, super.polylines, () {
+      super.polylines = value;
+    });
+  }
+
+  final _$polylinePointsAtom =
+      Atom(name: '_MapsEntregadorControllerBase.polylinePoints');
+
+  @override
+  PolylinePoints get polylinePoints {
+    _$polylinePointsAtom.reportRead();
+    return super.polylinePoints;
+  }
+
+  @override
+  set polylinePoints(PolylinePoints value) {
+    _$polylinePointsAtom.reportWrite(value, super.polylinePoints, () {
+      super.polylinePoints = value;
+    });
+  }
+
+  final _$polylineCoordinatesAtom =
+      Atom(name: '_MapsEntregadorControllerBase.polylineCoordinates');
+
+  @override
+  List<LatLng> get polylineCoordinates {
+    _$polylineCoordinatesAtom.reportRead();
+    return super.polylineCoordinates;
+  }
+
+  @override
+  set polylineCoordinates(List<LatLng> value) {
+    _$polylineCoordinatesAtom.reportWrite(value, super.polylineCoordinates, () {
+      super.polylineCoordinates = value;
+    });
+  }
+
+  final _$criarMapaAsyncAction =
+      AsyncAction('_MapsEntregadorControllerBase.criarMapa');
+
+  @override
+  Future criarMapa(GoogleMapController controller) {
+    return _$criarMapaAsyncAction.run(() => super.criarMapa(controller));
+  }
+
+  final _$setPolylinesAsyncAction =
+      AsyncAction('_MapsEntregadorControllerBase.setPolylines');
+
+  @override
+  Future setPolylines() {
+    return _$setPolylinesAsyncAction.run(() => super.setPolylines());
+  }
+
+  final _$setSourceAndDestinationIconsAsyncAction =
+      AsyncAction('_MapsEntregadorControllerBase.setSourceAndDestinationIcons');
+
+  @override
+  Future setSourceAndDestinationIcons() {
+    return _$setSourceAndDestinationIconsAsyncAction
+        .run(() => super.setSourceAndDestinationIcons());
+  }
+
   final _$setLocalizacaoAtualAsyncAction =
       AsyncAction('_MapsEntregadorControllerBase.setLocalizacaoAtual');
 
@@ -157,11 +283,11 @@ mixin _$MapsEntregadorController on _MapsEntregadorControllerBase, Store {
       ActionController(name: '_MapsEntregadorControllerBase');
 
   @override
-  dynamic criarMapa(GoogleMapController controller) {
+  dynamic setMapPins() {
     final _$actionInfo = _$_MapsEntregadorControllerBaseActionController
-        .startAction(name: '_MapsEntregadorControllerBase.criarMapa');
+        .startAction(name: '_MapsEntregadorControllerBase.setMapPins');
     try {
-      return super.criarMapa(controller);
+      return super.setMapPins();
     } finally {
       _$_MapsEntregadorControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -185,10 +311,18 @@ entregador: ${entregador},
 localizacaoModel: ${localizacaoModel},
 googleMapsController: ${googleMapsController},
 mapStyle: ${mapStyle},
+sourceIcon: ${sourceIcon},
+destinationIcon: ${destinationIcon},
 clienteLat: ${clienteLat},
 clienteLng: ${clienteLng},
 center: ${center},
-markers: ${markers}
+markers: ${markers},
+polylines: ${polylines},
+polylinePoints: ${polylinePoints},
+polylineCoordinates: ${polylineCoordinates},
+pinos: ${pinos},
+movimento: ${movimento},
+localizacaoEntregador: ${localizacaoEntregador}
     ''';
   }
 }

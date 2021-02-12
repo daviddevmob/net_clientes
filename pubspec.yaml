@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.9.5+15
+version: 0.9.5+16
 
 ## Slidy Scripts 
 vars: 
@@ -71,6 +71,7 @@ dependencies:
   connection_verify: ^1.0.4
   checkbox_formfield: ^0.1.0+3
   flutter_markdown: ^0.5.1
+  flutter_polyline_points: ^0.2.4
   google_maps_flutter: ^1.0.6
   geolocator: ^6.1.13
   uuid: ^2.2.2
@@ -142,6 +143,8 @@ flutter:
     - assets/images/home/social/favoritos.svg
     - assets/icon/icon.jpg
     - assets/maps_style/style.txt
+    - assets/driving_pin.png
+    - assets/destination_map_marker.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

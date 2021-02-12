@@ -8,6 +8,7 @@ import 'package:net_cliente/app/shared/models/entregador/entregador_localizacao.
 import 'package:net_cliente/app/shared/models/entregador/page_entregador_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'maps_entregador_controller.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -30,9 +31,11 @@ class _MapsEntregadorPageState
   void initState() {
     disposer = autorun((_) async {
        await controller.getLocalizacao(widget.entregador.entregadorId, widget.entregador.pedidoId);
+       await controller.setSourceAndDestinationIcons();
        await rootBundle.loadString('assets/maps_style/style.txt').then((string) {
        controller.mapStyle = string;
-      });
+        });
+
     });
     super.initState();
   }
@@ -131,33 +134,36 @@ class _MapsEntregadorPageState
 
           var values = widget.entregador.localizacao.split(',');
           controller.center = LatLng(double.parse(values[0]), double.parse(values[1]));
-
-
-        Future.delayed(Duration(seconds: 2), () async {
-          controller.setMapPosition(
-            'Você',
-            'Endereço de Entrega',
-          ); 
+        
+        Observer(builder: (_){
+          if(controller.movimento == true){
+            controller.setPolylines();
+          }
+          return SizedBox();
         });
-      }
-            return Stack(
+        
+        return Stack(
           children: [
             Observer(
               builder: (_) => GoogleMap(
                 initialCameraPosition: CameraPosition(
-                  target: controller.center,
-                  zoom: 15,
+                  target: controller.localizacaoEntregador,
+                  zoom: 12.2,
+                  bearing:45,
+                  tilt: 80,
                 ),
                 onMapCreated: controller.criarMapa,
-                markers: controller.markers,
+                markers: controller.pinos,
                 zoomControlsEnabled: false,
               ),
             ),
           ],
         );
-          }
-        },
-      ),
-    );
+
+      }
+    }
+        }));
   }
 }
+
+
