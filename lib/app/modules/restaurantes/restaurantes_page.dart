@@ -473,6 +473,7 @@ class _RestaurantesPageState
                       String categoriaLoja =
                           SwitchsUtils().getCategoriaRest(rest.categoria);
                       var n = rest.restAvaliacaos.map((e) => e.nota);
+                      
                       double nota = rest.restAvaliacaos.isEmpty 
                       ? 5.0
                       : (n.fold(0, (previousValue, element) => previousValue + element))/rest.restAvaliacaos.length;

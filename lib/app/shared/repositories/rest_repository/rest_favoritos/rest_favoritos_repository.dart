@@ -24,11 +24,7 @@ class RestsFavotirosRepository implements IRestFavoritos{
   Stream<RestFavoritoModelList> getLojas(int clienteId)  {
     var query = '''
     subscription MyQuery {
-      cliente_favorito_rest(
-        where: {
-          cliente_id: {_eq: $clienteId}, 
-          ativo: {_eq: true}, 
-          rest_geral: {visibility: {_eq: true}, status: {_eq: true}}}) {
+      cliente_favorito_rest(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}, rest_geral: {visibility: {_eq: true}, status: {_eq: true}}}) {
         rest_geral {
           categoria
           rest_nome
@@ -45,6 +41,9 @@ class RestsFavotirosRepository implements IRestFavoritos{
             }
           }
           rest_id
+          rest_avaliacaos {
+            nota
+          }
         }
       }
     }

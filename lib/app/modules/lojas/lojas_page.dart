@@ -126,6 +126,11 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                       String categoriaLoja =
                           SwitchsUtils().getCategoriaLoja(loja.categoria);
 
+                      var n =loja.lojaAvaliacaos.map((e) => e.nota);
+                      double nota = loja.lojaAvaliacaos.isEmpty 
+                      ? 5.0
+                      : (n.fold(0, (previousValue, element) => previousValue + element))/loja.lojaAvaliacaos.length;
+
                       return ListTile(
                         onTap: () async {
                           if (await ConnectionVerify.connectionStatus()) {
@@ -178,6 +183,31 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                             ),
                             Row(
                               children: [
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.star_fill,
+                                      size: 13.5,
+                                      color: Colors.orange,
+                                      ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    TextWidget(
+                                      text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      textColor: Colors.orange,
+                                    ),
+                                  ],
+                                ),
+                                TextWidget(
+                                  text: ' ● ',
+                                  fontSize: 10,
+                                  textColor: Colors.grey,
+                                ),
                                 TextWidget(
                                   text: '$categoriaLoja',
                                   fontSize: 13,

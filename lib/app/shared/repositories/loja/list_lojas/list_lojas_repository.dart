@@ -42,6 +42,9 @@ class ListLojasRepository implements IListLojas {
           loja_fisica
           foto_perfil_link
           loja_id
+          loja_avaliacaos {
+            nota
+          }
           usuario {
             localizacao {
               mapa_link

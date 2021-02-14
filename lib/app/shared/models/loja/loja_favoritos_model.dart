@@ -49,6 +49,7 @@ class LojaGeral {
         this.fotoPerfilLink,
         this.usuario,
         this.lojaId,
+        this.lojaAvaliacaos,
     });
 
     int categoria;
@@ -58,6 +59,7 @@ class LojaGeral {
     String fotoPerfilLink;
     Usuario usuario;
     int lojaId;
+    List<LojaAvaliacao> lojaAvaliacaos;
 
     factory LojaGeral.fromJson(Map<String, dynamic> json) => LojaGeral(
         categoria: json["categoria"] == null ? null : json["categoria"],
@@ -67,6 +69,7 @@ class LojaGeral {
         fotoPerfilLink: json["foto_perfil_link"] == null ? null : json["foto_perfil_link"],
         usuario: json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
         lojaId: json["loja_id"] == null ? null : json["loja_id"],
+        lojaAvaliacaos: json["loja_avaliacaos"] == null ? null : List<LojaAvaliacao>.from(json["loja_avaliacaos"].map((x) => LojaAvaliacao.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -77,6 +80,23 @@ class LojaGeral {
         "foto_perfil_link": fotoPerfilLink == null ? null : fotoPerfilLink,
         "usuario": usuario == null ? null : usuario.toJson(),
         "loja_id": lojaId == null ? null : lojaId,
+        "loja_avaliacaos": lojaAvaliacaos == null ? null : List<dynamic>.from(lojaAvaliacaos.map((x) => x.toJson())),
+    };
+}
+
+class LojaAvaliacao {
+    LojaAvaliacao({
+        this.nota,
+    });
+
+    double nota;
+
+    factory LojaAvaliacao.fromJson(Map<String, dynamic> json) => LojaAvaliacao(
+        nota: json["nota"] == null ? null : json["nota"].toDouble(),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "nota": nota == null ? null : nota,
     };
 }
 

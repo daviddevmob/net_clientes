@@ -15,83 +15,94 @@ class LojaPerfilRepository implements ILojaPerfil {
   Future<LojaPerfilPageModel> getLoja(int lojaId) async {
     var query = '''
     query MyQuery {
-        loja_geral(where: {loja_id: {_eq: $lojaId}}) {
-          categoria
-          loja_nome
-          entrega_domicilio
-          loja_fisica
-          usuario {
-            firebase_id
-            localizacao {
-              mapa_link
-              bairro
-              endereco
-              complemento
-            }
-            taxa_entrega {
-              taxa_entrega
-            }
-            dias_semana {
-              domingo
-              quarta
-              quinta
-              sabado
-              segunda
-              sexta
-              terca
-            }
-            horario_atendimento {
-              domingo
-              quarta
-              quinta
-              sabado
-              segunda
-              sexta
-              terca
-            }
-            social_links {
-              telefone
-              whatsapp
-            }
-            metodo_pagamento {
-              alelo_alimentacao
-              alelo_refeicao
-              american_express
-              amex
-              dinheiro
-              elo
-              mastercard
-              metodo_pagamento
-              sodexo_alimentacao
-              sodexo_refeicao
-              ticket_alimentacao
-              ticket_restaurante
-              visa
-              metodo_pagamento
-            }
+      loja_geral(where: {loja_id: {_eq: $lojaId}}) {
+        categoria
+        loja_nome
+        entrega_domicilio
+        loja_fisica
+        usuario {
+          firebase_id
+          localizacao {
+            mapa_link
+            bairro
+            endereco
+            complemento
           }
-          foto_perfil_link
-          loja_descricao
-          loja_id
-          loja_prod_categoria {
-            nome_categoria
-            loja_prod_categoria_id
+          taxa_entrega {
+            taxa_entrega
           }
-          loja_produtos(where: {loja_categoria_prod_id: {_eq: null}, disponivel: {_eq: null}}) {
-            descricao
-            disponivel
-            foto1_link
-            foto2_link
-            preco
-            preco_promo
-            produto_nome
-            quantidade
-            loja_produto_id
-            loja_categoria_prod_id
+          dias_semana {
+            domingo
+            quarta
+            quinta
+            sabado
+            segunda
+            sexta
+            terca
           }
-          loja_firebase_id
+          horario_atendimento {
+            domingo
+            quarta
+            quinta
+            sabado
+            segunda
+            sexta
+            terca
+          }
+          social_links {
+            telefone
+            whatsapp
+          }
+          metodo_pagamento {
+            alelo_alimentacao
+            alelo_refeicao
+            american_express
+            amex
+            dinheiro
+            elo
+            mastercard
+            metodo_pagamento
+            sodexo_alimentacao
+            sodexo_refeicao
+            ticket_alimentacao
+            ticket_restaurante
+            visa
+            metodo_pagamento
+          }
+        }
+        foto_perfil_link
+        loja_descricao
+        loja_id
+        loja_prod_categoria {
+          nome_categoria
+          loja_prod_categoria_id
+        }
+        loja_produtos(where: {loja_categoria_prod_id: {_eq: null}, disponivel: {_eq: null}}) {
+          descricao
+          disponivel
+          foto1_link
+          foto2_link
+          preco
+          preco_promo
+          produto_nome
+          quantidade
+          loja_produto_id
+          loja_categoria_prod_id
+        }
+        loja_firebase_id
+        loja_avaliacaos {
+          nota
+          texto
+          loja_comentario_avaliacao {
+            texto
+          }
+          cliente {
+            nome
+          }
+          criado_em
         }
       }
+    }
     ''';
 
     var data = await api.query(query);

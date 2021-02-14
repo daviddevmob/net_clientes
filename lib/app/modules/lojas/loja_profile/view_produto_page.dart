@@ -181,7 +181,7 @@ class ViewProdutoPage extends StatelessWidget {
                       children: [
                         TextWidget(
                           text: 'Produto Sem Foto',
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w400,
                           textColor: Colors.white,
                         ),
                       ],

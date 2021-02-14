@@ -49,6 +49,7 @@ class RestGeral {
         this.fotoLink,
         this.usuario,
         this.restId,
+        this.restAvaliacaos,
     });
 
     int categoria;
@@ -58,6 +59,7 @@ class RestGeral {
     String fotoLink;
     Usuario usuario;
     int restId;
+    List<RestAvaliacao> restAvaliacaos;
 
     factory RestGeral.fromJson(Map<String, dynamic> json) => RestGeral(
         categoria: json["categoria"] == null ? null : json["categoria"],
@@ -67,6 +69,7 @@ class RestGeral {
         fotoLink: json["foto_link"] == null ? null : json["foto_link"],
         usuario: json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
         restId: json["rest_id"] == null ? null : json["rest_id"],
+        restAvaliacaos: json["rest_avaliacaos"] == null ? null : List<RestAvaliacao>.from(json["rest_avaliacaos"].map((x) => RestAvaliacao.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -77,6 +80,23 @@ class RestGeral {
         "foto_link": fotoLink == null ? null : fotoLink,
         "usuario": usuario == null ? null : usuario.toJson(),
         "rest_id": restId == null ? null : restId,
+        "rest_avaliacaos": restAvaliacaos == null ? null : List<dynamic>.from(restAvaliacaos.map((x) => x.toJson())),
+    };
+}
+
+class RestAvaliacao {
+    RestAvaliacao({
+        this.nota,
+    });
+
+    double nota;
+
+    factory RestAvaliacao.fromJson(Map<String, dynamic> json) => RestAvaliacao(
+        nota: json["nota"] == null ? null : json["nota"].toDouble(),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "nota": nota == null ? null : nota,
     };
 }
 

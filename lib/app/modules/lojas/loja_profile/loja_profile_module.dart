@@ -1,3 +1,4 @@
+import 'package:net_cliente/app/modules/lojas/loja_profile/avaliacoes_loja_page.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/carrinho_loja_page.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/view_produto_page.dart';
 import 'package:net_cliente/app/shared/repositories/loja/loja_perfil/loja_profile_repository.dart';
@@ -25,6 +26,7 @@ class LojaProfileModule extends ChildModule {
         ModularRouter('/carrinho_loja', child: (_,args) 
         => CarrinhoLojaPage(carrinho: args.data,),),
         ModularRouter('/view_produto', child: (_, args) => ViewProdutoPage(produto: args.data,)),
+        ModularRouter('/nota_loja', child: (_,args) => AvaliacaoPageLoja(avaliacaoes: args.data,)),
       ];
 
   static Inject get to => Inject<LojaProfileModule>.of();

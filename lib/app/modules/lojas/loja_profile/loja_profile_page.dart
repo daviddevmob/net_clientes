@@ -213,6 +213,11 @@ class _LojaProfilePageState
             funcionamento = loja.usuario.horarioAtendimento.domingo;
           }
 
+          var n = loja.lojaAvaliacaos.map((e) => e.nota);
+          double nota = loja.lojaAvaliacaos.isEmpty
+          ? 5.0
+          : (n.fold(0, (previousValue, element) => previousValue + element))/loja.lojaAvaliacaos.length;
+
           return SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.symmetric(
@@ -228,6 +233,7 @@ class _LojaProfilePageState
                     children: [
                       Container(
                         width: size.width - 20,
+                        height: 130,
                         child: Stack(
                           children: [
                             Observer(
@@ -313,6 +319,55 @@ class _LojaProfilePageState
                                 },
                               ),
                             ),
+                            
+                  Positioned(
+                    top: 105,
+                    child: GestureDetector(
+                      onTap: (){
+                        if(loja.lojaAvaliacaos.isEmpty || loja.lojaAvaliacaos == null){
+
+                        } else{
+                          Modular.to.pushNamed(
+                            "/loja_profile/nota_loja",
+                            arguments: loja.lojaAvaliacaos,
+                            );
+                        }
+                      },
+                      child: Wrap(
+                        alignment: WrapAlignment.start,
+                        direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              CupertinoIcons.star_fill,
+                              size: 14,
+                              color: Colors.orange,
+                                ),
+                            SizedBox(
+                              width: 3,
+                                ),
+                            TextWidget(
+                              text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.orange,
+                            ),
+                            TextWidget(
+                              text: " - ",
+                              fontSize: 14,
+                            ),
+                            loja.lojaAvaliacaos.isEmpty || loja.lojaAvaliacaos == null 
+                            ? TextWidget(
+                              text: 'Sem pedidos avaliados',
+                              fontSize: 14,
+                            )
+                            : TextWidget(
+                              text: '${loja.lojaAvaliacaos.length} pedidos avaliados, clique para ver.',
+                              fontSize: 14,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
                           ],
                         ),
                       ),
@@ -325,9 +380,35 @@ class _LojaProfilePageState
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Observer(
-                        builder: (_) => DropdownButtonHideUnderline(
+                        builder: (_) {
+                          List<DropdownMenuItem<int>> itens = List<DropdownMenuItem<int>>();
+                          itens.add(
+                            new DropdownMenuItem<int>(
+                              value: null,
+                              child: TextWidget(
+                                text: 'Todas Categorias',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                textColor: Colors.white,
+                              ),
+                            ),
+                          );
+
+                          itens.addAll(loja.lojaProdCategoria.map((e) {
+                                return DropdownMenuItem(
+                                  value: e.lojaProdCategoriaId,
+                                  child: TextWidget(
+                                    text: e.nomeCategoria,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    textColor: Colors.white,
+                                  ),
+                                );
+                              }));
+
+                          return DropdownButtonHideUnderline(
                           child: Container(
-                            height: 45,
+                            height: 35,
                             padding: EdgeInsets.only(
                               left: 10,
                             ),
@@ -345,21 +426,12 @@ class _LojaProfilePageState
                                 textColor: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
-                              items: loja.lojaProdCategoria.map((e) {
-                                return DropdownMenuItem(
-                                  value: e.lojaProdCategoriaId,
-                                  child: TextWidget(
-                                    text: e.nomeCategoria,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    textColor: Colors.white,
-                                  ),
-                                );
-                              }).toList(),
+                              items: itens,
                               onChanged: controller.setCategoria,
                             ),
                           ),
-                        ),
+                        );
+                        }
                       ),
                     ],
                   ),

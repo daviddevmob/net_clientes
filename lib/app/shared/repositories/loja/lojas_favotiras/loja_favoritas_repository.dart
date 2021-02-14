@@ -12,11 +12,7 @@ class LojasFavotirasRepository implements ILojasFavoritas {
   Future<LojaFavotiraModel> getLojas(int clienteId) async {
     var query = '''
     query MyQuery {
-      cliente_favorito_loja(
-        where: {
-          cliente_id: {_eq: $clienteId}, 
-          ativo: {_eq: true}, 
-          loja_geral: {visibility: {_eq: true}, status: {_eq: true}}}) {
+      cliente_favorito_loja(where: {cliente_id: {_eq: $clienteId}, ativo: {_eq: true}, loja_geral: {visibility: {_eq: true}, status: {_eq: true}}}) {
         loja_geral {
           categoria
           loja_nome
@@ -33,6 +29,9 @@ class LojasFavotirasRepository implements ILojasFavoritas {
             }
           }
           loja_id
+          loja_avaliacaos {
+            nota
+          }
         }
       }
     }
