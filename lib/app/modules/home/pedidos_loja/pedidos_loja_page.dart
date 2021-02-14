@@ -69,7 +69,7 @@ class _PedidosLojaPageState
           return SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.only(
-                top: 30,
+                top: 20,
                 bottom: 10,
                 left: 20,
                 right: 20,
@@ -80,9 +80,7 @@ class _PedidosLojaPageState
                       ? SizedBox(
                           height: 20,
                         )
-                      : SizedBox(
-                          height: size.height * 0.3,
-                        ),
+                      : SizedBox(),
                   pedidos.lojaPedidos.isEmpty == true
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -94,10 +92,15 @@ class _PedidosLojaPageState
                             ),
                           ],
                         )
-                      : ListView.builder(
+                      : ListView.separated(
                           itemCount: pedidos.lojaPedidos.length,
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
+                          separatorBuilder: (context, index){
+                            return Divider(
+                              color: Colors.transparent,
+                            );
+                          },
                           itemBuilder: (context, index) {
                             var pedido = pedidos.lojaPedidos[index];
                             String statusPedido = SwitchsUtils()
@@ -110,7 +113,7 @@ class _PedidosLojaPageState
                                 bottom: 8,
                               ),
                               child: Card(
-                                elevation: 4,
+                                elevation: 2,
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   child: Column(

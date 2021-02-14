@@ -12,13 +12,13 @@ mixin _$RestaurantesController on _RestaurantesControllerBase, Store {
   final _$restsAtom = Atom(name: '_RestaurantesControllerBase.rests');
 
   @override
-  RestListModel get rests {
+  ObservableStream<RestListModel> get rests {
     _$restsAtom.reportRead();
     return super.rests;
   }
 
   @override
-  set rests(RestListModel value) {
+  set rests(ObservableStream<RestListModel> value) {
     _$restsAtom.reportWrite(value, super.rests, () {
       super.rests = value;
     });
@@ -99,14 +99,6 @@ mixin _$RestaurantesController on _RestaurantesControllerBase, Store {
     });
   }
 
-  final _$getListRestsAsyncAction =
-      AsyncAction('_RestaurantesControllerBase.getListRests');
-
-  @override
-  Future getListRests() {
-    return _$getListRestsAsyncAction.run(() => super.getListRests());
-  }
-
   final _$_RestaurantesControllerBaseActionController =
       ActionController(name: '_RestaurantesControllerBase');
 
@@ -128,6 +120,17 @@ mixin _$RestaurantesController on _RestaurantesControllerBase, Store {
         .startAction(name: '_RestaurantesControllerBase.getDistanciaNegocio');
     try {
       return super.getDistanciaNegocio(userLat, userLong, lat, lng);
+    } finally {
+      _$_RestaurantesControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getListRests() {
+    final _$actionInfo = _$_RestaurantesControllerBaseActionController
+        .startAction(name: '_RestaurantesControllerBase.getListRests');
+    try {
+      return super.getListRests();
     } finally {
       _$_RestaurantesControllerBaseActionController.endAction(_$actionInfo);
     }

@@ -18,7 +18,7 @@ abstract class _RestaurantesControllerBase with Store {
   _RestaurantesControllerBase(this.iRestRepository, this.iGeo);
 
   @observable
-  RestListModel rests;
+  ObservableStream<RestListModel> rests;
 
   @observable
   bool domicilio;
@@ -58,14 +58,14 @@ abstract class _RestaurantesControllerBase with Store {
   }
 
   @action
-  getListRests() async {
-    rests = await iRestRepository.getRestList(
+  getListRests() {
+    rests =  iRestRepository.getRestList(
       domicilio, 
       lojaFisica, 
       categoria == 0 ? null : categoria, 
       textSearch.text, 
       bairro == 0 ? null : bairro,
-      );
+      ).asObservable();
   }
 
   @action

@@ -97,10 +97,15 @@ class _PedidosRestPageState
                             ),
                           ],
                         )
-                      : ListView.builder(
+                      : ListView.separated(
                           itemCount: pedidos.restPedidos.length,
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
+                          separatorBuilder: (context, index){
+                            return Divider(
+                              color: Colors.transparent,
+                            );
+                          },
                           itemBuilder: (context, index) {
                             var pedido = pedidos.restPedidos[index];
                             String statusPedido = SwitchsUtils()
@@ -113,7 +118,7 @@ class _PedidosRestPageState
                                 bottom: 8,
                               ),
                               child: Card(
-                                elevation: 4,
+                                elevation: 2,
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   child: Column(

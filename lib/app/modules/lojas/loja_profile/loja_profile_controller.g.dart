@@ -30,6 +30,13 @@ mixin _$LojaProfileController on _LojaProfileControllerBase, Store {
           Computed<List<LojaPedidoItem>>(() => super.pedidosItens,
               name: '_LojaProfileControllerBase.pedidosItens'))
       .value;
+  Computed<bool> _$abertoLojaComputed;
+
+  @override
+  bool get abertoLoja =>
+      (_$abertoLojaComputed ??= Computed<bool>(() => super.abertoLoja,
+              name: '_LojaProfileControllerBase.abertoLoja'))
+          .value;
 
   final _$produtosCarrinhoAtom =
       Atom(name: '_LojaProfileControllerBase.produtosCarrinho');
@@ -467,7 +474,8 @@ entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
 filtroString: ${filtroString},
 totalPedido: ${totalPedido},
-pedidosItens: ${pedidosItens}
+pedidosItens: ${pedidosItens},
+abertoLoja: ${abertoLoja}
     ''';
   }
 }

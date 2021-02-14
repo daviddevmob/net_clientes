@@ -12,25 +12,30 @@ mixin _$FavoritosRestController on _FavoritosRestControllerBase, Store {
   final _$listAtom = Atom(name: '_FavoritosRestControllerBase.list');
 
   @override
-  RestFavoritoModelList get list {
+  ObservableStream<RestFavoritoModelList> get list {
     _$listAtom.reportRead();
     return super.list;
   }
 
   @override
-  set list(RestFavoritoModelList value) {
+  set list(ObservableStream<RestFavoritoModelList> value) {
     _$listAtom.reportWrite(value, super.list, () {
       super.list = value;
     });
   }
 
-  final _$getRestFavoritosAsyncAction =
-      AsyncAction('_FavoritosRestControllerBase.getRestFavoritos');
+  final _$_FavoritosRestControllerBaseActionController =
+      ActionController(name: '_FavoritosRestControllerBase');
 
   @override
-  Future getRestFavoritos(int clienteId) {
-    return _$getRestFavoritosAsyncAction
-        .run(() => super.getRestFavoritos(clienteId));
+  dynamic getRestFavoritos(int clienteId) {
+    final _$actionInfo = _$_FavoritosRestControllerBaseActionController
+        .startAction(name: '_FavoritosRestControllerBase.getRestFavoritos');
+    try {
+      return super.getRestFavoritos(clienteId);
+    } finally {
+      _$_FavoritosRestControllerBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

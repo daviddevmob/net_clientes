@@ -8,19 +8,19 @@ class RestRepository implements IRestRepository{
   RestRepository(this.api);
 
   @override
-  Future<RestListModel> getRestList(
+  Stream<RestListModel> getRestList(
     bool domicilio, 
     bool lojaFisica, 
     int categoria, 
     String text, 
     int bairro,
-    ) async {
+    ) {
       String params;
     if (text != '' || text != null) {
       params = text;
     }
     var query = '''
-    query MyQuery {
+    subscription MyQuery {
       rest_geral(
         where: {
           status: {_eq: true}, 
@@ -52,12 +52,16 @@ class RestRepository implements IRestRepository{
             taxa_entrega
           }
         }
+        rest_avaliacaos {
+          nota
+        }
       }
     }
     ''';
 
-    var data = await api.query(query);
-    return RestListModel.fromJson(data['data']);
+    return api.subscription(query).map((event){
+      return RestListModel.fromJson(event['data']);
+    });
   }
 
 }

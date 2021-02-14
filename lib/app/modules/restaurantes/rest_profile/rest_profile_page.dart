@@ -45,12 +45,12 @@ class _RestProfilePageState
         double.parse(widget.rest.endereco.latlgn.split(',')[0]),
         double.parse(widget.rest.endereco.latlgn.split(',')[1]),
         double.parse(
-            controller.rest.usuario.localizacao.mapaLink.split(',')[0]),
+            controller.rest.value.usuario.localizacao.mapaLink.split(',')[0]),
         double.parse(
-            controller.rest.usuario.localizacao.mapaLink.split(',')[1]),
+            controller.rest.value.usuario.localizacao.mapaLink.split(',')[1]),
         );
         controller.taxaEntrega = controller.distanciaEntrega *
-          controller.rest.usuario.taxaEntrega.taxaEntrega;
+          controller.rest.value.usuario.taxaEntrega.taxaEntrega;
       }
     });
     super.initState();
@@ -63,10 +63,16 @@ class _RestProfilePageState
       appBar: PreferredSize(
         preferredSize: Size(size.width, 50),
         child: Observer(builder: (_) {
-          if (controller.rest != null) {
-            var loja = controller.rest;
-            
-            return AppBarWidget(
+          if(controller.rest.data == null){
+            return SizedBox();
+          }
+
+          // ignore: unrelated_type_equality_checks
+          if(controller.rest.isEmpty == true){
+            return SizedBox();
+          }
+          
+          return AppBarWidget(
               title: widget.rest.restGeral.restNome ,
               viewLeading: true,
               actions: [
@@ -83,7 +89,7 @@ class _RestProfilePageState
                           ),
                           onPressed: () {
                             var metUser =
-                                controller.rest.usuario.metodoPagamento;
+                                controller.rest.value.usuario.metodoPagamento;
                             List<MetodosPagamentoAceitos> metodos =
                                 new List<MetodosPagamentoAceitos>();
                             if (metUser.visa == true) {
@@ -128,16 +134,16 @@ class _RestProfilePageState
                                   11, 'Tikect Restaurante'));
                             }
                             int tipoEntrega;
-                            if (controller.rest.entregaDomicilio == true &&
-                                controller.rest.retiradaLoja == true) {
+                            if (controller.rest.value.entregaDomicilio == true &&
+                                controller.rest.value.retiradaLoja == true) {
                               tipoEntrega = 1;
-                            } else if (controller.rest.entregaDomicilio ==
+                            } else if (controller.rest.value.entregaDomicilio ==
                                     true &&
-                                controller.rest.retiradaLoja == false) {
+                                controller.rest.value.retiradaLoja == false) {
                               tipoEntrega = 2;
-                            } else if (controller.rest.entregaDomicilio ==
+                            } else if (controller.rest.value.entregaDomicilio ==
                                     false &&
-                                controller.rest.retiradaLoja == true) {
+                                controller.rest.value.retiradaLoja == true) {
                               tipoEntrega = 3;
                             } else {
                               tipoEntrega = 4;
@@ -166,12 +172,21 @@ class _RestProfilePageState
             );
           }
 
-          return SizedBox();
-        }),
+        ),
       ),
       body: Observer(builder: (_) {
-        if (controller.rest != null) {
-          RestProfile rest = controller.rest;
+        if(controller.rest.data == null){
+          return Center(
+            child: CupertinoActivityIndicator(),
+          );
+        }
+
+        // ignore: unrelated_type_equality_checks
+        if(controller.rest.isEmpty == true){
+          return SizedBox();
+        }
+
+          RestProfile rest = controller.rest.value;
 
           var dia = DateTime.now().weekday;
           bool aberto;
@@ -198,6 +213,11 @@ class _RestProfilePageState
             aberto = true;
             funcionamento = rest.usuario.horarioAtendimento.domingo;
           }
+
+          var n = rest.restAvaliacaos.map((e) => e.nota);
+          double nota = rest.restAvaliacaos.isEmpty
+          ? 5.0
+          : (n.fold(0, (previousValue, element) => previousValue + element))/rest.restAvaliacaos.length;
 
           return Container(
             width: size.width,
@@ -267,9 +287,8 @@ class _RestProfilePageState
                                     onPressed: () async {
                                       if (await ConnectionVerify
                                           .connectionStatus()) {
-                                        /* controller.deletarFavorito(widget
-                                            .rest.restGeral.restId); */
-                                            print(rest.usuario.horarioAtendimento.terca.substring(4).substring(5).substring(0,2));
+                                      controller.deletarFavorito(widget
+                                            .rest.restGeral.restId); 
                                       } else {
                                         return InternetFlushBar()
                                             .showFlushBarInternet(context);
@@ -306,6 +325,54 @@ class _RestProfilePageState
                         ),
                       ),
                     ],
+                  ),
+                  Positioned(
+                    top: 130,
+                    child: GestureDetector(
+                      onTap: (){
+                        if(rest.restAvaliacaos.isEmpty || rest.restAvaliacaos == null){
+
+                        } else{
+                          Modular.to.pushNamed(
+                            "/rest_profile/nota_rest",
+                            arguments: widget.rest.restGeral.restId,
+                            );
+                        }
+                      },
+                      child: Wrap(
+                        alignment: WrapAlignment.start,
+                        direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              CupertinoIcons.star_fill,
+                              size: 14,
+                              color: Colors.orange,
+                                ),
+                            SizedBox(
+                              width: 3,
+                                ),
+                            TextWidget(
+                              text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.orange,
+                            ),
+                            TextWidget(
+                              text: " - ",
+                              fontSize: 14,
+                            ),
+                            rest.restAvaliacaos.isEmpty || rest.restAvaliacaos == null 
+                            ? TextWidget(
+                              text: 'Sem pedidos avaliados',
+                              fontSize: 14,
+                            )
+                            : TextWidget(
+                              text: '${rest.restAvaliacaos.length} pedidos avaliados, clique para ver.',
+                              fontSize: 14,
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                  /*  Positioned(
                     top: 120,
@@ -365,7 +432,7 @@ class _RestProfilePageState
                   ), */
                   Container(
                     margin: EdgeInsets.only(
-                      top: 135,
+                      top: 160,
                     ),
                     padding: EdgeInsets.only(
                       top: 10,
@@ -375,12 +442,12 @@ class _RestProfilePageState
                       controller: controller.listController,
                         child: Observer(
                           builder:(_) => ListView.builder(
-                            itemCount: controller.rest.restProdCategoria.length,
+                            itemCount: controller.rest.value.restProdCategoria.length,
                             shrinkWrap: true,
                             controller: controller.listController,
                             physics: ScrollPhysics(),
                             itemBuilder: (context, index) {
-                              var categ = controller.rest.restProdCategoria[index];
+                              var categ = controller.rest.value.restProdCategoria[index];
                               return Column(
                                 children: [
                                   Row(
@@ -536,9 +603,6 @@ class _RestProfilePageState
                 ],
               ),
           );
-        }
-
-        return Center(child: CupertinoActivityIndicator());
       }),
     );
   }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:net_cliente/app/modules/home/configuracoes/enderecos/dialogs_endereco.dart';
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/models/endereco_cliente_model.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';

@@ -54,12 +54,13 @@ class _RestaurantesPageState
         ),
       ),
       body: Observer(builder: (_) {
-        if (controller.rests == null) {
+        if (controller.rests.data == null) {
           return Center(
             child: CupertinoActivityIndicator(),
           );
         }
-        if (controller.rests.restGeral.isEmpty == true) {
+        // ignore: unrelated_type_equality_checks
+        if (controller.rests.isEmpty == true) {
           return Container(
             margin: EdgeInsets.only(
               left: 10,
@@ -252,14 +253,15 @@ class _RestaurantesPageState
           );
         }
 
-        if (controller.rests == null) {
+        if (controller.rests.data == null) {
           return Center(
             child: CupertinoActivityIndicator(),
           );
         }
 
-        if (controller.rests.restGeral.isNotEmpty) {
-          RestListModel rests = controller.rests;
+        // ignore: unrelated_type_equality_checks
+        if (controller.rests.data != null) {
+          RestListModel rests = controller.rests.value;
 
           return SingleChildScrollView(
             child: Container(
@@ -470,7 +472,10 @@ class _RestaurantesPageState
 
                       String categoriaLoja =
                           SwitchsUtils().getCategoriaRest(rest.categoria);
-
+                      var n = rest.restAvaliacaos.map((e) => e.nota);
+                      double nota = rest.restAvaliacaos.isEmpty 
+                      ? 5.0
+                      : (n.fold(0, (previousValue, element) => previousValue + element))/rest.restAvaliacaos.length;
                       return ListTile(
                         onTap: () async {
                           if (await ConnectionVerify.connectionStatus()) {
@@ -524,6 +529,31 @@ class _RestaurantesPageState
                             ),
                             Row(
                               children: [
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.star_fill,
+                                      size: 13.5,
+                                      color: Colors.orange,
+                                      ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    TextWidget(
+                                      text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      textColor: Colors.orange,
+                                    ),
+                                  ],
+                                ),
+                                TextWidget(
+                                  text: ' ● ',
+                                  fontSize: 10,
+                                  textColor: Colors.grey,
+                                ),
                                 TextWidget(
                                   text: '$categoriaLoja',
                                   fontSize: 13,
@@ -544,6 +574,7 @@ class _RestaurantesPageState
                                     ),
                                   ),
                                 ),
+
                               ],
                             ),
                           ],

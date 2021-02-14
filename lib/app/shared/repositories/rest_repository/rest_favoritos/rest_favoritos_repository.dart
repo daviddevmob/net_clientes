@@ -21,9 +21,9 @@ class RestsFavotirosRepository implements IRestFavoritos{
   }
 
   @override
-  Future<RestFavoritoModelList> getLojas(int clienteId)  async {
+  Stream<RestFavoritoModelList> getLojas(int clienteId)  {
     var query = '''
-    query MyQuery {
+    subscription MyQuery {
       cliente_favorito_rest(
         where: {
           cliente_id: {_eq: $clienteId}, 
@@ -50,9 +50,10 @@ class RestsFavotirosRepository implements IRestFavoritos{
     }
     ''';
 
-    var data = await api.query(query);
-    var result = await data['data'];
-    return RestFavoritoModelList.fromJson(result);
+    return api.subscription(query).map((event){
+      return RestFavoritoModelList.fromJson(event['data']);
+    });
+
   }
   
     @override

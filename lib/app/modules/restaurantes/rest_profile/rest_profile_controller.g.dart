@@ -27,13 +27,13 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
   final _$restAtom = Atom(name: '_RestProfileControllerBase.rest');
 
   @override
-  RestProfile get rest {
+  ObservableStream<RestProfile> get rest {
     _$restAtom.reportRead();
     return super.rest;
   }
 
   @override
-  set rest(RestProfile value) {
+  set rest(ObservableStream<RestProfile> value) {
     _$restAtom.reportWrite(value, super.rest, () {
       super.rest = value;
     });
@@ -277,21 +277,19 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
     });
   }
 
-  final _$getRestauranteAsyncAction =
-      AsyncAction('_RestProfileControllerBase.getRestaurante');
+  final _$horarioAtom = Atom(name: '_RestProfileControllerBase.horario');
 
   @override
-  Future getRestaurante(int restId) {
-    return _$getRestauranteAsyncAction.run(() => super.getRestaurante(restId));
+  int get horario {
+    _$horarioAtom.reportRead();
+    return super.horario;
   }
 
-  final _$getRestFavoritoAsyncAction =
-      AsyncAction('_RestProfileControllerBase.getRestFavorito');
-
   @override
-  Future getRestFavorito(int restId) {
-    return _$getRestFavoritoAsyncAction
-        .run(() => super.getRestFavorito(restId));
+  set horario(int value) {
+    _$horarioAtom.reportWrite(value, super.horario, () {
+      super.horario = value;
+    });
   }
 
   final _$setCategoriaAsyncAction =
@@ -321,6 +319,28 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
 
   final _$_RestProfileControllerBaseActionController =
       ActionController(name: '_RestProfileControllerBase');
+
+  @override
+  dynamic getRestaurante(int restId) {
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.getRestaurante');
+    try {
+      return super.getRestaurante(restId);
+    } finally {
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getRestFavorito(int restId) {
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.getRestFavorito');
+    try {
+      return super.getRestFavorito(restId);
+    } finally {
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic sendLigacao() {
@@ -397,6 +417,7 @@ pagamentoDinheiro: ${pagamentoDinheiro},
 metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
+horario: ${horario},
 filtroString: ${filtroString},
 abertoRest: ${abertoRest}
     ''';

@@ -15,10 +15,10 @@ abstract class _FavoritosRestControllerBase with Store {
   _FavoritosRestControllerBase(this.iRestFavoritos);
 
   @observable
-  RestFavoritoModelList list;
+  ObservableStream<RestFavoritoModelList> list;
 
   @action
-  getRestFavoritos(int clienteId) async {
-    list = await iRestFavoritos.getLojas(clienteId);
+  getRestFavoritos(int clienteId)  {
+    list =  iRestFavoritos.getLojas(clienteId).asObservable();
   }
 }

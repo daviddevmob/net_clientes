@@ -1,3 +1,4 @@
+import 'package:net_cliente/app/modules/restaurantes/rest_profile/avaliacoes_rest/avaliacoes_rest_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/carrinho_rest/carrinho_rest_module.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/produto_rest_module.dart';
 import 'package:net_cliente/app/shared/repositories/local_storage/carrinho_rest/carrinho_repository.dart';
@@ -29,6 +30,7 @@ class RestProfileModule extends ChildModule {
     ModularRouter(Modular.initialRoute, child: (_, args) => RestProfilePage(rest: args.data,)),
     ModularRouter('/carrinho_rest', module: CarrinhoRestModule()),
     ModularRouter('/view_produto', module: ProdutoRestModule()),
+    ModularRouter('/nota_rest', module: AvaliacoesRestModule()),
     
       ];
 

@@ -9,9 +9,9 @@ class RestProfileRepository implements IRestProfile{
 
   RestProfileRepository(this.api);
   @override
-  Future<RestProfile> getRest(int restId) async {
+  Stream<RestProfile> getRest(int restId) {
     var query = '''
-    query MyQuery {
+    subscription MyQuery {
       rest_geral(where: {rest_id: {_eq: $restId}}) {
         categoria
         rest_nome
@@ -88,12 +88,15 @@ class RestProfileRepository implements IRestProfile{
             rest_produto_id
           }
         }
+        rest_avaliacaos {
+          nota
+        }
       }
     }
     ''';
-    var data = await api.query(query);
-    var result = await data['data']['rest_geral'][0];
-    return RestProfile.fromJson(result);
+    return api.subscription(query).map((event){
+      return RestProfile.fromJson(event['data']['rest_geral'][0]);
+    });
   }
 
   @override
