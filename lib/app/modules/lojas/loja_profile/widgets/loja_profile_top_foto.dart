@@ -11,7 +11,7 @@ class LojaProfileInfosWidget extends StatelessWidget {
   final LojaPerfilPageModel loja;
   final double distancia;
   final String funcionamento;
-  final bool aberto;
+  final bool abertoHorario;
   final LojaProfileController controller;
 
   const LojaProfileInfosWidget({
@@ -19,8 +19,8 @@ class LojaProfileInfosWidget extends StatelessWidget {
     this.loja,
     this.distancia,
     this.funcionamento,
-    this.aberto,
     this.controller,
+    this.abertoHorario,
   }) : super(key: key);
 
   @override
@@ -77,15 +77,15 @@ class LojaProfileInfosWidget extends StatelessWidget {
                     direction: Axis.horizontal,
                     children: [
                       TextWidget(
-                        text: aberto == true ? 'Aberto ' : 'Fechado',
+                        text: abertoHorario == true ? 'Aberto ' : 'Fechado',
                         fontSize: 14,
-                        textColor: aberto == true ? Colors.green : Colors.red,
+                        textColor: abertoHorario == true ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w400,
                       ),
                       TextWidget(
-                        text: aberto == true ? ' - ' + funcionamento : '',
+                        text: abertoHorario == true ? ' - ' + funcionamento : ' - ' + funcionamento,
                         fontSize: 14,
-                        textColor: aberto == true ? Colors.green : Colors.red,
+                        textColor: abertoHorario == true ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w400,
                       ),
                     ],

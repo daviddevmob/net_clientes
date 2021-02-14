@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 
 List<DropdownMenuItem<int>> listServicos = [
-                                      DropdownMenuItem<int>(
+    DropdownMenuItem<int>(
                                         value: 0,
                                         child: TextWidget(
                                           text: 'Todas Categorias',
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w500,
                                           textColor: Colors.white,
                                         ),
                                       ),

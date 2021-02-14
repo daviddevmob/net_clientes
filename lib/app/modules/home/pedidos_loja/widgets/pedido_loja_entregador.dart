@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/models/entregador_loja/page_loja_entregador_model.dart';
 import 'package:net_cliente/app/shared/models/pedidos/pedidos_loja.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
@@ -26,8 +28,8 @@ class PedidoLojaEntregadorTile extends StatelessWidget {
             ? Wrap(
               children: [
                 Container(
-                  width: 80,
-                  height: 80,
+                  width: 60,
+                  height: 60,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.transparent,
@@ -55,15 +57,34 @@ class PedidoLojaEntregadorTile extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                FlatButton(
-                color: Cores.azul,
-                onPressed: (){},
-                child: TextWidget(
-                  text: 'Ver no Mapa',
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  textColor: Colors.white,
-                  )
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 30,
+                  child: FlatButton(
+                  color: Cores.azul,
+                  onPressed: (){
+                    PageLojaEntregadorModel entregador = new PageLojaEntregadorModel(
+                            pedido.localizacao, 
+                            pedido.entregadorId,
+                            pedido.lojaPedidoId,
+                            );
+                          Modular.to.pushNamed(
+                            '/maps_loja_entregador',
+                            arguments: entregador,
+                            );
+                  },
+                  child: TextWidget(
+                    text: 'Ver no Mapa',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    textColor: Colors.white,
+                    )
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),

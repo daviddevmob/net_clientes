@@ -8,7 +8,7 @@ class CarrinhoLojaPageModel {
   final List<MetodosPagamentoAceitos> metodos;
   final int tipoEntrega;
   final LojaProfileModel lojaProfileModule;
-  final bool aberto;
+  final bool abertoLoja;
   CarrinhoLojaPageModel(
     this.controller,
     this.taxaEntrega,
@@ -16,7 +16,7 @@ class CarrinhoLojaPageModel {
     this.metodos,
     this.tipoEntrega,
     this.lojaProfileModule,
-    this.aberto,
+    this.abertoLoja,
   );
 }
 

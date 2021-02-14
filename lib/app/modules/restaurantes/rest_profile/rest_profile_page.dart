@@ -219,7 +219,7 @@ class _RestProfilePageState
                                 child: RestProfileInfosWidget(
                                   rest: rest,
                                   funcionamento: funcionamento,
-                                  aberto: aberto,
+                                  aberto: controller.abertoRest,
                                   distancia: controller.distanciaEntrega,
                                   controller: controller,
                                 ),

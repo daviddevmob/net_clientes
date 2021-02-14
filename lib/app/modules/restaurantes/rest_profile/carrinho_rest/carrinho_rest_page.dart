@@ -259,7 +259,7 @@ class _CarrinhoRestPageState
                        },
                      ),
                      SizedBox(
-                       height: 30,
+                       height: 45,
                      ),
                      Observer(
                         builder:(_) => TipoEntregaRest(
@@ -268,7 +268,7 @@ class _CarrinhoRestPageState
                        ),
                      ),
                      SizedBox(
-                       height: 30,
+                       height: 45,
                      ),
                     Observer(
                       builder:(_) => MetodoPagamentoRestWidget(
@@ -307,7 +307,7 @@ class _CarrinhoRestPageState
                                                       child: TextWidget(
                                                         text: e.nomeMetodo,
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight: FontWeight.w500,
                                                         textColor: Colors.white,
                                                       ),
                                                     );

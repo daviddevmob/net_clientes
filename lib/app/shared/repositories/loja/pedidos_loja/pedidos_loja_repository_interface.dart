@@ -54,6 +54,14 @@ class PedidosLojaRepository implements IPedidosLoja {
             nome
             foto_link
           }
+          loja_avaliacaos {
+            texto
+            nota
+            loja_avaliacao_id
+            loja_comentario_avaliacao {
+              texto
+            }
+          }
         }
       }
     }

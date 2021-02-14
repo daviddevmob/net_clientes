@@ -236,29 +236,6 @@ class PageLojaHomeWidget extends StatelessWidget {
                     ],
                   );
                 }),
-
-                /* //RESTAURANTES
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Lojas',
-                      fontSize: 16,
-                    ),
-                    SizedBox(
-                      width: size.width * 0.025,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        return infoGeralDialog(context, 'Lojas',
-                            'Precisando comprar algo? Encontre as melhores lojas físicas e virtuais que estão em Eusébio.');
-                      },
-                      child: Icon(
-                        CupertinoIcons.info_circle,
-                        size: 16,
-                      ),
-                    ),
-                  ],
-                ), */
                 Container(
                   width: size.width,
                   child: Container(

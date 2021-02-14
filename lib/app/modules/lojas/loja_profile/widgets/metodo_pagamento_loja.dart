@@ -17,7 +17,7 @@ class MetodoPagamentoLojaWidget extends StatelessWidget {
           children: [
             TextWidget(
               text: 'Método de Pagamento',
-              fontSize: 18,
+              fontSize: 16,
               textColor: Colors.black,
               fontWeight: FontWeight.w400,
             ),

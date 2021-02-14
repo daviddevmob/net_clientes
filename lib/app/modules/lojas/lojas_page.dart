@@ -14,11 +14,8 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/distancia.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
-import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
-import 'package:net_cliente/app/shared/utils/lists/list_lojas.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
-import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'lojas_controller.dart';
 
 class LojasPage extends StatefulWidget {
@@ -94,7 +91,7 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                       TextWidget(
                         text: 'Lojas',
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ],
                   ),
@@ -177,7 +174,7 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                             TextWidget(
                               text: loja.lojaNome,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                             ),
                             Row(
                               children: [

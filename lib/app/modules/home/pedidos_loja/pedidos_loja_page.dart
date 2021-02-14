@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/pedidos_loja/dialogs_avaliacao_loja.dart';
+import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/avaliacao_loja_widget.dart';
 import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/pedido_loja_entregador.dart';
 import 'package:net_cliente/app/modules/home/pedidos_loja/widgets/pedido_loja_itens.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
@@ -353,7 +355,41 @@ class _PedidosLojaPageState
                                                 )
                                               ],
                                             )
-                                          : SizedBox()
+                                          : SizedBox(),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Container(
+                                          child: pedido.statusPedido == 5 ?
+                                          pedido.lojaAvaliacaos.isEmpty || pedido.lojaAvaliacaos == null
+                                            ? FlatButton(
+                                                shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8),
+                                              ),
+                                              color: Cores.verdeClaro,
+                                              onPressed: (){
+                                                return DialogsAvaliacaoLojas()
+                                                .salvarAvaliacao(
+                                                  context, 
+                                                  controller, 
+                                                  widget.clienteId,
+                                                  pedido.lojaId, 
+                                                  pedido.lojaPedidoId,
+                                                  );
+                                              }, 
+                                              child: TextWidget(
+                                              text: 'Avalie o atendimento',
+                                              fontSize: 16,
+                                              textColor: Colors.white,
+                                              fontWeight: FontWeight.w300,
+                                              ))
+                                            : AvaliacaoLoja(
+                                              clienteId: widget.clienteId,
+                                              controller: controller,
+                                              pedido: pedido,
+                                            )
+                                          : SizedBox(),
+                                        ),
                                     ],
                                   ),
                                 ),

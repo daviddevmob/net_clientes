@@ -26,15 +26,43 @@ class TipoEntregaLojaWidget extends StatelessWidget {
                   text: 'Tipo de Entrega: ',
                   fontSize: 18,
                   textColor: Colors.black,
-                  fontWeight: FontWeight.w400,
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Observer(
+                
+                         Row(
+                           children: [
+                             Radio(
+                               groupValue: carrinho.controller.entregaDomicilio,
+                               value: true,
+                               onChanged: carrinho.controller.setEntregaDomicilio,
+                               activeColor: Cores.verdeClaro,
+                             ),
+                             TextWidget(
+                               text: 'Entrega em Domicílio (R\$ ${carrinho.taxaEntrega.toStringAsFixed(2)})',
+                               fontSize: 16,
+                             ),
+                           ],
+                         ),
+                         Row(
+                           children: [
+                             Radio(
+                               groupValue: carrinho.controller.entregaDomicilio,
+                               value: false,
+                               onChanged: carrinho.controller.setEntregaDomicilio,
+                               activeColor: Cores.verdeClaro,
+                             ),
+                             TextWidget(
+                               text: 'Retirada em Loja',
+                               fontSize: 16,
+                             ),
+                           ],
+                         ),
+                /* Observer(
                   builder: (_) => DropdownButtonHideUnderline(
                     child: Container(
-                      height: 40,
+                      height: 35,
                       padding: EdgeInsets.only(
                         left: 10,
                       ),
@@ -52,10 +80,10 @@ class TipoEntregaLojaWidget extends StatelessWidget {
                           DropdownMenuItem(
                             value: true,
                             child: TextWidget(
-                              text: 'Entrega em Domicílio',
-                              fontSize: 16,
+                              text: 'Entrega em Domicílio (' + 'R\$' + '${carrinho.taxaEntrega}'.replaceAll('.',',') + ')',
+                              fontSize: 14,
                               textColor: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           DropdownMenuItem(
@@ -73,7 +101,7 @@ class TipoEntregaLojaWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ), */
               ],
             ),
           ],

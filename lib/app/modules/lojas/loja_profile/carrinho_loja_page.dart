@@ -234,7 +234,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                           children: [
                                             Observer(
                                               builder: (_) => IconButton(
-                                                  iconSize: 25,
+                                                  iconSize: 22,
                                                   icon: Icon(
                                                     item.quantidade == 1
                                                         ? CupertinoIcons.delete
@@ -272,7 +272,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                             ),
                                             Observer(
                                               builder: (_) => IconButton(
-                                                iconSize: 25,
+                                                iconSize: 22,
                                                 icon: Icon(
                                                   CupertinoIcons.add_circled,
                                                   color: Colors.green,
@@ -382,14 +382,14 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 TextWidget(
                                   text: 'Total do Pedido: ',
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 Observer(
                                   builder: (_) => TextWidget(
                                     text:
                                         'R\$ ${valorTotal.toStringAsFixed(2)}',
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
@@ -439,7 +439,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                               child: TextWidget(
                                                 text: e.nomeMetodo,
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w500,
                                                 textColor: Colors.white,
                                               ),
                                             );
@@ -525,7 +525,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 side: BorderSide(color: Colors.transparent)),
                                 color: Colors.blue,
                                 disabledColor: Colors.grey,
-                                onPressed: carrinho.aberto == null
+                                onPressed: carrinho.abertoLoja == false 
                                 ? null
                                 : () async {
                                   if (await ConnectionVerify.connectionStatus()) {
@@ -558,12 +558,12 @@ class CarrinhoLojaPage extends StatelessWidget {
                                     }
                                 },
                                 child: TextWidget(
-                                  text: carrinho.aberto == null 
+                                  text: carrinho.abertoLoja == false 
                                   ? 'Loja Fechada'
-                                  : 'Concluir Pedido',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  textColor: Colors.white,
+                                  : 'Fazer Pedido',
+                                    fontSize: 18,
+                                    textColor: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

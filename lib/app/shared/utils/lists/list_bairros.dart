@@ -7,7 +7,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Todos os Bairros',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -16,7 +16,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Amador',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -25,7 +25,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Autódromo',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -34,7 +34,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Cararu',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -43,7 +43,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Centro',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -52,7 +52,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Cidade Nova',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -61,7 +61,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Coaçu',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -70,7 +70,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Coité',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -79,7 +79,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Encantada',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -88,7 +88,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Guaribas',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -97,7 +97,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Jabuti',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -106,7 +106,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Lagoinha',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -115,7 +115,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Mangabeira',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -124,7 +124,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Novo Portugal',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -133,7 +133,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Olho D’água',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -142,7 +142,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Parque Havaí',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -151,7 +151,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Pires Façanha',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -160,7 +160,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Precabura',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -169,7 +169,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Santa Clara',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -178,7 +178,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Santo Antônio',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -187,7 +187,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Tamatanduba',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -196,7 +196,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Timbú',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -205,7 +205,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Urucunema',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),
@@ -214,7 +214,7 @@ List<DropdownMenuItem<int>> listBairros = [
               child: TextWidget(
                 text: 'Vereda Tropical',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 textColor: Colors.white,
                   ),
                 ),

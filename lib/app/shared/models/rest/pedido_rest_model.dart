@@ -44,6 +44,7 @@ class RestPedido {
         this.restGeral,
         this.entregadorId,
         this.entregador,
+        this.restAvaliacao,
     });
 
     String aviso;
@@ -64,6 +65,7 @@ class RestPedido {
     RestGeral restGeral;
     int entregadorId;
     Entregador entregador;
+    RestAvaliacao restAvaliacao;
 
     factory RestPedido.fromJson(Map<String, dynamic> json) => RestPedido(
         aviso: json["aviso"] == null ? null : json["aviso"],
@@ -84,6 +86,7 @@ class RestPedido {
         restGeral: json["rest_geral"] == null ? null : RestGeral.fromJson(json["rest_geral"]),
         entregadorId: json["entregador_id"] == null ? null : json["entregador_id"],
         entregador: json["entregador"] == null ? null : Entregador.fromJson(json["entregador"]),
+        restAvaliacao: json["rest_avaliacao"] == null ? null : RestAvaliacao.fromJson(json["rest_avaliacao"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -105,6 +108,7 @@ class RestPedido {
         "rest_geral": restGeral == null ? null : restGeral.toJson(),
         "entregador_id": entregadorId == null ? null : entregadorId,
         "entregador": entregador == null ? null : entregador.toJson(),
+        "rest_avaliacao": restAvaliacao == null ? null : restAvaliacao.toJson(),
     };
 }
 
@@ -125,6 +129,54 @@ class Entregador {
     Map<String, dynamic> toJson() => {
         "nome": nome == null ? null : nome,
         "foto_link": fotoLink == null ? null : fotoLink,
+    };
+}
+
+class RestAvaliacao {
+    RestAvaliacao({
+        this.nota,
+        this.restComentarioAvaliacao,
+        this.texto,
+        this.restAvaliacaoId,
+    });
+
+    double nota;
+    RestComentarioAvaliacao restComentarioAvaliacao;
+    String texto;
+    int restAvaliacaoId;
+
+    factory RestAvaliacao.fromJson(Map<String, dynamic> json) => RestAvaliacao(
+        nota: json["nota"] == null ? null : json["nota"].toDouble(),
+        restComentarioAvaliacao: json["rest_comentario_avaliacao"] == null ? null : RestComentarioAvaliacao.fromJson(json["rest_comentario_avaliacao"]),
+        texto: json["texto"] == null ? null : json["texto"],
+        restAvaliacaoId: json["rest_avaliacao_id"] == null ? null : json["rest_avaliacao_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "nota": nota == null ? null : nota,
+        "rest_comentario_avaliacao": restComentarioAvaliacao == null ? null : restComentarioAvaliacao.toJson(),
+        "texto": texto == null ? null : texto,
+        "rest_avaliacao_id": restAvaliacaoId == null ? null : restAvaliacaoId,
+    };
+}
+
+class RestComentarioAvaliacao {
+    RestComentarioAvaliacao({
+        this.text,
+        this.restComentarioAvaliacaoId,
+    });
+
+    String text;
+    int restComentarioAvaliacaoId;
+
+    factory RestComentarioAvaliacao.fromJson(Map<String, dynamic> json) => RestComentarioAvaliacao(
+        text: json["text"] == null ? null : json["text"],
+        restComentarioAvaliacaoId: json["rest_comentario_avaliacao_id"] == null ? null : json["rest_comentario_avaliacao_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "text": text == null ? null : text,
+        "rest_comentario_avaliacao_id": restComentarioAvaliacaoId == null ? null : restComentarioAvaliacaoId,
     };
 }
 

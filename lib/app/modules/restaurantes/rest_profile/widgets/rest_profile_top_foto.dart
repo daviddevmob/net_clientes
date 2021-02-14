@@ -83,7 +83,7 @@ class RestProfileInfosWidget extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                       TextWidget(
-                        text: aberto == true ? ' - ' + funcionamento : '',
+                        text: ' - ' + funcionamento,
                         fontSize: 14,
                         textColor: aberto == true ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w400,

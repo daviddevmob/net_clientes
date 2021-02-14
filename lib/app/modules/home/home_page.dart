@@ -141,8 +141,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         builder:(_) => BottomNavigationBar(
             backgroundColor: Cores.verdeClaro,
             selectedIconTheme: IconThemeData(
-              color: Colors.black,
-              size: 22
+              color: Cores.verdeClaro,
+              size: 26,
             ),
             unselectedIconTheme: IconThemeData(
               color: Colors.black,
@@ -150,9 +150,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ),
             type: BottomNavigationBarType.shifting,
             unselectedLabelStyle:  null,
-            selectedLabelStyle: null,
+            selectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
             showSelectedLabels: true,
-            showUnselectedLabels: false,
+            showUnselectedLabels: true,
             elevation: 8,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -181,7 +183,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               ),
             ],
             currentIndex: controller.index,
-            selectedItemColor: Colors.black,
+            selectedItemColor: Cores.verdeClaro,
+            unselectedItemColor: Colors.black,
             onTap: controller.setIndexNavigator,
           ),
         ),

@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobx/mobx.dart';
+import 'package:net_cliente/app/modules/home/pedidos_rest/dialogs_avaliacao.dart';
+import 'package:net_cliente/app/modules/home/pedidos_rest/widgets/avaliacao_rest_widget.dart';
 import 'package:net_cliente/app/modules/home/pedidos_rest/widgets/pedido_loja_entregador.dart';
 import 'package:net_cliente/app/modules/home/pedidos_rest/widgets/pedido_loja_itens.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
@@ -355,7 +358,41 @@ class _PedidosRestPageState
                                                 )
                                               ],
                                             )
-                                          : SizedBox()
+                                          : SizedBox(),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Container(
+                                          child: pedido.statusPedido == 5 ?
+                                          pedido.restAvaliacao == null
+                                            ? FlatButton(
+                                                shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8),
+                                              ),
+                                              color: Cores.verdeClaro,
+                                              onPressed: (){
+                                                return DialogsAvaliacaoRest()
+                                                .salvarAvaliacao(
+                                                  context, 
+                                                  controller, 
+                                                  widget.clienteId,
+                                                  pedido.restId, 
+                                                  pedido.restPedidoId,
+                                                  );
+                                              }, 
+                                              child: TextWidget(
+                                              text: 'Avalie o atendimento',
+                                              fontSize: 16,
+                                              textColor: Colors.white,
+                                              fontWeight: FontWeight.w300,
+                                              ))
+                                            : AvaliacaoRest(
+                                              clienteId: widget.clienteId,
+                                              controller: controller,
+                                              pedido: pedido,
+                                            )
+                                          : SizedBox(),
+                                        ),
                                     ],
                                   ),
                                 ),

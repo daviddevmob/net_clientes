@@ -4,32 +4,31 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
-import 'package:net_cliente/app/shared/models/entregador/entregador_localizacao.dart';
-import 'package:net_cliente/app/shared/models/entregador/page_entregador_model.dart';
+import 'package:net_cliente/app/shared/models/entregador_loja/entregador_loja_localizacao.dart';
+import 'package:net_cliente/app/shared/models/entregador_loja/page_loja_entregador_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
-import 'maps_entregador_controller.dart';
+import 'maps_loja_entregador_controller.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-
-class MapsEntregadorPage extends StatefulWidget {
-  final PageEntregadorModel entregador;
-  const MapsEntregadorPage({Key key, @required this.entregador})
+class MapsLojaEntregadorPage extends StatefulWidget {
+  final PageLojaEntregadorModel entregadorModel;
+  const MapsLojaEntregadorPage({Key key, @required this.entregadorModel})
       : super(key: key);
 
   @override
-  _MapsEntregadorPageState createState() => _MapsEntregadorPageState();
+  _MapsLojaEntregadorPageState createState() => _MapsLojaEntregadorPageState();
 }
 
-class _MapsEntregadorPageState
-    extends ModularState<MapsEntregadorPage, MapsEntregadorController> {
+class _MapsLojaEntregadorPageState
+    extends ModularState<MapsLojaEntregadorPage, MapsLojaEntregadorController> {
   //use 'controller' variable to access controller
 
   ReactionDisposer disposer;
 
   void initState() {
     disposer = autorun((_) async {
-       await controller.getLocalizacao(widget.entregador.entregadorId, widget.entregador.pedidoId);
+       await controller.getEntregador(widget.entregadorModel.entregadorId, widget.entregadorModel.pedidoId);
        await controller.setSourceAndDestinationIcons();
        await rootBundle.loadString('assets/maps_style/style.txt').then((string) {
        controller.mapStyle = string;
@@ -69,7 +68,7 @@ class _MapsEntregadorPageState
             );
           }
 
-          EntregadorLocalizacaoModel entregador = controller.entregador.value;
+          EntregadorLojaLocalizacaoModel entregador = controller.entregador.value;
 
           if(entregador.entregadorLocalizacao.ativo == false){
             return Row(
@@ -95,7 +94,7 @@ class _MapsEntregadorPageState
                 ),
               ],
             );
-          } else if(entregador.restPedidos[0].statusPedido == 5){
+          } else if(entregador.lojaPedidos[0].statusPedido == 5){
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -126,12 +125,12 @@ class _MapsEntregadorPageState
               ],
             );
           } else{
-            if (widget.entregador.localizacao == null ||
-            widget.entregador.localizacao == '') {
+            if (widget.entregadorModel.localizacao == null ||
+            widget.entregadorModel.localizacao == '') {
            print('vazio');
           } else {
 
-          var values = widget.entregador.localizacao.split(',');
+          var values = widget.entregadorModel.localizacao.split(',');
           controller.center = LatLng(double.parse(values[0]), double.parse(values[1]));
         
         Observer(builder: (_){

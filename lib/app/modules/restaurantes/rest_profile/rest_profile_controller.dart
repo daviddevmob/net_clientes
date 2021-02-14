@@ -92,11 +92,13 @@ abstract class _RestProfileControllerBase with Store {
       return 1;
   }
 
+  @observable
+  int horario = DateTime.now().toLocal().hour;
 
   @computed
   bool get abertoRest {
     var dia = DateTime.now().weekday;
-    var horario = DateTime.now().hour;
+    var horario = DateTime.now().toLocal().hour;
     if (dia == 1 && rest.usuario.diasSemana.segunda == true) {
 
       if( horario < int.parse(rest.usuario.horarioAtendimento.segunda.substring(0,12).substring(0,4).substring(0,2)) || 
@@ -126,7 +128,7 @@ abstract class _RestProfileControllerBase with Store {
 
     } else if (dia == 4 && rest.usuario.diasSemana.quinta == true) {
 
-      if( horario < int.parse(rest.usuario.horarioAtendimento.quinta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,6)) ||
+      if( horario < int.parse(rest.usuario.horarioAtendimento.quinta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) ||
           horario > int.parse(rest.usuario.horarioAtendimento.quinta.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
             return false;
       } else{
@@ -135,7 +137,7 @@ abstract class _RestProfileControllerBase with Store {
 
     } else if (dia == 5 && rest.usuario.diasSemana.sexta == true) {
 
-      if( horario < int.parse(rest.usuario.horarioAtendimento.sexta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,6)) || 
+      if( horario < int.parse(rest.usuario.horarioAtendimento.sexta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) || 
           horario > int.parse(rest.usuario.horarioAtendimento.sexta.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
             return false;
       } else{
@@ -144,7 +146,7 @@ abstract class _RestProfileControllerBase with Store {
 
     } else if (dia == 6 && rest.usuario.diasSemana.sabado == true) {
 
-      if( horario < int.parse(rest.usuario.horarioAtendimento.sabado.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,6)) ||
+      if( horario < int.parse(rest.usuario.horarioAtendimento.sabado.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) ||
           horario > int.parse(rest.usuario.horarioAtendimento.sabado.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
             return false;
       } else{
@@ -153,7 +155,7 @@ abstract class _RestProfileControllerBase with Store {
 
     } else if (dia == 7 && rest.usuario.diasSemana.domingo == true) {
 
-      if( horario < int.parse(rest.usuario.horarioAtendimento.domingo.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,6)) || 
+      if( horario < int.parse(rest.usuario.horarioAtendimento.domingo.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) || 
           horario > int.parse(rest.usuario.horarioAtendimento.domingo.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
             return false;
       } else{

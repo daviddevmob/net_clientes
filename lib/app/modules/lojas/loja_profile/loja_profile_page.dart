@@ -67,23 +67,6 @@ class _LojaProfilePageState
         child: Observer(builder: (_) {
           if (controller.loja != null) {
             var loja = controller.loja;
-            bool aberto;
-            var dia = DateTime.now().weekday;
-            if (dia == 1 && loja.usuario.diasSemana.segunda == true) {
-              aberto = true;
-            } else if (dia == 2 && loja.usuario.diasSemana.terca == true) {
-              aberto = true;
-            } else if (dia == 3 && loja.usuario.diasSemana.quarta == true) {
-              aberto = true;
-            } else if (dia == 4 && loja.usuario.diasSemana.quinta == true) {
-              aberto = true;
-            } else if (dia == 5 && loja.usuario.diasSemana.sexta == true) {
-              aberto = true;
-            } else if (dia == 6 && loja.usuario.diasSemana.sabado == true) {
-              aberto = true;
-            } else if (dia == 7 && loja.usuario.diasSemana.domingo == true) {
-              aberto = true;
-            }
             return AppBarWidget(
               title: widget.lojaProfile.lojaGeral.lojaNome,
               viewLeading: true,
@@ -169,7 +152,7 @@ class _LojaProfilePageState
                               metodos,
                               tipoEntrega,
                               widget.lojaProfile,
-                              aberto,
+                              controller.abertoLoja,
                             );
                             Modular.to.pushNamed('/loja_profile/carrinho_loja',
                                 arguments: carrinho);
@@ -251,9 +234,9 @@ class _LojaProfilePageState
                               builder: (_) => LojaProfileInfosWidget(
                                 loja: loja,
                                 funcionamento: funcionamento,
-                                aberto: aberto,
                                 distancia: controller.distanciaEntrega,
                                 controller: controller,
+                                abertoHorario: controller.abertoLoja,
                               ),
                             ),
                             Positioned(
@@ -360,7 +343,7 @@ class _LojaProfilePageState
                                 text: 'Todas Categorias',
                                 fontSize: 12,
                                 textColor: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                               ),
                               items: loja.lojaProdCategoria.map((e) {
                                 return DropdownMenuItem(
@@ -368,7 +351,7 @@ class _LojaProfilePageState
                                   child: TextWidget(
                                     text: e.nomeCategoria,
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w500,
                                     textColor: Colors.white,
                                   ),
                                 );

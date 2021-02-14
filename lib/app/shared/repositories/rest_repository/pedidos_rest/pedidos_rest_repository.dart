@@ -54,6 +54,15 @@ class PedidosRestRepository implements IPedidosRest{
             nome
             foto_link
           }
+          rest_avaliacao {
+            nota
+            rest_comentario_avaliacao {
+              text
+              rest_comentario_avaliacao_id
+            }
+            texto
+            rest_avaliacao_id
+          }
         }
       }
     }
