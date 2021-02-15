@@ -7,6 +7,17 @@ class ItemCarrinhoRestModel {
   final double total;
   final String foto;
   final String nome;
+  final String obs;
 
-  ItemCarrinhoRestModel(this.produtoId, this.precoUnidade, this.quantidade, this.complementos, this.opcoes, this.total, this.foto, this.nome);
+  ItemCarrinhoRestModel(
+    this.produtoId, 
+    this.precoUnidade, 
+    this.quantidade, 
+    this.complementos, 
+    this.opcoes, 
+    this.total, 
+    this.foto, 
+    this.nome,
+    this.obs,
+    );
 }

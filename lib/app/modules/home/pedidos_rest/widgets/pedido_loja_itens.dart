@@ -89,10 +89,11 @@ class ItensPedidoRestWidget extends StatelessWidget {
                           Container(
                             width: size.width * 0.5,
                             child: TextWidget(
-                              text:'${item.opcoesProduto}'
-                              .replaceAll('(', ' ')
-                              .replaceAll(')', ','),
-                              fontSize: 14,
+                              text:' ${item.opcoesProduto}'
+                              .replaceAll(',', '\n')
+                              .replaceAll('(', '')
+                              .replaceAll(')', ''),
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -103,7 +104,20 @@ class ItensPedidoRestWidget extends StatelessWidget {
                             width: size.width * 0.5,
                             child: TextWidget(
                               text:" ${item.complementos}",
-                              fontSize: 14,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                     item.obs == null || item.obs == ""
+                     ? SizedBox()
+                     : Row(
+                        children: [
+                          Container(
+                            width: size.width * 0.5,
+                            child: TextWidget(
+                              text: " ${item.obs}",
+                              fontSize: 12,
                             ),
                           ),
                         ],

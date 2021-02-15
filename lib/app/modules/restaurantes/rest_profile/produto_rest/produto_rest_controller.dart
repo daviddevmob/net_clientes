@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/modules/restaurantes/rest_profile/produto_rest/model/opcao_escolhida.dart';
@@ -21,6 +22,10 @@ abstract class _ProdutoRestControllerBase with Store {
 
   @observable
   RestProdutoProfile produto;
+
+
+  @observable
+  TextEditingController obsController = TextEditingController();
 
   @observable
   bool salvando = false;
@@ -199,6 +204,7 @@ abstract class _ProdutoRestControllerBase with Store {
       totalItem,
       produto.restProdutos[0].foto,
       produto.restProdutos[0].nome,
+      obsController.text == null ? "" : obsController.text,
     );
     await iLocal.addItemCarrinho(item);
     salvando = false;

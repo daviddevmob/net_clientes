@@ -183,6 +183,7 @@ class ServicoGeral {
         this.servicoLocal,
         this.servicoNome,
         this.servicoLists,
+        this.servicoAvaliacaos,
     });
 
     String servicoDescricao;
@@ -194,6 +195,7 @@ class ServicoGeral {
     bool servicoLocal;
     String servicoNome;
     List<ServicoList> servicoLists;
+    List<ServicoAvaliacao> servicoAvaliacaos;
 
     factory ServicoGeral.fromJson(Map<String, dynamic> json) => ServicoGeral(
         servicoDescricao: json["servico_descricao"] == null ? null : json["servico_descricao"],
@@ -205,6 +207,7 @@ class ServicoGeral {
         servicoLocal: json["servico_local"] == null ? null : json["servico_local"],
         servicoNome: json["servico_nome"] == null ? null : json["servico_nome"],
         servicoLists: json["servico_lists"] == null ? null : List<ServicoList>.from(json["servico_lists"].map((x) => ServicoList.fromJson(x))),
+        servicoAvaliacaos: json["servico_avaliacaos"] == null ? null : List<ServicoAvaliacao>.from(json["servico_avaliacaos"].map((x) => ServicoAvaliacao.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -217,6 +220,71 @@ class ServicoGeral {
         "servico_local": servicoLocal == null ? null : servicoLocal,
         "servico_nome": servicoNome == null ? null : servicoNome,
         "servico_lists": servicoLists == null ? null : List<dynamic>.from(servicoLists.map((x) => x.toJson())),
+        "servico_avaliacaos": servicoAvaliacaos == null ? null : List<dynamic>.from(servicoAvaliacaos.map((x) => x.toJson())),
+    };
+}
+
+class ServicoAvaliacao {
+    ServicoAvaliacao({
+        this.texto,
+        this.nota,
+        this.criadoEm,
+        this.cliente,
+        this.servicoComentarioAvaliacao,
+    });
+
+    String texto;
+    double nota;
+    DateTime criadoEm;
+    Cliente cliente;
+    ServicoComentarioAvaliacao servicoComentarioAvaliacao;
+
+    factory ServicoAvaliacao.fromJson(Map<String, dynamic> json) => ServicoAvaliacao(
+        texto: json["texto"] == null ? null : json["texto"],
+        nota: json["nota"] == null ? null : json["nota"].toDouble(),
+        criadoEm: json["criado_em"] == null ? null : DateTime.parse(json["criado_em"]),
+        cliente: json["cliente"] == null ? null : Cliente.fromJson(json["cliente"]),
+        servicoComentarioAvaliacao: json["servico_comentario_avaliacao"] == null ? null : ServicoComentarioAvaliacao.fromJson(json["servico_comentario_avaliacao"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "texto": texto == null ? null : texto,
+        "nota": nota == null ? null : nota,
+        "criado_em": criadoEm == null ? null : "${criadoEm.year.toString().padLeft(4, '0')}-${criadoEm.month.toString().padLeft(2, '0')}-${criadoEm.day.toString().padLeft(2, '0')}",
+        "cliente": cliente == null ? null : cliente.toJson(),
+        "servico_comentario_avaliacao": servicoComentarioAvaliacao == null ? null : servicoComentarioAvaliacao.toJson(),
+    };
+}
+
+class Cliente {
+    Cliente({
+        this.nome,
+    });
+
+    String nome;
+
+    factory Cliente.fromJson(Map<String, dynamic> json) => Cliente(
+        nome: json["nome"] == null ? null : json["nome"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "nome": nome == null ? null : nome,
+    };
+}
+
+class ServicoComentarioAvaliacao {
+    ServicoComentarioAvaliacao({
+        this.texto,
+    });
+
+    String texto;
+
+    factory ServicoComentarioAvaliacao.fromJson(Map<String, dynamic> json) => ServicoComentarioAvaliacao(
+        texto: json["texto"] == null ? null : json["texto"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "texto": texto == null ? null : texto,
     };
 }
 

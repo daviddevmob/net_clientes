@@ -40,7 +40,7 @@ class _RestProfilePageState
       await controller.getRestFavorito(widget.rest.restGeral.restId);
       if(widget.rest.restGeral.entregaDomicilio != false ||
       widget.rest.restGeral.usuario.localizacao.mapaLink != ''){
-        Future.delayed(Duration(microseconds: 10)).then((value){
+        Future.delayed(Duration(microseconds: 25)).then((value){
           
         controller.distanciaEntrega = DistanciaCalculo().getDistacia(
         double.parse(widget.rest.endereco.latlgn.split(',')[0]),

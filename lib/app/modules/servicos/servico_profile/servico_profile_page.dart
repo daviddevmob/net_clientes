@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobx/mobx.dart';
 import 'package:net_cliente/app/modules/ongs/ong_profile/dialogs.dart';
+import 'package:net_cliente/app/modules/servicos/servico_profile/dialogs_avaliacao_servico.dart';
 import 'package:net_cliente/app/modules/servicos/servico_profile/servicos_list.dart';
 import 'package:net_cliente/app/shared/models/localizacao_model.dart';
 import 'package:net_cliente/app/shared/models/servicos/base_service_profile.dart';
@@ -37,6 +39,10 @@ class _ServicoProfilePageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getServicoUser(widget.baseServiceProfile.userId);
+      await controller.getAvalicaoProfile(
+        widget.baseServiceProfile.clienteId,
+        widget.baseServiceProfile.servicoId,
+      );
       await controller.getServicoFavorito(
         widget.baseServiceProfile.servicoId, 
         widget.baseServiceProfile.clienteId,
@@ -54,13 +60,12 @@ class _ServicoProfilePageState
       appBar: PreferredSize(
           preferredSize: Size(size.width, 50),
           child: AppBarWidget(
-            title: widget.baseServiceProfile.title,
-            viewLeading: true,
-            actions: [
-              
-            ],
-          ),
-          ),
+                title: widget.baseServiceProfile.title,
+                viewLeading: true,
+                actions: [
+                ],
+        )
+      ),
       body: Observer(
         builder: (_) {
           if (controller.servicoUser == null) {
@@ -87,6 +92,12 @@ class _ServicoProfilePageState
           HorarioAtendimento horarios = user.usuario[0].horarioAtendimento;
           Localizacao localizacao = user.usuario[0].localizacao;
           SocialLinks links = user.usuario[0].socialLinks;
+
+          var n = user.usuario[0].servicoGeral.servicoAvaliacaos.map((e) => e.nota);
+          double nota = user.usuario[0].servicoGeral.servicoAvaliacaos.isEmpty
+          ? 5.0
+          : (n.fold(0, (previousValue, element) => previousValue + element))/user.usuario[0].servicoGeral.servicoAvaliacaos.length;
+
 
           return SingleChildScrollView(
             child: Column(
@@ -234,44 +245,214 @@ class _ServicoProfilePageState
                 Column(
                   children: [
                 Container(
-                  width: size.width * 0.8,
-                  child: Align(
-                    child: TextWidget(
-                        text: infosGerais.servicoNome,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  margin: EdgeInsets.only(
+                    left: 34,
+                     right: 20,
                   ),
-                ),
+                      child : TextWidget(
+                            text: infosGerais.servicoNome,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
                 Divider(color: Colors.transparent),
                 Container(
-                  width: size.width * 0.8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextWidget(
+                  width: size.width,
+                  margin: EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: TextWidget(
                           text: infosGerais.servicoDescricao,
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          textColor: Colors.grey,
+                          textColor: Colors.grey[500],
                         ),
                       ),
-                    ],
+                SizedBox(
+                  height: 35,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Modular.to.pushNamed(
+                      '/servicos/servico_profile/ver_avaliacoes',
+                      arguments: user.usuario[0].servicoGeral.servicoAvaliacaos,
+                      );
+                  },
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    direction: Axis.horizontal,
+                    children: [
+                      Icon(
+                        CupertinoIcons.star_fill,
+                        size: 15,
+                        color: Colors.orange,
+                              ),
+                      SizedBox(
+                        width: 3,
+                              ),
+                      TextWidget(
+                        text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.orange,
+                        ),
+                      SizedBox(
+                        width: 3,
+                              ),
+                      TextWidget(
+                        text: ' ● ',
+                        fontSize: 14,
+                        textColor: Colors.grey,
+                                  ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Container(
+                        child: user.usuario[0].servicoGeral.servicoAvaliacaos.isEmpty
+                        ? TextWidget(
+                          text: 'Serviço sem avaliações',
+                          fontSize: 15,
+                        )
+                        : TextWidget(
+                          text: '${user.usuario[0].servicoGeral.servicoAvaliacaos.length} avaliações, clique para ver.',
+                          fontSize: 15,                      ),
+                      ),
+
+
+                      ],
+                    ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Observer(
+                    builder: (_){
+                      if(controller.avaliacaoProfile.data == null){
+                        return Center(
+                          child: CupertinoActivityIndicator(),
+                        );
+                      }
+                      if(controller.avaliacaoProfile.value == null){
+                        return FlatButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          color: Cores.verdeClaro,
+                          onPressed: (){
+                            return DialogsAvaliacaoServico().salvarAvaliacao(
+                                context, 
+                                controller, 
+                                widget.baseServiceProfile.clienteId,
+                                widget.baseServiceProfile.servicoId,
+                                );
+                          },
+                          child: Column(
+                            children: [
+                              TextWidget(
+                                text: 'Conhece o serviço? Clique para avaliar!',
+                                fontSize: 14,
+                                textColor: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      
+
+                      return Column(
+                        children: [
+                          TextWidget(
+                            text: 'Sua avaliação',
+                            fontSize: 15,
+                          ),
+                          RatingBar.builder(
+                            initialRating: controller.avaliacaoProfile.value.nota,
+                            minRating: 0.5,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 25,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                            itemBuilder: (context, _) => Icon(
+                              CupertinoIcons.star_fill,
+                              color: Colors.amber,
+                              size: 14,
+                                ),
+                            onRatingUpdate: null,
+                            ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            child: TextWidget(
+                              text: 
+                              controller.avaliacaoProfile.value.texto == null 
+                              || controller.avaliacaoProfile.value.texto == ""
+                              ? ""
+                              : controller.avaliacaoProfile.value.texto,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            child: controller.avaliacaoProfile.value.servicoComentarioAvaliacao == null
+                            || controller.avaliacaoProfile.value.servicoComentarioAvaliacao.texto == ""
+                            ? TextWidget(
+                              text: 'Prestador ainda não respondeu',
+                              fontSize: 14,
+                              textColor: Colors.grey[500],
+                            )
+                            : TextWidget(
+                              text:"Prestador: " + controller.avaliacaoProfile.value.servicoComentarioAvaliacao.texto,
+                              fontSize: 14,
+                              textColor: Colors.grey[500],
+                            ),
+                          ),
+                          FlatButton(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            color: Cores.verdeClaro,
+                            onPressed: (){
+                              controller.editAvaliacao = controller.avaliacaoProfile.value.nota;
+                              controller.editarTextAvaliacao.text = controller.avaliacaoProfile.value.texto;
+                              return DialogsAvaliacaoServico().editarAvaliacao(
+                                context, 
+                                controller, 
+                                controller.avaliacaoProfile.value.servicoAvaliacaoId,
+                                );
+                            }, 
+                            child: TextWidget(
+                              text: 'Editar Avaliação',
+                              fontSize: 14,
+                              textColor: Colors.white,
+                              ),
+                            )
+                        ],
+                      );
+                    },
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.02,
+                  height: 45,
                 ),
               Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Meus Serviços:',
-                  fontWeight: FontWeight.w500,
+                margin: EdgeInsets.only(
+                  left: 20,
+                ),
+                  child: Row(
+                    children: [
+                      TextWidget(
+                        text: 'Meus Serviços:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -281,8 +462,11 @@ class _ServicoProfilePageState
                         text: 'Nenhum serviço cadastrado',
                       )
                     : Container(
-                        width: size.width * 0.8,
-                        margin: EdgeInsets.only(top: size.height * 0.02),
+                        width: size.width,
+                        margin: EdgeInsets.only(
+                          top: size.height * 0.02,
+                          left: 20,
+                          ),
                         child: ListView.builder(
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
@@ -295,15 +479,22 @@ class _ServicoProfilePageState
                           },
                         ),
                       ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Galeria de Fotos:',
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: TextWidget(
+                        text: 'Galeria de Fotos:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
                 imagens.isEmpty
                     ? SizedBox(
@@ -330,13 +521,16 @@ class _ServicoProfilePageState
                               onTap: () {
                                 List<String> pathImages =
                                     imagens.map((e) => e.link).toList();
-                                Modular.to.pushNamed(
+                                    Modular.to.pushNamed(
+                                '/ongs/ong_profile/view_capa_perfil',
+                                arguments: imagens[index].link);
+                               /*  Modular.to.pushNamed(
                                   '/ongs/ong_profile/view_imagens_galeria',
                                   arguments: pathImages,
-                                );
+                                ); */
                               },
                               child: Container(
-                                height: size.height * 0.25,
+                                height: 200,
                                 margin: EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),
@@ -357,10 +551,12 @@ class _ServicoProfilePageState
                                 child: Container(
                                   width: size.width * 0.7,
                                   child: TextWidget(
-                                    text: imagens[index].descricao,
-                                    fontSize: 16,
-                                    textColor: Colors.grey,
-                                    fontWeight: FontWeight.w500,
+                                    text: imagens[index].descricao == null || imagens[index].descricao == ""
+                                    ? ""
+                                    : imagens[index].descricao,
+                                    fontSize: 14,
+                                    textColor: Colors.grey[500],
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -371,18 +567,22 @@ class _ServicoProfilePageState
                     );
                   }
                 }),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Como Atendemos:',
-                  fontWeight: FontWeight.w500,
-                ),
                 SizedBox(
-                  height: size.height * 0.025,
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: TextWidget(
+                        text: 'Como Atendemos:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   width: size.width * 0.8,
@@ -391,8 +591,9 @@ class _ServicoProfilePageState
                       local == false && domicilio == false 
                       ? TextWidget(
                         text: 'Não estamos atendendo no momento',
-                        fontWeight: FontWeight.w500,
-                        textColor: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.grey[500],
+                        fontSize: 16,
                       )
                       : SizedBox(),
                       local == true
@@ -404,13 +605,14 @@ class _ServicoProfilePageState
                                   Icon(
                                     CupertinoIcons.map,
                                     color: Colors.green,
+                                    size: 22,
                                   ),
                                   SizedBox(
-                                    width: size.width * 0.05,
+                                    width: 15,
                                   ),
                                   TextWidget(
                                     text: 'Atendimento Local',
-                                    fontSize: 17,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w400,
                                     textColor: Colors.green,
                                   )
@@ -428,13 +630,14 @@ class _ServicoProfilePageState
                                 Icon(
                                   CupertinoIcons.home,
                                   color: Colors.green,
+                                  size: 22,
                                 ),
                                 SizedBox(
-                                  width: size.width * 0.05,
+                                  width: 15,
                                 ),
                                 TextWidget(
                                   text: 'Em Domicílio',
-                                  fontSize: 17,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                   textColor: Colors.green,
                                 )
@@ -444,23 +647,30 @@ class _ServicoProfilePageState
                     ],
                   ),
                 ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Dias de Atendimento:',
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20
+                      ),
+                      child: TextWidget(
+                        text: 'Dias de Atendimento:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: size.height * 0.05,
                 ),
                 Container(
-                  width: size.width * 0.8,
+                  width: size.width * 0.9,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Observer(
                         builder: (_) => Expanded(
@@ -498,7 +708,7 @@ class _ServicoProfilePageState
                   height: size.height * 0.02,
                 ),
                 Container(
-                  width: size.width * 0.8,
+                  width: size.width * 0.9,
                   child: Row(
                     children: [
                       Observer(
@@ -537,7 +747,7 @@ class _ServicoProfilePageState
                   height: size.height * 0.02,
                 ),
                 Container(
-                  width: size.width * 0.8,
+                  width: size.width * 0.9,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -578,7 +788,7 @@ class _ServicoProfilePageState
                 ),
                 Observer(
                     builder: (_) => Container(
-                          width: size.width * 0.4,
+                          width: size.width * 0.44,
                           child: DiasSemanaWidget(
                             dia: 'Domingo',
                             horarioDia: horarios.domingo == null ||
@@ -588,46 +798,67 @@ class _ServicoProfilePageState
                             atividade: dias.domingo,
                           ),
                         )),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Localização:',
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: TextWidget(
+                        text: 'Localização:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: size.height * 0.05,
                 ),
                 localizacao.endereco == '' || localizacao.endereco == null
-                    ? TextWidget(
-                        text: 'Endereço não disponibilizado',
-                        fontSize: 18,
-                      )
+                    ? Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: 20,
+                          ),
+                          child: TextWidget(
+                              text: 'Endereço não disponibilizado',
+                              fontSize: 16,
+                            ),
+                        ),
+                      ],
+                    )
                     : Column(
                         children: [
                           Container(
-                            width: size.width * 0.8,
+                            margin: EdgeInsets.only(
+                              left: 20,
+                            ),
                             child: Row(
                               children: [
                                 TextWidget(
                                   text: 'Endereço: ',
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w300,
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            width: size.width * 0.8,
+                            margin: EdgeInsets.only(
+                              left: 20,
+                              right: 5
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: TextWidget(
                                     text: localizacao.endereco,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                   ),
                                 ),
@@ -638,38 +869,55 @@ class _ServicoProfilePageState
                       ),
                 Divider(
                   color: Colors.transparent,
-                  height: 35,
+                  height: 10,
                 ),
                 localizacao.mapaLink == null || localizacao.mapaLink == ''
                     ? SizedBox()
-                    : FlatButton(
-                        color: Cores.azul,
-                        onPressed: () {
-                          LocalizacaoModel localizacaoModel =
-                              new LocalizacaoModel(
-                            complemento: localizacao.complemento,
-                            endereco: localizacao.endereco,
-                            mapaLink: localizacao.mapaLink,
-                          );
-                          Modular.to.pushNamed(
-                              '/servicos/servico_profile/maps_view',
-                              arguments: localizacaoModel);
-                        },
-                        child: TextWidget(
-                          text: 'Ver no Mapa',
-                          textColor: Colors.white,
-                          fontWeight: FontWeight.w400,
+                    : Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: 20,
+                          ),
+                          child: FlatButton(
+                              color: Cores.azul,
+                              onPressed: () {
+                                LocalizacaoModel localizacaoModel =
+                                    new LocalizacaoModel(
+                                  complemento: localizacao.complemento,
+                                  endereco: localizacao.endereco,
+                                  mapaLink: localizacao.mapaLink,
+                                );
+                                Modular.to.pushNamed(
+                                    '/servicos/servico_profile/maps_view',
+                                    arguments: localizacaoModel);
+                              },
+                              child: TextWidget(
+                                text: 'Ver no Mapa',
+                                textColor: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
                         ),
+                      ],
+                    ),
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
                       ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
-              ),
-                TextWidget(
-                  text: 'Contatos:',
-                  fontWeight: FontWeight.w500,
+                      child: TextWidget(
+                        text: 'Contatos:',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
                 Divider(color: Colors.transparent),
                 links == null

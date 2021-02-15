@@ -35,7 +35,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -75,7 +75,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -113,7 +113,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -161,7 +161,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                         child: Card(
                           elevation: 2,
                           child: Container(
-                            width: size.width * 0.62,
+                            width: size.width * 0.55,
                             height: 88,
                             margin: EdgeInsets.only(
                               right: 0,

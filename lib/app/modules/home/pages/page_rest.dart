@@ -39,7 +39,7 @@ class PageRestHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -79,7 +79,7 @@ class PageRestHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -117,7 +117,7 @@ class PageRestHomeWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: size.width * 0.5,
+                          width: size.width * 0.45,
                           child: FlatButton(
                             color: Cores.azul,
                             onPressed: () async {
@@ -165,7 +165,7 @@ class PageRestHomeWidget extends StatelessWidget {
                         child: Card(
                           elevation: 2,
                           child: Container(
-                            width: size.width * 0.62,
+                            width: size.width * 0.55,
                             height: 88,
                             margin: EdgeInsets.only(
                               right: 0,
@@ -279,7 +279,14 @@ class PageRestHomeWidget extends StatelessWidget {
                         CardsWidget(
                           title: 'Fazer Pedido',
                           path: 'assets/images/home/rest/procurar.svg',
-                          function: () {
+                          function: () async {
+                            if (await ConnectionVerify.connectionStatus()) {
+                              if (controller.cliente.value.enderecoId == null) {
+                                return selecionarEndereco(
+                                  context,
+                                  controller,
+                                );
+                              } else {
                             RestSearch rests = new RestSearch(
                               controller.cliente.value,
                               controller.enderecoCliente.value,
@@ -288,6 +295,8 @@ class PageRestHomeWidget extends StatelessWidget {
                               '/rests/',
                               arguments: rests,
                               );
+                            }
+                          }
                           },
                         ),
                           SizedBox(

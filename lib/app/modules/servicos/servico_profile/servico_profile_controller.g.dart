@@ -25,6 +25,86 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
     });
   }
 
+  final _$avaliacaoProfileAtom =
+      Atom(name: '_ServicoProfileControllerBase.avaliacaoProfile');
+
+  @override
+  ObservableStream<ServicoAvaliacaoProfile> get avaliacaoProfile {
+    _$avaliacaoProfileAtom.reportRead();
+    return super.avaliacaoProfile;
+  }
+
+  @override
+  set avaliacaoProfile(ObservableStream<ServicoAvaliacaoProfile> value) {
+    _$avaliacaoProfileAtom.reportWrite(value, super.avaliacaoProfile, () {
+      super.avaliacaoProfile = value;
+    });
+  }
+
+  final _$editAvaliacaoAtom =
+      Atom(name: '_ServicoProfileControllerBase.editAvaliacao');
+
+  @override
+  double get editAvaliacao {
+    _$editAvaliacaoAtom.reportRead();
+    return super.editAvaliacao;
+  }
+
+  @override
+  set editAvaliacao(double value) {
+    _$editAvaliacaoAtom.reportWrite(value, super.editAvaliacao, () {
+      super.editAvaliacao = value;
+    });
+  }
+
+  final _$novaAvaliacaoAtom =
+      Atom(name: '_ServicoProfileControllerBase.novaAvaliacao');
+
+  @override
+  double get novaAvaliacao {
+    _$novaAvaliacaoAtom.reportRead();
+    return super.novaAvaliacao;
+  }
+
+  @override
+  set novaAvaliacao(double value) {
+    _$novaAvaliacaoAtom.reportWrite(value, super.novaAvaliacao, () {
+      super.novaAvaliacao = value;
+    });
+  }
+
+  final _$editarTextAvaliacaoAtom =
+      Atom(name: '_ServicoProfileControllerBase.editarTextAvaliacao');
+
+  @override
+  TextEditingController get editarTextAvaliacao {
+    _$editarTextAvaliacaoAtom.reportRead();
+    return super.editarTextAvaliacao;
+  }
+
+  @override
+  set editarTextAvaliacao(TextEditingController value) {
+    _$editarTextAvaliacaoAtom.reportWrite(value, super.editarTextAvaliacao, () {
+      super.editarTextAvaliacao = value;
+    });
+  }
+
+  final _$novaTextAvaliacaoAtom =
+      Atom(name: '_ServicoProfileControllerBase.novaTextAvaliacao');
+
+  @override
+  TextEditingController get novaTextAvaliacao {
+    _$novaTextAvaliacaoAtom.reportRead();
+    return super.novaTextAvaliacao;
+  }
+
+  @override
+  set novaTextAvaliacao(TextEditingController value) {
+    _$novaTextAvaliacaoAtom.reportWrite(value, super.novaTextAvaliacao, () {
+      super.novaTextAvaliacao = value;
+    });
+  }
+
   final _$getServicoAtom =
       Atom(name: '_ServicoProfileControllerBase.getServico');
 
@@ -39,6 +119,24 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
     _$getServicoAtom.reportWrite(value, super.getServico, () {
       super.getServico = value;
     });
+  }
+
+  final _$setEditAvaliacaoAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.setEditAvaliacao');
+
+  @override
+  Future setEditAvaliacao(int avaliacaoId) {
+    return _$setEditAvaliacaoAsyncAction
+        .run(() => super.setEditAvaliacao(avaliacaoId));
+  }
+
+  final _$addAvaliacaoAsyncAction =
+      AsyncAction('_ServicoProfileControllerBase.addAvaliacao');
+
+  @override
+  Future addAvaliacao(int clienteId, int servicoId) {
+    return _$addAvaliacaoAsyncAction
+        .run(() => super.addAvaliacao(clienteId, servicoId));
   }
 
   final _$setFavoritoAsyncAction =
@@ -103,6 +201,39 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
       ActionController(name: '_ServicoProfileControllerBase');
 
   @override
+  dynamic setEditValue(double newValue) {
+    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
+        .startAction(name: '_ServicoProfileControllerBase.setEditValue');
+    try {
+      return super.setEditValue(newValue);
+    } finally {
+      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setNotaNova(double newValue) {
+    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
+        .startAction(name: '_ServicoProfileControllerBase.setNotaNova');
+    try {
+      return super.setNotaNova(newValue);
+    } finally {
+      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getAvalicaoProfile(int clienteId, int servicoId) {
+    final _$actionInfo = _$_ServicoProfileControllerBaseActionController
+        .startAction(name: '_ServicoProfileControllerBase.getAvalicaoProfile');
+    try {
+      return super.getAvalicaoProfile(clienteId, servicoId);
+    } finally {
+      _$_ServicoProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic getServicoFavorito(int lojaId, int clienteId) {
     final _$actionInfo = _$_ServicoProfileControllerBaseActionController
         .startAction(name: '_ServicoProfileControllerBase.getServicoFavorito');
@@ -117,6 +248,11 @@ mixin _$ServicoProfileController on _ServicoProfileControllerBase, Store {
   String toString() {
     return '''
 servicoUser: ${servicoUser},
+avaliacaoProfile: ${avaliacaoProfile},
+editAvaliacao: ${editAvaliacao},
+novaAvaliacao: ${novaAvaliacao},
+editarTextAvaliacao: ${editarTextAvaliacao},
+novaTextAvaliacao: ${novaTextAvaliacao},
 getServico: ${getServico}
     ''';
   }

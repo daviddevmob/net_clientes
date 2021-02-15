@@ -67,6 +67,8 @@ class _ServicosPageState
 
           ServicosSearchModel servicos = controller.servicosSearchModel;
 
+           
+
           return SingleChildScrollView(
             child: Align(
               child: Container(
@@ -132,6 +134,13 @@ class _ServicosPageState
                                   categoria = 'Outros';
                                   break;
                               }
+
+                              var n = servico.servicoAvaliacaos.map((e) => e.nota);
+                                double nota = servico.servicoAvaliacaos.isEmpty
+                                ? 5.0
+                                : (n.fold(0, (previousValue, element) => previousValue + element))/servico.servicoAvaliacaos.length;
+
+
                               return ListTile(
                         onTap: () async {
                           if (await ConnectionVerify.connectionStatus()) {
@@ -179,12 +188,41 @@ class _ServicosPageState
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
-                        subtitle: TextWidget(
-                          text: categoria,
-                          fontSize: 13,
-                          textColor: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                                 )
+                        subtitle:Wrap(
+                          children: [
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.star_fill,
+                                      size: 13.5,
+                                      color: Colors.orange,
+                                      ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    TextWidget(
+                                      text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      textColor: Colors.orange,
+                                    ),
+                                  ],
+                                ),
+                                TextWidget(
+                                  text: ' ● ',
+                                  fontSize: 10,
+                                  textColor: Colors.grey,
+                                ),
+                            TextWidget(
+                              text: categoria,
+                              fontSize: 13,
+                              textColor: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                                     ),
+                          ],
+                        )
                               );
                             },
                           ),

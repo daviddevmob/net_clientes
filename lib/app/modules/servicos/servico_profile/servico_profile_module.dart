@@ -1,4 +1,5 @@
 import 'package:net_cliente/app/modules/maps_view/maps_module.dart';
+import 'package:net_cliente/app/modules/servicos/servico_profile/servico_avaliacoes.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository.dart';
@@ -29,6 +30,7 @@ class ServicoProfileModule extends ChildModule {
         ModularRouter('/view_capa_perfil', child: (_,args) => DetalhesImagem(pathImage: args.data,)),
         ModularRouter('/view_imagens_galeria', child: (_,args) => ViewImagensGaleria(pathImage: args.data,)),
         ModularRouter('/maps_view', module: MapsViewModule()),
+        ModularRouter('/ver_avaliacoes', child: (_,args) => ServicoAvaliacoesWidget(avaliacaoes: args.data,))
       ];
 
   static Inject get to => Inject<ServicoProfileModule>.of();

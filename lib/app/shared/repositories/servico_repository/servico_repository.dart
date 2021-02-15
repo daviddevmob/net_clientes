@@ -1,4 +1,5 @@
 import 'package:hasura_connect/hasura_connect.dart';
+import 'package:net_cliente/app/shared/models/servicos/servico_avaliacao_profile.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
 import 'package:net_cliente/app/shared/repositories/servico_repository/servico_repository_interface.dart';
@@ -36,6 +37,9 @@ class ServicosRepository implements IServico {
         servico_foto_perfil
         usuario_id
         servico_id
+        servico_avaliacaos {
+          nota
+        }
         }
       }
 
@@ -55,60 +59,71 @@ class ServicosRepository implements IServico {
   Future<ServicoModel> getServico(int userId) async {
     try {
       var query = '''
-        query MyQuery {
-      usuario(where: {usuario_id: {_eq: $userId}}) {
-        dias_semana {
-          domingo
-          quarta
-          quinta
-          sabado
-          segunda
-          semana_id
-          sexta
-          terca
-        }
-        horario_atendimento {
-          domingo
-          horario_id
-          quarta
-          quinta
-          sabado
-          segunda
-          sexta
-          terca
-        }
-        localizacao {
-          bairro
-          complemento
-          endereco
-          mapa_link
-        }
-        social_links {
-          email
-          instagram
-          telefone
-          whatsapp
-        }
-        servico_geral {
-          servico_descricao
-          servico_domicilio
-          servico_foto_capa
-          servico_foto_perfil
-          categoria
-          servico_fotos {
-            descricao
-            link
+      query MyQuery {
+        usuario(where: {usuario_id: {_eq: $userId}}) {
+          dias_semana {
+            domingo
+            quarta
+            quinta
+            sabado
+            segunda
+            semana_id
+            sexta
+            terca
           }
-          servico_local
-          servico_nome
-          servico_lists {
+          horario_atendimento {
+            domingo
+            horario_id
+            quarta
+            quinta
+            sabado
+            segunda
+            sexta
+            terca
+          }
+          localizacao {
+            bairro
+            complemento
+            endereco
+            mapa_link
+          }
+          social_links {
+            email
+            instagram
+            telefone
+            whatsapp
+          }
+          servico_geral {
+            servico_descricao
+            servico_domicilio
+            servico_foto_capa
+            servico_foto_perfil
+            categoria
+            servico_fotos {
+              descricao
+              link
+            }
+            servico_local
             servico_nome
-            servico_preco
-            servico_tempo
+            servico_lists {
+              servico_nome
+              servico_preco
+              servico_tempo
+            }
+            servico_avaliacaos {
+              texto
+              nota
+              criado_em
+              cliente {
+                nome
+              }
+              servico_comentario_avaliacao {
+                texto
+              }
+            }
           }
         }
       }
-    }
     ''';
       var data = await api.query(query);
       var result = await data['data'];
@@ -119,6 +134,62 @@ class ServicosRepository implements IServico {
       print('CATCH ERRO: ' + e);
       return e;
     }
+  }
+
+  @override
+  Stream<ServicoAvaliacaoProfile> getAvaliacao(int clienteId, int servicoId) {
+    var query = '''
+    subscription MySubscription {
+    servico_avaliacao(where: {cliente_id: {_eq: $clienteId}, servico_id: {_eq: $servicoId}}) {
+      nota
+      texto
+      servico_avaliacao_id
+      servico_comentario_avaliacao {
+        texto
+      }
+    }
+  }
+    ''';
+
+    return api.subscription(query).map((event){
+      return ServicoAvaliacaoProfile.fromJson(event['data']['servico_avaliacao'][0]);
+    });
+  }
+
+  @override
+  Future addAvaliacao(int clienteId, int servicoId, double nota, String text) async {
+      var query = '''
+      mutation MyMutation {
+        insert_servico_avaliacao(
+          objects: {
+            cliente_id: $clienteId, 
+            servico_id: $servicoId, 
+            nota: $nota, 
+            texto: "$text"
+            }) {
+          affected_rows
+        }
+      }
+
+      ''';
+
+      await api.mutation(query);
+    }
+  
+    @override
+    Future editAvaliacao(int avaliacaoId, double nota, String text) async  {
+    var query = '''
+    mutation MyMutation {
+      update_servico_avaliacao(
+        where: {
+          servico_avaliacao_id: {_eq: $avaliacaoId}}, 
+          _set: {texto: "$text", nota: $nota}) {
+        affected_rows
+      }
+    }
+    ''';
+
+    await api.mutation(query);
   }
 
  

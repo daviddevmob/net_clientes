@@ -29,6 +29,7 @@ class PedidosRestRepository implements IPedidosRest{
           rest_item_pedidos {
             preco_unidade
             quantidade
+            obs
             total
             rest_produto {
               foto

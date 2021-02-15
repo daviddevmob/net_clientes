@@ -24,7 +24,7 @@ class CardsWidget extends StatelessWidget {
       onTap: function,
       child: Container(
         child: Card(
-          margin: EdgeInsets.all(4),
+          margin: EdgeInsets.all(8),
           elevation: 0,
           child: SizedBox(
             width: size.width * 0.2,
@@ -36,8 +36,8 @@ class CardsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 140,
-                    width: 140,
+                    height: 130,
+                    width: 130,
                     child: SvgPicture.asset(
                       path,
                       fit: BoxFit.cover,
@@ -47,7 +47,7 @@ class CardsWidget extends StatelessWidget {
                    width: size.width * 0.1,
                   ),
                   Container(
-                    width: size.width * 0.35,
+                    width: size.width * 0.32,
                     child: TextWidget(
                       text: title,
                       fontSize: 16,

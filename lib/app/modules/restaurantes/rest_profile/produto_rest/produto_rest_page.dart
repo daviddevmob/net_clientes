@@ -9,6 +9,7 @@ import 'package:net_cliente/app/shared/models/rest/produto_view/produto_view_mod
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:net_cliente/app/shared/utils/text_field.dart';
 import 'produto_rest_controller.dart';
 
 class ProdutoRestPage extends StatefulWidget {
@@ -500,40 +501,75 @@ class _ProdutoRestPageState
               SizedBox(
                 height: 35,
               ),
+              Observer(
+                builder:(_) => Container(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                  ),
+                  child: controller.existeAdicionais == false && controller.textAdicionaisEscolhidos == "XX"
+                  ? SizedBox()
+                  : Column(
+                    children: [
+                      Row(
+                        children: [
+                          TextWidget(
+                            text: 'Adicionais Selecionados:',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            textColor: Cores.verdeClaro,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          TextWidget(
+                            text: controller.textAdicionaisEscolhidos == 'XX'
+                            ? 'Selecione suas opções'
+                            : ' ${controller.textAdicionaisEscolhidos}'
+                            .replaceAll('(', '').replaceAll(')', '').replaceAll(',', '\n').replaceAll('', ''),
+                            fontSize: 14,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 margin: EdgeInsets.only(
                   left: 10,
                 ),
-                child: controller.existeAdicionais == false
-                ? SizedBox()
-                : Column(
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        TextWidget(
-                          text: 'Adicionais Selecionados:',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          textColor: Cores.verdeClaro,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        TextWidget(
-                          text: controller.textAdicionaisEscolhidos == 'XX'
-                          ? 'Selecione suas opções'
-                          : ' ${controller.textAdicionaisEscolhidos}'
-                          .replaceAll('(', '').replaceAll(')', '').replaceAll(',', '\n').replaceAll('', ''),
-                          fontSize: 14,
-                        ),
-                      ],
+                    TextWidget(
+                      text: 'Observação:',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      textColor: Cores.verdeClaro,
                     ),
                   ],
                 ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 10,
+                ),
+                width: size.width,
+                child: Container(
+                      height: 200,
+                      child: TextFieldWidget(
+                        textEditingController: controller.obsController,
+                        labelText: 'Alguma observação?',
+                        hintText: 'Ex: Tirar a cebola, maionese à parte, ponto da carne etc',
+                        maxLines: 2,
+                      ),
+                    )
               ),
             ],
           ),

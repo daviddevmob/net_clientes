@@ -248,6 +248,7 @@ class RestItemPedido {
     RestItemPedido({
         this.precoUnidade,
         this.quantidade,
+        this.obs,
         this.total,
         this.restProduto,
         this.complementos,
@@ -256,6 +257,7 @@ class RestItemPedido {
 
     double precoUnidade;
     int quantidade;
+    String obs;
     double total;
     RestProduto restProduto;
     String complementos;
@@ -264,6 +266,7 @@ class RestItemPedido {
     factory RestItemPedido.fromJson(Map<String, dynamic> json) => RestItemPedido(
         precoUnidade: json["preco_unidade"] == null ? null : json["preco_unidade"].toDouble(),
         quantidade: json["quantidade"] == null ? null : json["quantidade"],
+        obs: json["obs"] == null ? null : json["obs"],
         total: json["total"] == null ? null : json["total"].toDouble(),
         restProduto: json["rest_produto"] == null ? null : RestProduto.fromJson(json["rest_produto"]),
         complementos: json["complementos"] == null ? null : json["complementos"],
@@ -273,6 +276,7 @@ class RestItemPedido {
     Map<String, dynamic> toJson() => {
         "preco_unidade": precoUnidade == null ? null : precoUnidade,
         "quantidade": quantidade == null ? null : quantidade,
+        "obs": obs == null ? null : obs,
         "total": total == null ? null : total,
         "rest_produto": restProduto == null ? null : restProduto.toJson(),
         "complementos": complementos == null ? null : complementos,

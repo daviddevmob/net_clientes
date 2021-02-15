@@ -20,12 +20,13 @@ class MeusServicosWidget extends StatelessWidget {
             Icon(
               CupertinoIcons.circle_fill,
               color: Colors.blue,
+              size: 16,
               ),
             SizedBox(width: size.width * 0.02,),
             Expanded(
                 child: TextWidget(
                 text: servicoList.servicoNome,
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -41,12 +42,13 @@ class MeusServicosWidget extends StatelessWidget {
                 children: [
                   Icon(
                     CupertinoIcons.time,
+                    size: 16,
                     ),
                   SizedBox(width: size.width * 0.02,),
                   Expanded(
                       child: TextWidget(
                       text: /* 'Tempo: ' +  */servicoList.servicoTempo,
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -60,12 +62,15 @@ class MeusServicosWidget extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(CupertinoIcons.money_dollar),
+                  Icon(
+                    CupertinoIcons.money_dollar,
+                    size: 16,
+                    ),
                   SizedBox(width: size.width * 0.02,),
                   Expanded(
                       child: TextWidget(
                       text: /* 'Valor: ' +  */servicoList.servicoPreco,
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -73,7 +78,7 @@ class MeusServicosWidget extends StatelessWidget {
               ),
         Divider(
           color: Colors.transparent,
-          height: size.height * 0.045,
+          height: 25,
         ),
       ],
     );

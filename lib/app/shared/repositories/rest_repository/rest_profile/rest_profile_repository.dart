@@ -161,7 +161,8 @@ class RestProfileRepository implements IRestProfile{
               produto_rest_id: ${i.produtoId}, 
               quantidade: 1, 
               rest_pedido_id: $pedidoId, 
-              total: ${i.total}
+              total: ${i.total},
+              obs: "${i.obs}"
               }) {
             affected_rows
           }

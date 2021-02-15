@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:net_cliente/app/shared/models/servicos/servico_avaliacao_profile.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_favorito_profile_model.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_model.dart';
 import 'package:net_cliente/app/shared/repositories/send/send_repository_interface.dart';
@@ -22,7 +24,56 @@ abstract class _ServicoProfileControllerBase with Store {
   @observable
   ServicoModel servicoUser;
 
-  
+  @observable
+  ObservableStream<ServicoAvaliacaoProfile> avaliacaoProfile;
+
+  @observable
+  double editAvaliacao;
+
+  @observable
+  double novaAvaliacao = 5.0;
+
+  @observable
+  TextEditingController editarTextAvaliacao = TextEditingController();
+
+
+  @observable
+  TextEditingController novaTextAvaliacao = TextEditingController();
+
+  @action
+  setEditValue(double newValue) => editAvaliacao = newValue;
+
+  @action
+  setNotaNova(double newValue) => novaAvaliacao = newValue;
+
+  @action
+  setEditAvaliacao(int avaliacaoId) async {
+    await iServico.editAvaliacao(
+      avaliacaoId, 
+      editAvaliacao, 
+      editarTextAvaliacao.text == null ? "" : editarTextAvaliacao.text,
+      );
+      editAvaliacao = null;
+      editarTextAvaliacao.clear();
+  }
+
+  @action
+  addAvaliacao(int clienteId, int servicoId) async {
+    await iServico.addAvaliacao(
+      clienteId, 
+      servicoId, 
+      novaAvaliacao, 
+      novaTextAvaliacao.text == null ? "" : novaTextAvaliacao.text,
+      );
+      novaAvaliacao = 5.0;
+      novaTextAvaliacao.clear();
+  }
+
+  @action 
+  getAvalicaoProfile(int clienteId, int servicoId) {
+    avaliacaoProfile = iServico.getAvaliacao(clienteId, servicoId).asObservable();
+  }
+
   @observable
   ObservableStream<ServicoFavoritoModelProfile> getServico;
 
