@@ -87,7 +87,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                       children: [
                         TextWidget(
                           text: 'Contas Sociais',
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ],
@@ -206,7 +206,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                                 width: size.width * 0.2,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.grey[400],
+                                    color: Colors.transparent,
                                     width: 0,
                                     ),
                                 borderRadius: BorderRadius.circular(4),
@@ -225,7 +225,7 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                                 ),
                               title: TextWidget(
                                 text: user.ongGeral.ongNome,
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
                               subtitle: TextWidget(

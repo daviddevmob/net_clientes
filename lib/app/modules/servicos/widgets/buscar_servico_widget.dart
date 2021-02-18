@@ -42,7 +42,7 @@ class BuscarServicoPageWidget extends StatelessWidget {
                           value: controller.categoria,
                           hint: TextWidget(
                             text: 'Todas Categorias',
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             textColor: Colors.white,
                           ),
@@ -76,7 +76,7 @@ class BuscarServicoPageWidget extends StatelessWidget {
                           value: controller.bairro,
                           hint: TextWidget(
                             text: 'Todos os Bairros',
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             textColor: Colors.white,
                           ),

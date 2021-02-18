@@ -15,7 +15,7 @@ class PedidoRestEntregadorTile extends StatelessWidget {
     return ExpansionTile(
       title: TextWidget(
         text: 'Acompanhe a entrega',
-        fontSize: 16,
+        fontSize: 14,
         textColor: Cores.verdeClaro,
         fontWeight: FontWeight.bold,
         ),
@@ -38,6 +38,7 @@ class PedidoRestEntregadorTile extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(4),
                         image: DecorationImage(
+                          fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(
                             pedido.entregador.fotoLink
                           ),

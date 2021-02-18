@@ -25,7 +25,7 @@ class SocialButtonWidget extends StatelessWidget {
             onTap: function,
             child: Container(
               padding: EdgeInsets.all(4),
-              height: size.height * 0.07,
+              height: size.height * 0.06,
               decoration: BoxDecoration(
                   color: Colors.grey[100],
                   border: Border.all(color: Colors.transparent),

@@ -14,7 +14,7 @@ class ItensPedidoLojaWidget extends StatelessWidget {
     return ExpansionTile(
       title: TextWidget(
         text: 'Itens do Pedido',
-        fontSize: 16,
+        fontSize: 14,
         textColor: Cores.verdeClaro,
         fontWeight: FontWeight.bold,
       ),
@@ -77,7 +77,7 @@ class ItensPedidoLojaWidget extends StatelessWidget {
                             children: [
                               TextWidget(
                                 text: item.lojaProduto.produtoNome,
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ],
                           ),

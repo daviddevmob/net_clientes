@@ -246,8 +246,8 @@ class _OngProfilePageState
                   children: [
                     TextWidget(
                       text: ong.ongGeral.ongNome,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -263,7 +263,7 @@ class _OngProfilePageState
                     Expanded(
                       child: TextWidget(
                         text: ong.ongGeral.ongDescricao,
-                        fontSize: 18,
+                        fontSize: 16,
                         textColor: Colors.grey,
                         fontWeight: FontWeight.w500,
                       ),
@@ -271,15 +271,22 @@ class _OngProfilePageState
                   ],
                 ),
               ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
+              SizedBox(
+                height: 45,
               ),
-              TextWidget(
-                text: 'Galeria de Fotos',
-                fontWeight: FontWeight.w500,
+              Container(
+                margin: EdgeInsets.only(
+                  left: 20,
+                ),
+                child: Row(
+                  children: [
+                    TextWidget(
+                      text: 'Galeria de Fotos',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
               ),
               ong.ongGeral.ongFotos.isEmpty
                   ? SizedBox(
@@ -304,15 +311,13 @@ class _OngProfilePageState
                         children: [
                           GestureDetector(
                             onTap: () {
-                              List<String> pathImages =
-                              ong.ongGeral.ongFotos
-                              .map((e) => e.ongFotoLink).toList();
+
                               Modular.to.pushNamed(
-                    '/ongs/ong_profile/view_imagens_galeria',
-                     arguments: pathImages);
+                    '/ongs/ong_profile/view_capa_perfil',
+                     arguments: ong.ongGeral.ongFotos[index].ongFotoLink);
                             },
                             child: Container(
-                              height: size.height * 0.25,
+                              height: 200,
                               margin: EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey[200]),
@@ -346,24 +351,23 @@ class _OngProfilePageState
                   );
                 }
               }),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
+              SizedBox(
+                height: 45,
               ),
-              Container(
-                width: size.width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextWidget(
-                      text: 'Como você pode ajudar',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
+               Container(
+                margin: EdgeInsets.only(
+                  left: 20,
                 ),
-              ),
+                 child: Row(
+                    children: [
+                      TextWidget(
+                        text: 'Como você pode ajudar',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ],
+                  ),
+               ),
               SizedBox(
                 height: size.height * 0.02,
               ),
@@ -384,20 +388,19 @@ class _OngProfilePageState
                         },
                       ),
                     ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
+              SizedBox(
+                height: 45,
               ),
               Container(
-                width: size.width * 0.9,
+                margin: EdgeInsets.only(
+                  left: 20,
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
                       text: 'Localização',
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
                     ),
                   ],
                 ),
@@ -406,9 +409,19 @@ class _OngProfilePageState
                 height: size.height * 0.025,
               ),
               ong.localizacao.endereco == null || ong.localizacao.endereco == ''
-                  ? TextWidget(
-                      text: 'Endereço não compartilhado',
-                    )
+                  ? Container(
+                    margin: EdgeInsets.only(
+                      left: 20,
+                    ),
+                    child: Row(
+                      children: [
+                        TextWidget(
+                            text: 'Endereço não compartilhado',
+                            fontSize: 16,
+                          ),
+                      ],
+                    ),
+                  )
                   : Container(
                       width: size.width * 0.8,
                       child: Row(
@@ -417,7 +430,7 @@ class _OngProfilePageState
                           Expanded(
                             child: TextWidget(
                               text: ong.localizacao.endereco,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -448,15 +461,22 @@ class _OngProfilePageState
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-              Container(
-                height: size.height * 0.0015,
-                margin: EdgeInsets.symmetric(vertical: size.width * 0.08),
-                width: size.width * 0.9,
-                color: Cores.verdeClaro,
+              SizedBox(
+                height: 45,
               ),
-              TextWidget(
-                text: 'Contatos',
-                fontWeight: FontWeight.w600,
+              Container(
+                margin: EdgeInsets.only(
+                  left: 20,
+                ),
+                child: Row(
+                  children: [
+                    TextWidget(
+                      text: 'Contatos',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: size.height * 0.03,
@@ -468,11 +488,11 @@ class _OngProfilePageState
                           ong.socialLinks.telefone == ''
                   ? TextWidget(
                       text: 'Nenhum Contato Disponibilizado',
-                      fontSize: 18,
+                      fontSize: 16,
                       textColor: Colors.grey,
                     )
                   : Container(
-                      width: size.width * 0.8,
+                      width: size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

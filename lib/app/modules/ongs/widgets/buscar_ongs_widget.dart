@@ -20,7 +20,7 @@ class BuscarOngsPageWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 10,),
                 child: TextWidget(
                   text: 'Pesquise por bairro',
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                   textColor: Colors.grey,
                   ),

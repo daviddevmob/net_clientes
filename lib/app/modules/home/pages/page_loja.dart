@@ -163,7 +163,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                           );
                         },
                         child: Card(
-                          elevation: 2,
+                          elevation: 1,
                           child: Container(
                             width: size.width * 0.55,
                             height: 88,

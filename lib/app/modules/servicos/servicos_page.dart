@@ -166,7 +166,7 @@ class _ServicosPageState
                           width: size.width * 0.2,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.grey[400],
+                              color: Colors.transparent,
                               width: 0,
                               ),
                           borderRadius: BorderRadius.circular(4),
@@ -183,45 +183,51 @@ class _ServicosPageState
                               fit: BoxFit.cover,
                               )),
                            ),
-                        title: TextWidget(
-                          text: servico.servicoNome,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        title: Container(
+                          height: 30,
+                          child: TextWidget(
+                            text: servico.servicoNome,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        subtitle:Wrap(
-                          children: [
-                                Wrap(
-                                  alignment: WrapAlignment.start,
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.star_fill,
-                                      size: 13.5,
-                                      color: Colors.orange,
+                        subtitle:Container(
+                          height: 30,
+                          child: Wrap(
+                            children: [
+                                  Wrap(
+                                    alignment: WrapAlignment.start,
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons.star_fill,
+                                        size: 13.5,
+                                        color: Colors.orange,
+                                        ),
+                                      SizedBox(
+                                        width: 3,
                                       ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    TextWidget(
-                                      text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      textColor: Colors.orange,
-                                    ),
-                                  ],
-                                ),
-                                TextWidget(
-                                  text: ' ● ',
-                                  fontSize: 10,
-                                  textColor: Colors.grey,
-                                ),
-                            TextWidget(
-                              text: categoria,
-                              fontSize: 13,
-                              textColor: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                                     ),
-                          ],
+                                      TextWidget(
+                                        text: "${nota.toStringAsFixed(1)}".replaceAll('.', ','),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        textColor: Colors.orange,
+                                      ),
+                                    ],
+                                  ),
+                                  TextWidget(
+                                    text: ' ● ',
+                                    fontSize: 10,
+                                    textColor: Colors.grey,
+                                  ),
+                              TextWidget(
+                                text: categoria,
+                                fontSize: 13,
+                                textColor: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                                       ),
+                            ],
+                          ),
                         )
                               );
                             },

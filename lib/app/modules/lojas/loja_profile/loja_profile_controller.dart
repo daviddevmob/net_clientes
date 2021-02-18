@@ -298,8 +298,8 @@ abstract class _LojaProfileControllerBase with Store {
 
     } else if (dia == 4 && loja.usuario.diasSemana.quinta == true) {
 
-      if( horario < int.parse(loja.usuario.horarioAtendimento.quinta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) ||
-          horario > int.parse(loja.usuario.horarioAtendimento.quinta.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
+      if( horario < int.parse(loja.usuario.horarioAtendimento.quinta.substring(0,12).substring(0,4).substring(0,2)) ||
+          horario > int.parse(loja.usuario.horarioAtendimento.quinta.substring(4).substring(5).substring(0,2))){
             return false;
       } else{
             return true;
@@ -307,8 +307,8 @@ abstract class _LojaProfileControllerBase with Store {
 
     } else if (dia == 5 && loja.usuario.diasSemana.sexta == true) {
 
-      if( horario < int.parse(loja.usuario.horarioAtendimento.sexta.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) || 
-          horario > int.parse(loja.usuario.horarioAtendimento.sexta.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
+      if( horario < int.parse(loja.usuario.horarioAtendimento.sexta.substring(0,12).substring(0,4).substring(0,2)) || 
+          horario > int.parse(loja.usuario.horarioAtendimento.sexta.substring(4).substring(5).substring(0,2))){
             return false;
       } else{
             return true;
@@ -316,8 +316,8 @@ abstract class _LojaProfileControllerBase with Store {
 
     } else if (dia == 6 && loja.usuario.diasSemana.sabado == true) {
 
-      if( horario < int.parse(loja.usuario.horarioAtendimento.sabado.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) ||
-          horario > int.parse(loja.usuario.horarioAtendimento.sabado.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
+      if( horario < int.parse(loja.usuario.horarioAtendimento.sabado.substring(0,12).substring(0,4).substring(0,2)) ||
+          horario > int.parse(loja.usuario.horarioAtendimento.sabado.substring(4).substring(5).substring(0,2))){
             return false;
       } else{
             return true;
@@ -325,8 +325,8 @@ abstract class _LojaProfileControllerBase with Store {
 
     } else if (dia == 7 && loja.usuario.diasSemana.domingo == true) {
 
-      if( horario < int.parse(loja.usuario.horarioAtendimento.domingo.replaceAll('ás', '').replaceAll(' ', '').replaceAll(':', '').substring(0,4)) || 
-          horario > int.parse(loja.usuario.horarioAtendimento.domingo.substring(4).replaceAll('ás', '').replaceAll(':', '').replaceAll(' ', '').substring(1,3))){
+      if( horario < int.parse(loja.usuario.horarioAtendimento.domingo.substring(0,12).substring(0,4).substring(0,2)) || 
+          horario > int.parse(loja.usuario.horarioAtendimento.domingo.substring(4).substring(5).substring(0,2))){
             return false;
       } else{
             return true;

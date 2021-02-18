@@ -124,7 +124,7 @@ class _PedidosLojaPageState
                                             child: TextWidget(
                                               text: pedido.lojaGeral.lojaNome,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
@@ -136,11 +136,11 @@ class _PedidosLojaPageState
                                         children: [
                                           TextWidget(
                                             text: 'Número do Pedido: ',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                           TextWidget(
                                             text: pedido.numeroPedido.toString(),
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                         ],
                                       ),
@@ -148,11 +148,11 @@ class _PedidosLojaPageState
                                         children: [
                                           TextWidget(
                                             text: 'Status do Pedido: ',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                           TextWidget(
                                             text: statusPedido,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             textColor: pedido.statusPedido == 1
                                                 ? Colors.orange
@@ -196,7 +196,7 @@ class _PedidosLojaPageState
                                               children: [
                                                 TextWidget(
                                                   text: 'Preparando para entrega',
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   textColor: Colors.blue,
                                                 ),
@@ -227,7 +227,7 @@ class _PedidosLojaPageState
                                                     TextWidget(
                                                       text: 'R\$ ' +
                                                           pedido.taxaEntrega
-                                                              .toString(),
+                                                              .toStringAsFixed(2),
                                                       fontSize: 14,
                                                     ),
                                                   ],
@@ -320,14 +320,14 @@ class _PedidosLojaPageState
                                         children: [
                                           TextWidget(
                                             text: 'Total do Pedido: ',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
                                           TextWidget(
                                             text: 'R\$ ' +
                                                 pedido.totalPedido
                                                     .toStringAsFixed(2),
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ],
@@ -341,7 +341,7 @@ class _PedidosLojaPageState
                                                 Expanded(
                                                   child: TextWidget(
                                                     text: 'Cancelado por: ',
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     textColor: Colors.red,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -351,7 +351,7 @@ class _PedidosLojaPageState
                                                     text: pedido.aviso != null
                                                         ? pedido.aviso
                                                         : '-',
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.bold,
                                                     textColor: Colors.red,
                                                   ),
@@ -382,7 +382,7 @@ class _PedidosLojaPageState
                                               }, 
                                               child: TextWidget(
                                               text: 'Avalie o atendimento',
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               textColor: Colors.white,
                                               fontWeight: FontWeight.w300,
                                               ))

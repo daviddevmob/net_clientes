@@ -449,7 +449,7 @@ class _ServicoProfilePageState
                       TextWidget(
                         text: 'Meus Serviços:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ],
                   ),
@@ -491,7 +491,7 @@ class _ServicoProfilePageState
                       child: TextWidget(
                         text: 'Galeria de Fotos:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -579,7 +579,7 @@ class _ServicoProfilePageState
                       child: TextWidget(
                         text: 'Como Atendemos:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -612,7 +612,7 @@ class _ServicoProfilePageState
                                   ),
                                   TextWidget(
                                     text: 'Atendimento Local',
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     textColor: Colors.green,
                                   )
@@ -637,7 +637,7 @@ class _ServicoProfilePageState
                                 ),
                                 TextWidget(
                                   text: 'Em Domicílio',
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                   textColor: Colors.green,
                                 )
@@ -659,7 +659,7 @@ class _ServicoProfilePageState
                       child: TextWidget(
                         text: 'Dias de Atendimento:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -810,7 +810,7 @@ class _ServicoProfilePageState
                       child: TextWidget(
                         text: 'Localização:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -880,7 +880,7 @@ class _ServicoProfilePageState
                             left: 20,
                           ),
                           child: FlatButton(
-                              color: Cores.azul,
+                              color: Cores.verdeClaro,
                               onPressed: () {
                                 LocalizacaoModel localizacaoModel =
                                     new LocalizacaoModel(
@@ -914,7 +914,7 @@ class _ServicoProfilePageState
                       child: TextWidget(
                         text: 'Contatos:',
                         fontWeight: FontWeight.w500,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],

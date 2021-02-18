@@ -174,7 +174,7 @@ class _FavoritasLojasPageState
                                   height: size.height * 0.1,
                                   width: size.width * 0.2,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
+                                    border: Border.all(color: Colors.transparent),
                                     borderRadius: BorderRadius.circular(4),
                                     image: DecorationImage(
                                       fit: BoxFit.cover,

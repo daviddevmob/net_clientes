@@ -15,81 +15,86 @@ class PedidoLojaEntregadorTile extends StatelessWidget {
     return ExpansionTile(
       title: TextWidget(
         text: 'Sobre a Entrega',
-        fontSize: 16,
+        fontSize: 14,
         textColor: Cores.verdeClaro,
         fontWeight: FontWeight.bold,
         ),
       children: [
-        Wrap(
-          spacing: 25,
+        Row(
           children: [
-            Container(
-              child: pedido.entregador.fotoLink != '' || pedido.entregador.fotoLink != null
-            ? Wrap(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.transparent,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                        pedido.entregador.fotoLink
-                      ),
-                    )
-                  ),
-                ),
-              ],
-            )
-            : Container(),
-            ),
             Wrap(
-              direction: Axis.vertical,
-              alignment: WrapAlignment.start,
+              spacing: 25,
               children: [
                 Container(
-                  child: TextWidget(
-                    text: 'Entregador: ' + pedido.entregador.nome.split(' ').first,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  child: pedido.entregador.fotoLink != '' || pedido.entregador.fotoLink != null
+                ? Wrap(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(
+                            pedido.entregador.fotoLink
+                          ),
+                        )
+                      ),
+                    ),
+                  ],
+                )
+                : Container(),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 30,
-                  child: FlatButton(
-                  color: Cores.azul,
-                  onPressed: (){
-                    PageLojaEntregadorModel entregador = new PageLojaEntregadorModel(
-                            pedido.localizacao, 
-                            pedido.entregadorId,
-                            pedido.lojaPedidoId,
-                            );
-                          Modular.to.pushNamed(
-                            '/maps_loja_entregador',
-                            arguments: entregador,
-                            );
-                  },
-                  child: TextWidget(
-                    text: 'Ver no Mapa',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    textColor: Colors.white,
-                    )
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
+                Wrap(
+                  direction: Axis.vertical,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    Container(
+                      child: TextWidget(
+                        text: 'Entregador: ' + pedido.entregador.nome.split(' ').first,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 30,
+                      child: FlatButton(
+                      color: Cores.azul,
+                      onPressed: (){
+                        PageLojaEntregadorModel entregador = new PageLojaEntregadorModel(
+                                pedido.localizacao, 
+                                pedido.entregadorId,
+                                pedido.lojaPedidoId,
+                                );
+                              Modular.to.pushNamed(
+                                '/maps_loja_entregador',
+                                arguments: entregador,
+                                );
+                      },
+                      child: TextWidget(
+                        text: 'Ver no Mapa',
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        textColor: Colors.white,
+                        )
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
               ],
+              
             ),
           ],
-          
         ),
         
       ],

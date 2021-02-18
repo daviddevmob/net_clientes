@@ -23,6 +23,7 @@ class AvaliacaoRest extends StatelessWidget {
                                                       direction: Axis.horizontal,
                                                       allowHalfRating: true,
                                                       itemCount: 5,
+                                                      itemSize: 25,
                                                       itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
                                                       itemBuilder: (context, _) => Icon(
                                                         CupertinoIcons.star_fill,

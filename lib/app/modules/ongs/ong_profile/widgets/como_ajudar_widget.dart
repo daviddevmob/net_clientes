@@ -12,14 +12,17 @@ class ComoAjudarWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Container(
-      width: size.width * 0.8,
-      margin: EdgeInsets.symmetric(vertical: size.width * 0.02),
+      margin: EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Icon(
             CupertinoIcons.heart_fill,
             color: Colors.red,
+            size: 20,
           ),
           SizedBox(
             width: size.width * 0.05,

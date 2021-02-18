@@ -44,7 +44,7 @@ class DiasSemanaWidget extends StatelessWidget {
               ),
               TextWidget(
                 text: dia,
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 textColor: atividade == true
                 ? Colors.green
