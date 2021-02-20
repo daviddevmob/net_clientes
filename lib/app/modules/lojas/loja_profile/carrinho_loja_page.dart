@@ -523,7 +523,7 @@ class CarrinhoLojaPage extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 side: BorderSide(color: Colors.transparent)),
-                                color: Colors.blue,
+                                color: Cores.verdeClaro,
                                 disabledColor: Colors.grey,
                                 onPressed: carrinho.abertoLoja == false 
                                 ? null

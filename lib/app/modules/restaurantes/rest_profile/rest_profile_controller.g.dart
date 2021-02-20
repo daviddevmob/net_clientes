@@ -9,13 +9,6 @@ part of 'rest_profile_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RestProfileController on _RestProfileControllerBase, Store {
-  Computed<int> _$filtroStringComputed;
-
-  @override
-  int get filtroString =>
-      (_$filtroStringComputed ??= Computed<int>(() => super.filtroString,
-              name: '_RestProfileControllerBase.filtroString'))
-          .value;
   Computed<bool> _$abertoRestComputed;
 
   @override
@@ -292,6 +285,21 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
     });
   }
 
+  final _$produtosAtom = Atom(name: '_RestProfileControllerBase.produtos');
+
+  @override
+  List<RestProdCategoria> get produtos {
+    _$produtosAtom.reportRead();
+    return super.produtos;
+  }
+
+  @override
+  set produtos(List<RestProdCategoria> value) {
+    _$produtosAtom.reportWrite(value, super.produtos, () {
+      super.produtos = value;
+    });
+  }
+
   final _$setCategoriaAsyncAction =
       AsyncAction('_RestProfileControllerBase.setCategoria');
 
@@ -343,6 +351,17 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
   }
 
   @override
+  dynamic getProdutos() {
+    final _$actionInfo = _$_RestProfileControllerBaseActionController
+        .startAction(name: '_RestProfileControllerBase.getProdutos');
+    try {
+      return super.getProdutos();
+    } finally {
+      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic sendLigacao() {
     final _$actionInfo = _$_RestProfileControllerBaseActionController
         .startAction(name: '_RestProfileControllerBase.sendLigacao');
@@ -388,17 +407,6 @@ mixin _$RestProfileController on _RestProfileControllerBase, Store {
   }
 
   @override
-  dynamic filtroProduto() {
-    final _$actionInfo = _$_RestProfileControllerBaseActionController
-        .startAction(name: '_RestProfileControllerBase.filtroProduto');
-    try {
-      return super.filtroProduto();
-    } finally {
-      _$_RestProfileControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 rest: ${rest},
@@ -418,7 +426,7 @@ metodoPagamentoCartaoId: ${metodoPagamentoCartaoId},
 entregaDomicilio: ${entregaDomicilio},
 trocoParaController: ${trocoParaController},
 horario: ${horario},
-filtroString: ${filtroString},
+produtos: ${produtos},
 abertoRest: ${abertoRest}
     ''';
   }

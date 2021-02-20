@@ -38,6 +38,7 @@ class _RestProfilePageState
       await controller.getRestaurante(widget.rest.restGeral.restId);
       controller.clienteId = widget.rest.cliente.clienteId;
       await controller.getRestFavorito(widget.rest.restGeral.restId);
+      await controller.getProdutos();
       if(widget.rest.restGeral.entregaDomicilio != false ||
       widget.rest.restGeral.usuario.localizacao.mapaLink != ''){
         Future.delayed(Duration(microseconds: 25)).then((value){
@@ -376,65 +377,75 @@ class _RestProfilePageState
                       ),
                     ),
                   ),
-                 /*  Positioned(
-                    top: 120,
-                    child: Container(
-                      height: 40,
-                      width: size.width * 0.95,
-                      child: ListView.separated(
-                        itemCount: controller.rest.restProdCategoria.length,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context, index){
-                          return SizedBox(
-                            width: 5,
-                          );
-                        },
-                        physics: ScrollPhysics(),
-                        itemBuilder: (context, index){
-                          var categ = controller.rest.restProdCategoria[index];
-                          return Container(
-                            padding: EdgeInsets.only(
-                              right: 0
-                            ),
-                            child: Observer(
-                              builder:(_) => Card(
-                                elevation: 3,
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                    right: 10,
-                                    left: 10,
-                                    top: 5,
-                                    bottom: 5
-                                  ),
-                                  child: GestureDetector(
-                                        onTap: () async {
-                                          if(index == 0){
-                                           controller.listController.jumpTo(0);
-                                          } else if(index == (controller.rest.restProdCategoria.length -1)){
-                                            controller.listController.jumpTo(controller.listController.position.maxScrollExtent);
-                                          }else{
-                                            double value = (categ.restProdutos.length * 90).toDouble() * index;
-                                            controller.listController.jumpTo(value);
-                                          }
-                                        },
-                                        child: TextWidget(
-                                          text: categ.nomeCategoria,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                                ),
-                          );
-                          },
-                        ),
-                    ),
-                  ), */
                   Container(
                     margin: EdgeInsets.only(
-                      top: 160,
+                      top: 170,
+                    ),
+                    child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Observer(
+                                      builder: (_) {
+                                        List<DropdownMenuItem<int>> itens = List<DropdownMenuItem<int>>();
+                                        itens.add(
+                                          new DropdownMenuItem<int>(
+                                            value: null,
+                                            child: TextWidget(
+                                              text: 'Todas Categorias',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              textColor: Colors.white,
+                                            ),
+                                          ),
+                                        );
+
+                                        itens.addAll(rest.restProdCategoria.map((e) {
+                                              return DropdownMenuItem(
+                                                value: e.restCategoriaId,
+                                                child: TextWidget(
+                                                  text: e.nomeCategoria,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  textColor: Colors.white,
+                                                ),
+                                              );
+                                            }));
+
+                                        return DropdownButtonHideUnderline(
+                                        child: Container(
+                                          height: 35,
+                                          padding: EdgeInsets.only(
+                                            left: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: Cores.verdeClaro,
+                                              border: Border.all(color: Colors.transparent),
+                                              borderRadius: BorderRadius.circular(4)),
+                                          child: Observer(
+                                            builder:(_) => DropdownButton<int>(
+                                              value: controller.categoria,
+                                              iconEnabledColor: Colors.white,
+                                              dropdownColor: Cores.verdeClaro,
+                                              hint: TextWidget(
+                                                text: 'Todas Categorias',
+                                                fontSize: 12,
+                                                textColor: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              items: itens,
+                                              onChanged: controller.setCategoria,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                      }
+                                    ),
+                                  ],
+                                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 220,
                     ),
                     padding: EdgeInsets.only(
                       top: 10,
@@ -443,161 +454,324 @@ class _RestProfilePageState
                     child: SingleChildScrollView(
                       controller: controller.listController,
                         child: Observer(
-                          builder:(_) => ListView.builder(
-                            itemCount: controller.rest.value.restProdCategoria.length,
-                            shrinkWrap: true,
-                            controller: controller.listController,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var categ = controller.rest.value.restProdCategoria[index];
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: categ.nomeCategoria,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        textColor: Colors.grey[600],
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                  child: categ.restProdutos.isEmpty == true 
-                                  || categ.restProdutos == null
-                                  ? Row(
-                                    children: [
-                                      TextWidget(
-                                        text: 'Sem produtos cadastrados',
-                                        fontSize: 16,
-                                      ),
-                                    ],
-                                  )
-                                  : ListView.builder(
-                                    itemCount: categ.restProdutos.length,
-                                    shrinkWrap: true,
-                                    physics: ScrollPhysics(),
-                                    itemBuilder: (context, index){
-                                     var produto = categ.restProdutos[index];
-                                      bool promocao;
-                                      if (produto.precoPromo != 0 &&
-                                          produto.precoPromo < produto.preco) {
-                                        promocao = true;
-                                      } else {
-                                        promocao = false;
-                                      }
-                                      return Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              
-                                              ProdutoRestViewModel prod =
-                                                  new ProdutoRestViewModel(
-                                                    produto.restProdutoId, 
-                                                    produto.restCategoriaId, 
-                                                    widget.rest.cliente.clienteId,
-                                                    widget.rest.cliente.firebaseId,
-                                                    widget.rest.restGeral.restId,
+                          builder:(_) => Column(
+                            children: [
+                              
+                              Observer(
+                                builder:(_) => ListView.builder(
+                                  itemCount: controller.rest.value.restProdCategoria.length,
+                                  shrinkWrap: true,
+                                  controller: controller.listController,
+                                  physics: ScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var categ = controller.rest.value.restProdCategoria[index];
+                                    return Observer(
+                                      builder: (_){
+                                        if(controller.categoria == null){
+                                      return Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            TextWidget(
+                                              text: categ.nomeCategoria,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              textColor: Colors.grey[600],
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                        child: categ.restProdutos.isEmpty == true 
+                                        || categ.restProdutos == null
+                                        ? Row(
+                                          children: [
+                                            TextWidget(
+                                              text: 'Sem produtos cadastrados',
+                                              fontSize: 16,
+                                            ),
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: categ.restProdutos.length,
+                                          shrinkWrap: true,
+                                          physics: ScrollPhysics(),
+                                          itemBuilder: (context, index){
+                                           var produto = categ.restProdutos[index];
+                                            bool promocao;
+                                            if (produto.precoPromo != 0 &&
+                                                produto.precoPromo < produto.preco) {
+                                              promocao = true;
+                                            } else {
+                                              promocao = false;
+                                            }
+                                            return Stack(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    
+                                                    ProdutoRestViewModel prod =
+                                                        new ProdutoRestViewModel(
+                                                          produto.restProdutoId, 
+                                                          produto.restCategoriaId, 
+                                                          widget.rest.cliente.clienteId,
+                                                          widget.rest.cliente.firebaseId,
+                                                          widget.rest.restGeral.restId,
+                                                          );
+                                                    Modular.to.pushNamed(
+                                                      '/rest_profile/view_produto',
+                                                      arguments: prod,
                                                     );
-                                              Modular.to.pushNamed(
-                                                '/rest_profile/view_produto',
-                                                arguments: prod,
-                                              );
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(bottom: 20, top: 20),
-                                              child: Wrap(
-                                                spacing: 10,
-                                                children: [
-                                                Observer(
-                                                  builder:(_) => Container(
-                                                    child:  produto.foto == null ||
-                                                            produto.foto == ''
-                                                        ? Container(
-                                                            height: 80,
-                                                            width: 100,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: Colors.transparent),
-                                                                color: Cores.verdeClaro,
-                                                                borderRadius:
-                                                                    BorderRadius.circular(4)),
-                                                          )
-                                                        : Container(
-                                                            height: 80,
-                                                            width: 100,
-                                                            decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Colors.transparent),
-                                                              borderRadius:
-                                                                  BorderRadius.circular(4),
-                                                              image: DecorationImage(
-                                                                fit: BoxFit.cover,
-                                                                image: CachedNetworkImageProvider(
-                                                                    produto.foto),
-                                                              ),
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(bottom: 20, top: 20),
+                                                    child: Wrap(
+                                                      spacing: 10,
+                                                      children: [
+                                                      Observer(
+                                                        builder:(_) => Container(
+                                                          child:  produto.foto == null ||
+                                                                  produto.foto == ''
+                                                              ? Container(
+                                                                  height: 80,
+                                                                  width: 100,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: Colors.transparent),
+                                                                      color: Cores.verdeClaro,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(4)),
+                                                                )
+                                                              : Container(
+                                                                  height: 80,
+                                                                  width: 100,
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors.transparent),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(4),
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.cover,
+                                                                      image: CachedNetworkImageProvider(
+                                                                          produto.foto),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                        Wrap(
+                                                          direction: Axis.vertical,
+                                                          children: [
+                                                            TextWidget(
+                                                              text: produto.nome,
+                                                              fontSize: 14,
                                                             ),
-                                                          ),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            produto.disponivel == true
+                                                                ? Container(
+                                                                    child: promocao == true
+                                                                        ? Wrap(
+                                                                            direction: Axis.vertical,
+                                                                            children: [
+                                                                              TextWidget(
+                                                                                text:
+                                                                                    'De: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                                fontSize: 13,
+                                                                                textColor:
+                                                                                    Colors.grey[500],
+                                                                              ),
+                                                                              TextWidget(
+                                                                                text:
+                                                                                    'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
+                                                                                fontSize: 18,
+                                                                                textColor:
+                                                                                    Colors.green,
+                                                                              )
+                                                                            ],
+                                                                          )
+                                                                        : TextWidget(
+                                                                            text:
+                                                                                'R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                            fontSize: 18,
+                                                                          ),
+                                                                  )
+                                                                : TextWidget(
+                                                                    text: 'Aguardando atualização',
+                                                                    fontSize: 14,
+                                                                    textColor: Colors.grey[400],
+                                                                  ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                                  Wrap(
-                                                    direction: Axis.vertical,
-                                                    children: [
-                                                      TextWidget(
-                                                        text: produto.nome,
-                                                        fontSize: 14,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 8,
-                                                      ),
-                                                      produto.disponivel == true
-                                                          ? Container(
-                                                              child: promocao == true
-                                                                  ? Wrap(
-                                                                      direction: Axis.vertical,
-                                                                      children: [
-                                                                        TextWidget(
-                                                                          text:
-                                                                              'De: R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                                          fontSize: 13,
-                                                                          textColor:
-                                                                              Colors.grey[500],
-                                                                        ),
-                                                                        TextWidget(
-                                                                          text:
-                                                                              'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
-                                                                          fontSize: 18,
-                                                                          textColor:
-                                                                              Colors.green,
-                                                                        )
-                                                                      ],
-                                                                    )
-                                                                  : TextWidget(
-                                                                      text:
-                                                                          'R\$ ${produto.preco.toStringAsFixed(2)}',
-                                                                      fontSize: 18,
-                                                                    ),
-                                                            )
-                                                          : TextWidget(
-                                                              text: 'Aguardando atualização',
-                                                              fontSize: 14,
-                                                              textColor: Colors.grey[400],
-                                                            ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                              ],
+                                            );
+                                          },
                                           ),
-                                        ],
-                                      );
-                                    },
-                                    ),
-                                  ),
-                                ],
-                              );/* 
-                               */
-                            }
+                                        ),
+                                      ],
+                                    );
+                                    } else{
+                                      if(categ.restCategoriaId == controller.categoria){
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            TextWidget(
+                                              text: categ.nomeCategoria,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              textColor: Colors.grey[600],
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                        child: categ.restProdutos.isEmpty == true 
+                                        || categ.restProdutos == null
+                                        ? Row(
+                                          children: [
+                                            TextWidget(
+                                              text: 'Sem produtos cadastrados',
+                                              fontSize: 16,
+                                            ),
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: categ.restProdutos.length,
+                                          shrinkWrap: true,
+                                          physics: ScrollPhysics(),
+                                          itemBuilder: (context, index){
+                                           var produto = categ.restProdutos[index];
+                                            bool promocao;
+                                            if (produto.precoPromo != 0 &&
+                                                produto.precoPromo < produto.preco) {
+                                              promocao = true;
+                                            } else {
+                                              promocao = false;
+                                            }
+                                            return Stack(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    
+                                                    ProdutoRestViewModel prod =
+                                                        new ProdutoRestViewModel(
+                                                          produto.restProdutoId, 
+                                                          produto.restCategoriaId, 
+                                                          widget.rest.cliente.clienteId,
+                                                          widget.rest.cliente.firebaseId,
+                                                          widget.rest.restGeral.restId,
+                                                          );
+                                                    Modular.to.pushNamed(
+                                                      '/rest_profile/view_produto',
+                                                      arguments: prod,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(bottom: 20, top: 20),
+                                                    child: Wrap(
+                                                      spacing: 10,
+                                                      children: [
+                                                      Observer(
+                                                        builder:(_) => Container(
+                                                          child:  produto.foto == null ||
+                                                                  produto.foto == ''
+                                                              ? Container(
+                                                                  height: 80,
+                                                                  width: 100,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: Colors.transparent),
+                                                                      color: Cores.verdeClaro,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(4)),
+                                                                )
+                                                              : Container(
+                                                                  height: 80,
+                                                                  width: 100,
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors.transparent),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(4),
+                                                                    image: DecorationImage(
+                                                                      fit: BoxFit.cover,
+                                                                      image: CachedNetworkImageProvider(
+                                                                          produto.foto),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                        Wrap(
+                                                          direction: Axis.vertical,
+                                                          children: [
+                                                            TextWidget(
+                                                              text: produto.nome,
+                                                              fontSize: 14,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            produto.disponivel == true
+                                                                ? Container(
+                                                                    child: promocao == true
+                                                                        ? Wrap(
+                                                                            direction: Axis.vertical,
+                                                                            children: [
+                                                                              TextWidget(
+                                                                                text:
+                                                                                    'De: R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                                fontSize: 13,
+                                                                                textColor:
+                                                                                    Colors.grey[500],
+                                                                              ),
+                                                                              TextWidget(
+                                                                                text:
+                                                                                    'Por: R\$ ${produto.precoPromo.toStringAsFixed(2)}',
+                                                                                fontSize: 18,
+                                                                                textColor:
+                                                                                    Colors.green,
+                                                                              )
+                                                                            ],
+                                                                          )
+                                                                        : TextWidget(
+                                                                            text:
+                                                                                'R\$ ${produto.preco.toStringAsFixed(2)}',
+                                                                            fontSize: 18,
+                                                                          ),
+                                                                  )
+                                                                : TextWidget(
+                                                                    text: 'Aguardando atualização',
+                                                                    fontSize: 14,
+                                                                    textColor: Colors.grey[400],
+                                                                  ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                      } else{
+                                        return SizedBox();
+                                      }
+                                    }
+                                      });
+                                   
+                                  }
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

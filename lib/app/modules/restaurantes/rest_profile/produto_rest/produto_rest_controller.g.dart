@@ -81,6 +81,22 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
     });
   }
 
+  final _$obsControllerAtom =
+      Atom(name: '_ProdutoRestControllerBase.obsController');
+
+  @override
+  TextEditingController get obsController {
+    _$obsControllerAtom.reportRead();
+    return super.obsController;
+  }
+
+  @override
+  set obsController(TextEditingController value) {
+    _$obsControllerAtom.reportWrite(value, super.obsController, () {
+      super.obsController = value;
+    });
+  }
+
   final _$salvandoAtom = Atom(name: '_ProdutoRestControllerBase.salvando');
 
   @override
@@ -182,6 +198,7 @@ mixin _$ProdutoRestController on _ProdutoRestControllerBase, Store {
   String toString() {
     return '''
 produto: ${produto},
+obsController: ${obsController},
 salvando: ${salvando},
 item: ${item},
 add: ${add},

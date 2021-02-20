@@ -71,8 +71,9 @@ class RestProfileRepository implements IRestProfile{
         rest_descricao
         rest_id
         rest_firebase_id
-        rest_prod_categoria(where: {}) {
+        rest_prod_categoria(where: {rest_categoria_id: {_eq: null}}) {
           nome_categoria
+          rest_categoria_id
           rest_adicionals {
             preco
             nome
@@ -93,6 +94,7 @@ class RestProfileRepository implements IRestProfile{
         }
       }
     }
+
     ''';
     return api.subscription(query).map((event){
       return RestProfile.fromJson(event['data']['rest_geral'][0]);

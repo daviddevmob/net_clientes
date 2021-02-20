@@ -14,18 +14,21 @@ class EntregadorLocalizacaoModel {
         this.nome,
         this.entregadorLocalizacao,
         this.restPedidos,
+        this.entregadorId,
     });
 
     String fotoLink;
     String nome;
     EntregadorLocalizacao entregadorLocalizacao;
     List<RestPedido> restPedidos;
+    int entregadorId;
 
     factory EntregadorLocalizacaoModel.fromJson(Map<String, dynamic> json) => EntregadorLocalizacaoModel(
         fotoLink: json["foto_link"] == null ? null : json["foto_link"],
         nome: json["nome"] == null ? null : json["nome"],
         entregadorLocalizacao: json["entregador_localizacao"] == null ? null : EntregadorLocalizacao.fromJson(json["entregador_localizacao"]),
         restPedidos: json["rest_pedidos"] == null ? null : List<RestPedido>.from(json["rest_pedidos"].map((x) => RestPedido.fromJson(x))),
+        entregadorId: json["entregador_id"] == null ? null : json["entregador_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -33,6 +36,7 @@ class EntregadorLocalizacaoModel {
         "nome": nome == null ? null : nome,
         "entregador_localizacao": entregadorLocalizacao == null ? null : entregadorLocalizacao.toJson(),
         "rest_pedidos": restPedidos == null ? null : List<dynamic>.from(restPedidos.map((x) => x.toJson())),
+        "entregador_id": entregadorId == null ? null : entregadorId,
     };
 }
 
@@ -63,15 +67,19 @@ class EntregadorLocalizacao {
 class RestPedido {
     RestPedido({
         this.statusPedido,
+        this.entregadorId,
     });
 
     int statusPedido;
+    int entregadorId;
 
     factory RestPedido.fromJson(Map<String, dynamic> json) => RestPedido(
         statusPedido: json["status_pedido"] == null ? null : json["status_pedido"],
+        entregadorId: json["entregador_id"] == null ? null : json["entregador_id"],
     );
 
     Map<String, dynamic> toJson() => {
         "status_pedido": statusPedido == null ? null : statusPedido,
+        "entregador_id": entregadorId == null ? null : entregadorId,
     };
 }

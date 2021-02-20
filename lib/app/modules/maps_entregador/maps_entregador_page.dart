@@ -52,12 +52,14 @@ class _MapsEntregadorPageState
       ),
       body: Observer(
         builder: (_){
+      
           if(controller.entregador.data == null){
             return Center(
               child: CupertinoActivityIndicator(),
             );
           }
 
+          // ignore: unrelated_type_equality_checks
           if(controller.entregador.isEmpty == true){
             return Center(
               child: TextWidget(
@@ -69,33 +71,12 @@ class _MapsEntregadorPageState
             );
           }
 
+
           EntregadorLocalizacaoModel entregador = controller.entregador.value;
 
-          if(entregador.entregadorLocalizacao.ativo == false){
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                     Container(
-                          width: size.width * 0.9,
-                          child: TextWidget(
-                            text: 'Aguardando entregador disponibilizar localização...',
-                            fontSize: 12,
-                            textColor: Colors.grey[500],
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    CupertinoActivityIndicator(),
-                  ],
-                ),
-              ],
-            );
-          } else if(entregador.restPedidos[0].statusPedido == 5){
+  
+
+          if(entregador.restPedidos[0].statusPedido == 5){
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -125,10 +106,118 @@ class _MapsEntregadorPageState
                 )
               ],
             );
-          } else{
-            if (widget.entregador.localizacao == null ||
+          } else if(entregador.restPedidos[0].statusPedido == 2){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextWidget(
+                      text: 'Pedido voltou para aprovado',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextWidget(
+                      text: 'Aguarde ele sair novamente',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      CupertinoIcons.clock_solid,
+                      ),
+                  ],
+                )
+              ],
+            );
+          } else if(entregador.entregadorLocalizacao.ativo == false){
+            return Container(
+              margin: EdgeInsets.only(
+                left: 5,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CupertinoActivityIndicator(),
+                          SizedBox(
+                            height: 25,
+                          ),
+                           Container(
+                                child: TextWidget(
+                                  text: 'Aguardando entregador disponibilizar localização...',
+                                  fontSize: 12,
+                                  textColor: Colors.grey[500],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                        ],
+                  ),
+                ],
+              ),
+            );
+          }  else{
+            if (widget.entregador.entregadorId == null ||
             widget.entregador.localizacao == '') {
-           print('vazio');
+           return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Container(
+                          width: size.width * 0.9,
+                          child: TextWidget(
+                            text: 'Aguardando entregador disponibilizar localização...',
+                            fontSize: 12,
+                            textColor: Colors.grey[500],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    CupertinoActivityIndicator(),
+                  ],
+                ),
+              ],
+            );
+          } else if(
+            controller.entregador.value.entregadorLocalizacao.lat == null
+            || controller.entregador.value.entregadorLocalizacao.lgt == null){
+              return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Container(
+                          width: size.width * 0.9,
+                          child: TextWidget(
+                            text: 'Aguardando entregador disponibilizar localização...',
+                            fontSize: 12,
+                            textColor: Colors.grey[500],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    CupertinoActivityIndicator(),
+                  ],
+                ),
+              ],
+            );
           } else {
 
           var values = widget.entregador.localizacao.split(',');

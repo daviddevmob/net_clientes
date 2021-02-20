@@ -21,7 +21,9 @@ class EntregadorRepository implements IEntregador{
         }
         rest_pedidos(where: {rest_pedido_id: {_eq: $pedidoId}}) {
           status_pedido
+          entregador_id
         }
+        entregador_id
       }
     }
     ''';

@@ -84,14 +84,6 @@ abstract class _RestProfileControllerBase with Store {
   @observable
   TextEditingController trocoParaController = TextEditingController();
 
-  @computed
-  int get filtroString {
-    if (categoria == null) {
-      return 0;
-    }
-      return 1;
-  }
-
 
   @observable
   int horario = DateTime.now().toLocal().hour;
@@ -167,6 +159,35 @@ abstract class _RestProfileControllerBase with Store {
     return false;
   }
 
+  @observable
+  List<RestProdCategoria> produtos = new List<RestProdCategoria>();
+
+  @action
+  getProdutos() {
+    if(categoria == null){
+      for(int x = 0; x >= rest.value.restProdCategoria.length; x = x + 1){
+        var categ = rest.value.restProdCategoria;
+        produtos.add(new RestProdCategoria(
+          nomeCategoria: categ[x].nomeCategoria,
+          restCategoriaId: categ[x].restCategoriaId,
+          restAdicionals: categ[x].restAdicionals,
+          restProdutos: categ[x].restProdutos,
+        ));
+      }
+    } else{
+      var categSelecionada = rest.value.restProdCategoria.where((element) => element.restCategoriaId == categoria).toList();
+        for(int x = 0; x >= categSelecionada.length; x = x+ 1){
+        var categ = categSelecionada;
+        produtos.add(new RestProdCategoria(
+          nomeCategoria: categ[x].nomeCategoria,
+          restCategoriaId: categ[x].restCategoriaId,
+          restAdicionals: categ[x].restAdicionals,
+          restProdutos: categ[x].restProdutos,
+        ));
+    }
+  }
+}
+
 
   @action
   sendLigacao() {
@@ -186,28 +207,13 @@ abstract class _RestProfileControllerBase with Store {
 
   @action
   setCategoria(int newValue) async {
-    if (newValue == 0) {
+    if (newValue == null) {
       categoria = null;
-      await filtroProduto();
+      print(categoria);
     } else {
       categoria = newValue;
-      await filtroProduto();
+      print(categoria);
     }
-  }
-
-  @action
-  filtroProduto() {
-    if (filtroString == 0) {
-
-      produtoList =  
-      rest.value.restProdCategoria.map((e) 
-      => e.restProdutos.where((element) 
-      => element.disponivel == true).reduce((value, element) => element)).toList();
-
-    } else if (filtroString == 1) {
-
-      produtoList =  rest.value.restProdCategoria.map((e) => e.restProdutos.toList()).reduce((value, element) => element);
-    } 
   }
 
 
@@ -225,5 +231,5 @@ abstract class _RestProfileControllerBase with Store {
       !restFavorito.value.clienteFavoritoRest[0].ativo,
     );
     return deletar;
-  }
+    }
 }

@@ -83,22 +83,26 @@ class RestAvaliacao {
 class RestProdCategoria {
     RestProdCategoria({
         this.nomeCategoria,
+        this.restCategoriaId,
         this.restAdicionals,
         this.restProdutos,
     });
 
     String nomeCategoria;
+    int restCategoriaId;
     List<RestAdicional> restAdicionals;
     List<RestProduto> restProdutos;
 
     factory RestProdCategoria.fromJson(Map<String, dynamic> json) => RestProdCategoria(
         nomeCategoria: json["nome_categoria"] == null ? null : json["nome_categoria"],
+        restCategoriaId: json["rest_categoria_id"] == null ? null : json["rest_categoria_id"],
         restAdicionals: json["rest_adicionals"] == null ? null : List<RestAdicional>.from(json["rest_adicionals"].map((x) => RestAdicional.fromJson(x))),
         restProdutos: json["rest_produtos"] == null ? null : List<RestProduto>.from(json["rest_produtos"].map((x) => RestProduto.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "nome_categoria": nomeCategoria == null ? null : nomeCategoria,
+        "rest_categoria_id": restCategoriaId == null ? null : restCategoriaId,
         "rest_adicionals": restAdicionals == null ? null : List<dynamic>.from(restAdicionals.map((x) => x.toJson())),
         "rest_produtos": restProdutos == null ? null : List<dynamic>.from(restProdutos.map((x) => x.toJson())),
     };
