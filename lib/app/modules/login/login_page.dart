@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:net_cliente/app/modules/login/login_email_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
 import 'login_controller.dart';
@@ -138,13 +139,44 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                   child: SignInButton(
                                                     Buttons.AppleDark,
                                                     text: "Entrar com Apple",
-                                                    onPressed: () async {},
+                                                    onPressed: () async {
+                                                      return showDialog(
+                                                        context: context,
+                                                        builder: (context){
+                                                          return CupertinoAlertDialog(
+                                                            title: TextWidget(
+                                                              text: 'Em Desenvolvimento',
+                                                              fontSize: 18,
+                                                              fontWeight: FontWeight.bold,
+                                                              textColor: Cores.verdeClaro, 
+                                                            ),
+                                                            content: TextWidget(
+                                                              text: 'Estamos desenvolvendo a versão de iOS do No Eusébio Tem, em breve você conseguirá fazer login com sua conta Apple e também baixar nosso aplicativo no seu iPhone.',
+                                                              fontSize: 15,
+                                                            ),
+                                                            actions: [
+                                                              CupertinoDialogAction(
+                                                                onPressed: (){
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: TextWidget(
+                                                                  text: 'OK',
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  textColor: Cores.verdeClaro,
+                                                                  ),
+                                                                  )
+                                                            ],
+                                                          );
+                                                        }
+                                                        );
+                                                    },
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: 20,
                                                 ),
-                                                Container(
+                                               /*  Container(
                                                   height: 50,
                                                   child: Observer(
                                                     builder:(_) => SignInButton(
@@ -156,7 +188,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                       },
                                                     ),
                                                   ),
-                                                ),
+                                                ), */
                                               ],
                                             ),
                                           ],

@@ -8,6 +8,7 @@ import 'package:net_cliente/app/modules/home/configuracoes/widgets/button_config
 import 'package:net_cliente/app/shared/models/cliente_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'configuracoes_controller.dart';
 
 class ConfiguracoesPage extends StatefulWidget {
@@ -176,15 +177,14 @@ class _ConfiguracoesPageState
                               height: size.height * 0.025,
                             ),
                             ButtonConfigsWidget(
-                              function: () {},
-                              text: 'Suporte',
-                              icon: CupertinoIcons.hand_raised,
-                            ),
-                            SizedBox(
-                              height: size.height * 0.025,
-                            ),
-                            ButtonConfigsWidget(
-                              function: () {},
+                              function: () async {
+                                String instagram = 'https://www.websitepolicies.com/policies/view/9ou3kXiE';
+                                  if (await canLaunch(instagram)) {
+                                    await launch(instagram);
+                                  } else {
+                                    throw 'Could not launch $instagram';
+                                  }
+                              },
                               text: 'Termos de Uso',
                               icon: CupertinoIcons.hand_raised,
                             ),
