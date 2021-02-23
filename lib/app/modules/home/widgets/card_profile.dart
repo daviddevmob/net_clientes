@@ -38,7 +38,7 @@ class CardsWidget extends StatelessWidget {
                   SizedBox(
                     height: 130,
                     width: 130,
-                    child: SvgPicture.asset(
+                    child: Image.asset(
                       path,
                       fit: BoxFit.cover,
                     ),

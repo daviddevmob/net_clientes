@@ -107,22 +107,21 @@ class TipoEntregaLojaWidget extends StatelessWidget {
           ],
         );
       } else if (carrinho.tipoEntrega == 2) {
-        return Wrap(
-          direction: Axis.vertical,
+        return Row(
           children: [
-            TextWidget(
-              text: 'Tipo de Entrega: ',
-              fontSize: 16,
+            Wrap(
+              direction: Axis.vertical,
+              children: [
+                TextWidget(
+                  text: 'Tipo de Entrega: ',
+                      fontSize: 16,
+                    ),
+                TextWidget(
+                  text: 'Disponível somente entrega em domicílio',
+                  fontSize: 16,
+                  ),
+              ],
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Expanded(
-              child: TextWidget(
-                text: 'Disponível somente entrega em domicílio',
-                fontSize: 16,
-              ),
-            )
           ],
         );
       } else if (carrinho.tipoEntrega == 3) {

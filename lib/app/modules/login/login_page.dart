@@ -176,19 +176,6 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                 SizedBox(
                                                   height: 20,
                                                 ),
-                                               /*  Container(
-                                                  height: 50,
-                                                  child: Observer(
-                                                    builder:(_) => SignInButton(
-                                                      Buttons.Email,
-                                                      text: "Email e Senha",
-                                                      onPressed: () async {
-                                                        controller.metodoLogin =
-                                                            1;
-                                                      },
-                                                    ),
-                                                  ),
-                                                ), */
                                               ],
                                             ),
                                           ],

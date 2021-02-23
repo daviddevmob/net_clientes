@@ -29,6 +29,7 @@ class _ConfiguracoesPageState
   void initState() {
     disposer = autorun((_) async {
       await controller.getCliente(widget.clienteModel.email);
+      controller.clienteId = widget.clienteModel.clienteId;
     });
     super.initState();
   }
