@@ -252,7 +252,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                         ),
                         CardsWidget(
                           title: 'Só uma olhadinha',
-                          path: 'assets/images/home/loja/procurar.svg',
+                          path: 'assets/images/home/loja/procurar.png',
                           function: () async {
                             if (await ConnectionVerify.connectionStatus()) {
                               if (controller.cliente.value.enderecoId == null) {
@@ -281,7 +281,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                       ),
                         CardsWidget(
                           title: 'Meus Pedidos',
-                          path: 'assets/images/home/loja/pedidos.svg',
+                          path: 'assets/images/home/loja/pedidos.png',
                           function: () async {
                             Modular.to.pushNamed(
                               '/home/pedidos_loja/',
@@ -294,7 +294,7 @@ class PageLojaHomeWidget extends StatelessWidget {
                       ),
                         CardsWidget(
                           title: 'Favoritas',
-                          path: 'assets/images/home/loja/favoritos.svg',
+                          path: 'assets/images/home/loja/favoritos.png',
                             function: () async {
                               if (await ConnectionVerify.connectionStatus()) {
                                 if (controller.cliente.value.enderecoId == null) {

@@ -17,6 +17,7 @@ import 'package:net_cliente/app/shared/utils/lists/list_restaurantes.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/text_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'restaurantes_controller.dart';
 
 class RestaurantesPage extends StatefulWidget {
@@ -431,7 +432,50 @@ class _RestaurantesPageState
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.06,
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 320,
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.all(0),
+                          title:TextWidget(
+                              text: 'Deseja cadastrar um restaurante?',
+                              fontSize: 14,
+                            ),
+                          children: [
+                        Row(
+                          children: [
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                              color: Cores.azul,
+                              onPressed: () async{
+                                if (await canLaunch('https://play.google.com/store/apps/details?id=com.eusebioproject.br')) {
+                                  await launch('https://play.google.com/store/apps/details?id=com.eusebioproject.br');
+                                } else {
+                                  throw 'Could not launch';
+                                }
+                              }, 
+                              child: TextWidget(
+                                text: 'Baixe o app de negócios',
+                                fontSize: 12,
+                                textColor: Colors.white,
+                              ),
+                              ),
+                          ],
+                        ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
                   ),
                   Row(
                     children: [
@@ -445,7 +489,12 @@ class _RestaurantesPageState
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  ListView.separated(
+                  rests.restGeral.length == 0
+                  ? TextWidget(
+                    text: 'Ainda não temos restaurantes cadastrados',
+                    fontSize: 14,
+                  )
+                  : ListView.separated(
                     itemCount: rests.restGeral.length,
                     shrinkWrap: true,
                     separatorBuilder: (context, index) {

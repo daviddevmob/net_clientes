@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:net_cliente/app/modules/home/dialogs.dart';
 import 'package:net_cliente/app/modules/home/home_controller.dart';
 import 'package:net_cliente/app/modules/home/widgets/card_profile.dart';
 import 'package:net_cliente/app/modules/home/widgets/perfil_card_profile.dart';
@@ -256,6 +255,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                     ),
                   ],
                 ), */
+                
                 Container(
                   width: size.width,
                   margin: EdgeInsets.only(
@@ -271,7 +271,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                       ),
                       CardsWidget(
                         title: 'Procurar',
-                          path: 'assets/images/home/servico/procurar.svg',
+                          path: 'assets/images/home/servico/procurar.png',
                         function: () {
                           Modular.to.pushNamed(
                             '/servicos',
@@ -284,7 +284,7 @@ class PageServicoHomeWidget extends StatelessWidget {
                       ),
                       CardsWidget(
                         title: 'Favoritos',
-                          path: 'assets/images/home/servico/favoritos.svg',
+                          path: 'assets/images/home/servico/favoritos.png',
                         function: () {
                           Modular.to.pushNamed(
                              '/home/servicos_favoritos/',

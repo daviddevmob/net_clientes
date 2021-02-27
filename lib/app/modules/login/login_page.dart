@@ -9,6 +9,7 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'login_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -247,6 +248,34 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                         )
                                 ],
                               ),
+                            ),
+                          ),
+                        ),
+                      SizedBox(
+                        height: 130,
+                      ),
+                      GestureDetector(
+                          onTap: () async{
+                            if (await canLaunch('https://www.websitepolicies.com/policies/view/9ou3kXiE')) {
+                              await launch('https://www.websitepolicies.com/policies/view/9ou3kXiE');
+                            } else {
+                              throw 'Could not launch';
+                            }
+                          },
+                          child: Container(
+                            width: size.width,
+                            child: Column(
+                              children: [
+                                TextWidget(
+                                      text: 'Ao entrar você concorda com',
+                                      fontSize: 14,
+                                    ),
+                                TextWidget(
+                                  text: 'Termo de Uso & Política de Privacidade',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                    ),
+                              ],
                             ),
                           ),
                         ),

@@ -16,6 +16,7 @@ import 'package:net_cliente/app/shared/utils/distancia.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/switchs_utils.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'lojas_controller.dart';
 
 class LojasPage extends StatefulWidget {
@@ -84,7 +85,50 @@ class _LojasPageState extends ModularState<LojasPage, LojasController> {
                     controller: controller,
                   ),
                   SizedBox(
-                    height: size.height * 0.06,
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 320,
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.all(0),
+                          title:TextWidget(
+                              text: 'Deseja cadastrar uma loja?',
+                              fontSize: 14,
+                            ),
+                          children: [
+                        Row(
+                          children: [
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                              color: Cores.azul,
+                              onPressed: () async{
+                                if (await canLaunch('https://play.google.com/store/apps/details?id=com.eusebioproject.br')) {
+                                  await launch('https://play.google.com/store/apps/details?id=com.eusebioproject.br');
+                                } else {
+                                  throw 'Could not launch';
+                                }
+                              }, 
+                              child: TextWidget(
+                                text: 'Baixe o app de negócios',
+                                fontSize: 12,
+                                textColor: Colors.white,
+                              ),
+                              ),
+                          ],
+                        ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
                   ),
                   Row(
                     children: [

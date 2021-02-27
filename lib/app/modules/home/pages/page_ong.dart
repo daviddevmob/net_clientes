@@ -272,7 +272,7 @@ class PageOngHomeWidget extends StatelessWidget {
                       ),
                       CardsWidget(
                         title: 'Conhecer',
-                        path: 'assets/images/home/social/procurar.svg',
+                        path: 'assets/images/home/social/procurar.png',
                         function: () {
                           Modular.to.pushNamed(
                             '/ongs',
@@ -285,7 +285,7 @@ class PageOngHomeWidget extends StatelessWidget {
                       ),
                       CardsWidget(
                         title: 'Favoritos',
-                        path: 'assets/images/home/social/favoritos.svg',
+                        path: 'assets/images/home/social/favoritos.png',
                         function: () {
                           Modular.to.pushNamed(
                             '/home/ongs_favoritas/',

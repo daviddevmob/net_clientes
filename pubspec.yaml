@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+27
+version: 1.0.0+29
 
 ## Slidy Scripts 
 vars: 
@@ -130,16 +130,16 @@ flutter:
     - assets/images/imagens-perfil/perfil.png
     - assets/images/imagens-perfil/perfil-negocios.png
     - assets/images/imagens-perfil/profile.png
-    - assets/images/home/loja/favoritos.svg
-    - assets/images/home/loja/pedidos.svg
-    - assets/images/home/loja/procurar.svg
-    - assets/images/home/rest/favoritos.svg
-    - assets/images/home/rest/pedidos.svg
-    - assets/images/home/rest/procurar.svg
-    - assets/images/home/servico/procurar.svg
-    - assets/images/home/servico/favoritos.svg
-    - assets/images/home/social/procurar.svg
-    - assets/images/home/social/favoritos.svg
+    - assets/images/home/loja/favoritos.png
+    - assets/images/home/loja/pedidos.png
+    - assets/images/home/loja/procurar.png
+    - assets/images/home/rest/favoritos.png
+    - assets/images/home/rest/pedidos.png
+    - assets/images/home/rest/procurar.png
+    - assets/images/home/servico/procurar.png
+    - assets/images/home/servico/favoritos.png
+    - assets/images/home/social/procurar.png
+    - assets/images/home/social/favoritos.png
     - assets/icon/icon.jpg
     - assets/maps_style/style.txt
     - assets/driving_pin.png

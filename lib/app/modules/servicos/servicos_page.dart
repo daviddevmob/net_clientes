@@ -7,11 +7,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/modules/servicos/widgets/buscar_servico_erro_widget.dart';
 import 'package:net_cliente/app/modules/servicos/widgets/buscar_servico_widget.dart';
 import 'package:net_cliente/app/shared/models/servicos/base_service_profile.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/models/servicos/servico_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'servicos_controller.dart';
 
 class ServicosPage extends StatefulWidget {
@@ -83,9 +85,49 @@ class _ServicosPageState
                     BuscarServicoPageWidget(
                       controller: controller,
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 320,
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.all(0),
+                          title:TextWidget(
+                              text: 'Deseja cadastrar uma serviço?',
+                              fontSize: 14,
+                            ),
+                          children: [
+                        Row(
+                          children: [
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                              color: Cores.azul,
+                              onPressed: () async{
+                                if (await canLaunch('https://play.google.com/store/apps/details?id=com.eusebioproject.br')) {
+                                  await launch('https://play.google.com/store/apps/details?id=com.eusebioproject.br');
+                                } else {
+                                  throw 'Could not launch';
+                                }
+                              }, 
+                              child: TextWidget(
+                                text: 'Baixe o app de negócios',
+                                fontSize: 12,
+                                textColor: Colors.white,
+                              ),
+                              ),
+                          ],
+                        ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
                     Column(
                       children: [
                         SizedBox(

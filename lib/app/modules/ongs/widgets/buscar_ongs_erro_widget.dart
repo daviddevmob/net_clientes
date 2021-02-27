@@ -5,6 +5,7 @@ import 'package:net_cliente/app/modules/ongs/ongs_controller.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/lists/list_bairros.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BuscarOngsPageErroWidget extends StatelessWidget {
   final OngsController controller;
@@ -63,8 +64,51 @@ class BuscarOngsPageErroWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 320,
+                        margin: EdgeInsets.only(
+                          left: 40
+                        ),
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.all(0),
+                          title:TextWidget(
+                              text: 'Deseja cadastrar uma conta social?',
+                              fontSize: 14,
+                            ),
+                          children: [
+                        Row(
+                          children: [
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                              color: Cores.azul,
+                              onPressed: () async{
+                                if (await canLaunch('https://play.google.com/store/apps/details?id=com.eusebioproject.br')) {
+                                  await launch('https://play.google.com/store/apps/details?id=com.eusebioproject.br');
+                                } else {
+                                  throw 'Could not launch';
+                                }
+                              }, 
+                              child: TextWidget(
+                                text: 'Baixe o app de negócios',
+                                fontSize: 12,
+                                textColor: Colors.white,
+                              ),
+                              ),
+                          ],
+                        ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   Container(
                     width: size.width * 0.8,

@@ -9,9 +9,11 @@ import 'package:net_cliente/app/modules/ongs/widgets/buscar_ongs_widget.dart';
 import 'package:net_cliente/app/shared/models/ongs/ong_params_profile.dart';
 import 'package:net_cliente/app/shared/models/ongs/ong_search_model.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
+import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/flushbar/internet_flushbar.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'ongs_controller.dart';
 
 class OngsPage extends StatefulWidget {
@@ -76,8 +78,51 @@ class _OngsPageState extends ModularState<OngsPage, OngsController> {
                   BuscarOngsPageWidget(
                     controller: controller,
                   ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 320,
+                        margin: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.all(0),
+                          title:TextWidget(
+                              text: 'Deseja cadastrar uma conta social?',
+                              fontSize: 14,
+                            ),
+                          children: [
+                        Row(
+                          children: [
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: Colors.transparent,
+                                    )),
+                              color: Cores.azul,
+                              onPressed: () async{
+                                if (await canLaunch('https://play.google.com/store/apps/details?id=com.eusebioproject.br')) {
+                                  await launch('https://play.google.com/store/apps/details?id=com.eusebioproject.br');
+                                } else {
+                                  throw 'Could not launch';
+                                }
+                              }, 
+                              child: TextWidget(
+                                text: 'Baixe o app de negócios',
+                                fontSize: 12,
+                                textColor: Colors.white,
+                              ),
+                              ),
+                          ],
+                        ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 35,
+                    height: 25,
                   ),
                   Container(
                     margin: EdgeInsets.only(

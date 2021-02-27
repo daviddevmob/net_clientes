@@ -278,7 +278,7 @@ class PageRestHomeWidget extends StatelessWidget {
                         ),
                         CardsWidget(
                           title: 'Fazer Pedido',
-                          path: 'assets/images/home/rest/procurar.svg',
+                          path: 'assets/images/home/rest/procurar.png',
                           function: () async {
                             if (await ConnectionVerify.connectionStatus()) {
                               if (controller.cliente.value.enderecoId == null) {
@@ -304,7 +304,7 @@ class PageRestHomeWidget extends StatelessWidget {
                           ),
                         CardsWidget(
                           title: 'Meus Pedidos',
-                          path: 'assets/images/home/rest/pedidos.svg',
+                          path: 'assets/images/home/rest/pedidos.png',
                           function: () async {
                             Modular.to.pushNamed(
                               '/home/pedidos_rest/',
@@ -317,7 +317,7 @@ class PageRestHomeWidget extends StatelessWidget {
                       ),
                         CardsWidget(
                           title: 'Favoritos',
-                          path: 'assets/images/home/rest/favoritos.svg',
+                          path: 'assets/images/home/rest/favoritos.png',
                           function: () async {
                               if (await ConnectionVerify.connectionStatus()) {
                                 if (controller.cliente.value.enderecoId == null) {
