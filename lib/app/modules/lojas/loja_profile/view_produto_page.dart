@@ -81,7 +81,7 @@ class ViewProdutoPage extends StatelessWidget {
                                   margin: EdgeInsets.all(4),
                                   child: TextWidget(
                                     text: 'Duas Foto',
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     textColor: Colors.white,
                                   ),
                                 ),
@@ -122,7 +122,7 @@ class ViewProdutoPage extends StatelessWidget {
                                   margin: EdgeInsets.all(4),
                                   child: TextWidget(
                                     text: 'Uma Foto',
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     textColor: Colors.white,
                                   ),
                                 ),
@@ -175,13 +175,18 @@ class ViewProdutoPage extends StatelessWidget {
                     );
                   }
                   return Container(
-                    color: Cores.verdeClaro,
+                    decoration: BoxDecoration(
+                      color: Cores.verdeClaro,
+                      border: Border.all(
+                        color: Colors.transparent,
+                      ),
+                      borderRadius: BorderRadius.circular(4)
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextWidget(
                           text: 'Produto Sem Foto',
-                          fontWeight: FontWeight.w400,
                           textColor: Colors.white,
                         ),
                       ],

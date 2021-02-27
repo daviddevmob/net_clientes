@@ -36,8 +36,8 @@ class CardsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 130,
-                    width: 130,
+                    height: 120,
+                    width: 120,
                     child: Image.asset(
                       path,
                       fit: BoxFit.cover,

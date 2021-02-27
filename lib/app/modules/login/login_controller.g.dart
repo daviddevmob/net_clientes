@@ -78,6 +78,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$riveArtboardAtom = Atom(name: '_LoginControllerBase.riveArtboard');
+
+  @override
+  Artboard get riveArtboard {
+    _$riveArtboardAtom.reportRead();
+    return super.riveArtboard;
+  }
+
+  @override
+  set riveArtboard(Artboard value) {
+    _$riveArtboardAtom.reportWrite(value, super.riveArtboard, () {
+      super.riveArtboard = value;
+    });
+  }
+
   final _$metodoLoginAtom = Atom(name: '_LoginControllerBase.metodoLogin');
 
   @override
@@ -130,6 +145,7 @@ formLoginKey: ${formLoginKey},
 emailController: ${emailController},
 passwordController: ${passwordController},
 viewPassWord: ${viewPassWord},
+riveArtboard: ${riveArtboard},
 metodoLogin: ${metodoLogin},
 loading: ${loading},
 metodo: ${metodo}

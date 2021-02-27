@@ -451,9 +451,7 @@ class _LojaProfilePageState
                       } else {
                         promocao = false;
                       }
-                      return Stack(
-                        children: [
-                          GestureDetector(
+                      return GestureDetector(
                             onTap: () {
                               LojaViewProduto prod =
                                   new LojaViewProduto(produto, controller);
@@ -463,9 +461,11 @@ class _LojaProfilePageState
                               );
                             },
                             child: Container(
+                              width: size.width,
+                              height: 80,
                               margin: EdgeInsets.only(bottom: 20, top: 20),
                               child: Wrap(
-                                spacing: 10,
+                                spacing: 20,
                                 children: [
                                  Observer(
                                   builder:(_) => Container(
@@ -546,43 +546,6 @@ class _LojaProfilePageState
                                 ],
                               ),
                             ),
-                          ),
-                          Observer(
-                            builder: (_) => Container(
-                              child: produto.disponivel == true
-                                  ? Positioned(
-                                      left: 320,
-                                      top: 22,
-                                      child: IconButton(
-                                        icon: Icon(
-                                          CupertinoIcons.cart_badge_plus,
-                                        ),
-                                        onPressed: () async {
-                                          if (await ConnectionVerify
-                                              .connectionStatus()) {
-                                            bool add = await controller
-                                                .addItemCarrinho(produto);
-                                            if (add == true) {
-                                              print('OK');
-                                            } else {
-                                              return AvisoFlushBar()
-                                                  .showFlushBarAviso(
-                                                context,
-                                                'Ops!',
-                                                'Produto sem estoque',
-                                              );
-                                            }
-                                          } else {
-                                            return InternetFlushBar()
-                                                .showFlushBarInternet(context);
-                                          }
-                                        },
-                                      ),
-                                    )
-                                  : SizedBox(),
-                            ),
-                          ),
-                        ],
                       );
                     },
                   ),

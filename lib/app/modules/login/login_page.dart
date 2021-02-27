@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -9,6 +10,8 @@ import 'package:net_cliente/app/shared/utils/app_bar.dart';
 import 'package:net_cliente/app/shared/utils/colors.dart';
 import 'package:net_cliente/app/shared/utils/text.dart';
 import 'package:net_cliente/app/shared/utils/totem_bottom_bar.dart';
+import 'package:rive/rive.dart';
+import 'package:mobx/mobx.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'login_controller.dart';
 
@@ -22,6 +25,31 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends ModularState<LoginPage, LoginController> {
   //use 'controller' variable to access controller
+ 
+
+
+  ReactionDisposer disposer;
+
+  void initState() {
+    disposer = autorun((_) async {
+      rootBundle.load('assets/flare/juice.riv').then(
+      (data) async {
+        final file = RiveFile();
+
+        // Load the RiveFile from the binary data.
+        if (file.import(data)) {
+          // The artboard is the root of the animation and gets drawn in the
+          // Rive widget.
+          final artboard = file.mainArtboard..addController(SimpleAnimation('walk'));
+          // Add a controller to play back a known animation on the main/default
+          // artboard.We store a reference to it so we can toggle playback.
+          controller.riveArtboard = artboard;
+        }
+      },
+    );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +71,43 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         builder: (_) => Container(
           child: controller.loading == true
               ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
                     children: [
-                      TextWidget(
-                        text: 'Carregando..',
+                      Container(
+                        child: Rive(
+                            artboard: controller.riveArtboard,
+                            fit: BoxFit.cover,
+                            ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoActivityIndicator(),
+                      Positioned(
+                        top: 600,
+                        child: Container(
+                          width: size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CupertinoActivityIndicator(),
+                            ],
+                          ),
+                          ),
+                        ),
+                      Positioned(
+                        top: 640,
+                        child: Container(
+                          width: size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                text: 'Preparando seu perfil',
+                                fontSize: 14,
+                                textColor: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ),
+                        ),
                     ],
                   ),
                 )
@@ -102,26 +157,30 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                                                       .size
                                                       .width *
                                                   0.9,
-                                              child: SignInButton(
-                                                Buttons.GoogleDark,
-                                                text: "Entrar com Google",
-                                                onPressed: () async {
-                                                  try {
-                                                    String email =
-                                                        await controller
-                                                            .loginGoogle();
-                                                    if (email == 'erro') {
-                                                      print('erro');
-                                                    } else {
-                                                      Modular.to
-                                                          .pushReplacementNamed(
-                                                              '/home',
-                                                              arguments: email);
+                                              child: Observer(
+                                                builder:(_) => SignInButton(
+                                                  Buttons.GoogleDark,
+                                                  text: "Entrar com Google",
+                                                  onPressed: () async {
+                                                    try {
+                                                      
+                                                      String email =
+                                                          await controller
+                                                              .loginGoogle();
+                                                      
+                                                      if (email == 'erro') {
+                                                        print('erro');
+                                                      } else {
+                                                        Modular.to
+                                                            .pushReplacementNamed(
+                                                                '/home',
+                                                                arguments: email);
+                                                      }
+                                                    } catch (e) {
+                                                      print(e);
                                                     }
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
-                                                },
+                                                  },
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -252,7 +311,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                           ),
                         ),
                       SizedBox(
-                        height: 130,
+                        height: 80,
                       ),
                       GestureDetector(
                           onTap: () async{
@@ -289,7 +348,13 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                 }),
         ),
       ),
-      bottomNavigationBar: TotemCeWidget(),
+      bottomNavigationBar: Observer(
+        builder:(_) => Container(
+          child: controller.loading == true 
+        ? SizedBox()
+        : TotemCeWidget(),
+        ),
+      ),
     );
   }
 }

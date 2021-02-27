@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/shared/repositories/login_repository/login_repository_interface.dart';
+import 'package:rive/rive.dart';
 
 part 'login_controller.g.dart';
 
@@ -10,7 +11,6 @@ class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
   final ILogin iLogin;
-
   _LoginControllerBase(this.iLogin);
 
   @observable
@@ -22,8 +22,12 @@ abstract class _LoginControllerBase with Store {
   @observable
   TextEditingController passwordController = TextEditingController();
 
+ 
   @observable
   bool viewPassWord = false;
+
+  @observable
+  Artboard riveArtboard;
 
   @observable
   int metodoLogin = 0;

@@ -3,6 +3,7 @@ import 'package:connection_verify/connection_verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/metodo_pagamento_loja.dart';
 import 'package:net_cliente/app/modules/lojas/loja_profile/widgets/tipo_entrega_widget.dart';
 import 'package:net_cliente/app/shared/utils/app_bar.dart';
@@ -102,6 +103,27 @@ class CarrinhoLojaPage extends StatelessWidget {
                               Icon(CupertinoIcons.cube_box),
                             ],
                           ),
+                          
+                          SizedBox(
+                            height: 25,
+                          ),
+                          FlatButton(
+                            color: Cores.verdeClaro,
+                            onPressed: (){
+                              Modular.to.pop();
+                              Modular.to.pop();
+                              Modular.to.pushReplacementNamed(
+                                '/home/pedidos_loja/',
+                                arguments: carrinho.lojaProfileModule.cliente.clienteId,
+                                );
+                            }, 
+                            child: TextWidget(
+                              text: 'Ir para Pedidos',
+                              fontSize: 16,
+                              textColor: Colors.white,
+                            ),
+                            )
+              
                         ],
                       ),
                   ],

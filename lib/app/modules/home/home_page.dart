@@ -82,7 +82,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           margin: EdgeInsets.only(
            left: 10,
            right: 10,
-           top: 10 
           ),
           child: Observer(
             builder: (_){

@@ -104,109 +104,14 @@ class _ServicoProfilePageState
               children: [
                 Stack(
                   children: [
-               Positioned(
-                top: 250,
-                left: 340,
-                child: Observer(
-                  builder: (_){
-                    if(controller.getServico.value == null 
-                    || controller.getServico.data == null
-                    || controller.getServico == null ){
-                        return CupertinoActivityIndicator();
-                    }
-
-                    if(controller.getServico.value.clenteFavoritoServico.isEmpty == true){
-                        return IconButton(
-                          icon: Icon(CupertinoIcons.star), 
-                          onPressed: () async {
-                            await controller.salvarFavorito(
-                              widget.baseServiceProfile.servicoId,
-                              widget.baseServiceProfile.clienteId,
-                            );
-                          },
-                          );
-                    }
-
-                    if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == true){
-                        return IconButton(
-                          icon: Icon(
-                            CupertinoIcons.star_fill,
-                            color: Cores.verdeClaro,
-                            ), 
-                          onPressed: () async {
-                            await controller.setFavorito(
-                              widget.baseServiceProfile.servicoId,
-                              widget.baseServiceProfile.clienteId,
-                              false,
-                            );
-                          },
-                          );
-                    }
-
-                    if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == false){
-                        return IconButton(
-                          icon: Icon(
-                            CupertinoIcons.star,
-                            color: Cores.verdeClaro,
-                            ),  
-                          onPressed: () async {
-                            await controller.setFavorito(
-                              widget.baseServiceProfile.servicoId,
-                              widget.baseServiceProfile.clienteId,
-                              true,
-                            );
-                          },
-                          );
-                    }
-
-                    return CupertinoActivityIndicator();
-                  },
-              ),
-               ),
                     Container(
-                      height: size.height * 0.45,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        infosGerais.servicoFotoCapa == null ||
-                                infosGerais.servicoFotoCapa == ''
-                            ? print('Vazio')
-                            : Modular.to.pushNamed(
-                                '/ongs/ong_profile/view_capa_perfil',
-                                arguments: infosGerais.servicoFotoCapa);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: 5,
-                          left: 5,
-                          right: 5,
-                        ),
-                        height: size.height * 0.3,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey[200],
-                            ),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: infosGerais.servicoFotoCapa == null ||
-                                      infosGerais.servicoFotoCapa == ''
-                                  ? AssetImage(
-                                      'assets/images/imagens-perfil/profile.png')
-                                  : CachedNetworkImageProvider(
-                                      infosGerais.servicoFotoCapa),
-                            )),
-                      ),
+                      height: 180,
                     ),
                     Positioned(
-                      top: 150,
-                      left: size.width * 0.29,
+                      top: 10,
+                      left: 10,
                       child: Card(
-                        elevation: 2,
+                        elevation: 0,
                         child: GestureDetector(
                           onTap: () {
                             infosGerais.servicoFotoPerfil == null ||
@@ -217,62 +122,143 @@ class _ServicoProfilePageState
                                     arguments: infosGerais.servicoFotoPerfil,
                                   );
                           },
-                          child: Container(
-                            height: size.height * 0.2,
-                            width: size.width * 0.4,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey[200],
+                          child: Wrap(
+                            children: [
+                              Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey[200],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                  image: DecorationImage(
+                                      image: infosGerais.servicoFotoPerfil ==
+                                                  null ||
+                                              infosGerais.servicoFotoPerfil == ''
+                                          ? AssetImage(
+                                              'assets/images/imagens-perfil/profile.png')
+                                          : CachedNetworkImageProvider(
+                                              infosGerais.servicoFotoPerfil,
+                                            ),
+                                      fit: BoxFit.cover),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(4),
-                              image: DecorationImage(
-                                  image: infosGerais.servicoFotoPerfil ==
-                                              null ||
-                                          infosGerais.servicoFotoPerfil == ''
-                                      ? AssetImage(
-                                          'assets/images/imagens-perfil/profile.png')
-                                      : CachedNetworkImageProvider(
-                                          infosGerais.servicoFotoPerfil,
-                                        ),
-                                  fit: BoxFit.cover),
-                            ),
+                              Wrap(
+                                direction: Axis.vertical,
+                                children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 34,
+                                    right: 20,
+                                  ),
+                                      child : Container(
+                                        width: 210,
+                                        height: 20,
+                                        child: TextWidget(
+                                              text: infosGerais.servicoNome,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 34,
+                                    right: 20,
+                                  ),
+                                  child: Container(
+                                    width: 210,
+                                    height: 70,
+                                    child: TextWidget(
+                                            text: infosGerais.servicoDescricao,
+                                            fontSize: 14,
+                                            textColor: Colors.grey[500],
+                                          ),
+                                  ),
+                                      ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    Positioned(
+                      top: 90,
+                      left: 340,
+                      child: Observer(
+                        builder: (_){
+                          if(controller.getServico.value == null 
+                          || controller.getServico.data == null
+                          || controller.getServico == null ){
+                              return CupertinoActivityIndicator();
+                          }
+
+                          if(controller.getServico.value.clenteFavoritoServico.isEmpty == true){
+                              return IconButton(
+                                icon: Icon(CupertinoIcons.star), 
+                                onPressed: () async {
+                                  await controller.salvarFavorito(
+                                    widget.baseServiceProfile.servicoId,
+                                    widget.baseServiceProfile.clienteId,
+                                  );
+                                },
+                                );
+                          }
+
+                          if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == true){
+                              return IconButton(
+                                icon: Icon(
+                                  CupertinoIcons.star_fill,
+                                  color: Cores.verdeClaro,
+                                  ), 
+                                onPressed: () async {
+                                  await controller.setFavorito(
+                                    widget.baseServiceProfile.servicoId,
+                                    widget.baseServiceProfile.clienteId,
+                                    false,
+                                  );
+                                },
+                                );
+                          }
+
+                          if(controller.getServico.value.clenteFavoritoServico.isNotEmpty && controller.getServico.value.clenteFavoritoServico[0].ativo == false){
+                              return IconButton(
+                                icon: Icon(
+                                  CupertinoIcons.star,
+                                  color: Cores.verdeClaro,
+                                  ),  
+                                onPressed: () async {
+                                  await controller.setFavorito(
+                                    widget.baseServiceProfile.servicoId,
+                                    widget.baseServiceProfile.clienteId,
+                                    true,
+                                  );
+                                },
+                                );
+                          }
+
+                          return CupertinoActivityIndicator();
+                        },
+                        ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 34,
-                     right: 20,
+                ExpansionTile(
+                  title: TextWidget(
+                    text: 'Avaliações',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    textColor: Cores.verdeClaro,
                   ),
-                      child : TextWidget(
-                            text: infosGerais.servicoNome,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                Divider(color: Colors.transparent),
-                Container(
-                  width: size.width,
-                  margin: EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                  ),
-                  child: TextWidget(
-                          text: infosGerais.servicoDescricao,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          textColor: Colors.grey[500],
-                        ),
-                      ),
-                SizedBox(
-                  height: 35,
-                ),
-                GestureDetector(
+                  children: [
+                    GestureDetector(
                   onTap: (){
                     Modular.to.pushNamed(
                       '/servicos/servico_profile/ver_avaliacoes',
@@ -437,6 +423,8 @@ class _ServicoProfilePageState
                     },
                   ),
                 ),
+                  ],
+                ),
                 SizedBox(
                   height: 45,
                 ),
@@ -458,9 +446,19 @@ class _ServicoProfilePageState
                   height: size.height * 0.02,
                 ),
                 infosGerais.servicoLists.isEmpty == true
-                    ? TextWidget(
-                        text: 'Nenhum serviço cadastrado',
-                      )
+                    ? Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Row(
+                        children: [
+                          TextWidget(
+                              text: 'Nenhum serviço cadastrado',
+                              fontSize: 16,
+                            ),
+                        ],
+                      ),
+                    )
                     : Container(
                         width: size.width,
                         margin: EdgeInsets.only(
@@ -505,8 +503,18 @@ class _ServicoProfilePageState
                       ),
                 Observer(builder: (_) {
                   if (imagens.isEmpty) {
-                    return TextWidget(
-                      text: 'Nenhuma foto inserida',
+                    return Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Row(
+                        children: [
+                          TextWidget(
+                            text: 'Nenhuma foto inserida',
+                            fontSize: 16,
+                          ),
+                        ],
+                      ),
                     );
                   } else {
                     return CarouselSlider.builder(
@@ -575,6 +583,7 @@ class _ServicoProfilePageState
                     Container(
                       margin: EdgeInsets.only(
                         left: 20,
+                        bottom: 10,
                       ),
                       child: TextWidget(
                         text: 'Como Atendemos:',
@@ -585,15 +594,24 @@ class _ServicoProfilePageState
                   ],
                 ),
                 Container(
-                  width: size.width * 0.8,
+                  margin: EdgeInsets.only(
+                    left: 20,
+                  ),
                   child: Column(
                     children: [
                       local == false && domicilio == false 
-                      ? TextWidget(
-                        text: 'Não estamos atendendo no momento',
-                        fontWeight: FontWeight.bold,
-                        textColor: Colors.grey[500],
-                        fontSize: 16,
+                      ? Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 20,
+                            ),
+                            child: TextWidget(
+                              text: 'Não estamos atendendo no momento',
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       )
                       : SizedBox(),
                       local == true
