@@ -7,7 +7,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       navigatorKey: Modular.navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Slidy',
+      title: 'No Eusébio Tem',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         backgroundColor: Colors.white,
